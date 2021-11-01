@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("kotlin-android")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -53,4 +54,8 @@ dependencies {
     testImplementation(Dep.Test.jUnit)
     androidTestImplementation(Dep.Test.ext)
     androidTestImplementation(Dep.Test.espresso)
+    implementation(Dep.Libs.hilt)
+    kapt(Dep.Libs.hiltCompiler)
+    implementation(Dep.Libs.hiltViewModel)
+    kapt(Dep.Libs.hiltViewModelCompiler)
 }
