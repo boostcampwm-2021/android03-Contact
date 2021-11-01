@@ -15,6 +15,8 @@ object Versions {
     const val activity = "1.3.1"
     const val fragment = "1.4.0-alpha10"
     const val room = "2.3.0"
+    const val hilt = "2.38.1"
+    const val hiltViewModel = "1.0.0-alpha03"
 }
 
 object Dep {
@@ -46,5 +48,9 @@ object Dep {
         const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
         const val glide = "com.github.bumptech.glide:glide:4.12.0"
         const val gson = "com.google.code.gson:gson:2.8.8"
+        const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
+        const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+        const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltViewModel}"
+        const val hiltViewModelCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltViewModel}"
     }
 }
