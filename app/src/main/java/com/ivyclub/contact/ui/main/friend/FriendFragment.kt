@@ -47,6 +47,21 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
+    private fun initClearButton() = with(binding) {
+        ivRemoveEt.setOnClickListener {
+            etSearch.text.clear()
+        }
+    }
+
+    private fun initAddButton() = with(binding) {
+        ivAddFriendIcon.setOnClickListener {
+            val popupMenu = PopupMenu(requireContext(), it)
+            val menuInflater = popupMenu.menuInflater
+            menuInflater.inflate(R.menu.menu_friend_and_group, popupMenu.menu)
+            popupMenu.show()
+        }
+    }
+
     private fun initFriendListAdapter() {
         val friendListAdapter = FriendListAdapter()
         friendListAdapter.setFriendList(listOf(
@@ -89,21 +104,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                 binding.etSearch.text.clear()
                 binding.ivRemoveEt.visibility = View.GONE
             }
-        }
-    }
-
-    private fun initClearButton() = with(binding) {
-        ivRemoveEt.setOnClickListener {
-            etSearch.text.clear()
-        }
-    }
-
-    private fun initAddButton() = with(binding) {
-        ivAddFriendIcon.setOnClickListener {
-            val popupMenu = PopupMenu(requireContext(), it)
-            val menuInflater = popupMenu.menuInflater
-            menuInflater.inflate(R.menu.menu_friend_and_group, popupMenu.menu)
-            popupMenu.show()
         }
     }
 
