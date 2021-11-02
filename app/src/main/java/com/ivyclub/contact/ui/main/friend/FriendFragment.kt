@@ -1,6 +1,7 @@
 package com.ivyclub.contact.ui.main.friend
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
@@ -29,11 +30,12 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
-        registerBackPressedCallback()
-        observeSearchTextChange()
-        observeSearchViewVisibility()
+        initBackPressedCallback()
         initClearButton()
         initAddButton()
+        initFriendListAdapter()
+        observeSearchTextChange()
+        observeSearchViewVisibility()
     }
 
     override fun onDetach() {
@@ -41,8 +43,33 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         onBackPressedCallback.remove()
     }
 
-    private fun registerBackPressedCallback() {
+    private fun initBackPressedCallback() {
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
+    private fun initFriendListAdapter() {
+        val friendListAdapter = FriendListAdapter()
+        friendListAdapter.setFriendList(listOf(
+            FriendItemData("정우진", "구글 디자이너 / 25세 / 여행"),
+            FriendItemData("장성희", "트위터 개발자 / 25세 / 등산"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("박태훈", "페이스북 디자이너 / 35세 / 골프"),
+            FriendItemData("이원중", "넷플릭스 디자이너 / 45세 / 개발"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
+        ))
+        binding.rvFriendList.adapter = friendListAdapter
     }
 
     private fun observeSearchTextChange() {
