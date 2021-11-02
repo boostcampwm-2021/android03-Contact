@@ -11,11 +11,11 @@
         android:id="@+id/ll_month_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/tv_plan_month"
@@ -46,8 +46,8 @@
         android:background="@drawable/bg_plan_list_item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ll_month_year"
-        app:layout_constraintTop_toTopOf="@id/ll_month_year"
-        app:layout_constraintBottom_toBottomOf="@id/ll_month_year">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:id="@+id/tv_plan_date"
