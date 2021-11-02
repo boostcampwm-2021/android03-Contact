@@ -16,4 +16,8 @@ class NotificationTimeViewModel @Inject constructor(
         myPreferences.setStoredTag("start",times[0].toInt().toString())
         myPreferences.setStoredTag("end",times[1].toInt().toString())
     }
+
+    fun setNotificationOnOff(onOff: String) {
+        myPreferences.setNotificationOnOff(onOff)
+    }
 }

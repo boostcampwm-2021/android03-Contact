@@ -18,4 +18,8 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context){
     fun setStoredTag(title: String, time: String) {
         prefs.edit().putString(title,time).apply()
     }
+
+    fun setNotificationOnOff(onOff: String) {
+        prefs.edit().putString("NotificationOn",onOff).apply()
+    }
 }
