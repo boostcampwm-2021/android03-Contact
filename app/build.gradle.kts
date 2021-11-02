@@ -50,6 +50,7 @@ dependencies {
     implementation(Dep.AndroidX.roomRuntime)
     implementation(Dep.Libs.glide)
     implementation(Dep.Libs.gson)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt(Dep.AndroidX.roomCompiler)
     testImplementation(Dep.Test.jUnit)
     androidTestImplementation(Dep.Test.ext)

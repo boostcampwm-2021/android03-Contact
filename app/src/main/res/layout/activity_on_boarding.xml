@@ -12,12 +12,12 @@
         android:layout_height="match_parent"
         tools:context=".ui.onboard.OnBoardingActivity">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentContainerView"
-            android:name="com.ivyclub.contact.util.BaseFragment"
+        <fragment
+            android:id="@+id/fcv_on_boarding"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="62dp"
-            tools:layout_editor_absoluteY="207dp" />
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/onboarding_nav_graph"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

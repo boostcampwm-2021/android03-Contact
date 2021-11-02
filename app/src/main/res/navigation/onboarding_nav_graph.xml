@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/onboarding_nav_graph">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboarding_nav_graph"
+    app:startDestination="@id/notificationTimeFragment">
 
+
+    <fragment
+        android:id="@+id/notificationTimeFragment"
+        android:name="com.ivyclub.contact.ui.onboard.notification.NotificationTimeFragment"
+        android:label="NotificationTimeFragment"
+        tools:layout="@layout/fragment_notification_time"/>
 </navigation>
