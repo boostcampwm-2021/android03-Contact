@@ -1,6 +1,7 @@
 package com.ivyclub.contact.ui.plan_list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -8,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ItemPlanListBinding
-import com.ivyclub.contact.util.DayOfWeek
+import com.ivyclub.contact.databinding.ItemPlanListHeaderBinding
+import com.ivyclub.contact.util.*
 import com.ivyclub.data.model.AppointmentData
 import java.util.*
 
@@ -25,24 +27,40 @@ class PlanListAdapter : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHol
         holder.bind(getItem(position))
     }
 
+    fun isHeader(position: Int): Boolean {
+        if (position == 0) return true
+
+        val curCalendar = Calendar.getInstance()
+        curCalendar.time = getItem(position).date
+        val lastCalendar = Calendar.getInstance()
+        lastCalendar.time = getItem(position - 1).date
+
+        return curCalendar.get(Calendar.MONTH) != lastCalendar.get(Calendar.MONTH)
+    }
+
+    fun getHeaderView(rv: RecyclerView, position: Int): View? {
+        val item = getItem(position)
+        val date = item.date
+
+        val binding = ItemPlanListHeaderBinding.inflate(LayoutInflater.from(rv.context), rv, false)
+        binding.tvPlanMonth.text = "${date.getExactMonth()}월"
+        binding.tvPlanYear.text = "${date.getExactYear()}"
+        return binding.root
+    }
+
     inner class PlanViewHolder(
         private val binding: ItemPlanListBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: AppointmentData) {
             val context = itemView.context
+
             with(binding) {
+                val date = data.date
 
-                val calendar = Calendar.getInstance()
-                calendar.time = data.date
-                val dayOfMonth = calendar.get(Calendar.DATE)
-                val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
-                val year = calendar.get(Calendar.YEAR)
-                val month = calendar.get(Calendar.MONTH) + 1
-
-                tvPlanMonth.text = "${month}월"
-                tvPlanYear.text = year.toString()
-                tvPlanDate.text = "${dayOfMonth}일 ${DayOfWeek.values()[dayOfWeek - 1].korean}"
+                tvPlanMonth.text = "${date.getExactMonth()}월"
+                tvPlanYear.text = date.getExactYear().toString()
+                tvPlanDate.text = "${date.getDayOfMonth()}일 ${date.getDayOfWeek().korean}}"
 
                 tvPlanTitle.text = data.title
 
@@ -58,6 +76,8 @@ class PlanListAdapter : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHol
                         cgPlanFriends.addView(it)
                     }
                 }
+
+                llMonthYear.visibility = if (isHeader(adapterPosition)) View.VISIBLE else View.INVISIBLE
             }
         }
     }
