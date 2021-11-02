@@ -12,7 +12,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class OnBoardingActivity : BaseActivity<ActivityOnBoardingBinding>(R.layout.activity_on_boarding) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv_on_boarding) as NavHostFragment
+        val navController = navHostFragment.navController
     }
 
 

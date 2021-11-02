@@ -23,7 +23,9 @@ class NotificationTimeFragment : BaseFragment<FragmentNotificationTimeBinding>(R
 
     private fun initButtons() {
         binding.btnNext.setOnClickListener {
+            //binding.swOnOff.isChecked로 판단하기
             viewModel.setTime(binding.rsTimeRange.values)
+            findNavController().navigate(R.id.action_notificationTimeFragment_to_addContactFragment)
         }
     }
 
