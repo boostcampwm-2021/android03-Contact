@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Contact</string>
+    <string name="bnv_friend">Friend</string>
+    <string name="bnv_plan">Plan</string>
 </resources>

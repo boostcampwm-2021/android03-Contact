@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_friend"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/bnv_friend" />
+    <item
+        android:id="@+id/navigation_plan"
+        android:icon="@drawable/ic_baseline_perm_contact_calendar_24"
+        android:title="@string/bnv_plan" />
+</menu>
