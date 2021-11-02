@@ -16,6 +16,7 @@ data class AppointmentData(
     val id: Long, // 약속 ID, pk
     val participant: List<String>, // 만나는 사람들(번호)
     val date: Date, // datetime
+    val title: String, // 제목
     val content: String, // 내용
     val color: String // 고유색, HexCode
 )

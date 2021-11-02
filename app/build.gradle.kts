@@ -58,4 +58,6 @@ dependencies {
     kapt(Dep.Libs.hiltCompiler)
     implementation(Dep.Libs.hiltViewModel)
     kapt(Dep.Libs.hiltViewModelCompiler)
+
+    implementation(project(":data"))
 }
