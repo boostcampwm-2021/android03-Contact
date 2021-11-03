@@ -12,9 +12,11 @@ import com.ivyclub.contact.databinding.ItemPlanListBinding
 import com.ivyclub.contact.databinding.ItemPlanListHeaderBinding
 import com.ivyclub.contact.util.*
 import com.ivyclub.data.model.AppointmentData
-import java.util.*
+import kotlin.math.abs
 
 class PlanListAdapter : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHolder>(diffUtil) {
+
+    private lateinit var scrollToRecentDateCallback: () -> (Unit)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         PlanViewHolder(
@@ -27,15 +29,42 @@ class PlanListAdapter : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHol
         holder.bind(getItem(position))
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+
+        scrollToRecentDateCallback = {
+            val currentDay = System.currentTimeMillis() / DAY_IN_MILLIS
+            var minGap = currentDay
+            var minIdx = 0
+            currentList.map { it.date.time / DAY_IN_MILLIS }
+                .forEachIndexed { index, day ->
+                    val gap = abs(currentDay - day)
+                    if (gap < minGap ||
+                        (gap == minGap && currentDay < day)) {
+                        minGap = gap
+                        minIdx = index
+                    }
+                }
+
+            recyclerView.scrollToPosition(minIdx)
+        }
+    }
+
+    override fun onCurrentListChanged(
+        previousList: MutableList<AppointmentData>,
+        currentList: MutableList<AppointmentData>
+    ) {
+        super.onCurrentListChanged(previousList, currentList)
+        scrollToRecentDateCallback.invoke()
+    }
+
     fun isHeader(position: Int): Boolean {
         if (position == 0) return true
 
-        val curCalendar = Calendar.getInstance()
-        curCalendar.time = getItem(position).date
-        val lastCalendar = Calendar.getInstance()
-        lastCalendar.time = getItem(position - 1).date
+        val currentDate = getItem(position).date
+        val lastDate = getItem(position - 1).date
 
-        return curCalendar.get(Calendar.MONTH) != lastCalendar.get(Calendar.MONTH)
+        return currentDate.getExactMonth() != lastDate.getExactMonth()
     }
 
     fun getHeaderView(rv: RecyclerView, position: Int): View? {
@@ -60,7 +89,7 @@ class PlanListAdapter : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHol
 
                 tvPlanMonth.text = "${date.getExactMonth()}월"
                 tvPlanYear.text = date.getExactYear().toString()
-                tvPlanDate.text = "${date.getDayOfMonth()}일 ${date.getDayOfWeek().korean}}"
+                tvPlanDate.text = "${date.getDayOfMonth()}일 ${date.getDayOfWeek().korean}"
 
                 tvPlanTitle.text = data.title
 
@@ -77,7 +106,8 @@ class PlanListAdapter : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHol
                     }
                 }
 
-                llMonthYear.visibility = if (isHeader(adapterPosition)) View.VISIBLE else View.INVISIBLE
+                llMonthYear.visibility =
+                    if (isHeader(adapterPosition)) View.VISIBLE else View.INVISIBLE
             }
         }
     }
