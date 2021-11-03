@@ -36,7 +36,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             binding.textView.startAnimation(ani2)
             binding.rvContactList.visibility = View.VISIBLE
             binding.rvContactList.startAnimation(ani3)
-
+            binding.button.isClickable = false
             contactAdapter.submitList(getContact())
         }
     }
