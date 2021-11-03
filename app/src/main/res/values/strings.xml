@@ -8,4 +8,11 @@
     <string name="onboarding_time0">0시</string>
     <string name="onboarding_time24">24시</string>
     <string name="onboarding_notification_title">알림 시간</string>
+    <string name="bnv_friend">Friend</string>
+    <string name="bnv_plan">Plan</string>
+    <string name="fragment_friend_settings">settings</string>
+    <string name="fragment_friend_add_friends_or_group">Add friends or group</string>
+    <string name="fragment_friend_search">search</string>
+    <string name="fragment_friend_find_friend">친구를 검색해보세요</string>
+    <string name="fragment_friend_remove_input_text">Remove Input Text</string>
 </resources>

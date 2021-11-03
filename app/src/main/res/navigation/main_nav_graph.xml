@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@+id/navigation_friend">
+
+    <fragment
+        android:id="@+id/navigation_friend"
+        android:name="com.ivyclub.contact.ui.main.friend.FriendFragment"
+        tools:layout="@layout/fragment_friend" />
+
+    <fragment
+        android:id="@+id/navigation_plan"
+        android:name="com.ivyclub.contact.ui.main.plan.PlanFragment"
+        tools:layout="@layout/fragment_plan" />
+
+</navigation>
