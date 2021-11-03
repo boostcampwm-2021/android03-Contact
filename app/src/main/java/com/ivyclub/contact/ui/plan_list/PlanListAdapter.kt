@@ -14,7 +14,9 @@ import com.ivyclub.contact.util.*
 import com.ivyclub.data.model.AppointmentData
 import kotlin.math.abs
 
-class PlanListAdapter : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHolder>(diffUtil) {
+class PlanListAdapter(
+    val onItemClick: (Long) -> (Unit)
+) : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHolder>(diffUtil) {
 
     private lateinit var scrollToRecentDateCallback: () -> (Unit)
 
@@ -81,8 +83,19 @@ class PlanListAdapter : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHol
         private val binding: ItemPlanListBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        private var planId: Long? = null
+
+        init {
+            itemView.setOnClickListener {
+                planId?.let { id ->
+                    onItemClick(id)
+                }
+            }
+        }
+
         fun bind(data: AppointmentData) {
             val context = itemView.context
+            planId = data.id
 
             with(binding) {
                 val date = data.date
