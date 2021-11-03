@@ -30,12 +30,10 @@ class PlanListAdapter : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHol
     fun isHeader(position: Int): Boolean {
         if (position == 0) return true
 
-        val curCalendar = Calendar.getInstance()
-        curCalendar.time = getItem(position).date
-        val lastCalendar = Calendar.getInstance()
-        lastCalendar.time = getItem(position - 1).date
+        val currentDate = getItem(position).date
+        val lastDate = getItem(position-1).date
 
-        return curCalendar.get(Calendar.MONTH) != lastCalendar.get(Calendar.MONTH)
+        return currentDate.getExactMonth() != lastDate.getExactMonth()
     }
 
     fun getHeaderView(rv: RecyclerView, position: Int): View? {
@@ -60,7 +58,7 @@ class PlanListAdapter : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHol
 
                 tvPlanMonth.text = "${date.getExactMonth()}월"
                 tvPlanYear.text = date.getExactYear().toString()
-                tvPlanDate.text = "${date.getDayOfMonth()}일 ${date.getDayOfWeek().korean}}"
+                tvPlanDate.text = "${date.getDayOfMonth()}일 ${date.getDayOfWeek().korean}"
 
                 tvPlanTitle.text = data.title
 
