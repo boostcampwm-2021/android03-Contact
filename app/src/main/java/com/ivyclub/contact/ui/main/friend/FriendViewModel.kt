@@ -33,17 +33,38 @@ class FriendViewModel : ViewModel() {
     val friendList: LiveData<MutableList<FriendItemData>> get() = _friendList
     private val originEntireFriendList = _friendList.value // 친구 전체 리스트
 
+    private val _isClearButtonVisible = MutableLiveData(false)
+    val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
+
+    private val _searchEditTextInputText = MutableLiveData<String>()
+    val searchEditTextInputText: LiveData<String> get() = _searchEditTextInputText
+
+    fun onEditTextClicked(inputString: CharSequence) {
+        sortNameWith(inputString.toString())
+        setClearButtonVisibility(inputString.toString())
+    }
+
     fun setSearchViewVisibility() {
         _isSearchViewVisible.value = !(_isSearchViewVisible.value ?: true)
     }
 
-    fun sortNameWith(inputString: CharSequence) {
+    fun removeText() {
+        _searchEditTextInputText.value = ""
+    }
+
+    private fun sortNameWith(inputString: String) {
         val sortedList =
-            originEntireFriendList?.filter { it.name.contains(inputString.toString()) }?.toMutableList()
+            originEntireFriendList?.filter { it.name.contains(inputString.toString()) }
+                ?.toMutableList()
         if (inputString.isEmpty()) {
             _friendList.postValue(originEntireFriendList)
         } else {
             _friendList.postValue(sortedList)
         }
+    }
+
+    // 검색창이 내려와있고, 텍스트가 입력된 상황이라면 X 버튼을 활성화 한다.
+    private fun setClearButtonVisibility(inputString: String) {
+        _isClearButtonVisible.value = _isSearchViewVisible.value == true && inputString.isNotEmpty()
     }
 }

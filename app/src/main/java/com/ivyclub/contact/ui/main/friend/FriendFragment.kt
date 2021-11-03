@@ -5,7 +5,6 @@ import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendBinding
@@ -32,10 +31,8 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
         initBackPressedCallback()
-        initClearButton()
         initAddButton()
         initFriendListAdapter()
-        observeSearchTextChange()
         observeSearchViewVisibility()
         observeFriendList()
     }
@@ -47,12 +44,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
 
     private fun initBackPressedCallback() {
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
-    }
-
-    private fun initClearButton() = with(binding) {
-        ivRemoveEt.setOnClickListener {
-            etSearch.text.clear()
-        }
     }
 
     private fun initAddButton() = with(binding) {
@@ -68,16 +59,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         friendListAdapter = FriendListAdapter()
         friendListAdapter.setFriendList(viewModel.friendList.value?.toList() ?: emptyList())
         binding.rvFriendList.adapter = friendListAdapter
-    }
-
-    private fun observeSearchTextChange() {
-        binding.etSearch.doOnTextChanged { text, _, _, _ ->
-            if ((viewModel.isSearchViewVisible.value == true) && text.toString().isNotEmpty()) {
-                binding.ivRemoveEt.visibility = View.VISIBLE
-            } else {
-                binding.ivRemoveEt.visibility = View.GONE
-            }
-        }
     }
 
     private fun observeSearchViewVisibility() {
