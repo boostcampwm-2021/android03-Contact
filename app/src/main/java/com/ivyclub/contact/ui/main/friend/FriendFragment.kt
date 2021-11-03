@@ -57,12 +57,11 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
 
     private fun initFriendListAdapter() {
         friendListAdapter = FriendListAdapter()
-        friendListAdapter.setFriendList(viewModel.friendList.value?.toList() ?: emptyList())
         binding.rvFriendList.adapter = friendListAdapter
     }
 
     private fun observeSearchViewVisibility() {
-        viewModel.isSearchViewVisible.observe(this) { newVisibilityState ->
+        viewModel.isSearchViewVisible.observe(viewLifecycleOwner) { newVisibilityState ->
             with(binding) {
                 if (newVisibilityState) {
                     etSearch.changeVisibilityWithDirection(
@@ -84,9 +83,9 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun observeFriendList() {
-        viewModel.friendList.observe(this) { newFriendList ->
+        viewModel.friendList.observe(viewLifecycleOwner) { newFriendList ->
             // 새로운 리스트로 리사이클러뷰 갱신
-            friendListAdapter.modifyFriendList(newFriendList.toList())
+            friendListAdapter.submitList(newFriendList)
         }
     }
 

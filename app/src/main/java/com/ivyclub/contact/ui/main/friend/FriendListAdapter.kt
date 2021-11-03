@@ -11,33 +11,12 @@ import com.ivyclub.contact.util.binding
 class FriendListAdapter :
     ListAdapter<FriendItemData, FriendListAdapter.FriendViewHolder>(DIFF_CALLBACK) {
 
-    private val itemList = mutableListOf<FriendItemData>()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
         return FriendViewHolder(parent.binding(R.layout.item_friend_profile))
     }
 
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
-        holder.bind(itemList[position])
-    }
-
-    override fun getItemCount(): Int {
-        return itemList.size
-    }
-
-    fun setFriendList(newItemList: List<FriendItemData>) {
-        itemList.clear()
-        itemList.addAll(newItemList)
-    }
-
-    fun modifyFriendList(newItemList: List<FriendItemData>) {
-        itemList.clear()
-        itemList.addAll(newItemList)
-        notifyDataSetChanged()
-    }
-
-    override fun submitList(list: MutableList<FriendItemData>?) {
-        super.submitList(list?.let { ArrayList(it) })
+        holder.bind(getItem(position))
     }
 
     class FriendViewHolder(
