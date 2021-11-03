@@ -27,6 +27,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             }
         }
     }
+    private lateinit var friendListAdapter: FriendListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
@@ -36,6 +37,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         initFriendListAdapter()
         observeSearchTextChange()
         observeSearchViewVisibility()
+        observeFriendList()
     }
 
     override fun onDetach() {
@@ -63,7 +65,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun initFriendListAdapter() {
-        val friendListAdapter = FriendListAdapter()
+        friendListAdapter = FriendListAdapter()
         friendListAdapter.setFriendList(viewModel.friendList.value?.toList() ?: emptyList())
         binding.rvFriendList.adapter = friendListAdapter
     }
@@ -98,6 +100,13 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                     ivRemoveEt.visibility = View.GONE
                 }
             }
+        }
+    }
+
+    private fun observeFriendList() {
+        viewModel.friendList.observe(this) { newFriendList ->
+            // 새로운 리스트로 리사이클러뷰 갱신
+            friendListAdapter.modifyFriendList(newFriendList.toList())
         }
     }
 

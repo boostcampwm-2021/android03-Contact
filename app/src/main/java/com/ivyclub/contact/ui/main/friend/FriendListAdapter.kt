@@ -1,6 +1,5 @@
 package com.ivyclub.contact.ui.main.friend
 
-import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -20,7 +19,6 @@ class FriendListAdapter :
 
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
         holder.bind(itemList[position])
-        Log.e("bind", "size: ${itemList.size}")
     }
 
     override fun getItemCount(): Int {
@@ -30,6 +28,16 @@ class FriendListAdapter :
     fun setFriendList(newItemList: List<FriendItemData>) {
         itemList.clear()
         itemList.addAll(newItemList)
+    }
+
+    fun modifyFriendList(newItemList: List<FriendItemData>) {
+        itemList.clear()
+        itemList.addAll(newItemList)
+        notifyDataSetChanged()
+    }
+
+    override fun submitList(list: MutableList<FriendItemData>?) {
+        super.submitList(list?.let { ArrayList(it) })
     }
 
     class FriendViewHolder(

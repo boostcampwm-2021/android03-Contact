@@ -31,8 +31,19 @@ class FriendViewModel : ViewModel() {
         )
     )
     val friendList: LiveData<MutableList<FriendItemData>> get() = _friendList
+    private val originEntireFriendList = _friendList.value // 친구 전체 리스트
 
     fun setSearchViewVisibility() {
         _isSearchViewVisible.value = !(_isSearchViewVisible.value ?: true)
+    }
+
+    fun sortNameWith(inputString: CharSequence) {
+        val sortedList =
+            originEntireFriendList?.filter { it.name.contains(inputString.toString()) }?.toMutableList()
+        if (inputString.isEmpty()) {
+            _friendList.postValue(originEntireFriendList)
+        } else {
+            _friendList.postValue(sortedList)
+        }
     }
 }
