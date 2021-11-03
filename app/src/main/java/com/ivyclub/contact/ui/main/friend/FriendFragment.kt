@@ -77,7 +77,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                         View.GONE,
                         ANIMATION_TIME
                     )
-                    etSearch.text.clear()
                     ivRemoveEt.visibility = View.GONE
                 }
             }
@@ -92,6 +91,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     companion object {
-        private const val ANIMATION_TIME = 300L
+        private const val ANIMATION_TIME = 150L
     }
 }

@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class FriendViewModel : ViewModel() {
+
+    private var searchInputString = ""
+
     private val _isSearchViewVisible = MutableLiveData(false)
     val isSearchViewVisible: LiveData<Boolean> get() = _isSearchViewVisible
-
     private val _friendList = MutableLiveData(
         mutableListOf(
             FriendItemData("정우진", "구글 디자이너 / 25세 / 여행"),
@@ -32,20 +34,21 @@ class FriendViewModel : ViewModel() {
     )
     val friendList: LiveData<MutableList<FriendItemData>> get() = _friendList
     private val originEntireFriendList = _friendList.value // 친구 전체 리스트
-
     private val _isClearButtonVisible = MutableLiveData(false)
     val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
-
     private val _searchEditTextInputText = MutableLiveData<String>()
     val searchEditTextInputText: LiveData<String> get() = _searchEditTextInputText
 
+
     fun onEditTextClicked(inputString: CharSequence) {
+        searchInputString = inputString.toString()
         sortNameWith(inputString.toString())
         setClearButtonVisibility(inputString.toString())
     }
 
     fun setSearchViewVisibility() {
         _isSearchViewVisible.value = !(_isSearchViewVisible.value ?: true)
+        setClearButtonVisibility(searchInputString)
     }
 
     fun removeText() {
@@ -54,7 +57,7 @@ class FriendViewModel : ViewModel() {
 
     private fun sortNameWith(inputString: String) {
         val sortedList =
-            originEntireFriendList?.filter { it.name.contains(inputString.toString()) }
+            originEntireFriendList?.filter { it.name.contains(inputString) }
                 ?.toMutableList()
         if (inputString.isEmpty()) {
             _friendList.postValue(originEntireFriendList)
