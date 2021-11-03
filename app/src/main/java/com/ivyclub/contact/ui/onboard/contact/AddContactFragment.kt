@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddContactBinding
 import com.ivyclub.contact.util.BaseFragment
@@ -18,26 +20,37 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.fragment_add_contact){
 
     private lateinit var contactAdapter: ContactAdapter
+    private lateinit var contactList: MutableList<PhoneContactData>
+    private val viewModel: AddContactViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        contactList = mutableListOf()
+        initRecyclerView()
+        initButtons()
+    }
+
+    private fun initRecyclerView() {
         contactAdapter = ContactAdapter()
         binding.rvContactList.adapter = contactAdapter
-        initButtons()
-
     }
 
     private fun initButtons() {
         binding.button.setOnClickListener {
-            val ani1 = AnimationUtils.loadAnimation(requireContext(),R.anim.button_down)
-            val ani2 = AnimationUtils.loadAnimation(requireContext(),R.anim.text_gone)
-            val ani3 = AnimationUtils.loadAnimation(requireContext(),R.anim.recyclerview_fade_in)
-            binding.button.startAnimation(ani1)
-            binding.textView.startAnimation(ani2)
+            val buttonAnimation = AnimationUtils.loadAnimation(requireContext(),R.anim.button_down)
+            val textAnimation = AnimationUtils.loadAnimation(requireContext(),R.anim.text_gone)
+            val recyclerViewAnimation = AnimationUtils.loadAnimation(requireContext(),R.anim.recyclerview_fade_in)
+            binding.button.startAnimation(buttonAnimation)
+            binding.textView.startAnimation(textAnimation)
             binding.rvContactList.visibility = View.VISIBLE
-            binding.rvContactList.startAnimation(ani3)
+            binding.rvContactList.startAnimation(recyclerViewAnimation)
             binding.button.isClickable = false
+            binding.button.text = "시작하기"
             contactAdapter.submitList(getContact())
+        }
+        binding.btnCommit.setOnClickListener {
+            viewModel.savePeople(contactAdapter.addList)
+            requireActivity().finish()
         }
     }
 
@@ -55,7 +68,6 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             val name = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
             val number = contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
             val obj = PhoneContactData(name, number)
-
             contactList.add(obj)
         }
         contacts.close()

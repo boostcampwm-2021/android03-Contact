@@ -11,7 +11,6 @@ class NotificationTimeViewModel @Inject constructor(
     private val myPreferences: MyPreference
 ): ViewModel() {
 
-
     fun setTime(times: List<Float>) {
         myPreferences.setStoredTag("start",times[0].toInt().toString())
         myPreferences.setStoredTag("end",times[1].toInt().toString())

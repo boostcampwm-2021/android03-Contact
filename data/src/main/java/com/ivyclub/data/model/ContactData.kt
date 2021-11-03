@@ -1,8 +1,12 @@
 package com.ivyclub.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.sql.Date
 
+@Entity(tableName = "PersonData")
 data class PersonData(
+    @PrimaryKey
     val phoneNumber: String, // 전화번호, pk
     val name: String, // 이름
     val birthday: String, // 생년월일

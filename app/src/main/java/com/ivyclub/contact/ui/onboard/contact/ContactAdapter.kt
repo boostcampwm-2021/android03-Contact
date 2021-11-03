@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ivyclub.contact.databinding.ItemContactBinding
-import com.ivyclub.contact.databinding.ItemPlanListBinding
-import com.ivyclub.data.model.AppointmentData
 import com.ivyclub.data.model.PhoneContactData
 
 class ContactAdapter: ListAdapter<PhoneContactData,ContactAdapter.ViewHolder>(diffUtil) {
+
+    val addList = mutableListOf<PhoneContactData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
@@ -26,6 +26,16 @@ class ContactAdapter: ListAdapter<PhoneContactData,ContactAdapter.ViewHolder>(di
     inner class ViewHolder(
         private val binding: ItemContactBinding
     ): RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.cbAdd.setOnCheckedChangeListener { _, checked ->
+                if(checked) {
+                    addList.add(getItem(adapterPosition))
+                } else {
+                    addList.remove(getItem(adapterPosition))
+                }
+            }
+        }
+
         fun bind(data: PhoneContactData) {
             binding.tvName.text = data.name
             binding.tvPhoneNum.text = data.phoneNumber

@@ -15,6 +15,4 @@ class OnBoardingActivity : BaseActivity<ActivityOnBoardingBinding>(R.layout.acti
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fcv_on_boarding) as NavHostFragment
         val navController = navHostFragment.navController
     }
-
-
 }

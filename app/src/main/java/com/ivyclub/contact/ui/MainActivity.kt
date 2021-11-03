@@ -1,4 +1,4 @@
-package com.ivyclub.contact
+package com.ivyclub.contact.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ActivityMainBinding
 import com.ivyclub.contact.ui.onboard.OnBoardingActivity
 import com.ivyclub.contact.util.BaseActivity
