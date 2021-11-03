@@ -24,3 +24,8 @@ data class AppointmentData(
 data class GroupData(
     val name: String // 이름, pk
 )
+
+data class PhoneContactData(
+    val name: String,
+    val phoneNumber: String
+)
