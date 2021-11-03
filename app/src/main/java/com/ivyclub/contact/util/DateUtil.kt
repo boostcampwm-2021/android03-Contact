@@ -3,6 +3,8 @@ package com.ivyclub.contact.util
 import java.sql.Date
 import java.util.*
 
+const val DAY_IN_MILLIS = (1000 * 60 * 60 * 24).toLong()
+
 fun Date.getExactYear(): Int = getCalendar(this).get(Calendar.YEAR)
 
 fun Date.getExactMonth(): Int = getCalendar(this).get(Calendar.MONTH) + 1
