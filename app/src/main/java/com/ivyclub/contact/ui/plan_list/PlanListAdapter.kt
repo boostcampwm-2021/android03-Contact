@@ -107,13 +107,15 @@ class PlanListAdapter(
                 tvPlanTitle.text = data.title
 
                 cgPlanFriends.removeAllViews()
-                data.participant.subList(0, 3.coerceAtMost(data.participant.size)).forEach {
+                data.participant.subList(0, 3.coerceAtMost(data.participant.size)).forEachIndexed { index, name ->
                     Chip(context).apply {
                         text =
-                            if (data.participant.size > 3) "$it 외 ${data.participant.size - 3}명"
-                            else it
+                            if (data.participant.size > 3 && index == 2) "$name 외 ${data.participant.size - 3}명"
+                            else name
                         isEnabled = false
-                        setChipBackgroundColorResource(R.color.purple_200)
+                        setChipBackgroundColorResource(R.color.blue_100)
+                        setEnsureMinTouchTargetSize(false)
+                        chipMinHeight = 8f
                     }.also {
                         cgPlanFriends.addView(it)
                     }
