@@ -36,6 +36,7 @@ object Dep {
         const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
         const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
         const val support = "com.android.support:support-compat:28.0.0"
+        const val sharedPreference = "androidx.preference:preference-ktx:1.1.0"
     }
 
     object Test {

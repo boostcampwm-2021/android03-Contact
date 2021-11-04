@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Contact</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="onboarding_notification_message">컨택에서 알림을 보낼 수 있는 시간을 정해주세요.</string>
+    <string name="onboarding_notification_switch">알림</string>
+    <string name="onboarding_btn_next">시간 설정하기</string>
+    <string name="onboarding_time0">0시</string>
+    <string name="onboarding_time24">24시</string>
+    <string name="onboarding_notification_title">알림 시간</string>
     <string name="bnv_friend">Friend</string>
     <string name="bnv_plan">Plan</string>
     <string name="fragment_friend_settings">settings</string>
