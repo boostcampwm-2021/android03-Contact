@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPlanBinding
@@ -27,17 +28,23 @@ class PlanFragment : BaseFragment<FragmentPlanBinding>(R.layout.fragment_plan) {
 
         binding.viewModel = viewModel
 
-        initAddButton()
+        initToolbarButtons()
         initRecyclerView()
         observePlanListItems()
 
         viewModel.getMyPlans()
     }
 
-    private fun initAddButton() {
-        binding.ivAddPlanIcon.setOnClickListener {
-            // TODO: 약속 추가 화면 이동
-            Toast.makeText(requireContext(), "add new plan", Toast.LENGTH_SHORT).show()
+    private fun initToolbarButtons() {
+        with(binding) {
+            ivAddPlanIcon.setOnClickListener {
+                // TODO: 약속 추가 화면 이동
+                Toast.makeText(requireContext(), "add new plan", Toast.LENGTH_SHORT).show()
+            }
+
+            ivSettingsIcon.setOnClickListener {
+                findNavController().navigate(R.id.action_navigation_plan_to_settingsFragment)
+            }
         }
     }
 
