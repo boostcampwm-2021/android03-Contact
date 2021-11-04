@@ -5,7 +5,6 @@ import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendBinding
@@ -27,15 +26,15 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             }
         }
     }
+    private lateinit var friendListAdapter: FriendListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
         initBackPressedCallback()
-        initClearButton()
         initAddButton()
         initFriendListAdapter()
-        observeSearchTextChange()
         observeSearchViewVisibility()
+        observeFriendList()
     }
 
     override fun onDetach() {
@@ -45,12 +44,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
 
     private fun initBackPressedCallback() {
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
-    }
-
-    private fun initClearButton() = with(binding) {
-        ivRemoveEt.setOnClickListener {
-            etSearch.text.clear()
-        }
     }
 
     private fun initAddButton() = with(binding) {
@@ -63,23 +56,12 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun initFriendListAdapter() {
-        val friendListAdapter = FriendListAdapter()
-        friendListAdapter.setFriendList(viewModel.friendList.value?.toList() ?: emptyList())
+        friendListAdapter = FriendListAdapter()
         binding.rvFriendList.adapter = friendListAdapter
     }
 
-    private fun observeSearchTextChange() {
-        binding.etSearch.doOnTextChanged { text, _, _, _ ->
-            if ((viewModel.isSearchViewVisible.value == true) && text.toString().isNotEmpty()) {
-                binding.ivRemoveEt.visibility = View.VISIBLE
-            } else {
-                binding.ivRemoveEt.visibility = View.GONE
-            }
-        }
-    }
-
     private fun observeSearchViewVisibility() {
-        viewModel.isSearchViewVisible.observe(this) { newVisibilityState ->
+        viewModel.isSearchViewVisible.observe(viewLifecycleOwner) { newVisibilityState ->
             with(binding) {
                 if (newVisibilityState) {
                     etSearch.changeVisibilityWithDirection(
@@ -94,14 +76,22 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                         View.GONE,
                         ANIMATION_TIME
                     )
-                    etSearch.text.clear()
                     ivRemoveEt.visibility = View.GONE
                 }
             }
         }
     }
 
+    private fun observeFriendList() {
+        viewModel.friendList.observe(viewLifecycleOwner) { newFriendList ->
+            // 새로운 리스트로 리사이클러뷰 갱신
+            friendListAdapter.submitList(newFriendList) {
+                binding.rvFriendList.scrollToPosition(0)
+            }
+        }
+    }
+
     companion object {
-        private const val ANIMATION_TIME = 300L
+        private const val ANIMATION_TIME = 150L
     }
 }

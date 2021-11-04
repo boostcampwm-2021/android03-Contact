@@ -1,6 +1,5 @@
 package com.ivyclub.contact.ui.plan_list
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -22,9 +21,7 @@ class PlanListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         PlanViewHolder(
-            ItemPlanListBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
-            )
+            parent.binding(R.layout.item_plan_list)
         )
 
     override fun onBindViewHolder(holder: PlanViewHolder, position: Int) {
@@ -73,7 +70,7 @@ class PlanListAdapter(
         val item = getItem(position)
         val date = item.date
 
-        val binding = ItemPlanListHeaderBinding.inflate(LayoutInflater.from(rv.context), rv, false)
+        val binding = rv.binding<ItemPlanListHeaderBinding>(R.layout.item_plan_list_header)
         binding.tvPlanMonth.text = "${date.getExactMonth()}월"
         binding.tvPlanYear.text = "${date.getExactYear()}"
         return binding.root
