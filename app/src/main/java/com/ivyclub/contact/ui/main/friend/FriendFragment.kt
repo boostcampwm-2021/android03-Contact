@@ -16,7 +16,9 @@ import com.ivyclub.contact.databinding.FragmentFriendBinding
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.changeVisibilityWithDirection
 import com.ivyclub.contact.util.hideKeyboard
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_friend) {
 
     private val viewModel: FriendViewModel by viewModels()
@@ -43,6 +45,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         initFriendListAdapter()
         observeSearchViewVisibility()
         observeFriendList()
+        viewModel.getFriendData()
     }
 
     override fun onDetach() {

@@ -48,6 +48,7 @@ dependencies {
     implementation(Dep.AndroidX.viewpager2)
     implementation(Dep.AndroidX.support)
     implementation(Dep.AndroidX.roomRuntime)
+    implementation(Dep.AndroidX.liveDataKtx)
     implementation(Dep.Libs.glide)
     implementation(Dep.Libs.gson)
     implementation(project(mapOf("path" to ":data")))

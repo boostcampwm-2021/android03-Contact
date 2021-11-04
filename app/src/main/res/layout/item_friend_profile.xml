@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.ivyclub.contact.ui.main.friend.FriendItemData" />
+            type="com.ivyclub.data.model.PersonData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +43,7 @@
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{data.description}"
+            android:text="@{data.phoneNumber}"
             app:layout_constraintBottom_toBottomOf="@id/iv_profile_image"
             app:layout_constraintStart_toStartOf="@id/tv_name"
             app:layout_constraintTop_toBottomOf="@id/tv_name"

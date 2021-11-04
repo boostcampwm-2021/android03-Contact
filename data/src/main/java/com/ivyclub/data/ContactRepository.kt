@@ -6,6 +6,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
 interface ContactRepository {
-    fun loadPeople()
+    fun loadPeople(): List<PersonData>
     fun savePeople(personData: PersonData)
 }
