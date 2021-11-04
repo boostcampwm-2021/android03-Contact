@@ -83,7 +83,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     private fun initDialog() {
         val dialogBinding = DialogFriendBinding.inflate(LayoutInflater.from(requireContext()))
         dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.dialog_friend)
+        dialog.setContentView(dialogBinding.root)
         val layoutParams = dialog.window?.attributes
         layoutParams?.width = ConstraintLayout.LayoutParams.MATCH_PARENT
         layoutParams?.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
