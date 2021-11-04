@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ItemPlanListBinding
 import com.ivyclub.contact.databinding.ItemPlanListHeaderBinding
-import com.ivyclub.contact.util.*
-import com.ivyclub.data.model.AppointmentData
+import com.ivyclub.contact.util.DAY_IN_MILLIS
+import com.ivyclub.contact.util.binding
+import com.ivyclub.contact.util.setFriendChips
 import kotlin.math.abs
 
 class PlanListAdapter(
     val onItemClick: (Long) -> (Unit)
-) : ListAdapter<AppointmentData, PlanListAdapter.PlanViewHolder>(diffUtil) {
+) : ListAdapter<PlanListItemViewModel, PlanListAdapter.PlanViewHolder>(diffUtil) {
 
     private lateinit var scrollToRecentDateCallback: () -> (Unit)
 
@@ -35,11 +35,12 @@ class PlanListAdapter(
             val currentDay = System.currentTimeMillis() / DAY_IN_MILLIS
             var minGap = currentDay
             var minIdx = 0
-            currentList.map { it.date.time / DAY_IN_MILLIS }
+            currentList.map { it.dayCount }
                 .forEachIndexed { index, day ->
                     val gap = abs(currentDay - day)
                     if (gap < minGap ||
-                        (gap == minGap && currentDay < day)) {
+                        (gap == minGap && currentDay < day)
+                    ) {
                         minGap = gap
                         minIdx = index
                     }
@@ -50,29 +51,27 @@ class PlanListAdapter(
     }
 
     override fun onCurrentListChanged(
-        previousList: MutableList<AppointmentData>,
-        currentList: MutableList<AppointmentData>
+        previousList: MutableList<PlanListItemViewModel>,
+        currentList: MutableList<PlanListItemViewModel>
     ) {
         super.onCurrentListChanged(previousList, currentList)
         scrollToRecentDateCallback.invoke()
     }
 
     fun isHeader(position: Int): Boolean {
-        if (position == 0) return true
+        if (position == 0)
+            return true
 
-        val currentDate = getItem(position).date
-        val lastDate = getItem(position - 1).date
+        val currentItem = getItem(position)
+        val lastItem = getItem(position - 1)
 
-        return currentDate.getExactMonth() != lastDate.getExactMonth()
+        return currentItem.planMonth != lastItem.planMonth || currentItem.planYear != lastItem.planYear
     }
 
     fun getHeaderView(rv: RecyclerView, position: Int): View? {
-        val item = getItem(position)
-        val date = item.date
-
         val binding = rv.binding<ItemPlanListHeaderBinding>(R.layout.item_plan_list_header)
-        binding.tvPlanMonth.text = "${date.getExactMonth()}월"
-        binding.tvPlanYear.text = "${date.getExactYear()}"
+        binding.viewModel = getItem(position)
+        binding.executePendingBindings()
         return binding.root
     }
 
@@ -90,34 +89,12 @@ class PlanListAdapter(
             }
         }
 
-        fun bind(data: AppointmentData) {
-            val context = itemView.context
-            planId = data.id
+        fun bind(itemViewModel: PlanListItemViewModel) {
+            planId = itemViewModel.id
 
             with(binding) {
-                val date = data.date
-
-                tvPlanMonth.text = "${date.getExactMonth()}월"
-                tvPlanYear.text = date.getExactYear().toString()
-                tvPlanDate.text = "${date.getDayOfMonth()}일 ${date.getDayOfWeek().korean}"
-
-                tvPlanTitle.text = data.title
-
-                cgPlanFriends.removeAllViews()
-                data.participant.subList(0, 3.coerceAtMost(data.participant.size)).forEachIndexed { index, name ->
-                    Chip(context).apply {
-                        text =
-                            if (data.participant.size > 3 && index == 2) "$name 외 ${data.participant.size - 3}명"
-                            else name
-                        isEnabled = false
-                        setChipBackgroundColorResource(R.color.blue_100)
-                        setEnsureMinTouchTargetSize(false)
-                        chipMinHeight = 8f
-                    }.also {
-                        cgPlanFriends.addView(it)
-                    }
-                }
-
+                viewModel = itemViewModel
+                cgPlanFriends.setFriendChips(itemViewModel.friends, itemViewModel.friendCount)
                 llMonthYear.visibility =
                     if (isHeader(adapterPosition)) View.VISIBLE else View.INVISIBLE
             }
@@ -125,11 +102,17 @@ class PlanListAdapter(
     }
 
     companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<AppointmentData>() {
-            override fun areItemsTheSame(oldItem: AppointmentData, newItem: AppointmentData) =
+        private val diffUtil = object : DiffUtil.ItemCallback<PlanListItemViewModel>() {
+            override fun areItemsTheSame(
+                oldItem: PlanListItemViewModel,
+                newItem: PlanListItemViewModel
+            ) =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: AppointmentData, newItem: AppointmentData) =
+            override fun areContentsTheSame(
+                oldItem: PlanListItemViewModel,
+                newItem: PlanListItemViewModel
+            ) =
                 oldItem == newItem
         }
     }

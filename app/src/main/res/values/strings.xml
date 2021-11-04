@@ -15,4 +15,8 @@
     <string name="fragment_friend_search">search</string>
     <string name="fragment_friend_find_friend">친구를 검색해보세요</string>
     <string name="fragment_friend_remove_input_text">Remove Input Text</string>
+
+    <string name="format_month">%d월</string>
+    <string name="format_date_day">%d일 %s요일</string>
+    <string name="format_friend_count_etc">%s 외 %d명</string>
 </resources>
