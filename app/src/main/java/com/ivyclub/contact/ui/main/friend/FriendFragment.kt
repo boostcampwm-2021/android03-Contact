@@ -1,10 +1,13 @@
 package com.ivyclub.contact.ui.main.friend
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
+import android.widget.Button
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendBinding
@@ -27,10 +30,12 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         }
     }
     private lateinit var friendListAdapter: FriendListAdapter
+    private lateinit var dialog: Dialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
         initBackPressedCallback()
+        initDialog()
         initAddButton()
         initFriendListAdapter()
         observeSearchViewVisibility()
@@ -51,7 +56,30 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             val popupMenu = PopupMenu(requireContext(), it)
             val menuInflater = popupMenu.menuInflater
             menuInflater.inflate(R.menu.menu_friend_and_group, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.item_new_friend -> {
+
+                    }
+                    R.id.item_new_group -> {
+                        dialog.show()
+                    }
+                }
+                false
+            }
             popupMenu.show()
+        }
+    }
+
+    private fun initDialog() {
+        dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.dialog_friend)
+        val layoutParams = dialog.window?.attributes
+        layoutParams?.width = ConstraintLayout.LayoutParams.MATCH_PARENT
+        layoutParams?.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+        // MVVM에 맞게 refactoring 필요
+        dialog.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+            dialog.dismiss()
         }
     }
 
