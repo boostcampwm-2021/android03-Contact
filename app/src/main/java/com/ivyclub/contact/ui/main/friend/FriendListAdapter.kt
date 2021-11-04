@@ -34,7 +34,7 @@ class FriendListAdapter :
                 oldItem: PersonData,
                 newItem: PersonData
             ): Boolean {
-                return oldItem === newItem
+                return oldItem.phoneNumber == newItem.phoneNumber
             }
 
             override fun areContentsTheSame(

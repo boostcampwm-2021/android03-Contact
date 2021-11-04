@@ -2,6 +2,7 @@ package com.ivyclub.contact.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -23,10 +24,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         setObserver()
         setNavigation()
+        viewModel.checkOnBoarding()
         getOnboardingResult = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
+//                supportFragmentManager
+//                    .beginTransaction()
+//                    .replace(R.id.fcv_main, FriendFragment())
+//                    .commit()
+//
+//                setNavigation()
                 recreate()
             }
         }
@@ -34,8 +42,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun setObserver() {
         viewModel.onBoard.observe(this, {
-            val intent = Intent(this, OnBoardingActivity::class.java)
-            getOnboardingResult.launch(intent)
+            Log.e("check", "=-> $it")
+            if (it) {
+                val intent = Intent(this, OnBoardingActivity::class.java)
+                getOnboardingResult.launch(intent)
+            }
         })
     }
 

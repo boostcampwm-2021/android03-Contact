@@ -28,7 +28,7 @@ class FriendViewModel @Inject constructor(
     private val _searchEditTextInputText = MutableLiveData<String>()
     val searchEditTextInputText: LiveData<String> get() = _searchEditTextInputText
 
-    init {
+    fun getFriendData() {
         viewModelScope.launch(Dispatchers.IO) {
             _friendList.postValue(repository.loadPeople())
         }

@@ -50,6 +50,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
         }
         binding.btnCommit.setOnClickListener {
             viewModel.savePeople(contactAdapter.addList)
+            viewModel.setOnboardingStateTrue()
             val intent = Intent(requireActivity(), MainActivity::class.java)
             requireActivity().setResult(RESULT_OK, intent)
             requireActivity().finish()

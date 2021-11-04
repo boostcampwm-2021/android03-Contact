@@ -1,7 +1,6 @@
 package com.ivyclub.contact.ui.main.friend
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
@@ -38,6 +37,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         initFriendListAdapter()
         observeSearchViewVisibility()
         observeFriendList()
+        viewModel.getFriendData()
     }
 
     override fun onDetach() {
@@ -87,7 +87,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
 
     private fun observeFriendList() {
         viewModel.friendList.observe(viewLifecycleOwner) { newFriendList ->
-            Log.e("here", "여기서 -> $newFriendList")
             // 새로운 리스트로 리사이클러뷰 갱신
             friendListAdapter.submitList(newFriendList) {
                 binding.rvFriendList.scrollToPosition(0)
