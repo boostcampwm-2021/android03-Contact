@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="20dp">
+
+    <TextView
+        android:id="@+id/tv_add_group_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/friend_dialog_add_group"
+        android:textSize="20sp"
+        android:textColor="@color/green_300"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_new_group_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_add_group_title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_new_group_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/friend_dialog_new_group_name_hint" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_duplicate_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:visibility="invisible"
+        android:textSize="8sp"
+        app:layout_constraintStart_toStartOf="@id/til_new_group_name"
+        app:layout_constraintTop_toBottomOf="@id/til_new_group_name" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="@string/friend_dialog_cancel"
+        android:textColor="@color/light_gray"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@id/btn_add_new_group"
+        app:layout_constraintTop_toTopOf="@id/btn_add_new_group" />
+
+    <Button
+        android:id="@+id/btn_add_new_group"
+        style="?android:borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        android:text="@string/friend_dialog_add"
+        android:textColor="@color/green_300"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_duplicate_check" />
+</androidx.constraintlayout.widget.ConstraintLayout>

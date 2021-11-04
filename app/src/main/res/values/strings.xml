@@ -15,4 +15,8 @@
     <string name="fragment_friend_search">search</string>
     <string name="fragment_friend_find_friend">친구를 검색해보세요</string>
     <string name="fragment_friend_remove_input_text">Remove Input Text</string>
+    <string name="friend_dialog_new_group_name_hint">새 그룹 이름</string>
+    <string name="friend_dialog_add_group">그룹 추가</string>
+    <string name="friend_dialog_cancel">취소</string>
+    <string name="friend_dialog_add">추가</string>
 </resources>
