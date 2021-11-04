@@ -1,6 +1,7 @@
 package com.ivyclub.contact.ui.main.friend
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.PopupMenu
@@ -11,7 +12,9 @@ import com.ivyclub.contact.databinding.FragmentFriendBinding
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.changeVisibilityWithDirection
 import com.ivyclub.contact.util.hideKeyboard
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_friend) {
 
     private val viewModel: FriendViewModel by viewModels()
@@ -84,6 +87,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
 
     private fun observeFriendList() {
         viewModel.friendList.observe(viewLifecycleOwner) { newFriendList ->
+            Log.e("here", "여기서 -> $newFriendList")
             // 새로운 리스트로 리사이클러뷰 갱신
             friendListAdapter.submitList(newFriendList) {
                 binding.rvFriendList.scrollToPosition(0)

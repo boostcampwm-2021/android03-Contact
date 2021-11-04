@@ -3,42 +3,36 @@ package com.ivyclub.contact.ui.main.friend
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ivyclub.data.ContactRepository
+import com.ivyclub.data.model.PersonData
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FriendViewModel : ViewModel() {
+@HiltViewModel
+class FriendViewModel @Inject constructor(
+    private val repository: ContactRepository
+) : ViewModel() {
 
     private var searchInputString = ""
 
     private val _isSearchViewVisible = MutableLiveData(false)
     val isSearchViewVisible: LiveData<Boolean> get() = _isSearchViewVisible
-    private val _friendList = MutableLiveData(
-        mutableListOf(
-            FriendItemData("정우진", "구글 디자이너 / 25세 / 여행"),
-            FriendItemData("장성희", "트위터 개발자 / 25세 / 등산"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("박태훈", "페이스북 디자이너 / 35세 / 골프"),
-            FriendItemData("이원중", "넷플릭스 디자이너 / 45세 / 개발"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-            FriendItemData("홍길동", "아마존 개발자 / 15세 / 탁구"),
-        )
-    )
-    val friendList: LiveData<MutableList<FriendItemData>> get() = _friendList
+    private val _friendList = MutableLiveData<List<PersonData>>()
+    val friendList: LiveData<List<PersonData>> get() = _friendList
     private val originEntireFriendList = _friendList.value // 친구 전체 리스트
     private val _isClearButtonVisible = MutableLiveData(false)
     val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
     private val _searchEditTextInputText = MutableLiveData<String>()
     val searchEditTextInputText: LiveData<String> get() = _searchEditTextInputText
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            _friendList.postValue(repository.loadPeople())
+        }
+    }
 
     fun onEditTextClicked(inputString: CharSequence) {
         searchInputString = inputString.toString()
@@ -60,9 +54,9 @@ class FriendViewModel : ViewModel() {
             originEntireFriendList?.filter { it.name.contains(inputString) }
                 ?.toMutableList()
         if (inputString.isEmpty()) {
-            _friendList.postValue(originEntireFriendList)
+            _friendList.postValue(originEntireFriendList ?: emptyList())
         } else {
-            _friendList.postValue(sortedList)
+            _friendList.postValue(sortedList ?: emptyList())
         }
     }
 

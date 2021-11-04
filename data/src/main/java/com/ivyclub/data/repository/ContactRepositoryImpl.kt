@@ -8,9 +8,9 @@ import javax.inject.Singleton
 @Singleton
 class ContactRepositoryImpl @Inject constructor(
     private val personDao: PersonDao
-    ): ContactRepository{
-    override fun loadPeople() {
-        personDao.getAllPerson()
+) : ContactRepository {
+    override fun loadPeople(): List<PersonData> {
+        return personDao.getAllPerson()
     }
 
     override fun savePeople(personData: PersonData) {

@@ -18,14 +18,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setNavigation()
         setObserver()
+        setNavigation()
     }
 
     private fun setObserver() {
-        viewModel.onBoard.observe(this,{
-            val intent = Intent(this,OnBoardingActivity::class.java)
+        viewModel.onBoard.observe(this, {
+            val intent = Intent(this, OnBoardingActivity::class.java)
             startActivity(intent)
+            //finish()
         })
     }
 
