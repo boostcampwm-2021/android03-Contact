@@ -19,4 +19,7 @@
     <string name="friend_dialog_add_group">그룹 추가</string>
     <string name="friend_dialog_cancel">취소</string>
     <string name="friend_dialog_add">추가</string>
+    <string name="format_month">%d월</string>
+    <string name="format_date_day">%d일 %s요일</string>
+    <string name="format_friend_count_etc">%s 외 %d명</string>
 </resources>
