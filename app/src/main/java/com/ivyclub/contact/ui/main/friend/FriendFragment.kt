@@ -38,6 +38,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         initBackPressedCallback()
         initDialog()
         initAddButton()
+        initSettingsButton()
         initFriendListAdapter()
         observeSearchViewVisibility()
         observeFriendList()
@@ -69,6 +70,12 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                 false
             }
             popupMenu.show()
+        }
+    }
+
+    private fun initSettingsButton() = with(binding) {
+        ivSettingsIcon.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_friend_to_settingsFragment)
         }
     }
 
