@@ -3,14 +3,15 @@ package com.ivyclub.contact.ui.main.friend
 import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
+import com.ivyclub.contact.databinding.DialogFriendBinding
 import com.ivyclub.contact.databinding.FragmentFriendBinding
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.changeVisibilityWithDirection
@@ -80,13 +81,13 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun initDialog() {
+        val dialogBinding = DialogFriendBinding.inflate(LayoutInflater.from(requireContext()))
         dialog = Dialog(requireContext())
         dialog.setContentView(R.layout.dialog_friend)
         val layoutParams = dialog.window?.attributes
         layoutParams?.width = ConstraintLayout.LayoutParams.MATCH_PARENT
         layoutParams?.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
-        // MVVM에 맞게 refactoring 필요
-        dialog.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+        dialogBinding.btnCancel.setOnClickListener {
             dialog.dismiss()
         }
     }
