@@ -18,4 +18,11 @@
     <string name="onboarding_add_contact_message">컨택을 시작하기 전에 연락처에 있는 지인을 추가해보세요!</string>
     <string name="onboarding_load_contact">불러오기</string>
     <string name="menu_skip">건너뛰기</string>
+    <string name="friend_dialog_new_group_name_hint">새 그룹 이름</string>
+    <string name="friend_dialog_add_group">그룹 추가</string>
+    <string name="friend_dialog_cancel">취소</string>
+    <string name="friend_dialog_add">추가</string>
+    <string name="format_month">%d월</string>
+    <string name="format_date_day">%d일 %s요일</string>
+    <string name="format_friend_count_etc">%s 외 %d명</string>
 </resources>
