@@ -9,6 +9,7 @@ import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendBinding
 import com.ivyclub.contact.util.BaseFragment
@@ -59,7 +60,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.item_new_friend -> {
-
+                        findNavController().navigate(R.id.action_navigation_friend_to_addFriendFragment)
                     }
                     R.id.item_new_group -> {
                         dialog.show()
