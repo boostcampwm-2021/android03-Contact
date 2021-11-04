@@ -15,4 +15,6 @@
     <string name="fragment_friend_search">search</string>
     <string name="fragment_friend_find_friend">친구를 검색해보세요</string>
     <string name="fragment_friend_remove_input_text">Remove Input Text</string>
+    <string name="onboarding_add_contact_message">컨택을 시작하기 전에 연락처에 있는 지인을 추가해보세요!</string>
+    <string name="onboarding_load_contact">불러오기</string>
 </resources>

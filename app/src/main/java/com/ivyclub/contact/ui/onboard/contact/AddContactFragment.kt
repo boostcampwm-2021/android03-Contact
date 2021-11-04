@@ -1,5 +1,6 @@
 package com.ivyclub.contact.ui.onboard.contact
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -35,22 +36,30 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
         binding.rvContactList.adapter = contactAdapter
     }
 
-    private fun initButtons() {
-        binding.button.setOnClickListener {
+    private fun initButtons() = with(binding) {
+        btnLoad.setOnClickListener {
+            requestPermission()
+        }
+        btnCommit.setOnClickListener {
+            viewModel.savePeople(contactAdapter.addList)
+            requireActivity().finish()
+        }
+        btnCommit.isClickable = false
+    }
+
+    private fun loadContact() {
+        with(binding) {
             val buttonAnimation = AnimationUtils.loadAnimation(requireContext(),R.anim.button_down)
             val textAnimation = AnimationUtils.loadAnimation(requireContext(),R.anim.text_gone)
             val recyclerViewAnimation = AnimationUtils.loadAnimation(requireContext(),R.anim.recyclerview_fade_in)
-            binding.button.startAnimation(buttonAnimation)
-            binding.textView.startAnimation(textAnimation)
-            binding.rvContactList.visibility = View.VISIBLE
-            binding.rvContactList.startAnimation(recyclerViewAnimation)
-            binding.button.isClickable = false
-            binding.button.text = "시작하기"
+            btnLoad.startAnimation(buttonAnimation)
+            tvIntroduce.startAnimation(textAnimation)
+            rvContactList.visibility = View.VISIBLE
+            rvContactList.startAnimation(recyclerViewAnimation)
+            btnLoad.isClickable = false
+            btnLoad.text = "시작하기"
             contactAdapter.submitList(getContact())
-        }
-        binding.btnCommit.setOnClickListener {
-            viewModel.savePeople(contactAdapter.addList)
-            requireActivity().finish()
+            btnCommit.isClickable = true
         }
     }
 
@@ -72,5 +81,19 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
         }
         contacts.close()
         return contactList
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            loadContact()
+        } else {
+            requireActivity().finish()
+        }
+    }
+
+    private fun requestPermission() {
+        requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
     }
 }

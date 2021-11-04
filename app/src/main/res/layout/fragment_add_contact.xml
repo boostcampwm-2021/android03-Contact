@@ -13,12 +13,12 @@
         tools:context=".ui.onboard.contact.AddContactFragment">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_introduce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="200dp"
             android:gravity="center"
-            android:text="컨택을 시작하기 전에 연락처에 있는 지인을 추가해보세요!"
+            android:text="@string/onboarding_add_contact_message"
             android:textColor="@color/black"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,11 +26,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_load"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginBottom="300dp"
-            android:text="불러오기"
+            android:text="@string/onboarding_load_contact"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
