@@ -17,12 +17,12 @@ class FriendViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var searchInputString = ""
+    private lateinit var originEntireFriendList: List<PersonData>
 
     private val _isSearchViewVisible = MutableLiveData(false)
     val isSearchViewVisible: LiveData<Boolean> get() = _isSearchViewVisible
     private val _friendList = MutableLiveData<List<PersonData>>()
     val friendList: LiveData<List<PersonData>> get() = _friendList
-    private val originEntireFriendList = _friendList.value // 친구 전체 리스트
     private val _isClearButtonVisible = MutableLiveData(false)
     val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
     private val _searchEditTextInputText = MutableLiveData<String>()
@@ -30,7 +30,9 @@ class FriendViewModel @Inject constructor(
 
     fun getFriendData() {
         viewModelScope.launch(Dispatchers.IO) {
-            _friendList.postValue(repository.loadPeople())
+            val loadedPersonData = repository.loadPeople()
+            _friendList.postValue(loadedPersonData)
+            originEntireFriendList = loadedPersonData
         }
     }
 
@@ -51,12 +53,11 @@ class FriendViewModel @Inject constructor(
 
     private fun sortNameWith(inputString: String) {
         val sortedList =
-            originEntireFriendList?.filter { it.name.contains(inputString) }
-                ?.toMutableList()
+            originEntireFriendList.filter { it.name.contains(inputString) }.toMutableList()
         if (inputString.isEmpty()) {
-            _friendList.postValue(originEntireFriendList ?: emptyList())
+            _friendList.postValue(originEntireFriendList)
         } else {
-            _friendList.postValue(sortedList ?: emptyList())
+            _friendList.postValue(sortedList)
         }
     }
 
