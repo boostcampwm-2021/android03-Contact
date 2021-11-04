@@ -1,12 +1,17 @@
 package com.ivyclub.contact.ui.main.friend
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
+import com.ivyclub.contact.databinding.DialogFriendBinding
 import com.ivyclub.contact.databinding.FragmentFriendBinding
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.changeVisibilityWithDirection
@@ -29,11 +34,14 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         }
     }
     private lateinit var friendListAdapter: FriendListAdapter
+    private lateinit var dialog: Dialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
         initBackPressedCallback()
+        initDialog()
         initAddButton()
+        initSettingsButton()
         initFriendListAdapter()
         observeSearchViewVisibility()
         observeFriendList()
@@ -54,7 +62,36 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             val popupMenu = PopupMenu(requireContext(), it)
             val menuInflater = popupMenu.menuInflater
             menuInflater.inflate(R.menu.menu_friend_and_group, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.item_new_friend -> {
+                        findNavController().navigate(R.id.action_navigation_friend_to_addFriendFragment)
+                    }
+                    R.id.item_new_group -> {
+                        dialog.show()
+                    }
+                }
+                false
+            }
             popupMenu.show()
+        }
+    }
+
+    private fun initSettingsButton() = with(binding) {
+        ivSettingsIcon.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_friend_to_settingsFragment)
+        }
+    }
+
+    private fun initDialog() {
+        val dialogBinding = DialogFriendBinding.inflate(LayoutInflater.from(requireContext()))
+        dialog = Dialog(requireContext())
+        dialog.setContentView(dialogBinding.root)
+        val layoutParams = dialog.window?.attributes
+        layoutParams?.width = ConstraintLayout.LayoutParams.MATCH_PARENT
+        layoutParams?.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
         }
     }
 

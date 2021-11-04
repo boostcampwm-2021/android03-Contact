@@ -7,13 +7,13 @@ import javax.inject.Singleton
 
 @Singleton
 class ContactRepositoryImpl @Inject constructor(
-    private val personDao: PersonDao
+    private val contactDAO: ContactDAO
 ) : ContactRepository {
     override fun loadPeople(): List<PersonData> {
-        return personDao.getAllPerson()
+        return contactDAO.getAllPerson()
     }
 
     override fun savePeople(personData: PersonData) {
-        personDao.insertPersonData(personData)
+        contactDAO.insertPersonData(personData)
     }
 }

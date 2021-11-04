@@ -7,9 +7,9 @@ import androidx.room.Query
 import com.ivyclub.data.model.PersonData
 
 @Dao
-interface PersonDao {
+interface ContactDAO {
 
-    @Query("SELECT * FROM persondata")
+    @Query("SELECT * FROM PersonData")
     fun getAllPerson(): List<PersonData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
