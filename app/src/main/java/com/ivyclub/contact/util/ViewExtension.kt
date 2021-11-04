@@ -6,9 +6,13 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isNotEmpty
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.transition.*
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
+import com.ivyclub.contact.R
 
 fun <T : ViewDataBinding> ViewGroup.binding(
     @LayoutRes layoutRes: Int,
@@ -42,4 +46,29 @@ fun View.changeVisibilityWithDirection(direction: Int, visibility: Int, animatio
 
 fun ViewDataBinding.hideKeyboard() {
     ViewCompat.getWindowInsetsController(this.root)?.hide(WindowInsetsCompat.Type.ime())
+}
+
+fun ChipGroup.setFriendChips(friendList: List<String>, actualCount: Int) {
+    if (isNotEmpty()) removeAllViews()
+
+    friendList.forEachIndexed { index, name ->
+        Chip(context).apply {
+            text =
+                if (actualCount > 3 && index == 2) {
+                    String.format(
+                        context.getString(R.string.format_friend_count_etc),
+                        name,
+                        actualCount - 3
+                    )
+                } else {
+                    name
+                }
+            isEnabled = false
+            setChipBackgroundColorResource(R.color.blue_100)
+            setEnsureMinTouchTargetSize(false)
+            chipMinHeight = 8f
+        }.also {
+            addView(it)
+        }
+    }
 }
