@@ -12,17 +12,11 @@ class MainViewModel @Inject constructor(
     private val myPreferences: MyPreference
 ): ViewModel() {
 
-    private val _onBoard = MutableLiveData<Boolean>(false)
+    private val _onBoard = MutableLiveData<Boolean>()
     val onBoard: LiveData<Boolean> get() = _onBoard
 
-    init {
-        checkOnBoarding()
-    }
-
-    private fun checkOnBoarding(){
-        if(myPreferences.getOnBoardingState() != "false") {
-            _onBoard.value = true
-        }
+    fun checkOnBoarding(){
+        _onBoard.value = myPreferences.getOnBoardingState() != "false"
     }
 
 }

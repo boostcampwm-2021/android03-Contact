@@ -2,6 +2,9 @@ package com.ivyclub.contact.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -15,17 +18,35 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val viewModel: MainViewModel by viewModels()
+    private lateinit var getOnboardingResult: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setNavigation()
         setObserver()
+        setNavigation()
+        viewModel.checkOnBoarding()
+        getOnboardingResult = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+//                supportFragmentManager
+//                    .beginTransaction()
+//                    .replace(R.id.fcv_main, FriendFragment())
+//                    .commit()
+//
+//                setNavigation()
+                recreate()
+            }
+        }
     }
 
     private fun setObserver() {
-        viewModel.onBoard.observe(this,{
-            val intent = Intent(this,OnBoardingActivity::class.java)
-            startActivity(intent)
+        viewModel.onBoard.observe(this, {
+            Log.e("check", "=-> $it")
+            if (it) {
+                val intent = Intent(this, OnBoardingActivity::class.java)
+                getOnboardingResult.launch(intent)
+            }
         })
     }
 

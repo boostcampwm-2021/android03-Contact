@@ -10,28 +10,27 @@ import javax.inject.Singleton
 
 @Singleton
 @RequiresApi(Build.VERSION_CODES.GINGERBREAD)
-class MyPreference @Inject constructor(@ApplicationContext context: Context){
+class MyPreference @Inject constructor(@ApplicationContext context: Context) {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
-
     fun getStoredTag(time: String): String {
-        return prefs.getString(time,"") ?: ""
+        return prefs.getString(time, "") ?: ""
     }
 
     fun setStoredTag(title: String, time: String) {
-        prefs.edit().putString(title,time).apply()
+        prefs.edit().putString(title, time).apply()
     }
 
     fun setNotificationOnOff(onOff: String) {
-        prefs.edit().putString("NotificationOn",onOff).apply()
+        prefs.edit().putString("NotificationOn", onOff).apply()
     }
 
     fun getOnBoardingState(): String {
-        return prefs.getString(FIRST_ON_BOARDING,"") ?: ""
+        return prefs.getString(FIRST_ON_BOARDING, "") ?: ""
     }
 
     fun setOnBoardingState() {
-        prefs.edit().putString(FIRST_ON_BOARDING,"false").apply()
+        prefs.edit().putString(FIRST_ON_BOARDING, "false").apply()
     }
 
     companion object {
