@@ -12,13 +12,32 @@
         android:layout_height="match_parent"
         tools:context=".ui.onboard.contact.AddContactFragment">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/abl_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tb_add_contact"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_introduce"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="200dp"
             android:gravity="center"
-            android:text="컨택을 시작하기 전에 연락처에 있는 지인을 추가해보세요!"
+            android:text="@string/onboarding_add_contact_message"
             android:textColor="@color/black"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,11 +45,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btn_load"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
             android:layout_marginBottom="300dp"
-            android:text="불러오기"
+            android:text="@string/onboarding_load_contact"
+            android:layout_marginHorizontal="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -40,13 +60,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="50dp"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="50dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_contact" />
 
         <Button
             android:id="@+id/btn_commit"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:alpha="0"

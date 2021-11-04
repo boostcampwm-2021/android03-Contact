@@ -34,6 +34,9 @@ class ContactAdapter: ListAdapter<PhoneContactData,ContactAdapter.ViewHolder>(di
                     addList.remove(getItem(adapterPosition))
                 }
             }
+            binding.clParent.setOnClickListener {
+                binding.cbAdd.isChecked = !binding.cbAdd.isChecked
+            }
         }
 
         fun bind(data: PhoneContactData) {
