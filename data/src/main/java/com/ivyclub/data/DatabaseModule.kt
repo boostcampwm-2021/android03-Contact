@@ -2,8 +2,8 @@ package com.ivyclub.data
 
 import android.content.Context
 import androidx.room.Room
-import com.ivyclub.data.repository.PersonDao
-import com.ivyclub.data.repository.PersonDataBase
+import com.ivyclub.data.repository.ContactDAO
+import com.ivyclub.data.repository.ContactDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,16 +16,16 @@ import javax.inject.Singleton
 class DatabaseModule {
     @Provides
     @Singleton
-    fun providePersonDataBase(@ApplicationContext appContext: Context): PersonDataBase {
+    fun providePersonDataBase(@ApplicationContext appContext: Context): ContactDatabase {
         return Room.databaseBuilder(
             appContext,
-            PersonDataBase::class.java,
+            ContactDatabase::class.java,
             "person.db"
         ).build()
     }
 
     @Provides
-    fun providePersonDao(personDatabase: PersonDataBase): PersonDao {
-        return personDatabase.personDataDAO()
+    fun providePersonDao(contactDatabase: ContactDatabase): ContactDAO {
+        return contactDatabase.personDataDAO()
     }
 }

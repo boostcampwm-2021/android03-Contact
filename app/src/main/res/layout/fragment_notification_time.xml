@@ -12,6 +12,25 @@
         android:layout_height="match_parent"
         tools:context=".ui.onboard.notification.NotificationTimeFragment">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/abl_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tb_notification_time"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <TextView
             android:id="@+id/tv_notification"
             android:layout_width="match_parent"
@@ -45,13 +64,15 @@
             android:text="@string/onboarding_notification_switch"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rs_time_range"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="80dp"
             android:text="@string/onboarding_btn_next"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
