@@ -2,18 +2,22 @@ package com.ivyclub.contact.ui.onboard.contact
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddContactBinding
 import com.ivyclub.contact.util.BaseFragment
+import com.ivyclub.contact.util.SkipDialog
 import com.ivyclub.data.model.PhoneContactData
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,12 +27,23 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     private lateinit var contactAdapter: ContactAdapter
     private lateinit var contactList: MutableList<PhoneContactData>
     private val viewModel: AddContactViewModel by viewModels()
+    private val navController by lazy { findNavController() }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         contactList = mutableListOf()
         initRecyclerView()
         initButtons()
+        initAppBar()
     }
 
     private fun initRecyclerView() {
@@ -96,4 +111,21 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     private fun requestPermission() {
         requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
     }
+
+    private fun initAppBar() {
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.tbAddContact.setupWithNavController(navController,appBarConfiguration)
+        binding.tbAddContact.title = ""
+        binding.tbAddContact.inflateMenu(R.menu.menu_on_boarding)
+        binding.tbAddContact.setOnMenuItemClickListener {
+            if(it.itemId == R.id.skip) {
+                SkipDialog(ok,context).showDialog()
+            }
+            true
+        }
+    }
+    private val ok = DialogInterface.OnClickListener { _, _ ->
+        requireActivity().finish()
+    }
+
 }

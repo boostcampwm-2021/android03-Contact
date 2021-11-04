@@ -12,6 +12,25 @@
         android:layout_height="match_parent"
         tools:context=".ui.onboard.contact.AddContactFragment">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/abl_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tb_add_contact"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:layout_constraintTop_toTopOf="parent">
+
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
         <TextView
             android:id="@+id/tv_introduce"
             android:layout_width="wrap_content"
