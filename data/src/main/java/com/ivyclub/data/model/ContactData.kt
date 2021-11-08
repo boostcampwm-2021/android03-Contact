@@ -16,12 +16,15 @@ data class FriendData(
     val extraInfo: Map<String, String> // 성격
 )
 
+@Entity(tableName = "PlanData")
 data class PlanData(
+    @PrimaryKey
     val id: Long, // 약속 ID, pk
-    val participant: List<String>, // 만나는 사람들(번호)
+    val participant: List<String> = emptyList(), // 만나는 사람들(번호)
     val date: Date, // datetime
-    val title: String, // 제목
-    val content: String, // 내용
+    val title: String = "", // 제목
+    val place: String = "", // 장소
+    val content: String = "", // 내용
     val color: String // 고유색, HexCode
 )
 
