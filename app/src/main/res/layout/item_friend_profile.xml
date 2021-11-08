@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.ivyclub.data.model.FriendData" />
+            type="com.ivyclub.contact.ui.main.friend.FriendListData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
             android:layout_height="64dp"
             android:layout_marginVertical="8dp"
             android:layout_marginStart="12dp"
-            android:contentDescription="Profile Image"
+            android:contentDescription="@string/item_friend_profile_profile_image"
             android:src="@drawable/photo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

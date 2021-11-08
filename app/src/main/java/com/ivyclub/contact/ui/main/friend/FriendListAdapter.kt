@@ -9,15 +9,16 @@ import com.ivyclub.contact.databinding.ItemFriendProfileBinding
 import com.ivyclub.contact.databinding.ItemGroupDividerBinding
 import com.ivyclub.contact.databinding.ItemGroupNameBinding
 import com.ivyclub.contact.util.binding
-import com.ivyclub.data.model.FriendData
 
-class FriendListAdapter :
-    ListAdapter<FriendData, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class FriendListAdapter(
+    private val onGroupClick: () -> Unit
+) :
+    ListAdapter<FriendListData, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             FriendListViewType.GROUP_NAME.ordinal ->
-                GroupNameViewHolder(parent.binding(R.layout.item_group_name))
+                GroupNameViewHolder(parent.binding(R.layout.item_group_name), onGroupClick)
             FriendListViewType.GROUP_DIVIDER.ordinal ->
                 GroupDividerViewHolder(parent.binding(R.layout.item_group_divider))
             else ->
@@ -27,13 +28,16 @@ class FriendListAdapter :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentItem = getItem(position)
-        // pk인 phoneNumber가 비어있으면 group 이름을 띄워준다.
-        if (currentItem.phoneNumber.isEmpty() && currentItem.groupName.isNotEmpty()) {
-            (holder as GroupNameViewHolder).bind(currentItem.groupName)
-        } else if (currentItem.phoneNumber.isEmpty() && currentItem.groupName.isEmpty()) {
-            (holder as GroupDividerViewHolder)
-        } else {
-            (holder as FriendViewHolder).bind(currentItem)
+        when (currentItem.viewType) {
+            FriendListViewType.GROUP_NAME -> {
+                (holder as GroupNameViewHolder).bind(currentItem.groupName)
+            }
+            FriendListViewType.GROUP_DIVIDER -> {
+                (holder as GroupDividerViewHolder)
+            }
+            FriendListViewType.FRIEND -> {
+                (holder as FriendViewHolder).bind(currentItem)
+            }
         }
     }
 
@@ -50,8 +54,13 @@ class FriendListAdapter :
 
     // todo 그룹 접기 리스너 추가
     class GroupNameViewHolder(
-        private val binding: ItemGroupNameBinding
+        private val binding: ItemGroupNameBinding,
+        private val onGroupClick: () -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.ivFolder.setOnClickListener { onGroupClick }
+        }
+
         fun bind(groupName: String) {
             binding.groupName = groupName
         }
@@ -60,34 +69,31 @@ class FriendListAdapter :
     class FriendViewHolder(
         private val binding: ItemFriendProfileBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(friendItemData: FriendData) {
+        fun bind(friendItemData: FriendListData) {
             binding.data = friendItemData
         }
     }
 
     class GroupDividerViewHolder(
-        private val binding: ItemGroupDividerBinding
+        binding: ItemGroupDividerBinding
     ) : RecyclerView.ViewHolder(binding.root)
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FriendData>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FriendListData>() {
             override fun areItemsTheSame(
-                oldItem: FriendData,
-                newItem: FriendData
+                oldItem: FriendListData,
+                newItem: FriendListData
             ): Boolean {
                 return oldItem.phoneNumber == newItem.phoneNumber
             }
 
             override fun areContentsTheSame(
-                oldItem: FriendData,
-                newItem: FriendData
+                oldItem: FriendListData,
+                newItem: FriendListData
             ): Boolean {
                 return oldItem == newItem
             }
         }
     }
 
-    private enum class FriendListViewType {
-        GROUP_NAME, FRIEND, GROUP_DIVIDER
-    }
 }

@@ -17,12 +17,12 @@ class FriendViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var searchInputString = ""
-    private lateinit var originEntireFriendList: List<FriendData>
+    private lateinit var originEntireFriendList: List<FriendListData>
 
     private val _isSearchViewVisible = MutableLiveData(false)
     val isSearchViewVisible: LiveData<Boolean> get() = _isSearchViewVisible
-    private val _friendList = MutableLiveData<List<FriendData>>()
-    val friendList: LiveData<List<FriendData>> get() = _friendList
+    private val _friendList = MutableLiveData<List<FriendListData>>()
+    val friendList: LiveData<List<FriendListData>> get() = _friendList
     private val _isClearButtonVisible = MutableLiveData(false)
     val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
     private val _searchEditTextInputText = MutableLiveData<String>()
@@ -30,8 +30,8 @@ class FriendViewModel @Inject constructor(
 
     fun getFriendData() {
         viewModelScope.launch(Dispatchers.IO) {
-            val loadedPersonData = repository.loadFriends().sortedBy { it.name }.toMutableList()
-            val newFriendList = mutableListOf<FriendData>()
+            val loadedPersonData = repository.loadFriends().sortedBy { it.name }.toFriendListData()
+            val newFriendList = mutableListOf<FriendListData>()
             newFriendList.addAll(loadedPersonData.groupBy { it.groupName }.values.flatten()) // 그룹 별로 사람 추가
             addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
             newFriendList.addAll(loadedPersonData) // 마지막으로 원본 데이터 추가
@@ -71,10 +71,11 @@ class FriendViewModel @Inject constructor(
     }
 
     // 중간에 그룹 뷰 데이터를 넣어주는 함수
-    private fun addGroupViewAt(pureFriendList: MutableList<FriendData>) {
+    private fun addGroupViewAt(pureFriendList: MutableList<FriendListData>) {
         // 첫 그룹 뷰 추가
         pureFriendList.add(0, getGroupData(pureFriendList[0].groupName))
         // 중간 그룹 뷰 추가
+        if (pureFriendList.isEmpty()) return
         for (index in pureFriendList.size - 1 downTo 0) {
             val friendData = pureFriendList[index]
             if (index >= 1) {
@@ -92,15 +93,26 @@ class FriendViewModel @Inject constructor(
 
     // Friend Data를 반환하지만 groupName을 제외한 모든 것이 들어 있지 않는 데이터다.
     // 다시 말해서 Friend Data로 감싸져있지만 실제로는 groupName만 활용한다.
-    private fun getGroupData(groupName: String): FriendData {
-        return FriendData(
-            "", "", "", groupName = groupName, emptyList(), false, emptyMap()
-        )
+    private fun getGroupData(groupName: String): FriendListData {
+        return FriendListData(groupName = groupName, viewType = FriendListViewType.GROUP_NAME)
     }
 
-    private fun getGroupDividerData(): FriendData {
-        return FriendData(
-            "", "", "", "", emptyList(), false, emptyMap()
-        )
+    private fun getGroupDividerData(): FriendListData {
+        return FriendListData(viewType = FriendListViewType.GROUP_DIVIDER)
+    }
+
+    private fun List<FriendData>.toFriendListData(): List<FriendListData> {
+        val convertedFriendList = mutableListOf<FriendListData>()
+        this.forEach {
+            val changedData = FriendListData(
+                phoneNumber = it.phoneNumber,
+                name = it.name,
+                groupName = it.groupName,
+                viewType = FriendListViewType.FRIEND,
+                isVisible = true
+            )
+            convertedFriendList.add(changedData)
+        }
+        return convertedFriendList.toList()
     }
 }

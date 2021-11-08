@@ -26,4 +26,5 @@
     <string name="format_date_day">%d일 %s요일</string>
     <string name="format_friend_count_etc">%s 외 %d명</string>
     <string name="item_group_divider_folder">group folder</string>
+    <string name="item_friend_profile_profile_image">Profile Image</string>
 </resources>

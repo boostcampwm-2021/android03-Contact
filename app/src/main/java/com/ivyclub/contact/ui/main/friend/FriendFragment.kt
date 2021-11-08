@@ -96,7 +96,8 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun initFriendListAdapter() {
-        friendListAdapter = FriendListAdapter()
+        // todo 클릭 리스너 추가
+        friendListAdapter = FriendListAdapter(onGroupClick = {})
         binding.rvFriendList.adapter = friendListAdapter
     }
 
