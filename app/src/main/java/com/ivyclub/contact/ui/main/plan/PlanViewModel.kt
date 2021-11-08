@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ivyclub.contact.ui.plan_list.PlanListItemViewModel
 import com.ivyclub.contact.util.DAY_IN_MILLIS
-import com.ivyclub.data.model.AppointmentData
+import com.ivyclub.data.model.PlanData
 import java.sql.Date
 import java.util.*
 
@@ -26,7 +26,7 @@ class PlanViewModel : ViewModel() {
             val date = Date(startCalendar.timeInMillis + (DAY_IN_MILLIS * 10 * it))
             plans.add(
                 PlanListItemViewModel(
-                    AppointmentData(
+                    PlanData(
                         it.toLong(),
                         participants,
                         date,

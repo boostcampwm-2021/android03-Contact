@@ -1,21 +1,21 @@
 package com.ivyclub.contact.ui.plan_list
 
 import com.ivyclub.contact.util.*
-import com.ivyclub.data.model.AppointmentData
+import com.ivyclub.data.model.PlanData
 import java.sql.Date
 
-data class PlanListItemViewModel(private val appointmentData: AppointmentData) {
-    val id = appointmentData.id
+data class PlanListItemViewModel(private val planData: PlanData) {
+    val id = planData.id
 
-    private val date: Date = appointmentData.date
+    private val date: Date = planData.date
     val dayCount = date.time / DAY_IN_MILLIS
     val planMonth = date.getExactMonth()
     val planYear = date.getExactYear()
     val planDayOfMonth = date.getDayOfMonth()
     val planDayOfWeek = date.getDayOfWeek().korean
 
-    val title: String = appointmentData.title
-    val friendCount = appointmentData.participant.size
-    val friends: List<String> = appointmentData.participant
+    val title: String = planData.title
+    val friendCount = planData.participant.size
+    val friends: List<String> = planData.participant
         .subList(0, 3.coerceAtMost(friendCount))
 }
