@@ -30,7 +30,7 @@ class FriendViewModel @Inject constructor(
     val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
     private val _searchEditTextInputText = MutableLiveData<String>()
     val searchEditTextInputText: LiveData<String> get() = _searchEditTextInputText
-    private val _groupNameValidation = MutableLiveData("")
+    private val _groupNameValidation = MutableLiveData(GroupNameValidation.WRONG_EMPTY.message)
     val groupNameValidation: LiveData<String> get() = _groupNameValidation
     private val _isAddGroupButtonActive = MutableLiveData(false)
     val isAddGroupButtonActive: LiveData<Boolean> = _isAddGroupButtonActive

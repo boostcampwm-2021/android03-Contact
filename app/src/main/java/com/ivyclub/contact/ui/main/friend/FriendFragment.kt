@@ -36,6 +36,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
     private lateinit var friendListAdapter: FriendListAdapter
     private lateinit var dialog: Dialog
+    private val dialogBinding by lazy { DialogFriendBinding.inflate(LayoutInflater.from(context)) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
@@ -69,8 +70,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                         findNavController().navigate(R.id.action_navigation_friend_to_addFriendFragment)
                     }
                     R.id.item_new_group -> {
-                        this@FriendFragment.viewModel.getGroupData()
-                        dialog.show()
+                        showDialog()
                     }
                 }
                 false
@@ -86,7 +86,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun initDialog() {
-        val dialogBinding = DialogFriendBinding.inflate(LayoutInflater.from(requireContext()))
         dialog = Dialog(requireContext())
         dialog.setContentView(dialogBinding.root)
 
@@ -118,6 +117,12 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                 dialog.dismiss()
             }
         }
+    }
+
+    private fun showDialog() {
+        viewModel.getGroupData()
+        dialogBinding.etNewGroupName.text?.clear()
+        dialog.show()
     }
 
     private fun initFriendListAdapter() {
