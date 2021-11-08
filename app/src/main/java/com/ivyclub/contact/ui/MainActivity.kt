@@ -42,7 +42,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun setObserver() {
         viewModel.onBoard.observe(this, {
-            Log.e("check", "=-> $it")
             if (it) {
                 val intent = Intent(this, OnBoardingActivity::class.java)
                 getOnboardingResult.launch(intent)

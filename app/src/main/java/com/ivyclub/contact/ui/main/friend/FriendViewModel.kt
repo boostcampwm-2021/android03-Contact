@@ -30,8 +30,12 @@ class FriendViewModel @Inject constructor(
 
     fun getFriendData() {
         viewModelScope.launch(Dispatchers.IO) {
-            val loadedPersonData = repository.loadFriends()
-            _friendList.postValue(loadedPersonData)
+            val loadedPersonData = repository.loadFriends().sortedBy { it.name }.toMutableList()
+            val newFriendList = mutableListOf<FriendData>()
+            newFriendList.addAll(loadedPersonData.groupBy { it.groupName }.values.flatten()) // 그룹 별로 사람 추가
+            addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
+            newFriendList.addAll(loadedPersonData) // 마지막으로 원본 데이터 추가
+            _friendList.postValue(newFriendList)
             originEntireFriendList = loadedPersonData
         }
     }
@@ -61,8 +65,32 @@ class FriendViewModel @Inject constructor(
         }
     }
 
-    // 검색창이 내려와있고, 텍스트가 입력된 상황이라면 X 버튼을 활성화 한다.
+    // 검색창이 내려와있고, 텍스트가 입력된 상황이라면 X 버튼을 활성화
     private fun setClearButtonVisibility(inputString: String) {
         _isClearButtonVisible.value = _isSearchViewVisible.value == true && inputString.isNotEmpty()
+    }
+
+    // 중간에 그룹 뷰 데이터를 넣어주는 함수
+    private fun addGroupViewAt(pureFriendList: MutableList<FriendData>) {
+        // 첫 그룹 뷰 추가
+        pureFriendList.add(0, getGroupData(pureFriendList[0].groupName))
+        // 중간 그룹 뷰 추가
+        pureFriendList.forEachIndexed { index, friendData ->
+            if (index < pureFriendList.size - 1) {
+                val nextFriendData = pureFriendList[index + 1]
+                // 만약 다음 친구와 서로 다른 그룹에 있다면,
+                // 중간에 그룹 뷰를 추가한다.
+                if (friendData.groupName != nextFriendData.groupName)
+                    pureFriendList.add(index, getGroupData(nextFriendData.groupName))
+            }
+        }
+    }
+
+    // Friend Data를 반환하지만 groupName을 제외한 모든 것이 들어 있지 않는 데이터다.
+    // 다시 말해서 Friend Data로 감싸져있지만 실제로는 groupName만 활용한다.
+    private fun getGroupData(groupName: String): FriendData {
+        return FriendData(
+            "", "", "", groupName = groupName, emptyList(), false, mapOf(Pair("", ""))
+        )
     }
 }
