@@ -40,7 +40,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 //                    .commit()
 //
 //                setNavigation()
-                viewModel.setOnBoardingState(false)
+                viewModel.setShowOnBoardingState(false)
                 recreate()
             }
         }

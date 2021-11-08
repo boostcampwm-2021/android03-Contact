@@ -21,7 +21,11 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context) {
         prefs.edit().putString(startOrEnd,time).apply()
     }
 
-    fun getOnBoardingState(): Boolean {
+    /*
+    true일 경우 앱이 최초로 실행
+    false일 경우 앱이 최초로 실행이 아님
+     */
+    fun getShowOnBoardingState(): Boolean {
         return prefs.getBoolean(FIRST_ON_BOARDING, true)
     }
 
@@ -29,7 +33,7 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context) {
     true일 경우 앱이 최초로 실행
     false일 경우 앱이 최초로 실행이 아님
      */
-    fun setOnBoardingState(state: Boolean) {
+    fun setShowOnBoardingState(state: Boolean) {
         prefs.edit().putBoolean(FIRST_ON_BOARDING, state).apply()
     }
 

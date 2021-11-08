@@ -13,15 +13,18 @@ class MainViewModel @Inject constructor(
     private val repository: ContactRepository
 ): ViewModel() {
 
-    private val _onBoard = MutableLiveData<Boolean>()
-    val onBoard: LiveData<Boolean> get() = _onBoard
+    private val _showOnBoarding = MutableLiveData<Boolean>()
+    val onBoard: LiveData<Boolean> get() = _showOnBoarding
 
     fun checkOnBoarding(){
-        _onBoard.value = repository.getOnBoardingState() != false
+        _showOnBoarding.value = repository.getShowOnBoardingState() != false
     }
 
-    fun setOnBoardingState(state: Boolean) {
-        repository.setOnBoardingState(state)
+    /*
+    OnBoardingActivity 가 실행되어야 하는 여부를 세팅
+     */
+    fun setShowOnBoardingState(state: Boolean) {
+        repository.setShowOnBoardingState(state)
     }
 
 }

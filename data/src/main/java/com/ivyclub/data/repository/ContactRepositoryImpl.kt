@@ -19,12 +19,12 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.insertFriendData(friendData)
     }
 
-    override fun setOnBoardingState(state: Boolean) {
-        myPreference.setOnBoardingState(state)
+    override fun setShowOnBoardingState(state: Boolean) {
+        myPreference.setShowOnBoardingState(state)
     }
 
-    override fun getOnBoardingState(): Boolean {
-        return myPreference.getOnBoardingState()
+    override fun getShowOnBoardingState(): Boolean {
+        return myPreference.getShowOnBoardingState()
     }
 
     override fun setNotificationTime(start: String, end: String) {
