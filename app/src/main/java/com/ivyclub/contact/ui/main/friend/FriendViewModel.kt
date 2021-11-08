@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
+import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,6 +50,12 @@ class FriendViewModel @Inject constructor(
 
     fun removeText() {
         _searchEditTextInputText.value = ""
+    }
+
+    fun saveGroupData(groupName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveNewGroup(GroupData(groupName))
+        }
     }
 
     private fun sortNameWith(inputString: String) {

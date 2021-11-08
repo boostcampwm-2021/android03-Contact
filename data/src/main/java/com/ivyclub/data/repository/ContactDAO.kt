@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivyclub.data.model.FriendData
+import com.ivyclub.data.model.GroupData
 
 @Dao
 interface ContactDAO {
@@ -13,4 +14,7 @@ interface ContactDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFriendData(friendData: FriendData)
+
+    @Insert
+    fun insertGroupData(groupData: GroupData)
 }

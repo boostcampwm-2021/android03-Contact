@@ -90,8 +90,15 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         val layoutParams = dialog.window?.attributes
         layoutParams?.width = ConstraintLayout.LayoutParams.MATCH_PARENT
         layoutParams?.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
-        dialogBinding.btnCancel.setOnClickListener {
-            dialog.dismiss()
+        with(dialogBinding) {
+            btnCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            btnAddNewGroup.setOnClickListener {
+                val groupName = etNewGroupName.text.toString()
+                viewModel.saveGroupData(groupName)
+            }
         }
     }
 
