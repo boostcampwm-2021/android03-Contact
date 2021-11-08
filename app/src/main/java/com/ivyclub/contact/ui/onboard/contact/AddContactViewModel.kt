@@ -1,10 +1,8 @@
 package com.ivyclub.contact.ui.onboard.contact
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.data.ContactRepository
-import com.ivyclub.data.MyPreference
 import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.PhoneContactData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,8 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddContactViewModel @Inject constructor(
-    private val repository: ContactRepository,
-    private val sharedPreferences: MyPreference
+    private val repository: ContactRepository
 ) : ViewModel() {
 
     fun saveFriendsData(data: List<PhoneContactData>) {
@@ -34,10 +31,5 @@ class AddContactViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    fun setOnboardingStateTrue() {
-        sharedPreferences.setOnBoardingState()
-        Log.e("sharePRef", sharedPreferences.getOnBoardingState())
     }
 }
