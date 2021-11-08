@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
@@ -68,6 +69,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                         findNavController().navigate(R.id.action_navigation_friend_to_addFriendFragment)
                     }
                     R.id.item_new_group -> {
+                        this@FriendFragment.viewModel.getGroupData()
                         dialog.show()
                     }
                 }
@@ -87,10 +89,25 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         val dialogBinding = DialogFriendBinding.inflate(LayoutInflater.from(requireContext()))
         dialog = Dialog(requireContext())
         dialog.setContentView(dialogBinding.root)
+
         val layoutParams = dialog.window?.attributes
         layoutParams?.width = ConstraintLayout.LayoutParams.MATCH_PARENT
         layoutParams?.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
+
         with(dialogBinding) {
+            friendViewModel = viewModel
+            lifecycleOwner = this@FriendFragment
+
+            viewModel.isAddGroupButtonActive.observe(viewLifecycleOwner) {
+                btnAddNewGroup.isClickable = it
+            }
+
+            etNewGroupName.doOnTextChanged { text, _, _, _ ->
+                if (text != null) {
+                    viewModel.checkGroupNameValid(text.toString())
+                }
+            }
+
             btnCancel.setOnClickListener {
                 dialog.dismiss()
             }
@@ -98,6 +115,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             btnAddNewGroup.setOnClickListener {
                 val groupName = etNewGroupName.text.toString()
                 viewModel.saveGroupData(groupName)
+                dialog.dismiss()
             }
         }
     }

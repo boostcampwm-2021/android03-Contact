@@ -18,6 +18,10 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.insertFriendData(friendData)
     }
 
+    override fun loadGroups(): List<GroupData> {
+        return contactDAO.getGroups()
+    }
+
     override fun saveNewGroup(groupData: GroupData) {
         contactDAO.insertGroupData(groupData)
     }
