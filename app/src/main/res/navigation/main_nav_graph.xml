@@ -26,12 +26,7 @@
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_navigation_plan_to_planDetailsFragment"
-            app:destination="@id/planDetailsFragment">
-            <argument
-                android:name="planId"
-                app:argType="long"
-                android:defaultValue="0L"/>
-        </action>
+            app:destination="@id/planDetailsFragment"/>
     </fragment>
 
     <fragment
@@ -44,7 +39,12 @@
         android:id="@+id/planDetailsFragment"
         android:name="com.ivyclub.contact.ui.main.plan_details.PlanDetailsFragment"
         android:label="PlanDetailsFragment"
-        tools:layout="@layout/fragment_plan_details"/>
+        tools:layout="@layout/fragment_plan_details">
+        <argument
+            android:name="planId"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
