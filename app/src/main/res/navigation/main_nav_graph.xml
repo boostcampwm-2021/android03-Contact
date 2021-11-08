@@ -24,6 +24,14 @@
         <action
             android:id="@+id/action_navigation_plan_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_navigation_plan_to_planDetailsFragment"
+            app:destination="@id/planDetailsFragment">
+            <argument
+                android:name="planId"
+                app:argType="long"
+                android:defaultValue="0L"/>
+        </action>
     </fragment>
 
     <fragment
@@ -31,6 +39,13 @@
         android:name="com.ivyclub.contact.ui.main.add_friend.AddFriendFragment"
         android:label="AddFriendFragment"
         tools:layout="@layout/fragment_add_friend"/>
+
+    <fragment
+        android:id="@+id/planDetailsFragment"
+        android:name="com.ivyclub.contact.ui.main.plan_details.PlanDetailsFragment"
+        android:label="PlanDetailsFragment"
+        tools:layout="@layout/fragment_plan_details"/>
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.ivyclub.contact.ui.main.settings.SettingsFragment"
