@@ -95,7 +95,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
 
         with(dialogBinding) {
             friendViewModel = viewModel
-            lifecycleOwner = this@FriendFragment
+            lifecycleOwner = viewLifecycleOwner
 
             viewModel.isAddGroupButtonActive.observe(viewLifecycleOwner) {
                 btnAddNewGroup.isClickable = it
