@@ -1,16 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="viewModel"
             type="com.ivyclub.contact.ui.main.plan_details.PlanDetailsViewModel" />
+        <variable
+            name="dateFormat"
+            type="java.text.SimpleDateFormat" />
     </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:overScrollMode="never">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_plan_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:text="@{viewModel.planDetails.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="부캠모임" />
+
+            <TextView
+                android:id="@+id/tv_plan_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                tools:text="2021.10.27 10:00 ~ 2021.10.27 12:00"
+                android:text="@{viewModel.planDetails != null ? dateFormat.format(viewModel.planDetails.date) : @string/format_simple_date}"
+                app:layout_constraintStart_toStartOf="@+id/tv_plan_title"
+                app:layout_constraintEnd_toEndOf="@+id/tv_plan_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_plan_title"/>
+
+            <TextView
+                android:id="@+id/tv_plan_participants"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/plan_who"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_plan_time"/>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cg_plan_participants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:minHeight="48dp"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_plan_participants"
+                app:layout_constraintStart_toStartOf="@+id/tv_plan_participants" />
+
+            <TextView
+                android:id="@+id/tv_plan_where"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/plan_where"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/cg_plan_participants"
+                app:layout_constraintTop_toBottomOf="@id/cg_plan_participants"/>
+
+            <TextView
+                android:id="@+id/tv_plan_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="우리집"
+                android:text="@{viewModel.planDetails.place}"
+                android:lines="1"
+                android:ellipsize="end"
+                app:layout_constraintStart_toStartOf="@id/tv_plan_where"
+                app:layout_constraintTop_toBottomOf="@id/tv_plan_where"/>
+
+            <TextView
+                android:id="@+id/tv_plan_what"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="@string/plan_what"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/tv_plan_place"
+                app:layout_constraintTop_toBottomOf="@id/tv_plan_place"/>
+
+            <TextView
+                android:id="@+id/tv_plan_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:text="띵까띵까 놀기"
+                android:text="@{viewModel.planDetails.content}"
+                android:lines="1"
+                android:ellipsize="end"
+                app:layout_constraintStart_toStartOf="@id/tv_plan_what"
+                app:layout_constraintTop_toBottomOf="@id/tv_plan_what"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
