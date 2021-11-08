@@ -5,6 +5,8 @@ import java.util.*
 
 const val DAY_IN_MILLIS = (1000 * 60 * 60 * 24).toLong()
 
+private val calendar: Calendar by lazy { Calendar.getInstance() }
+
 fun Date.getExactYear(): Int = getCalendar(this).get(Calendar.YEAR)
 
 fun Date.getExactMonth(): Int = getCalendar(this).get(Calendar.MONTH) + 1
@@ -16,8 +18,6 @@ fun Date.getDayOfWeek(): DayOfWeek {
 }
 
 private fun getCalendar(date: Date): Calendar {
-    val calendar = Calendar.getInstance()
     calendar.time = date
-
     return calendar
 }
