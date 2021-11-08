@@ -2,6 +2,7 @@ package com.ivyclub.contact.ui.onboard.contact
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivyclub.contact.util.ContactListManager
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.PhoneContactData
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddContactViewModel @Inject constructor(
-    private val repository: ContactRepository
+    private val repository: ContactRepository,
+    private val contactListManager: ContactListManager
 ) : ViewModel() {
 
     fun saveFriendsData(data: List<PhoneContactData>) {
@@ -31,5 +33,9 @@ class AddContactViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun getContactList(): MutableList<PhoneContactData> {
+        return contactListManager.getContact()
     }
 }

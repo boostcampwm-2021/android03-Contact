@@ -79,31 +79,9 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             rvContactList.startAnimation(recyclerViewAnimation)
             btnLoad.isClickable = false
             btnLoad.text = "시작하기"
-            contactAdapter.submitList(getContact())
+            contactAdapter.submitList(viewModel.getContactList())
             btnCommit.isClickable = true
         }
-    }
-
-    @SuppressLint("Range")
-    fun getContact(): MutableList<PhoneContactData> {
-        val contactList: MutableList<PhoneContactData> = mutableListOf()
-        val contacts = context?.applicationContext?.contentResolver?.query(
-            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            null,
-            null,
-            null,
-            null
-        )
-        while (contacts!!.moveToNext()) {
-            val name =
-                contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-            val number =
-                contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-            val obj = PhoneContactData(name, number)
-            contactList.add(obj)
-        }
-        contacts.close()
-        return contactList
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
