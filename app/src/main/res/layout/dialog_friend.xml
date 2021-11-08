@@ -40,6 +40,7 @@
                 android:id="@+id/et_new_group_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onTextChanged="@{(text, start, before, count) -> friendViewModel.checkGroupNameValid(text.toString())}"
                 android:hint="@string/friend_dialog_new_group_name_hint" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -77,6 +78,7 @@
             android:text="@string/friend_dialog_add"
             android:textColor="@color/green_300"
             android:textSize="16sp"
+            android:clickable="@{friendViewModel.isAddGroupButtonActive}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_duplicate_check" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
@@ -96,16 +95,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         with(dialogBinding) {
             friendViewModel = viewModel
             lifecycleOwner = viewLifecycleOwner
-
-            viewModel.isAddGroupButtonActive.observe(viewLifecycleOwner) {
-                btnAddNewGroup.isClickable = it
-            }
-
-            etNewGroupName.doOnTextChanged { text, _, _, _ ->
-                if (text != null) {
-                    viewModel.checkGroupNameValid(text.toString())
-                }
-            }
 
             btnCancel.setOnClickListener {
                 dialog.dismiss()
