@@ -1,11 +1,14 @@
 package com.ivyclub.data.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.MyPreference
 import com.ivyclub.data.model.FriendData
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@RequiresApi(Build.VERSION_CODES.GINGERBREAD)
 @Singleton
 class ContactRepositoryImpl @Inject constructor(
     private val contactDAO: ContactDAO,
