@@ -15,7 +15,5 @@ data class PlanListItemViewModel(private val planData: PlanData) {
     val planDayOfWeek = date.getDayOfWeek().korean
 
     val title: String = planData.title
-    val friendCount = planData.participant.size
     val friends: List<String> = planData.participant
-        .subList(0, 3.coerceAtMost(friendCount))
 }
