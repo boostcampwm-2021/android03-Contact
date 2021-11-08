@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="groupName"
             type="String" />
@@ -17,10 +18,11 @@
             android:id="@+id/tv_group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:textColor="@color/black"
-            android:textSize="18sp"
+            android:layout_marginHorizontal="12dp"
+            android:paddingVertical="4dp"
             android:text="@{groupName}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,6 +32,7 @@
             android:id="@+id/iv_folder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:contentDescription="@string/item_group_divider_folder"
             android:padding="4dp"
             android:src="@drawable/ic_baseline_keyboard_arrow_down_24"

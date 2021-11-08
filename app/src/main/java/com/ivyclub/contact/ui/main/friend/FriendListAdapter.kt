@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ItemFriendProfileBinding
+import com.ivyclub.contact.databinding.ItemGroupDividerBinding
 import com.ivyclub.contact.databinding.ItemGroupNameBinding
 import com.ivyclub.contact.util.binding
 import com.ivyclub.data.model.FriendData
@@ -15,8 +16,10 @@ class FriendListAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
+            FriendListViewType.GROUP_NAME.ordinal ->
+                GroupNameViewHolder(parent.binding(R.layout.item_group_name))
             FriendListViewType.GROUP_DIVIDER.ordinal ->
-                GroupDividerViewHolder(parent.binding(R.layout.item_group_name))
+                GroupDividerViewHolder(parent.binding(R.layout.item_group_divider))
             else ->
                 FriendViewHolder(parent.binding(R.layout.item_friend_profile))
         }
@@ -25,8 +28,10 @@ class FriendListAdapter :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentItem = getItem(position)
         // pk인 phoneNumber가 비어있으면 group 이름을 띄워준다.
-        if (currentItem.phoneNumber.isEmpty()) {
-            (holder as GroupDividerViewHolder).bind(currentItem.groupName)
+        if (currentItem.phoneNumber.isEmpty() && currentItem.groupName.isNotEmpty()) {
+            (holder as GroupNameViewHolder).bind(currentItem.groupName)
+        } else if (currentItem.phoneNumber.isEmpty() && currentItem.groupName.isEmpty()) {
+            (holder as GroupDividerViewHolder)
         } else {
             (holder as FriendViewHolder).bind(currentItem)
         }
@@ -34,7 +39,9 @@ class FriendListAdapter :
 
     override fun getItemViewType(position: Int): Int {
         val currentItem = getItem(position)
-        return if (currentItem.phoneNumber.isEmpty()) {
+        return if (currentItem.phoneNumber.isEmpty() && currentItem.groupName.isNotEmpty()) {
+            FriendListViewType.GROUP_NAME.ordinal
+        } else if (currentItem.phoneNumber.isEmpty() && currentItem.groupName.isEmpty()) {
             FriendListViewType.GROUP_DIVIDER.ordinal
         } else {
             FriendListViewType.FRIEND.ordinal
@@ -42,7 +49,7 @@ class FriendListAdapter :
     }
 
     // todo 그룹 접기 리스너 추가
-    class GroupDividerViewHolder(
+    class GroupNameViewHolder(
         private val binding: ItemGroupNameBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(groupName: String) {
@@ -57,6 +64,10 @@ class FriendListAdapter :
             binding.data = friendItemData
         }
     }
+
+    class GroupDividerViewHolder(
+        private val binding: ItemGroupDividerBinding
+    ) : RecyclerView.ViewHolder(binding.root)
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FriendData>() {
@@ -77,6 +88,6 @@ class FriendListAdapter :
     }
 
     private enum class FriendListViewType {
-        GROUP_DIVIDER, FRIEND
+        GROUP_NAME, FRIEND, GROUP_DIVIDER
     }
 }

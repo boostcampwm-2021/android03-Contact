@@ -75,22 +75,32 @@ class FriendViewModel @Inject constructor(
         // 첫 그룹 뷰 추가
         pureFriendList.add(0, getGroupData(pureFriendList[0].groupName))
         // 중간 그룹 뷰 추가
-        pureFriendList.forEachIndexed { index, friendData ->
-            if (index < pureFriendList.size - 1) {
-                val nextFriendData = pureFriendList[index + 1]
+        for (index in pureFriendList.size - 1 downTo 0) {
+            val friendData = pureFriendList[index]
+            if (index >= 1) {
+                val nextFriendData = pureFriendList[index - 1]
                 // 만약 다음 친구와 서로 다른 그룹에 있다면,
-                // 중간에 그룹 뷰를 추가한다.
-                if (friendData.groupName != nextFriendData.groupName)
-                    pureFriendList.add(index, getGroupData(nextFriendData.groupName))
+                // 이전 그룹과 분리하기 위해 선을 긋고, 그룹 뷰를 추가한다.
+                if (friendData.groupName != nextFriendData.groupName) {
+                    pureFriendList.add(index, getGroupData(friendData.groupName))
+                    pureFriendList.add(index, getGroupDividerData())
+                }
             }
         }
+        pureFriendList.add(pureFriendList.size, getGroupDividerData())
     }
 
     // Friend Data를 반환하지만 groupName을 제외한 모든 것이 들어 있지 않는 데이터다.
     // 다시 말해서 Friend Data로 감싸져있지만 실제로는 groupName만 활용한다.
     private fun getGroupData(groupName: String): FriendData {
         return FriendData(
-            "", "", "", groupName = groupName, emptyList(), false, mapOf(Pair("", ""))
+            "", "", "", groupName = groupName, emptyList(), false, emptyMap()
+        )
+    }
+
+    private fun getGroupDividerData(): FriendData {
+        return FriendData(
+            "", "", "", "", emptyList(), false, emptyMap()
         )
     }
 }
