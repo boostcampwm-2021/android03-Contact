@@ -7,10 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ItemFriendProfileBinding
 import com.ivyclub.contact.util.binding
-import com.ivyclub.data.model.PersonData
+import com.ivyclub.data.model.FriendData
 
 class FriendListAdapter :
-    ListAdapter<PersonData, FriendListAdapter.FriendViewHolder>(DIFF_CALLBACK) {
+    ListAdapter<FriendData, FriendListAdapter.FriendViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
         return FriendViewHolder(parent.binding(R.layout.item_friend_profile))
@@ -23,23 +23,23 @@ class FriendListAdapter :
     class FriendViewHolder(
         private val binding: ItemFriendProfileBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(friendItemData: PersonData) {
+        fun bind(friendItemData: FriendData) {
             binding.data = friendItemData
         }
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PersonData>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<FriendData>() {
             override fun areItemsTheSame(
-                oldItem: PersonData,
-                newItem: PersonData
+                oldItem: FriendData,
+                newItem: FriendData
             ): Boolean {
                 return oldItem.phoneNumber == newItem.phoneNumber
             }
 
             override fun areContentsTheSame(
-                oldItem: PersonData,
-                newItem: PersonData
+                oldItem: FriendData,
+                newItem: FriendData
             ): Boolean {
                 return oldItem == newItem
             }

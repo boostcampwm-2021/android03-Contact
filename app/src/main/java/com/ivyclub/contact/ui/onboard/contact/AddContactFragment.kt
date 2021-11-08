@@ -59,7 +59,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             requestPermission()
         }
         btnCommit.setOnClickListener {
-            viewModel.savePeople(contactAdapter.addList)
+            viewModel.saveFriendsData(contactAdapter.addList)
             viewModel.setOnboardingStateTrue()
             val intent = Intent(requireActivity(), MainActivity::class.java)
             requireActivity().setResult(RESULT_OK, intent)
@@ -88,7 +88,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     @SuppressLint("Range")
     fun getContact(): MutableList<PhoneContactData> {
         val contactList: MutableList<PhoneContactData> = mutableListOf()
-        val contacts = requireActivity().contentResolver.query(
+        val contacts = context?.applicationContext?.contentResolver?.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
             null,
             null,

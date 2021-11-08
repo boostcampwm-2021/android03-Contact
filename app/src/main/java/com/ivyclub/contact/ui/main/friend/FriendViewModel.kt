@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.data.ContactRepository
-import com.ivyclub.data.model.PersonData
+import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,12 +17,12 @@ class FriendViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var searchInputString = ""
-    private lateinit var originEntireFriendList: List<PersonData>
+    private lateinit var originEntireFriendList: List<FriendData>
 
     private val _isSearchViewVisible = MutableLiveData(false)
     val isSearchViewVisible: LiveData<Boolean> get() = _isSearchViewVisible
-    private val _friendList = MutableLiveData<List<PersonData>>()
-    val friendList: LiveData<List<PersonData>> get() = _friendList
+    private val _friendList = MutableLiveData<List<FriendData>>()
+    val friendList: LiveData<List<FriendData>> get() = _friendList
     private val _isClearButtonVisible = MutableLiveData(false)
     val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
     private val _searchEditTextInputText = MutableLiveData<String>()
@@ -30,7 +30,7 @@ class FriendViewModel @Inject constructor(
 
     fun getFriendData() {
         viewModelScope.launch(Dispatchers.IO) {
-            val loadedPersonData = repository.loadPeople()
+            val loadedPersonData = repository.loadFriends()
             _friendList.postValue(loadedPersonData)
             originEntireFriendList = loadedPersonData
         }

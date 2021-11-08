@@ -1,7 +1,7 @@
 package com.ivyclub.data.repository
 
 import com.ivyclub.data.ContactRepository
-import com.ivyclub.data.model.PersonData
+import com.ivyclub.data.model.FriendData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -9,11 +9,11 @@ import javax.inject.Singleton
 class ContactRepositoryImpl @Inject constructor(
     private val contactDAO: ContactDAO
 ) : ContactRepository {
-    override fun loadPeople(): List<PersonData> {
-        return contactDAO.getAllPerson()
+    override fun loadFriends(): List<FriendData> {
+        return contactDAO.getFriends()
     }
 
-    override fun savePeople(personData: PersonData) {
-        contactDAO.insertPersonData(personData)
+    override fun saveFriend(friendData: FriendData) {
+        contactDAO.insertFriendData(friendData)
     }
 }
