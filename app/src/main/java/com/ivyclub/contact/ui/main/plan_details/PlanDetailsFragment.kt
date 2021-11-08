@@ -2,6 +2,7 @@ package com.ivyclub.contact.ui.main.plan_details
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.ivyclub.contact.R
@@ -25,6 +26,14 @@ class PlanDetailsFragment : BaseFragment<FragmentPlanDetailsBinding>(R.layout.fr
 
         fetchPlanDetails()
         setObservers()
+        setEditPlanButton()
+    }
+
+    private fun setEditPlanButton() {
+        binding.ivBtnEditPlan.setOnClickListener {
+            // TODO: 약속 수정 화면 이동
+            Toast.makeText(requireContext(), "edit plan id : ${args.planId}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setObservers() {
