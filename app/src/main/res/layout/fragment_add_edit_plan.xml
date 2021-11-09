@@ -24,26 +24,41 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/iv_btn_edit_plan"
+                android:id="@+id/iv_btn_edit_plan_finish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:layout_margin="16dp"
-                android:src="@drawable/ic_edit"
+                android:src="@drawable/ic_check"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <TextView
-                android:id="@+id/tv_plan_title"
+            <ImageView
+                android:id="@+id/iv_btn_delete_plan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
-                android:textColor="@color/black"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:padding="4dp"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_delete"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="부캠모임" />
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <EditText
+                android:id="@+id/et_plan_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:hint="@string/hint_plan_title"
+                android:text="@={viewModel.planTitle}"
+                android:inputType="textShortMessage"
+                android:lines="1"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_plan_time"
@@ -52,9 +67,10 @@
                 android:layout_marginTop="8dp"
                 android:textSize="14sp"
                 tools:text="2021.10.27 10:00 ~ 2021.10.27 12:00"
-                app:layout_constraintStart_toStartOf="@+id/tv_plan_title"
-                app:layout_constraintEnd_toEndOf="@+id/tv_plan_title"
-                app:layout_constraintTop_toBottomOf="@+id/tv_plan_title"/>
+                android:text="@{dateFormat.format(viewModel.planTime)}"
+                app:layout_constraintStart_toStartOf="@+id/et_plan_title"
+                app:layout_constraintEnd_toEndOf="@+id/et_plan_title"
+                app:layout_constraintTop_toBottomOf="@+id/et_plan_title"/>
 
             <TextView
                 android:id="@+id/tv_plan_participants"
@@ -68,15 +84,30 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_plan_time"/>
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/cg_plan_participants"
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/fl_plan_participants"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:minHeight="48dp"
                 android:paddingHorizontal="16dp"
+                app:flexWrap="wrap"
+                app:alignItems="stretch"
+                app:alignContent="stretch"
                 app:layout_constraintTop_toBottomOf="@id/tv_plan_participants"
-                app:layout_constraintStart_toStartOf="@+id/tv_plan_participants" />
+                app:layout_constraintStart_toStartOf="@+id/tv_plan_participants">
+
+                <AutoCompleteTextView
+                    android:id="@+id/act_plan_participants"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:inputType="text|textCapWords"
+                    android:textSize="14sp"
+                    android:text="@={viewModel.planParticipantsText}"
+                    app:layout_flexGrow="1"/>
+            </com.google.android.flexbox.FlexboxLayout>
 
             <TextView
                 android:id="@+id/tv_plan_where"
@@ -86,18 +117,20 @@
                 android:text="@string/plan_where"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/cg_plan_participants"
-                app:layout_constraintTop_toBottomOf="@id/cg_plan_participants"/>
+                app:layout_constraintStart_toStartOf="@id/fl_plan_participants"
+                app:layout_constraintTop_toBottomOf="@id/fl_plan_participants"/>
 
-            <TextView
-                android:id="@+id/tv_plan_place"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/et_plan_place"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                tools:text="우리집"
+                android:layout_marginHorizontal="16dp"
+                android:hint="@string/hint_plan_place"
+                android:text="@={viewModel.planPlace}"
+                android:textSize="14sp"
+                android:inputType="textShortMessage"
                 android:lines="1"
-                android:ellipsize="end"
-                app:layout_constraintStart_toStartOf="@id/tv_plan_where"
                 app:layout_constraintTop_toBottomOf="@id/tv_plan_where"/>
 
             <TextView
@@ -108,19 +141,24 @@
                 android:text="@string/plan_what"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/tv_plan_place"
-                app:layout_constraintTop_toBottomOf="@id/tv_plan_place"/>
+                app:layout_constraintStart_toStartOf="@id/et_plan_place"
+                app:layout_constraintTop_toBottomOf="@id/et_plan_place"/>
 
-            <TextView
-                android:id="@+id/tv_plan_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <EditText
+                android:id="@+id/et_plan_description"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginTop="8dp"
-                tools:text="띵까띵까 놀기"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginBottom="32dp"
+                android:hint="@string/hint_plan_content"
+                android:text="@={viewModel.planContent}"
+                android:textSize="14sp"
+                android:gravity="top"
                 android:lines="1"
                 android:ellipsize="end"
-                app:layout_constraintStart_toStartOf="@id/tv_plan_what"
-                app:layout_constraintTop_toBottomOf="@id/tv_plan_what"/>
+                app:layout_constraintTop_toBottomOf="@id/tv_plan_what"
+                app:layout_constraintBottom_toBottomOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
