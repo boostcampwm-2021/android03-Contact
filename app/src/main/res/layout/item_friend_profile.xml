@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="data"
             type="com.ivyclub.contact.ui.main.friend.FriendListData" />

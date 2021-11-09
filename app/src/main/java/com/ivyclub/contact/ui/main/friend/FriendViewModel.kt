@@ -28,13 +28,15 @@ class FriendViewModel @Inject constructor(
     private val _searchEditTextInputText = MutableLiveData<String>()
     val searchEditTextInputText: LiveData<String> get() = _searchEditTextInputText
 
+    private val foldedGroupNameList = mutableListOf<String>()
+
+    // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendData() {
         viewModelScope.launch(Dispatchers.IO) {
             val loadedPersonData = repository.loadFriends().sortedBy { it.name }.toFriendListData()
             val newFriendList = mutableListOf<FriendListData>()
             newFriendList.addAll(loadedPersonData.groupBy { it.groupName }.values.flatten()) // 그룹 별로 사람 추가
             addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
-            newFriendList.addAll(loadedPersonData) // 마지막으로 원본 데이터 추가
             _friendList.postValue(newFriendList)
             originEntireFriendList = loadedPersonData
         }
@@ -53,6 +55,21 @@ class FriendViewModel @Inject constructor(
 
     fun removeText() {
         _searchEditTextInputText.value = ""
+    }
+
+    fun manageGroupFolded(groupName: String) {
+        if (foldedGroupNameList.contains(groupName)) { // 그룹 다시 펼치기
+            foldedGroupNameList.remove(groupName)
+            val groupIndex = getGroupIndex(groupName) ?: return
+            val newList = generateNewList(groupName, groupIndex)
+            _friendList.value = newList
+        } else { // 그룹 접기
+            foldedGroupNameList.add(groupName)
+            val newList =
+                _friendList.value?.filterNot { it.groupName == groupName && it.viewType == FriendListViewType.FRIEND }
+                    ?: emptyList()
+            _friendList.value = newList
+        }
     }
 
     private fun sortNameWith(inputString: String) {
@@ -91,8 +108,6 @@ class FriendViewModel @Inject constructor(
         pureFriendList.add(pureFriendList.size, getGroupDividerData())
     }
 
-    // Friend Data를 반환하지만 groupName을 제외한 모든 것이 들어 있지 않는 데이터다.
-    // 다시 말해서 Friend Data로 감싸져있지만 실제로는 groupName만 활용한다.
     private fun getGroupData(groupName: String): FriendListData {
         return FriendListData(groupName = groupName, viewType = FriendListViewType.GROUP_NAME)
     }
@@ -101,6 +116,7 @@ class FriendViewModel @Inject constructor(
         return FriendListData(viewType = FriendListViewType.GROUP_DIVIDER)
     }
 
+    // 리사이클러 뷰에 맞는 데이터 클래스로 변경
     private fun List<FriendData>.toFriendListData(): List<FriendListData> {
         val convertedFriendList = mutableListOf<FriendListData>()
         this.forEach {
@@ -108,11 +124,28 @@ class FriendViewModel @Inject constructor(
                 phoneNumber = it.phoneNumber,
                 name = it.name,
                 groupName = it.groupName,
-                viewType = FriendListViewType.FRIEND,
-                isVisible = true
+                viewType = FriendListViewType.FRIEND
             )
             convertedFriendList.add(changedData)
         }
         return convertedFriendList.toList()
+    }
+
+    private fun getGroupIndex(groupName: String): Int? {
+        _friendList.value?.forEachIndexed { index, friendListData ->
+            if (friendListData.groupName == groupName && friendListData.viewType == FriendListViewType.GROUP_NAME) {
+                return index + 1
+            }
+        }
+        return null
+    }
+
+    private fun generateNewList(groupName: String, groupIndex: Int): List<FriendListData> {
+        val firstPart = _friendList.value?.subList(0, groupIndex) ?: emptyList()
+        val middlePart =
+            originEntireFriendList.filter { it.groupName == groupName && it.viewType == FriendListViewType.FRIEND }
+        val lastPart =
+            _friendList.value?.subList(groupIndex, _friendList.value?.size ?: 0) ?: emptyList()
+        return firstPart + middlePart + lastPart
     }
 }

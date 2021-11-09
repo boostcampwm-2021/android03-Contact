@@ -11,7 +11,7 @@ import com.ivyclub.contact.databinding.ItemGroupNameBinding
 import com.ivyclub.contact.util.binding
 
 class FriendListAdapter(
-    private val onGroupClick: () -> Unit
+    private val onGroupClick: (String) -> Unit
 ) :
     ListAdapter<FriendListData, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
@@ -29,15 +29,9 @@ class FriendListAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentItem = getItem(position)
         when (currentItem.viewType) {
-            FriendListViewType.GROUP_NAME -> {
-                (holder as GroupNameViewHolder).bind(currentItem.groupName)
-            }
-            FriendListViewType.GROUP_DIVIDER -> {
-                (holder as GroupDividerViewHolder)
-            }
-            FriendListViewType.FRIEND -> {
-                (holder as FriendViewHolder).bind(currentItem)
-            }
+            FriendListViewType.GROUP_NAME -> (holder as GroupNameViewHolder).bind(currentItem.groupName)
+            FriendListViewType.GROUP_DIVIDER -> (holder as GroupDividerViewHolder)
+            FriendListViewType.FRIEND -> (holder as FriendViewHolder).bind(currentItem)
         }
     }
 
@@ -52,17 +46,20 @@ class FriendListAdapter(
         }
     }
 
-    // todo 그룹 접기 리스너 추가
     class GroupNameViewHolder(
         private val binding: ItemGroupNameBinding,
-        private val onGroupClick: () -> Unit
+        private val onGroupClick: (String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+
+        lateinit var groupName: String
+
         init {
-            binding.ivFolder.setOnClickListener { onGroupClick }
+            binding.ivFolder.setOnClickListener { onGroupClick.invoke(groupName) }
         }
 
         fun bind(groupName: String) {
             binding.groupName = groupName
+            this.groupName = groupName
         }
     }
 
