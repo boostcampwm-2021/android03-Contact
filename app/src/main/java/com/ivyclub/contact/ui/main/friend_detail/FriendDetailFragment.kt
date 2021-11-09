@@ -13,22 +13,26 @@ import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.marginTop
+import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.data.model.FriendData
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FriendDetailFragment :
     BaseFragment<FragmentFriendDetailBinding>(R.layout.fragment_friend_detail) {
     val me = FriendData(
-        "010-5642-8963",
-        "정우진",
+        "01054985135",
+        "Kim MinJi",
         "1900.01.01",
         "부캠동기",
         listOf("aa", "bb"),
         false,
         mapOf("나이" to "32", "성격" to "좋음", "MBTI" to "ESTJ")
     )
+    private val viewModel: FriendDetailViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,6 +49,7 @@ class FriendDetailFragment :
             btnFavorite.setOnClickListener {
                 val animation = AnimationUtils.loadAnimation(context,R.anim.star_animation)
                 btnFavorite.startAnimation(animation)
+                viewModel.setFavorite(me.phoneNumber,btnFavorite.isChecked)
             }
         }
     }
