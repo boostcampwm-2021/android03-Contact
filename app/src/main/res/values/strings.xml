@@ -29,7 +29,8 @@
     <string name="plan_what">약속 내용</string>
     <string name="plan_where">어디서</string>
     <string name="plan_who">누구랑</string>
-    <string name="hint_plan_title">약속 제목을 입력하세요</string>
-    <string name="hint_plan_place">약속 장소를 입력해주세요</string>
-    <string name="hint_plan_content">이 약속에서 할 일이나 준비할 것들을 입력해주세요</string>
+    <string name="hint_plan_title">일정 제목을 입력하세요</string>
+    <string name="hint_plan_place">일정 장소를 입력해주세요</string>
+    <string name="hint_plan_content">이 일정에서 할 일이나 준비할 것들을 구체적으로 입력해주세요</string>
+    <string name="hint_plan_participants">일정을 함께 할 사람들을 추가해주세요</string>
 </resources>

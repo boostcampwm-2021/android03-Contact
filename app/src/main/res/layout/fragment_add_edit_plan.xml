@@ -65,12 +65,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textSize="14sp"
-                tools:text="2021.10.27 10:00 ~ 2021.10.27 12:00"
                 android:text="@{dateFormat.format(viewModel.planTime)}"
-                app:layout_constraintStart_toStartOf="@+id/et_plan_title"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/et_plan_title"
-                app:layout_constraintTop_toBottomOf="@+id/et_plan_title"/>
+                app:layout_constraintHorizontal_bias="0.515"
+                app:layout_constraintStart_toStartOf="@+id/et_plan_title"
+                app:layout_constraintTop_toBottomOf="@+id/et_plan_title"
+                tools:text="2021.10.27 10:00 ~ 2021.10.27 12:00" />
 
             <TextView
                 android:id="@+id/tv_plan_participants"
@@ -89,10 +90,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:minHeight="48dp"
                 android:paddingHorizontal="16dp"
                 app:flexWrap="wrap"
-                app:alignItems="stretch"
                 app:alignContent="stretch"
                 app:layout_constraintTop_toBottomOf="@id/tv_plan_participants"
                 app:layout_constraintStart_toStartOf="@+id/tv_plan_participants">
@@ -102,10 +101,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:lines="1"
+                    android:hint="@string/hint_plan_participants"
                     android:inputType="text|textCapWords"
                     android:textSize="14sp"
-                    android:text="@={viewModel.planParticipantsText}"
                     app:layout_flexGrow="1"/>
             </com.google.android.flexbox.FlexboxLayout>
 
