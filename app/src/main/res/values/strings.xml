@@ -29,4 +29,9 @@
     <string name="plan_what">약속 내용</string>
     <string name="plan_where">어디서</string>
     <string name="plan_who">누구랑</string>
+    <string name="friend_detail_name">이름</string>
+    <string name="friend_detail_group">그룹</string>
+    <string name="friend_detail_phone_number">전화번호</string>
+    <string name="friend_detail_see_all">전체 보기</string>
+    <string name="friend_detail_latest_plan">최근 약속</string>
 </resources>
