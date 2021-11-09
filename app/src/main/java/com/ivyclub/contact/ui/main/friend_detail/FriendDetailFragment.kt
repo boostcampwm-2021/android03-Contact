@@ -5,14 +5,10 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.marginTop
 import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
@@ -30,7 +26,7 @@ class FriendDetailFragment :
         "부캠동기",
         listOf("aa", "bb"),
         false,
-        mapOf("나이" to "32", "성격" to "좋음", "MBTI" to "ESTJ")
+        mapOf("나이" to "32", "성격" to "좋음", "MBTI" to "ESTJ", "학벌" to "좋음", "캐미" to "나쁨")
     )
     private val viewModel: FriendDetailViewModel by viewModels()
 
@@ -47,9 +43,9 @@ class FriendDetailFragment :
                 startActivity(intent)
             }
             btnFavorite.setOnClickListener {
-                val animation = AnimationUtils.loadAnimation(context,R.anim.star_animation)
+                val animation = AnimationUtils.loadAnimation(context, R.anim.star_animation)
                 btnFavorite.startAnimation(animation)
-                viewModel.setFavorite(me.phoneNumber,btnFavorite.isChecked)
+                viewModel.setFavorite(me.phoneNumber, btnFavorite.isChecked)
             }
         }
     }
@@ -58,6 +54,7 @@ class FriendDetailFragment :
         binding.tvName.text = me.name
         binding.tvGroup.text = me.groupName
         binding.tvPhoneNum.text = me.phoneNumber
+        binding.btnFavorite.isChecked = me.isFavorite
         for (key in me.extraInfo.keys) {
             binding.llExtraInfo.addView(getTitle(key))
             binding.llExtraInfo.addView(getContent(me.extraInfo[key] ?: ""))

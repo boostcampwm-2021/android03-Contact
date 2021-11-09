@@ -11,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FriendDetailViewModel @Inject constructor(
     private val repository: ContactRepository
-): ViewModel() {
+) : ViewModel() {
 
     fun setFavorite(phoneNumber: String, state: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
