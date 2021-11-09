@@ -3,6 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.ivyclub.contact.ui.main.add_friend.AddFriendViewModel" />
 
     </data>
 
@@ -47,7 +50,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -158,6 +161,7 @@
                     app:layout_constraintTop_toBottomOf="@id/et_phone_number" />
 
                 <EditText
+                    android:id="@+id/et_birthday"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="4dp"
@@ -168,7 +172,27 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/iv_profile_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_birthday" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_extra_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_birthday" />
+
+                <ImageView
+                    android:id="@+id/iv_add_extra_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_baseline_add_24"
+                    android:onClick="@{() -> viewModel.addExtraInfo()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rv_extra_info" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 </layout>
