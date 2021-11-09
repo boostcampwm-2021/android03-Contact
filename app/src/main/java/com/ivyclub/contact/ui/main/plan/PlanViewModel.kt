@@ -21,7 +21,7 @@ class PlanViewModel : ViewModel() {
         val startCalendar = Calendar.getInstance()
         startCalendar.set(Calendar.MONTH, 6)
         startCalendar.set(Calendar.DAY_OF_MONTH, 19)
-        val participants = listOf("홍길동", "철수", "영희")
+        val participants = listOf("홍길동", "철수", "영희", "맹구", "태훈")
         repeat(30) {
             val date = Date(startCalendar.timeInMillis + (DAY_IN_MILLIS * 10 * it))
             plans.add(
@@ -31,8 +31,8 @@ class PlanViewModel : ViewModel() {
                         participants,
                         date,
                         "부캠 나들이",
-                        "ㅋㅋㅋ",
-                        ""
+                        content = "ㅋㅋㅋ",
+                        color = ""
                     )
                 )
             )

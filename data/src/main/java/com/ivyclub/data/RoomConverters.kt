@@ -3,6 +3,7 @@ package com.ivyclub.data
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.sql.Date
 import java.util.*
 
 class RoomConverters {
@@ -20,4 +21,10 @@ class RoomConverters {
         val mapType = object : TypeToken<Map<String?, String?>?>() {}.type
         return Gson().fromJson(value, mapType)
     }
+
+    @TypeConverter
+    fun dateToLong(value: Date) = value.time
+
+    @TypeConverter
+    fun longToDate(value: Long) = Date(value)
 }
