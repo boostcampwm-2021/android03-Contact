@@ -1,7 +1,11 @@
 package com.ivyclub.contact.ui.main.friend
 
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +14,7 @@ import com.ivyclub.contact.databinding.ItemFriendProfileBinding
 import com.ivyclub.contact.databinding.ItemGroupDividerBinding
 import com.ivyclub.contact.databinding.ItemGroupNameBinding
 import com.ivyclub.contact.util.binding
+import com.ivyclub.contact.util.setRotateAnimation
 
 class FriendListAdapter(
     private val onGroupClick: (String) -> Unit
@@ -46,11 +51,15 @@ class FriendListAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         lateinit var groupName: String
+        private var isClicked = false
 
         init {
             binding.ivFolder.setOnClickListener {
                 if (this::groupName.isInitialized) onGroupClick.invoke(groupName)
                 else Log.e("FriendListAdapter", "groupName has not been initialized")
+                if (isClicked) it.setRotateAnimation(180F, 0F)
+                else it.setRotateAnimation(0F, 180F)
+                isClicked = !isClicked
             }
         }
 

@@ -3,6 +3,9 @@ package com.ivyclub.contact.util
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import androidx.annotation.LayoutRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -42,6 +45,22 @@ fun View.changeVisibilityWithDirection(direction: Int, visibility: Int, animatio
         this.parent as ViewGroup,
         transition
     )
+}
+
+fun View.setRotateAnimation(from: Float, to: Float) {
+    val rotate = RotateAnimation(
+        from,
+        to,
+        Animation.RELATIVE_TO_SELF,
+        0.5f,
+        Animation.RELATIVE_TO_SELF,
+        0.5f
+    ).apply {
+        duration = 200
+        interpolator = LinearInterpolator()
+        fillAfter = true
+    }
+    this.startAnimation(rotate)
 }
 
 fun ViewDataBinding.hideKeyboard() {
