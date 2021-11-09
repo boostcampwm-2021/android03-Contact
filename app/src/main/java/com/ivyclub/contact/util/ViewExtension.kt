@@ -21,7 +21,12 @@ fun <T : ViewDataBinding> ViewGroup.binding(
     return DataBindingUtil.inflate(LayoutInflater.from(context), layoutRes, this, attachToParent)
 }
 
-fun View.changeVisibilityWithDirection(direction: Int, visibility: Int, animationTime: Long) {
+fun View.changeVisibilityWithDirection(
+    direction: Int,
+    visibility: Int,
+    animationTime: Long,
+    callback: () -> Unit = {}
+) {
     val transition: Transition = TransitionSet().apply {
         addTransition(Fade())
         addTransition(Slide(direction))
@@ -31,6 +36,7 @@ fun View.changeVisibilityWithDirection(direction: Int, visibility: Int, animatio
             override fun onTransitionStart(transition: Transition) {}
             override fun onTransitionEnd(transition: Transition) {
                 (this@changeVisibilityWithDirection).visibility = visibility
+                callback.invoke()
             }
 
             override fun onTransitionCancel(transition: Transition) {}
@@ -46,6 +52,11 @@ fun View.changeVisibilityWithDirection(direction: Int, visibility: Int, animatio
 
 fun ViewDataBinding.hideKeyboard() {
     ViewCompat.getWindowInsetsController(this.root)?.hide(WindowInsetsCompat.Type.ime())
+}
+
+
+fun ViewDataBinding.showKeyboard() {
+    ViewCompat.getWindowInsetsController(this.root)?.show(WindowInsetsCompat.Type.ime())
 }
 
 fun ChipGroup.setFriendChips(friendList: List<String>, actualCount: Int) {
