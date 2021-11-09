@@ -1,11 +1,14 @@
 package com.ivyclub.contact.util
 
+import android.content.Context
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.children
 import androidx.core.view.isNotEmpty
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -13,6 +16,7 @@ import androidx.transition.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.ivyclub.contact.R
+import kotlin.math.roundToInt
 
 fun <T : ViewDataBinding> ViewGroup.binding(
     @LayoutRes layoutRes: Int,
@@ -72,3 +76,39 @@ fun ChipGroup.setFriendChips(friendList: List<String>, chipCount: Int = friendLi
         }
     }
 }
+
+fun ViewGroup.addChips(names: List<String>, onCloseIconClick: (Int) -> (Unit)) {
+    if (childCount > 1) {
+        children.toList().subList(0, childCount - 1).forEach {
+            removeView(it)
+        }
+    }
+
+    val layoutParams = ViewGroup.MarginLayoutParams(
+        ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+        ViewGroup.MarginLayoutParams.WRAP_CONTENT
+    ).apply {
+        rightMargin = context.dpToPx(4)
+        topMargin = context.dpToPx(4)
+    }
+
+    names.forEachIndexed { index, name ->
+        addView(
+            Chip(context).apply {
+                text = name
+                setChipBackgroundColorResource(R.color.blue_100)
+                setEnsureMinTouchTargetSize(false)
+                chipMinHeight = 8f
+
+                isCloseIconVisible = true
+                setOnCloseIconClickListener {
+                    onCloseIconClick(index)
+                }
+            }, childCount - 1, layoutParams
+        )
+    }
+}
+
+fun Context.dpToPx(dp: Int) =
+    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources.displayMetrics)
+        .roundToInt()
