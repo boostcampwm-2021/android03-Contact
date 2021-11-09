@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +36,22 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
     private lateinit var friendListAdapter: FriendListAdapter
     private lateinit var dialog: Dialog
-    private val dialogBinding by lazy { DialogFriendBinding.inflate(LayoutInflater.from(context)) }
+    private var _dialogBinding: DialogFriendBinding? = null
+    private val dialogBinding get() = _dialogBinding ?: error("dialogBinding이 초기화되지 않았습니다.")
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _dialogBinding = DialogFriendBinding.inflate(LayoutInflater.from(context))
+        with(dialogBinding) {
+            friendViewModel = viewModel
+            lifecycleOwner = viewLifecycleOwner
+        }
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
@@ -96,9 +112,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         layoutParams?.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
 
         with(dialogBinding) {
-            friendViewModel = viewModel
-            lifecycleOwner = viewLifecycleOwner
-
             btnCancel.setOnClickListener {
                 dialog.dismiss()
             }
@@ -151,6 +164,11 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                 binding.rvFriendList.scrollToPosition(0)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _dialogBinding = null
     }
 
     companion object {
