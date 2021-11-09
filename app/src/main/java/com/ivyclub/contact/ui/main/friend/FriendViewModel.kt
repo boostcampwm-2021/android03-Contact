@@ -21,7 +21,6 @@ class FriendViewModel @Inject constructor(
     private var searchInputString = ""
     private lateinit var originEntireFriendList: List<FriendListData>
     private val groups = mutableListOf<String>()
-    private lateinit var originEntireFriendList: List<FriendData>
 
     private val _isSearchViewVisible = MutableLiveData(false)
     val isSearchViewVisible: LiveData<Boolean> get() = _isSearchViewVisible
