@@ -18,14 +18,19 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var getOnboardingResult: ActivityResultLauncher<Intent>
+    private lateinit var getOnBoardingResult: ActivityResultLauncher<Intent>
+    private val tag = MainActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObserver()
         setNavigation()
         viewModel.checkOnBoarding()
-        getOnboardingResult = registerForActivityResult(
+        setOnBoardingResult()
+    }
+
+    private fun setOnBoardingResult() {
+        getOnBoardingResult = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -35,6 +40,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 //                    .commit()
 //
 //                setNavigation()
+                viewModel.setShowOnBoardingState(false)
                 recreate()
             }
         }
@@ -42,10 +48,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun setObserver() {
         viewModel.onBoard.observe(this, {
-            Log.e("check", "=-> $it")
+            Log.e(tag, "=-> $it")
             if (it) {
                 val intent = Intent(this, OnBoardingActivity::class.java)
-                getOnboardingResult.launch(intent)
+                getOnBoardingResult.launch(intent)
             }
         })
     }

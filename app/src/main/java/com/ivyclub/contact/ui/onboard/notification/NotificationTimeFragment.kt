@@ -27,7 +27,7 @@ class NotificationTimeFragment :
 
     private fun initButtons() {
         binding.btnNext.setOnClickListener {
-            viewModel.setNotificationOnOff(binding.swOnOff.isChecked.toString())//binding.swOnOff.isChecked로 판단하기
+            viewModel.setNotificationOnOff(binding.swOnOff.isChecked)//binding.swOnOff.isChecked로 판단하기
             viewModel.setTime(binding.rsTimeRange.values)
             findNavController().navigate(R.id.action_notificationTimeFragment_to_addContactFragment)
         }
@@ -53,6 +53,6 @@ class NotificationTimeFragment :
     }
 
     private val ok = DialogInterface.OnClickListener { _, _ ->
-        requireActivity().finish()
+        activity?.finish()
     }
 }

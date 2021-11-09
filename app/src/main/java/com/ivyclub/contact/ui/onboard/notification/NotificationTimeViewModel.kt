@@ -1,21 +1,20 @@
 package com.ivyclub.contact.ui.onboard.notification
 
 import androidx.lifecycle.ViewModel
-import com.ivyclub.data.MyPreference
+import com.ivyclub.data.ContactRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class NotificationTimeViewModel @Inject constructor(
-    private val myPreferences: MyPreference
+    private val repository: ContactRepository
 ) : ViewModel() {
 
     fun setTime(times: List<Float>) {
-        myPreferences.setStoredTag("start", times[0].toInt().toString())
-        myPreferences.setStoredTag("end", times[1].toInt().toString())
+        repository.setNotificationTime(times[0].toInt().toString(), times[1].toInt().toString())
     }
 
-    fun setNotificationOnOff(onOff: String) {
-        myPreferences.setNotificationOnOff(onOff)
+    fun setNotificationOnOff(state: Boolean) {
+        repository.setNotificationOnOff(state)
     }
 }
