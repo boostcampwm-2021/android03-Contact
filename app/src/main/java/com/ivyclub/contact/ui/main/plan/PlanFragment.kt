@@ -18,8 +18,7 @@ class PlanFragment : BaseFragment<FragmentPlanBinding>(R.layout.fragment_plan) {
 
     private val planListAdapter: PlanListAdapter by lazy {
         PlanListAdapter {
-            // TODO: 약속 상세 화면 이동
-            Toast.makeText(requireContext(), "plan id : $it", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(PlanFragmentDirections.actionNavigationPlanToPlanDetailsFragment(it))
         }
     }
 
