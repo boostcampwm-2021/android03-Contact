@@ -1,5 +1,6 @@
 package com.ivyclub.contact.ui.main.friend
 
+import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -47,7 +48,10 @@ class FriendListAdapter(
         lateinit var groupName: String
 
         init {
-            binding.ivFolder.setOnClickListener { onGroupClick.invoke(groupName) }
+            binding.ivFolder.setOnClickListener {
+                if (this::groupName.isInitialized) onGroupClick.invoke(groupName)
+                else Log.e("FriendListAdapter", "groupName has not been initialized")
+            }
         }
 
         fun bind(groupName: String) {
