@@ -54,22 +54,21 @@ fun ViewDataBinding.hideKeyboard() {
     ViewCompat.getWindowInsetsController(this.root)?.hide(WindowInsetsCompat.Type.ime())
 }
 
-
 fun ViewDataBinding.showKeyboard() {
     ViewCompat.getWindowInsetsController(this.root)?.show(WindowInsetsCompat.Type.ime())
 }
 
-fun ChipGroup.setFriendChips(friendList: List<String>, actualCount: Int) {
+fun ChipGroup.setFriendChips(friendList: List<String>, chipCount: Int = friendList.size) {
     if (isNotEmpty()) removeAllViews()
 
-    friendList.forEachIndexed { index, name ->
+    friendList.subList(0, chipCount.coerceAtMost(friendList.size)).forEachIndexed { index, name ->
         Chip(context).apply {
             text =
-                if (actualCount > 3 && index == 2) {
+                if (friendList.size > chipCount && index == chipCount - 1) {
                     String.format(
                         context.getString(R.string.format_friend_count_etc),
                         name,
-                        actualCount - 3
+                        friendList.size - chipCount
                     )
                 } else {
                     name

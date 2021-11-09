@@ -42,6 +42,7 @@ class ContactAdapter: ListAdapter<PhoneContactData,ContactAdapter.ViewHolder>(di
         fun bind(data: PhoneContactData) {
             binding.tvName.text = data.name
             binding.tvPhoneNum.text = data.phoneNumber
+            binding.cbAdd.isChecked = addList.contains(data)
         }
     }
 
