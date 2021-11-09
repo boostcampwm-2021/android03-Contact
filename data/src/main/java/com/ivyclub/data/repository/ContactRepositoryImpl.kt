@@ -25,6 +25,7 @@ class ContactRepositoryImpl @Inject constructor(
 
     override fun getFriendNameByPhoneNumber(phoneNumber: String): String {
         return contactDAO.getFriendNameByPhoneNumber(phoneNumber)
+    }
     
     override fun loadGroups(): List<GroupData> {
         return contactDAO.getGroups()
