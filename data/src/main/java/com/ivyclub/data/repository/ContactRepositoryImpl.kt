@@ -3,6 +3,7 @@ package com.ivyclub.data.repository
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.PlanData
+import com.ivyclub.data.model.GroupData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,5 +25,12 @@ class ContactRepositoryImpl @Inject constructor(
 
     override fun getFriendNameByPhoneNumber(phoneNumber: String): String {
         return contactDAO.getFriendNameByPhoneNumber(phoneNumber)
+    
+    override fun loadGroups(): List<GroupData> {
+        return contactDAO.getGroups()
+    }
+
+    override fun saveNewGroup(groupData: GroupData) {
+        contactDAO.insertGroupData(groupData)
     }
 }

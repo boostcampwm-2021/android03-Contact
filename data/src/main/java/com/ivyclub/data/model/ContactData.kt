@@ -28,7 +28,9 @@ data class PlanData(
     val color: String // 고유색, HexCode
 )
 
+@Entity(tableName = "GroupData")
 data class GroupData(
+    @PrimaryKey
     val name: String // 이름, pk
 )
 
