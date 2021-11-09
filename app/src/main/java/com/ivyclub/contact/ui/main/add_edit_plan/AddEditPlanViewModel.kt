@@ -79,6 +79,10 @@ class AddEditPlanViewModel @Inject constructor(
         }
     }
 
+    fun setNewDate(newDate: Date) {
+        _planTime.value = newDate
+    }
+
     fun savePlan(planId: Long) {
         val participants = planParticipants.value?.map { it.first }
     }
