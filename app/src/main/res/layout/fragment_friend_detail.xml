@@ -23,28 +23,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/tv_close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="닫기"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <ToggleButton
+                    android:id="@+id/btn_favorite"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="7dp"
                     android:background="@drawable/button_favorite"
                     android:text=""
                     android:textOff=""
                     android:textOn=""
-                    android:layout_marginTop="7dp"
-                    android:layout_marginEnd="7dp"
                     app:layout_constraintEnd_toStartOf="@+id/iv_edit"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,9 +40,9 @@
                     android:id="@+id/iv_edit"
                     android:layout_width="36dp"
                     android:layout_height="36dp"
-                    android:background="@drawable/ic_baseline_pen"
                     android:layout_marginTop="7dp"
                     android:layout_marginEnd="7dp"
+                    android:background="@drawable/ic_baseline_pen"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,13 +51,13 @@
 
             <ImageView
                 android:id="@+id/iv_profile_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/photo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_toolbar"
-                tools:src="@tools:sample/avatars" />
+                app:layout_constraintTop_toBottomOf="@id/cl_toolbar" />
 
             <TextView
                 android:id="@+id/tv_name_text"
@@ -121,7 +109,7 @@
                 android:id="@+id/tv_phone_num_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:text="전화번호"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -133,7 +121,6 @@
                 android:id="@+id/tv_phone_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="128dp"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -143,13 +130,46 @@
 
             <Button
                 android:id="@+id/btn_call"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/ic_baseline_call_24"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tv_phone_num"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_phone_num" />
+
+            <LinearLayout
+                android:id="@+id/ll_extra_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_phone_num" />
+
+            <TextView
+                android:id="@+id/tv_plan_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="최근 약속"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/iv_profile_image"
+                app:layout_constraintTop_toBottomOf="@id/ll_extra_info" />
+
+            <TextView
+                android:id="@+id/tv_see_all_plan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="전체 보기"
+                android:textColor="@android:color/holo_blue_dark"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_plan_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_plan_text" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
