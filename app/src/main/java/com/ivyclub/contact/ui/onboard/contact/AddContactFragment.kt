@@ -3,10 +3,10 @@ package com.ivyclub.contact.ui.onboard.contact
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,51 +60,28 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
         }
         btnCommit.setOnClickListener {
             viewModel.saveFriendsData(contactAdapter.addList)
-            viewModel.setOnboardingStateTrue()
-            val intent = Intent(requireActivity(), MainActivity::class.java)
-            requireActivity().setResult(RESULT_OK, intent)
-            requireActivity().finish()
+            val intent = Intent(context, MainActivity::class.java)
+            activity?.setResult(RESULT_OK, intent)
+            activity?.finish()
         }
         btnCommit.isClickable = false
     }
 
     private fun loadContact() {
         with(binding) {
-            val buttonAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.button_down)
-            val textAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.text_gone)
+            val buttonAnimation = AnimationUtils.loadAnimation(context, R.anim.button_down)
+            val textAnimation = AnimationUtils.loadAnimation(context, R.anim.text_gone)
             val recyclerViewAnimation =
-                AnimationUtils.loadAnimation(requireContext(), R.anim.recyclerview_fade_in)
+                AnimationUtils.loadAnimation(context, R.anim.recyclerview_fade_in)
             btnLoad.startAnimation(buttonAnimation)
             tvIntroduce.startAnimation(textAnimation)
             rvContactList.visibility = View.VISIBLE
             rvContactList.startAnimation(recyclerViewAnimation)
             btnLoad.isClickable = false
             btnLoad.text = "시작하기"
-            contactAdapter.submitList(getContact())
+            contactAdapter.submitList(viewModel.getContactList())
             btnCommit.isClickable = true
         }
-    }
-
-    @SuppressLint("Range")
-    fun getContact(): MutableList<PhoneContactData> {
-        val contactList: MutableList<PhoneContactData> = mutableListOf()
-        val contacts = context?.applicationContext?.contentResolver?.query(
-            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            null,
-            null,
-            null,
-            null
-        )
-        while (contacts!!.moveToNext()) {
-            val name =
-                contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-            val number =
-                contacts.getString(contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-            val obj = PhoneContactData(name, number)
-            contactList.add(obj)
-        }
-        contacts.close()
-        return contactList
     }
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -113,7 +90,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
         if (isGranted) {
             loadContact()
         } else {
-            requireActivity().finish()
+            activity?.finish()
         }
     }
 
@@ -135,7 +112,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     }
 
     private val ok = DialogInterface.OnClickListener { _, _ ->
-        requireActivity().finish()
+        activity?.finish()
     }
 
 }

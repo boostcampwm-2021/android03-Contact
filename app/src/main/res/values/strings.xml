@@ -27,4 +27,8 @@
     <string name="format_friend_count_etc">%s 외 %d명</string>
     <string name="item_group_divider_folder">group folder</string>
     <string name="item_friend_profile_profile_image">Profile Image</string>
+    <string name="format_simple_date">yyyy년 MM월 dd일 HH시 mm분</string>
+    <string name="plan_what">약속 내용</string>
+    <string name="plan_where">어디서</string>
+    <string name="plan_who">누구랑</string>
 </resources>

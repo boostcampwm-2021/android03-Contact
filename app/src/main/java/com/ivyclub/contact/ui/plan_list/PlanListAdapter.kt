@@ -94,7 +94,7 @@ class PlanListAdapter(
 
             with(binding) {
                 viewModel = itemViewModel
-                cgPlanFriends.setFriendChips(itemViewModel.friends, itemViewModel.friendCount)
+                cgPlanFriends.setFriendChips(itemViewModel.friends, 3)
                 llMonthYear.visibility =
                     if (isHeader(adapterPosition)) View.VISIBLE else View.INVISIBLE
             }
