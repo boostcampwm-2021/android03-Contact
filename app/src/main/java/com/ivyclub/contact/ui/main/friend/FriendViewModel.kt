@@ -41,6 +41,7 @@ class FriendViewModel @Inject constructor(
     fun getFriendData() {
         viewModelScope.launch(Dispatchers.IO) {
             val loadedPersonData = repository.loadFriends().sortedBy { it.name }.toFriendListData()
+            if (loadedPersonData.isEmpty()) return@launch
             val newFriendList = mutableListOf<FriendListData>()
             newFriendList.addAll(loadedPersonData.groupBy { it.groupName }.values.flatten()) // 그룹 별로 사람 추가
             addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
