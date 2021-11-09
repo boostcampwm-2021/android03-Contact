@@ -27,4 +27,7 @@ interface ContactDAO {
 
     @Query("UPDATE FriendData SET isFavorite = :state WHERE phoneNumber = :phoneNumber")
     fun setFavorite(phoneNumber: String, state: Boolean)
+
+    @Query("SELECT * FROM PlanData WHERE title = :planTitle LIMIT 1")
+    fun getPlanByTitle(planTitle: String): PlanData
 }

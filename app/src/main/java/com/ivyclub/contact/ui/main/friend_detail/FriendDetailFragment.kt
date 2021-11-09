@@ -9,6 +9,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
@@ -47,6 +48,9 @@ class FriendDetailFragment :
                 btnFavorite.startAnimation(animation)
                 viewModel.setFavorite(me.phoneNumber, btnFavorite.isChecked)
             }
+            ivEdit.setOnClickListener {
+                Toast.makeText(context,"Good",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -59,7 +63,7 @@ class FriendDetailFragment :
             binding.llExtraInfo.addView(getTitle(key))
             binding.llExtraInfo.addView(getContent(me.extraInfo[key] ?: ""))
         }
-
+        bindPlan()
     }
 
     private fun getTitle(text: String): TextView {
@@ -82,7 +86,7 @@ class FriendDetailFragment :
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        layoutParams.setMargins(0, 4, 0, 0)
+        layoutParams.setMargins(0, 16, 0, 0)
         val tv = TextView(context)
         tv.text = text
         tv.setTextColor(Color.BLACK)
@@ -91,4 +95,8 @@ class FriendDetailFragment :
         return tv
     }
 
+    private fun bindPlan() {
+        binding.llPlan1.visibility = View.GONE
+        binding.llPlan2.visibility = View.GONE
+    }
 }

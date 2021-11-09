@@ -41,7 +41,6 @@ class ContactRepositoryImpl @Inject constructor(
         myPreference.setNotificationOnOff(state)
     }
 
-
     override fun getPlanDetailsById(planId: Long): PlanData {
         return contactDAO.getPlanDetailsById(planId)
     }
@@ -60,6 +59,10 @@ class ContactRepositoryImpl @Inject constructor(
 
     override fun setFavorite(phoneNumber: String, state: Boolean) {
         contactDAO.setFavorite(phoneNumber, state)
+    }
+
+    override fun getPlanDetailsByTitle(title: String): PlanData {
+        return contactDAO.getPlanByTitle(title)
     }
 
     companion object {

@@ -16,4 +16,5 @@ interface ContactRepository {
     fun loadGroups(): List<GroupData>
     fun saveNewGroup(groupData: GroupData)
     fun setFavorite(phoneNumber: String, state: Boolean)
+    fun getPlanDetailsByTitle(title: String): PlanData
 }
