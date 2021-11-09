@@ -36,14 +36,7 @@ class FriendListAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        val currentItem = getItem(position)
-        return if (currentItem.phoneNumber.isEmpty() && currentItem.groupName.isNotEmpty()) {
-            FriendListViewType.GROUP_NAME.ordinal
-        } else if (currentItem.phoneNumber.isEmpty() && currentItem.groupName.isEmpty()) {
-            FriendListViewType.GROUP_DIVIDER.ordinal
-        } else {
-            FriendListViewType.FRIEND.ordinal
-        }
+        return getItem(position).viewType.ordinal
     }
 
     class GroupNameViewHolder(
