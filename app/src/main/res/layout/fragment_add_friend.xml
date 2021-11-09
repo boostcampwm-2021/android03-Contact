@@ -112,6 +112,8 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_add_friend_group"
+                    android:popupBackground="@drawable/bg_add_friend_group_pop_up"
                     android:spinnerMode="dropdown"
                     app:layout_constraintBottom_toBottomOf="@id/iv_profile_image"
                     app:layout_constraintEnd_toEndOf="parent"
