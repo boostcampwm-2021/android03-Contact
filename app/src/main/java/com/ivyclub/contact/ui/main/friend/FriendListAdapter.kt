@@ -75,7 +75,7 @@ class FriendListAdapter(
         init {
             binding.ivFolder.setOnClickListener {
                 if (this::groupName.isInitialized) onGroupClick.invoke(groupName)
-                else Log.e("FriendListAdapter", "groupName has not been initialized")
+                else Log.e(this::class.java.simpleName, "groupName has not been initialized")
                 if (isClicked) it.setRotateAnimation(180F, 0F)
                 else it.setRotateAnimation(0F, 180F)
                 isClicked = !isClicked
