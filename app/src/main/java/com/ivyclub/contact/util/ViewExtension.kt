@@ -5,6 +5,9 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import androidx.annotation.LayoutRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -25,7 +28,12 @@ fun <T : ViewDataBinding> ViewGroup.binding(
     return DataBindingUtil.inflate(LayoutInflater.from(context), layoutRes, this, attachToParent)
 }
 
-fun View.changeVisibilityWithDirection(direction: Int, visibility: Int, animationTime: Long) {
+fun View.changeVisibilityWithDirection(
+    direction: Int,
+    visibility: Int,
+    animationTime: Long,
+    callback: () -> Unit = {}
+) {
     val transition: Transition = TransitionSet().apply {
         addTransition(Fade())
         addTransition(Slide(direction))
@@ -35,6 +43,7 @@ fun View.changeVisibilityWithDirection(direction: Int, visibility: Int, animatio
             override fun onTransitionStart(transition: Transition) {}
             override fun onTransitionEnd(transition: Transition) {
                 (this@changeVisibilityWithDirection).visibility = visibility
+                callback.invoke()
             }
 
             override fun onTransitionCancel(transition: Transition) {}
@@ -48,8 +57,28 @@ fun View.changeVisibilityWithDirection(direction: Int, visibility: Int, animatio
     )
 }
 
+fun View.setRotateAnimation(from: Float, to: Float) {
+    val rotate = RotateAnimation(
+        from,
+        to,
+        Animation.RELATIVE_TO_SELF,
+        0.5f,
+        Animation.RELATIVE_TO_SELF,
+        0.5f
+    ).apply {
+        duration = 200
+        interpolator = LinearInterpolator()
+        fillAfter = true
+    }
+    this.startAnimation(rotate)
+}
+
 fun ViewDataBinding.hideKeyboard() {
     ViewCompat.getWindowInsetsController(this.root)?.hide(WindowInsetsCompat.Type.ime())
+}
+
+fun ViewDataBinding.showKeyboard() {
+    ViewCompat.getWindowInsetsController(this.root)?.show(WindowInsetsCompat.Type.ime())
 }
 
 fun ChipGroup.setFriendChips(friendList: List<String>, chipCount: Int = friendList.size) {
