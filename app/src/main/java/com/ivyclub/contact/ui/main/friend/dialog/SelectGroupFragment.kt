@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentSelectGroupDialogBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SelectGroupFragment : DialogFragment() {
 
     private lateinit var binding: FragmentSelectGroupDialogBinding
+    private val viewModel: SelectGroupViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +27,7 @@ class SelectGroupFragment : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_select_group_dialog,
@@ -35,14 +39,10 @@ class SelectGroupFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.lifecycleOwner = viewLifecycleOwner
         initMoveButton()
         initCancelButton()
-        val spinnerAdapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
-            arrayOf("hi", "2", "친구", "동료")
-        ) // todo context 수정
-        binding.spnGroup.adapter = spinnerAdapter
+        observerGroupList()
     }
 
     private fun initMoveButton() {
@@ -56,6 +56,21 @@ class SelectGroupFragment : DialogFragment() {
         binding.tvCancel.setOnClickListener {
             dismiss()
         }
+    }
+
+    private fun observerGroupList() {
+        viewModel.groupNameList.observe(viewLifecycleOwner) { newGroupNameList ->
+            setSpinnerAdapter(newGroupNameList)
+        }
+    }
+
+    private fun setSpinnerAdapter(groupNameList: List<String>) {
+        val spinnerAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            groupNameList
+        )
+        binding.spnGroup.adapter = spinnerAdapter
     }
 
     companion object {
