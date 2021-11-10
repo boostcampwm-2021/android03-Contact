@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditPlanBinding
 import com.ivyclub.contact.util.*
+import com.ivyclub.data.model.SimpleFriendData
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
 import java.text.SimpleDateFormat
@@ -80,13 +81,13 @@ class AddEditPlanFragment :
         }
 
         viewModel.planParticipants.observe(viewLifecycleOwner) {
-            binding.flPlanParticipants.addChips(it.map { pair -> pair.second }) { index ->
+            binding.flPlanParticipants.addChips(it.map { pair -> pair.name }) { index ->
                 viewModel.removeParticipant(index)
             }
         }
     }
 
-    private fun setAutoCompleteAdapter(friendList: List<Pair<String, String>>) {
+    private fun setAutoCompleteAdapter(friendList: List<SimpleFriendData>) {
         if (context == null) return
         val autoCompleteAdapter = FriendAutoCompleteAdapter(requireContext(), friendList)
         with(binding.actPlanParticipants) {

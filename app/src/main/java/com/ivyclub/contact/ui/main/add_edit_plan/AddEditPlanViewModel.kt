@@ -2,6 +2,7 @@ package com.ivyclub.contact.ui.main.add_edit_plan
 
 import androidx.lifecycle.*
 import com.ivyclub.data.ContactRepository
+import com.ivyclub.data.model.SimpleFriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -14,16 +15,16 @@ class AddEditPlanViewModel @Inject constructor(
     private val repository: ContactRepository
 ) : ViewModel() {
     private var planId = -1L
-    private val friendMap = mutableMapOf<String, String>()
-    private val _friendList = MutableLiveData<List<Pair<String, String>>>()
-    val friendList: LiveData<List<Pair<String, String>>> = _friendList
+    private val friendMap = mutableMapOf<Long, SimpleFriendData>()
+    private val _friendList = MutableLiveData<List<SimpleFriendData>>()
+    val friendList: LiveData<List<SimpleFriendData>> = _friendList
 
     private val loadFriendsJob: Job = viewModelScope.launch(Dispatchers.IO) {
-        val friends = repository.loadFriends()
-        friends?.forEach {
-            friendMap[it.phoneNumber] = it.name
+        val myFriends = repository.getSimpleFriendData()
+        myFriends?.forEach {
+            friendMap[it.id] = it
         }
-        _friendList.postValue(friendMap.toList())
+        _friendList.postValue(myFriends)
     }
 
     val planTitle = MutableLiveData<String>()
@@ -31,8 +32,8 @@ class AddEditPlanViewModel @Inject constructor(
     private val _planTime = MutableLiveData(Date(System.currentTimeMillis()))
     val planTime: LiveData<Date> = _planTime
 
-    private val _planParticipants = MutableLiveData<List<Pair<String, String>>>(emptyList())
-    val planParticipants: LiveData<List<Pair<String, String>>> = _planParticipants
+    private val _planParticipants = MutableLiveData<List<SimpleFriendData>>(emptyList())
+    val planParticipants: LiveData<List<SimpleFriendData>> = _planParticipants
 
     val planPlace = MutableLiveData<String>()
     val planContent = MutableLiveData<String>()
@@ -53,19 +54,19 @@ class AddEditPlanViewModel @Inject constructor(
                 planContent.postValue(it.content)
 
                 loadFriendsJob.join()
-                val names = mutableListOf<Pair<String, String>>()
+                val friendsOnPlan = mutableListOf<SimpleFriendData>()
                 it.participant.forEach { phoneNumber ->
-                    //friendMap[phoneNumber]?.let { name -> names.add(Pair(phoneNumber, name)) }
+                    friendMap[phoneNumber]?.let { friendInfo -> friendsOnPlan.add(friendInfo) }
                 }
-                _planParticipants.postValue(names)
+                _planParticipants.postValue(friendsOnPlan)
             }
         }
     }
 
-    fun addParticipant(participantInfo: Pair<String, String>) {
+    fun addParticipant(participantData: SimpleFriendData) {
         val participants = planParticipants.value?.toMutableList()
         participants?.let {
-            it.add(participantInfo)
+            it.add(participantData)
             _planParticipants.value = it
         }
     }
@@ -83,6 +84,6 @@ class AddEditPlanViewModel @Inject constructor(
     }
 
     fun savePlan(planId: Long) {
-        val participants = planParticipants.value?.map { it.first }
+        val participants = planParticipants.value?.map { it.id }
     }
 }
