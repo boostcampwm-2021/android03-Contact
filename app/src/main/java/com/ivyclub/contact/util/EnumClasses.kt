@@ -23,3 +23,7 @@ enum class DayOfWeek(val value: Int) : KoreanTranslatable {
 interface KoreanTranslatable {
     val korean: String
 }
+
+enum class FriendListViewType {
+    GROUP_NAME, FRIEND, GROUP_DIVIDER
+}
