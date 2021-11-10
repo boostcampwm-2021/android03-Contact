@@ -1,10 +1,7 @@
 package com.ivyclub.data.repository
 
 import androidx.room.*
-import com.ivyclub.data.model.FriendData
-import com.ivyclub.data.model.GroupData
-import com.ivyclub.data.model.PlanData
-import com.ivyclub.data.model.SimpleFriendData
+import com.ivyclub.data.model.*
 
 @Dao
 interface ContactDAO {
@@ -13,6 +10,9 @@ interface ContactDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFriendData(friendData: FriendData)
+
+    @Query("SELECT id, title, date, participant FROM PlanData")
+    fun getPlanList(): List<SimplePlanData>
 
     @Query("SELECT * FROM PlanData WHERE id = :planId")
     fun getPlanDetailsById(planId: Long): PlanData

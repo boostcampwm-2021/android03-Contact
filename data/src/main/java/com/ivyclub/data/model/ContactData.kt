@@ -40,3 +40,10 @@ data class SimpleFriendData(
     val name: String,
     val phoneNumber: String
 )
+
+data class SimplePlanData(
+    val id: Long,
+    val title: String,
+    val date: Date,
+    val participant: List<Long>
+)

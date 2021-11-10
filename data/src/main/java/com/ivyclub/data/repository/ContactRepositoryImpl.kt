@@ -4,10 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.MyPreference
-import com.ivyclub.data.model.FriendData
-import com.ivyclub.data.model.GroupData
-import com.ivyclub.data.model.PlanData
-import com.ivyclub.data.model.SimpleFriendData
+import com.ivyclub.data.model.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,6 +37,10 @@ class ContactRepositoryImpl @Inject constructor(
 
     override fun setNotificationOnOff(state: Boolean) {
         myPreference.setNotificationOnOff(state)
+    }
+
+    override fun getPlanList(): List<SimplePlanData> {
+        return contactDAO.getPlanList()
     }
 
     override fun getPlanDataById(planId: Long): PlanData {
