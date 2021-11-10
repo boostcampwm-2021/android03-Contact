@@ -18,7 +18,14 @@ class AddFriendViewModel @Inject constructor(val repository: ContactRepository) 
     val groups: LiveData<List<String>> get() = _groups
     private val _extraInfos = MutableLiveData<List<FriendExtraInfoData>>()
     val extraInfos: LiveData<List<FriendExtraInfoData>> get() = _extraInfos
+    private val _isPhoneNumberEmpty = MutableLiveData(false)
+    val isPhoneNumberEmpty: LiveData<Boolean> get() = _isPhoneNumberEmpty
+    private val _isNameEmpty = MutableLiveData(false)
+    val isNameEmpty: LiveData<Boolean> get() = _isNameEmpty
+    private val _canSaveNewFriend = MutableLiveData<Boolean>()
+    val canSaveNewFriend: LiveData<Boolean> get() = _canSaveNewFriend
     private val extraInfoList = mutableListOf<FriendExtraInfoData>()
+
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -56,6 +63,18 @@ class AddFriendViewModel @Inject constructor(val repository: ContactRepository) 
                 )
             )
         }
+    }
+
+    fun checkRequiredNotEmpty(
+        phoneNumber: String,
+        name: String
+    ) {
+        val isPhoneNumberEmpty = phoneNumber.trim().isEmpty()
+        val isNameEmpty = name.trim().isEmpty()
+
+        _isPhoneNumberEmpty.value = isPhoneNumberEmpty
+        _isNameEmpty.value = isNameEmpty
+        _canSaveNewFriend.value = !(isPhoneNumberEmpty || isNameEmpty)
     }
 
     companion object {

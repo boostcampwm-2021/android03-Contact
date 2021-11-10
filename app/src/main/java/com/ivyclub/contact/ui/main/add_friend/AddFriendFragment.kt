@@ -22,6 +22,7 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
         binding.fragment = this
         observeGroups()
         observeExtraInfos()
+        observeRequiredState()
         initClickListener()
     }
 
@@ -32,14 +33,27 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
             }
 
             ivSaveIcon.setOnClickListener {
-                this@AddFriendFragment.viewModel.saveNewFriend(
+                this@AddFriendFragment.viewModel.checkRequiredNotEmpty(
                     etPhoneNumber.text.toString(),
-                    etName.text.toString(),
-                    etBirthday.text.toString(),
-                    spnGroup.selectedItem.toString(),
-                    extraInfoListAdapter.currentList
+                    etName.text.toString()
                 )
-                findNavController().popBackStack()
+            }
+        }
+    }
+
+    private fun observeRequiredState() {
+        viewModel.canSaveNewFriend.observe(viewLifecycleOwner) {
+            if (it) {
+                with(binding) {
+                    this@AddFriendFragment.viewModel.saveNewFriend(
+                        etPhoneNumber.text.toString(),
+                        etName.text.toString(),
+                        etBirthday.text.toString(),
+                        spnGroup.selectedItem.toString(),
+                        extraInfoListAdapter.currentList
+                    )
+                    findNavController().popBackStack()
+                }
             }
         }
     }
