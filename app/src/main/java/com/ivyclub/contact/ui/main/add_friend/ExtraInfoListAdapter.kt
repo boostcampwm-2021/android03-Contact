@@ -19,7 +19,7 @@ class ExtraInfoListAdapter :
         holder.bind(getItem(position))
     }
 
-    inner class ExtraInfoViewHolder(val binding: ItemAddFriendExtraInfoBinding) :
+    class ExtraInfoViewHolder(private val binding: ItemAddFriendExtraInfoBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(extraInfo: FriendExtraInfoData) {
             binding.etExtraInfoTitle.setText(extraInfo.title)
@@ -28,7 +28,7 @@ class ExtraInfoListAdapter :
     }
 
     companion object {
-        val DIFF_UTIL = object : DiffUtil.ItemCallback<FriendExtraInfoData>() {
+        private val DIFF_UTIL = object : DiffUtil.ItemCallback<FriendExtraInfoData>() {
             override fun areItemsTheSame(
                 oldItem: FriendExtraInfoData,
                 newItem: FriendExtraInfoData

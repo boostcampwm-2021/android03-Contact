@@ -13,14 +13,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragment_add_friend) {
 
     private val viewModel: AddFriendViewModel by viewModels()
-    lateinit var extraInfoListAdapter: ExtraInfoListAdapter
+    val extraInfoListAdapter = ExtraInfoListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+        binding.fragment = this
         observeGroups()
         observeExtraInfos()
-        initExtraInfoListAdapter()
     }
 
     private fun observeGroups() {
@@ -33,11 +33,6 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
         viewModel.extraInfos.observe(viewLifecycleOwner) {
             extraInfoListAdapter.submitList(it.toMutableList())
         }
-    }
-
-    private fun initExtraInfoListAdapter() {
-        extraInfoListAdapter = ExtraInfoListAdapter()
-        binding.rvExtraInfo.adapter = extraInfoListAdapter
     }
 
     private fun initSpinnerAdapter(groups: List<String>) {

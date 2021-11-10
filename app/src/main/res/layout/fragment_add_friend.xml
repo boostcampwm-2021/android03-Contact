@@ -6,6 +6,9 @@
         <variable
             name="viewModel"
             type="com.ivyclub.contact.ui.main.add_friend.AddFriendViewModel" />
+        <variable
+            name="fragment"
+            type="com.ivyclub.contact.ui.main.add_friend.AddFriendFragment" />
 
     </data>
 
@@ -177,6 +180,7 @@
                     android:id="@+id/rv_extra_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:adapter="@{fragment.extraInfoListAdapter}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

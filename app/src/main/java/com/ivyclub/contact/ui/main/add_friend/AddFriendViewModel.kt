@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddFriendViewModel @Inject constructor(val repository: ContactRepository) : ViewModel() {
+class AddFriendViewModel @Inject constructor(private val repository: ContactRepository) : ViewModel() {
 
     private val _groups = MutableLiveData<List<String>>()
     val groups: LiveData<List<String>> get() = _groups
