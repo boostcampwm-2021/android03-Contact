@@ -78,17 +78,29 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         ivAddFriendIcon.setOnClickListener {
             val popupMenu = PopupMenu(requireContext(), it)
             val menuInflater = popupMenu.menuInflater
-            menuInflater.inflate(R.menu.menu_friend_and_group, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.item_new_friend -> {
-                        findNavController().navigate(R.id.action_navigation_friend_to_addFriendFragment)
+            if (friendListAdapter.isOneOfItemLongClicked()) {
+                menuInflater.inflate(R.menu.menu_set_friends_at_friendlist, popupMenu.menu)
+                popupMenu.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.item_move_friends_to -> {
+
+                        }
                     }
-                    R.id.item_new_group -> {
-                        showDialog()
-                    }
+                    false
                 }
-                false
+            } else {
+                menuInflater.inflate(R.menu.menu_friend_and_group, popupMenu.menu)
+                popupMenu.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.item_new_friend -> {
+                            findNavController().navigate(R.id.action_navigation_friend_to_addFriendFragment)
+                        }
+                        R.id.item_new_group -> {
+                            showDialog()
+                        }
+                    }
+                    false
+                }
             }
             popupMenu.show()
         }

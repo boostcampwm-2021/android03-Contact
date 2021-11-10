@@ -35,5 +35,5 @@ interface ContactDAO {
     fun getPlanByTitle(planTitle: String): PlanData
 
     @Query("UPDATE FriendData SET groupName = :groupName WHERE id = :friendId")
-    fun updateFriendGroup(friendId: Long, groupName: String): PlanData
+    fun updateFriendGroup(friendId: Long, groupName: String)
 }

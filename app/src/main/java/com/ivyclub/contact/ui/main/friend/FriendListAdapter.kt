@@ -60,7 +60,7 @@ class FriendListAdapter(
     }
 
     // 아이템 중 하나라도 클릭 된 것이 있는지 확인하는 함수
-    private fun isOneOfItemLongClicked(): Boolean {
+    fun isOneOfItemLongClicked(): Boolean {
         return longClickedItemCount != 0
     }
 
