@@ -48,7 +48,9 @@ class AddFriendViewModel @Inject constructor(val repository: ContactRepository) 
     ) {
         val extraInfoMap = mutableMapOf<String, String>()
         extraInfo.forEach {
-            extraInfoMap[it.title] = it.value
+            if (it.title.isNotEmpty() || it.value.isNotEmpty()) {
+                extraInfoMap[it.title] = it.value
+            }
         }
         viewModelScope.launch(Dispatchers.IO) {
             repository.saveFriend(
