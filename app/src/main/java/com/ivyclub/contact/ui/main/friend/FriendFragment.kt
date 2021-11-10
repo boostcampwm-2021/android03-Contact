@@ -2,6 +2,7 @@ package com.ivyclub.contact.ui.main.friend
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -131,7 +132,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun initFriendListAdapter() {
-        friendListAdapter = FriendListAdapter()
+        friendListAdapter = FriendListAdapter(onGroupClick = viewModel::manageGroupFolded)
         binding.rvFriendList.adapter = friendListAdapter
     }
 
@@ -160,9 +161,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     private fun observeFriendList() {
         viewModel.friendList.observe(viewLifecycleOwner) { newFriendList ->
             // 새로운 리스트로 리사이클러뷰 갱신
-            friendListAdapter.submitList(newFriendList) {
-                binding.rvFriendList.scrollToPosition(0)
-            }
+            friendListAdapter.submitList(newFriendList)
         }
     }
 

@@ -48,7 +48,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     private fun setObserver() {
         viewModel.onBoard.observe(this, {
-            Log.e(tag, "=-> $it")
             if (it) {
                 val intent = Intent(this, OnBoardingActivity::class.java)
                 getOnBoardingResult.launch(intent)
