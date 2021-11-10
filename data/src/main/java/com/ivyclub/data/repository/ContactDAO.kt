@@ -11,7 +11,7 @@ interface ContactDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFriendData(friendData: FriendData)
 
-    @Query("SELECT id, title, date, participant FROM PlanData")
+    @Query("SELECT id, title, date, participant FROM PlanData ORDER BY date ASC")
     fun getPlanList(): List<SimplePlanData>
 
     @Query("SELECT * FROM PlanData WHERE id = :planId")
