@@ -64,6 +64,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         observeSearchViewVisibility()
         observeFriendList()
         viewModel.getFriendData()
+        getGroupSelectFragmentResult()
     }
 
     override fun onDetach() {
@@ -80,7 +81,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             val popupMenu = PopupMenu(requireContext(), it)
             val menuInflater = popupMenu.menuInflater
             if (friendListAdapter.isOneOfItemLongClicked()) {
-
                 menuInflater.inflate(R.menu.menu_set_friends_at_friendlist, popupMenu.menu)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
@@ -197,6 +197,13 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                 friendId
             )
         )
+    }
+
+    private fun getGroupSelectFragmentResult() {
+        childFragmentManager.setFragmentResultListener("requestKey", this) { key, bundle ->
+            val result = bundle.getString("bundleKey")
+            viewModel.updateFriendsGroup(result)
+        }
     }
 
     override fun onDestroyView() {

@@ -120,6 +120,13 @@ class FriendViewModel @Inject constructor(
         }
     }
 
+    fun updateFriendsGroup(groupName: String?) {
+        if (groupName == null) return
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateGroupOf(longClickedId, groupName)
+        }
+    }
+
     private fun setAddGroupButtonActive(isActive: Boolean) {
         _isAddGroupButtonActive.value = isActive
     }
@@ -201,5 +208,4 @@ class FriendViewModel @Inject constructor(
             _friendList.value?.subList(groupIndex, _friendList.value?.size ?: 0) ?: emptyList()
         return firstPart + middlePart + lastPart
     }
-
 }

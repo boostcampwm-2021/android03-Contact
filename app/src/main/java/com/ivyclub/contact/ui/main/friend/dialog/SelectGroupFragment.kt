@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentSelectGroupDialogBinding
@@ -47,7 +49,8 @@ class SelectGroupFragment : DialogFragment() {
 
     private fun initMoveButton() {
         binding.tvMove.setOnClickListener {
-            // todo 실제로 그룹 옮기는 것 구현
+            val result = binding.spnGroup.selectedItem.toString()
+            setFragmentResult("requestKey", bundleOf("bundleKey" to result))
             dismiss()
         }
     }
