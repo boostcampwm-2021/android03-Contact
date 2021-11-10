@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddFriendBinding
 import com.ivyclub.contact.util.BaseFragment
@@ -21,6 +22,26 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
         binding.fragment = this
         observeGroups()
         observeExtraInfos()
+        initClickListener()
+    }
+
+    private fun initClickListener() {
+        with(binding) {
+            ivBackIcon.setOnClickListener {
+                findNavController().popBackStack()
+            }
+
+            ivSaveIcon.setOnClickListener {
+                this@AddFriendFragment.viewModel.saveNewFriend(
+                    etPhoneNumber.text.toString(),
+                    etName.text.toString(),
+                    etBirthday.text.toString(),
+                    spnGroup.selectedItem.toString(),
+                    extraInfoListAdapter.currentList
+                )
+                findNavController().popBackStack()
+            }
+        }
     }
 
     private fun observeGroups() {
