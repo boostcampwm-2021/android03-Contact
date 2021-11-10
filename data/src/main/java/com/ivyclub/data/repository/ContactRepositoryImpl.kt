@@ -57,16 +57,20 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.insertGroupData(groupData)
     }
 
-    override fun setFavorite(phoneNumber: String, state: Boolean) {
-        contactDAO.setFavorite(phoneNumber, state)
+    override fun setFavorite(id: Long, state: Boolean) {
+        contactDAO.setFavorite(id, state)
     }
 
     override fun getPlanDetailsByTitle(title: String): PlanData {
         return contactDAO.getPlanByTitle(title)
     }
 
+    override fun getFriendDataById(id: Long): FriendData {
+        return contactDAO.getFriendDataById(id)
+    }
+
     companion object {
-        const val NOTIFICATION_START = "NOTIFICATION_START"
-        const val NOTIFICATION_END = "NOTIFICATION_END"
+        private const val NOTIFICATION_START = "NOTIFICATION_START"
+        private const val NOTIFICATION_END = "NOTIFICATION_END"
     }
 }

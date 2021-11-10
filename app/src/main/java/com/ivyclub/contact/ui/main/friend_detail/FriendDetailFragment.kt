@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
 import com.ivyclub.contact.util.BaseFragment
@@ -33,35 +34,55 @@ class FriendDetailFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initDetails()
-        initButtons()
+        setObserver()
+        loadFriendDetail(1)
+        initButtons(1)
+        arguments?.getLong("id")?.let {
+            loadFriendDetail(it)
+            initButtons(it)
+        }
     }
 
-    private fun initButtons() {
+    private fun loadFriendDetail(id: Long) {
+        viewModel.loadFriendData(id)
+    }
+
+    private fun setObserver() {
+        viewModel.friendData.observe(this, {
+            initDetails(it)
+        })
+    }
+
+    private fun initButtons(id: Long) {
         with(binding) {
-            btnCall.setOnClickListener {
-                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${me.phoneNumber}"))
-                startActivity(intent)
-            }
             btnFavorite.setOnClickListener {
                 val animation = AnimationUtils.loadAnimation(context, R.anim.star_animation)
                 btnFavorite.startAnimation(animation)
-                viewModel.setFavorite(me.phoneNumber, btnFavorite.isChecked)
+                viewModel.setFavorite(id, btnFavorite.isChecked)
             }
             ivEdit.setOnClickListener {
                 Toast.makeText(context,"Good",Toast.LENGTH_SHORT).show()
             }
+            ivBackIcon.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 
-    private fun initDetails() {
-        binding.tvName.text = me.name
-        binding.tvGroup.text = me.groupName
-        binding.tvPhoneNum.text = me.phoneNumber
-        binding.btnFavorite.isChecked = me.isFavorite
-        for (key in me.extraInfo.keys) {
-            binding.llExtraInfo.addView(getTitle(key))
-            binding.llExtraInfo.addView(getContent(me.extraInfo[key] ?: ""))
+    private fun initDetails(friend: FriendData) {
+        with(binding) {
+            tvName.text = friend.name
+            tvGroup.text = friend.groupName
+            tvPhoneNum.text = friend.phoneNumber
+            btnFavorite.isChecked = friend.isFavorite
+            for (key in friend.extraInfo.keys) {
+                llExtraInfo.addView(getTitle(key))
+                llExtraInfo.addView(getContent(friend.extraInfo[key] ?: ""))
+            }
+            btnCall.setOnClickListener {
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${friend.phoneNumber}"))
+                startActivity(intent)
+            }
         }
         bindPlan()
     }

@@ -18,16 +18,19 @@ interface ContactDAO {
 
     @Query("SELECT name FROM FriendData WHERE phoneNumber = :phoneNumber")
     fun getFriendNameByPhoneNumber(phoneNumber: String): String
-  
+
     @Query("SELECT * FROM GroupData")
     fun getGroups(): List<GroupData>
 
     @Insert
     fun insertGroupData(groupData: GroupData)
 
-    @Query("UPDATE FriendData SET isFavorite = :state WHERE phoneNumber = :phoneNumber")
-    fun setFavorite(phoneNumber: String, state: Boolean)
+    @Query("UPDATE FriendData SET isFavorite = :state WHERE id = :id")
+    fun setFavorite(id: Long, state: Boolean)
 
     @Query("SELECT * FROM PlanData WHERE title = :planTitle LIMIT 1")
     fun getPlanByTitle(planTitle: String): PlanData
+
+    @Query("SELECT * FROM FriendData WHERE id = :id LIMIT 1")
+    fun getFriendDataById(id: Long): FriendData
 }
