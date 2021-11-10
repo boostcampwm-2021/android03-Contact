@@ -133,7 +133,8 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     private fun initFriendListAdapter() {
         friendListAdapter = FriendListAdapter(
             onGroupClick = viewModel::manageGroupFolded,
-            onFriendClick = this::navigateToFriendDetailFragment
+            onFriendClick = this::navigateToFriendDetailFragment,
+            onFriendLongClick = viewModel::setLongClickedId
         )
         binding.rvFriendList.adapter = friendListAdapter
     }

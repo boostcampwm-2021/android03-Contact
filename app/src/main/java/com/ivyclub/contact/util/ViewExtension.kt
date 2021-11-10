@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
@@ -136,6 +138,10 @@ fun ViewGroup.addChips(names: List<String>, onCloseIconClick: (Int) -> (Unit)) {
             }, childCount - 1, layoutParams
         )
     }
+}
+
+fun View.setCustomBackgroundColor(@ColorRes color: Int) {
+    this.setBackgroundColor(ContextCompat.getColor(this.context, color))
 }
 
 fun Context.dpToPx(dp: Int) =

@@ -38,6 +38,7 @@ class FriendViewModel @Inject constructor(
     val isAddGroupButtonActive: LiveData<Boolean> = _isAddGroupButtonActive
 
     private val foldedGroupNameList = mutableListOf<String>()
+    private val longClickedId = mutableListOf<Long>()
 
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendData() {
@@ -106,6 +107,16 @@ class FriendViewModel @Inject constructor(
         } else {
             _groupNameValidation.value = GroupNameValidation.CORRECT.message
             setAddGroupButtonActive(true)
+        }
+    }
+
+    // 클릭이 되었으면 true, 해제되었으면 false로 넘어온다.
+    // isAdd가 true면 삽입, false면 제거
+    fun setLongClickedId(isAdd: Boolean, friendId: Long) {
+        if (isAdd) {
+            longClickedId.add(friendId)
+        } else {
+            longClickedId.remove(friendId)
         }
     }
 
@@ -190,4 +201,5 @@ class FriendViewModel @Inject constructor(
             _friendList.value?.subList(groupIndex, _friendList.value?.size ?: 0) ?: emptyList()
         return firstPart + middlePart + lastPart
     }
+
 }
