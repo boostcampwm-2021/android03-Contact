@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddFriendBinding
 import com.ivyclub.contact.util.BaseFragment
@@ -15,6 +16,8 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
 
     private val viewModel: AddFriendViewModel by viewModels()
     val extraInfoListAdapter = ExtraInfoListAdapter()
+    private val args: AddFriendFragmentArgs by navArgs()
+    lateinit var spinnerAdapter: ArrayAdapter<String>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,6 +27,18 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
         observeExtraInfos()
         observeRequiredState()
         initClickListener()
+    }
+
+    private fun setFriendData() {
+        viewModel.getFriendData(args.friendId)
+        viewModel.friendData.observe(viewLifecycleOwner) {
+            binding.apply {
+                etName.setText(it.name)
+                etPhoneNumber.setText(it.phoneNumber)
+                etBirthday.setText(it.birthday)
+                spnGroup.setSelection(spinnerAdapter.getPosition(it.groupName))
+            }
+        }
     }
 
     private fun initClickListener() {
@@ -61,6 +76,7 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
     private fun observeGroups() {
         viewModel.groups.observe(viewLifecycleOwner) {
             initSpinnerAdapter(it)
+            setFriendData()
         }
     }
 
@@ -71,8 +87,7 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
     }
 
     private fun initSpinnerAdapter(groups: List<String>) {
-        val spinnerAdapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, groups)
+        spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, groups)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spnGroup.adapter = spinnerAdapter
     }

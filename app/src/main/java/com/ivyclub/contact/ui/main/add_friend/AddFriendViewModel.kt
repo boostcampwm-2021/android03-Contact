@@ -24,6 +24,8 @@ class AddFriendViewModel @Inject constructor(val repository: ContactRepository) 
     val isNameEmpty: LiveData<Boolean> get() = _isNameEmpty
     private val _canSaveNewFriend = MutableLiveData<Boolean>()
     val canSaveNewFriend: LiveData<Boolean> get() = _canSaveNewFriend
+    private val _friendData = MutableLiveData<FriendData>()
+    val friendData: LiveData<FriendData> get() = _friendData
     private val extraInfoList = mutableListOf<FriendExtraInfoData>()
 
 
@@ -31,6 +33,14 @@ class AddFriendViewModel @Inject constructor(val repository: ContactRepository) 
         viewModelScope.launch(Dispatchers.IO) {
             val groupList = repository.loadGroups().map { it.name }
             _groups.postValue(groupList)
+        }
+    }
+
+    fun getFriendData(friendId: Long) {
+        if (friendId == -1L) return
+        viewModelScope.launch(Dispatchers.IO) {
+            val friendData = repository.getFriendDataById(friendId)
+            _friendData.postValue(friendData)
         }
     }
 

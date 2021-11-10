@@ -39,7 +39,12 @@
         android:id="@+id/addFriendFragment"
         android:name="com.ivyclub.contact.ui.main.add_friend.AddFriendFragment"
         android:label="AddFriendFragment"
-        tools:layout="@layout/fragment_add_friend"/>
+        tools:layout="@layout/fragment_add_friend">
+        <argument
+            android:name="friendId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
 
     <fragment
         android:id="@+id/planDetailsFragment"
