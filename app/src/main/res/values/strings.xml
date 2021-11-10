@@ -40,11 +40,12 @@
     <string name="hint_plan_place">일정 장소를 입력해주세요</string>
     <string name="hint_plan_content">이 일정에서 할 일이나 준비할 것들을 구체적으로 입력해주세요</string>
     <string name="hint_plan_participants">일정을 함께 할 사람들을 추가해주세요</string>
-    <string name="add_friend_name">이름</string>
+    <string name="add_friend_name">*이름</string>
     <string name="add_friend_group">그룹</string>
     <string name="add_friend_profile_image">add friend profile image</string>
     <string name="fragment_add_friend_back">back</string>
-    <string name="add_friend_phone_number">전화번호</string>
+    <string name="add_friend_phone_number">*전화번호</string>
     <string name="add_friend_birthday">생년월일</string>
     <string name="add_extra_info_i_title_hint">추가 정보</string>
+    <string name="add_friend_required_check">필수 입력 항목입니다.</string>
 </resources>
