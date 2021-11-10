@@ -107,11 +107,7 @@ fun ChipGroup.setFriendChips(friendList: List<String>, chipCount: Int = friendLi
 }
 
 fun ViewGroup.addChips(names: List<String>, onCloseIconClick: (Int) -> (Unit)) {
-    if (childCount > 1) {
-        children.toList().subList(0, childCount - 1).forEach {
-            removeView(it)
-        }
-    }
+    if (childCount > 0) { removeAllViews() }
 
     val layoutParams = ViewGroup.MarginLayoutParams(
         ViewGroup.MarginLayoutParams.WRAP_CONTENT,
@@ -133,7 +129,7 @@ fun ViewGroup.addChips(names: List<String>, onCloseIconClick: (Int) -> (Unit)) {
                 setOnCloseIconClickListener {
                     onCloseIconClick(index)
                 }
-            }, childCount - 1, layoutParams
+            }, layoutParams
         )
     }
 }
