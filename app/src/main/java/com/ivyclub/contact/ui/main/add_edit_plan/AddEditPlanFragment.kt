@@ -1,6 +1,5 @@
 package com.ivyclub.contact.ui.main.add_edit_plan
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -57,7 +56,7 @@ class AddEditPlanFragment :
     private fun setButtonClickListeners() {
         with(binding) {
             ivBtnEditPlanFinish.setOnClickListener {
-                this@AddEditPlanFragment.viewModel.savePlan()
+                showSavePlanDialog()
             }
             ivBtnDeletePlan.setOnClickListener {
                 showDeletePlanDialog()
@@ -91,26 +90,22 @@ class AddEditPlanFragment :
         ).show()
     }
 
+    private fun showSavePlanDialog() {
+        context?.showAlertDialog(getString(R.string.ask_save_plan), {
+            viewModel.savePlan()
+        })
+    }
+
     private fun showDeletePlanDialog() {
-        if (context == null) return
-        AlertDialog.Builder(context)
-            .setMessage(R.string.ask_delete_plan)
-            .setPositiveButton(R.string.yes) { _, _ ->
-                viewModel.deletePlan()
-            }
-            .setNegativeButton(R.string.no, null)
-            .show()
+        context?.showAlertDialog(getString(R.string.ask_delete_plan), {
+            viewModel.deletePlan()
+        })
     }
 
     private fun showBackPressedDialog() {
-        if (context == null) return
-        AlertDialog.Builder(context)
-            .setMessage(R.string.ask_back_while_edit_plan)
-            .setPositiveButton(R.string.yes) { _, _ ->
-                viewModel.finish()
-            }
-            .setNegativeButton(R.string.no, null)
-            .show()
+        context?.showAlertDialog(getString(R.string.ask_back_while_edit_plan), {
+            viewModel.finish()
+        })
     }
 
     private fun checkFrom() {
