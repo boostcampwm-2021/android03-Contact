@@ -31,12 +31,18 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
 
     private fun setFriendData() {
         viewModel.getFriendData(args.friendId)
-        viewModel.friendData.observe(viewLifecycleOwner) {
+        viewModel.friendData.observe(viewLifecycleOwner) { friendData ->
             binding.apply {
-                etName.setText(it.name)
-                etPhoneNumber.setText(it.phoneNumber)
-                etBirthday.setText(it.birthday)
-                spnGroup.setSelection(spinnerAdapter.getPosition(it.groupName))
+                etName.setText(friendData.name)
+                etPhoneNumber.setText(friendData.phoneNumber)
+                etBirthday.setText(friendData.birthday)
+                spnGroup.setSelection(spinnerAdapter.getPosition(friendData.groupName))
+            }
+            friendData.extraInfo.keys.forEach { title ->
+                val value = friendData.extraInfo[title]
+                if (value != null) {
+                    viewModel.addExtraInfo(title, value)
+                }
             }
         }
     }

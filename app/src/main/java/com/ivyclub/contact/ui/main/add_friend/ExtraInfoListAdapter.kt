@@ -35,7 +35,10 @@ class ExtraInfoListAdapter :
         }
 
         fun bind(extraInfo: FriendExtraInfoData) {
-            binding.etExtraInfoTitle.setText(extraInfo.title)
+            with(binding) {
+                etExtraInfoTitle.setText(extraInfo.title)
+                etExtraInfoValue.setText(extraInfo.value)
+            }
         }
 
     }
