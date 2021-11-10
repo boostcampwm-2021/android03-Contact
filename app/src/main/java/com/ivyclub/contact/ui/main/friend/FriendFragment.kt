@@ -203,6 +203,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         childFragmentManager.setFragmentResultListener("requestKey", this) { key, bundle ->
             val result = bundle.getString("bundleKey")
             viewModel.updateFriendsGroup(result)
+            binding.rvFriendList.adapter = friendListAdapter
         }
     }
 

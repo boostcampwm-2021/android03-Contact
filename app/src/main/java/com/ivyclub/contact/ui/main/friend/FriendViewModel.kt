@@ -124,7 +124,13 @@ class FriendViewModel @Inject constructor(
         if (groupName == null) return
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateGroupOf(longClickedId, groupName)
+            initLongClickedId() // 그룹 이동이 끝나서 저장된 값들 초기화
+            getFriendData() // 리스트 업데이트
         }
+    }
+
+    private fun initLongClickedId() {
+        longClickedId.clear()
     }
 
     private fun setAddGroupButtonActive(isActive: Boolean) {
