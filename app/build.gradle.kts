@@ -62,6 +62,7 @@ dependencies {
     kapt(Dep.Libs.hiltCompiler)
     implementation(Dep.Libs.hiltViewModel)
     kapt(Dep.Libs.hiltViewModelCompiler)
+    implementation(Dep.Libs.flexboxLayout)
 
     implementation(project(":data"))
 }

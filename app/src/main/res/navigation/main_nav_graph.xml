@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_navigation_plan_to_planDetailsFragment"
             app:destination="@id/planDetailsFragment"/>
+        <action
+            android:id="@+id/action_navigation_plan_to_addEditFragment"
+            app:destination="@id/addEditFragment" />
     </fragment>
 
     <fragment
@@ -43,7 +46,21 @@
         <argument
             android:name="planId"
             app:argType="long"
-            android:defaultValue="0L" />
+            android:defaultValue="-1L" />
+        <action
+            android:id="@+id/action_planDetailsFragment_to_addEditFragment"
+            app:destination="@id/addEditFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditFragment"
+        android:name="com.ivyclub.contact.ui.main.add_edit_plan.AddEditPlanFragment"
+        android:label="AddEditFragment"
+        tools:layout="@layout/fragment_add_edit_plan">
+        <argument
+            android:name="planId"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 
     <fragment
