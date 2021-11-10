@@ -38,12 +38,7 @@ class AddEditFriendFragment : BaseFragment<FragmentAddEditFriendBinding>(R.layou
                 etBirthday.setText(friendData.birthday)
                 spnGroup.setSelection(spinnerAdapter.getPosition(friendData.groupName))
             }
-            friendData.extraInfo.keys.forEach { title ->
-                val value = friendData.extraInfo[title]
-                if (value != null) {
-                    viewModel.addExtraInfo(title, value)
-                }
-            }
+            viewModel.addExtraInfoList(friendData.extraInfo)
         }
     }
 

@@ -50,6 +50,16 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
         _extraInfos.value = extraInfoList
     }
 
+    fun addExtraInfoList(extraInfoMap: Map<String, String>) {
+        extraInfoMap.keys.forEach { key ->
+            val value = extraInfoMap[key]
+            if (value != null) {
+                extraInfoList.add(FriendExtraInfoData(key, value))
+            }
+        }
+        _extraInfos.value = extraInfoList
+    }
+
     fun removeExtraInfo(position: Int) {
         extraInfoList.removeAt(position)
         _extraInfos.value = extraInfoList
