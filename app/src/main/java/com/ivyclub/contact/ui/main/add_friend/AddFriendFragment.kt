@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragment_add_friend) {
 
     private val viewModel: AddFriendViewModel by viewModels()
-    val extraInfoListAdapter = ExtraInfoListAdapter()
+    val extraInfoListAdapter by lazy { ExtraInfoListAdapter(viewModel::removeExtraInfo) }
     private val args: AddFriendFragmentArgs by navArgs()
     lateinit var spinnerAdapter: ArrayAdapter<String>
 

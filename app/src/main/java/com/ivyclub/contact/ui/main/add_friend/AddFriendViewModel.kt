@@ -50,6 +50,11 @@ class AddFriendViewModel @Inject constructor(val repository: ContactRepository) 
         _extraInfos.value = extraInfoList
     }
 
+    fun removeExtraInfo(position: Int) {
+        extraInfoList.removeAt(position)
+        _extraInfos.value = extraInfoList
+    }
+
     fun saveFriendData(
         phoneNumber: String,
         name: String,
