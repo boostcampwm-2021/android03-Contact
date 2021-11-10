@@ -9,6 +9,8 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ItemFriendProfileBinding
 import com.ivyclub.contact.databinding.ItemGroupDividerBinding
 import com.ivyclub.contact.databinding.ItemGroupNameBinding
+import com.ivyclub.contact.model.FriendListData
+import com.ivyclub.contact.util.FriendListViewType
 import com.ivyclub.contact.util.binding
 import com.ivyclub.contact.util.setRotateAnimation
 

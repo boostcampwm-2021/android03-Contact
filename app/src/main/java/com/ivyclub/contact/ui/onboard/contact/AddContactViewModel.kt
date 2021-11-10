@@ -2,10 +2,10 @@ package com.ivyclub.contact.ui.onboard.contact
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivyclub.contact.model.PhoneContactData
 import com.ivyclub.contact.util.ContactListManager
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
-import com.ivyclub.data.model.PhoneContactData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -1,12 +1,10 @@
 package com.ivyclub.contact.ui.onboard.contact
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +16,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddContactBinding
+import com.ivyclub.contact.model.PhoneContactData
 import com.ivyclub.contact.ui.MainActivity
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.SkipDialog
-import com.ivyclub.data.model.PhoneContactData
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

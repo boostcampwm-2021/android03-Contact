@@ -9,7 +9,7 @@
 
         <variable
             name="data"
-            type="com.ivyclub.contact.ui.main.friend.FriendListData" />
+            type="com.ivyclub.contact.model.FriendListData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
