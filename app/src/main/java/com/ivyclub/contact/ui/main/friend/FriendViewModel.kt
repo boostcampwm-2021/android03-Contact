@@ -162,6 +162,7 @@ class FriendViewModel @Inject constructor(
         val convertedFriendList = mutableListOf<FriendListData>()
         this.forEach {
             val changedData = FriendListData(
+                id = it.id,
                 phoneNumber = it.phoneNumber,
                 name = it.name,
                 groupName = it.groupName,

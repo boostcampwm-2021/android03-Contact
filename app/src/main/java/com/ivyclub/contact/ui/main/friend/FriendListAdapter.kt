@@ -15,7 +15,8 @@ import com.ivyclub.contact.util.binding
 import com.ivyclub.contact.util.setRotateAnimation
 
 class FriendListAdapter(
-    private val onGroupClick: (String) -> Unit
+    private val onGroupClick: (String) -> Unit,
+    private val onFriendClick: (Long) -> Unit
 ) :
     ListAdapter<FriendListData, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
@@ -26,7 +27,7 @@ class FriendListAdapter(
             FriendListViewType.GROUP_DIVIDER.ordinal ->
                 GroupDividerViewHolder(parent.binding(R.layout.item_group_divider))
             else ->
-                FriendViewHolder(parent.binding(R.layout.item_friend_profile))
+                FriendViewHolder(parent.binding(R.layout.item_friend_profile), onFriendClick)
         }
     }
 
@@ -68,10 +69,20 @@ class FriendListAdapter(
     }
 
     class FriendViewHolder(
-        private val binding: ItemFriendProfileBinding
+        private val binding: ItemFriendProfileBinding,
+        private val onFriendClick: (Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
+        private var id = -1L
+
+        init {
+            binding.root.setOnClickListener {
+                onFriendClick.invoke(id)
+            }
+        }
+
         fun bind(friendItemData: FriendListData) {
             binding.data = friendItemData
+            this.id = friendItemData.id
         }
     }
 

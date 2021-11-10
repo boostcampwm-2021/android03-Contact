@@ -11,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
 import com.ivyclub.contact.util.BaseFragment
@@ -25,11 +26,12 @@ class FriendDetailFragment :
         "Kim MinJi",
         "1900.01.01",
         "부캠동기",
-        listOf(1,2),
+        listOf(1, 2),
         false,
         mapOf("나이" to "32", "성격" to "좋음", "MBTI" to "ESTJ", "학벌" to "좋음", "캐미" to "나쁨")
     )
     private val viewModel: FriendDetailViewModel by viewModels()
+    private val args: FriendDetailFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,7 +51,7 @@ class FriendDetailFragment :
                 viewModel.setFavorite(me.phoneNumber, btnFavorite.isChecked)
             }
             ivEdit.setOnClickListener {
-                Toast.makeText(context,"Good",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Good", Toast.LENGTH_SHORT).show()
             }
         }
     }

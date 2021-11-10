@@ -2,7 +2,6 @@ package com.ivyclub.contact.ui.main.friend
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -40,7 +39,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     private lateinit var dialog: Dialog
     private var _dialogBinding: DialogFriendBinding? = null
     private val dialogBinding get() = _dialogBinding ?: error("dialogBinding이 초기화되지 않았습니다.")
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -133,7 +131,10 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun initFriendListAdapter() {
-        friendListAdapter = FriendListAdapter(onGroupClick = viewModel::manageGroupFolded)
+        friendListAdapter = FriendListAdapter(
+            onGroupClick = viewModel::manageGroupFolded,
+            onFriendClick = this::navigateToFriendDetailFragment
+        )
         binding.rvFriendList.adapter = friendListAdapter
     }
 
@@ -170,6 +171,14 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             // 새로운 리스트로 리사이클러뷰 갱신
             friendListAdapter.submitList(newFriendList)
         }
+    }
+
+    private fun navigateToFriendDetailFragment(friendId: Long) {
+        findNavController().navigate(
+            FriendFragmentDirections.actionNavigationFriendToFriendDetailFragment(
+                friendId
+            )
+        )
     }
 
     override fun onDestroyView() {
