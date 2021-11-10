@@ -47,4 +47,5 @@
     <string name="add_friend_phone_number">전화번호</string>
     <string name="add_friend_birthday">생년월일</string>
     <string name="add_extra_info_i_title_hint">추가 정보</string>
+    <string name="menu_select_all">모두선택</string>
 </resources>
