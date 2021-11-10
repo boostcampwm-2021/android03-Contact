@@ -102,10 +102,13 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
         binding.tbAddContact.title = ""
         binding.tbAddContact.inflateMenu(R.menu.menu_on_boarding_add)
         binding.tbAddContact.setOnMenuItemClickListener {
-            if (it.itemId == R.id.skip) {
-                SkipDialog(ok, context).showDialog()
-            } else if(it.itemId == R.id.select_all) {
-                contactAdapter.selectAllItem()
+            when (it.itemId) {
+                R.id.skip -> {
+                    SkipDialog(ok, context).showDialog()
+                }
+                R.id.select_all -> {
+                    contactAdapter.selectAllItem()
+                }
             }
             true
         }
