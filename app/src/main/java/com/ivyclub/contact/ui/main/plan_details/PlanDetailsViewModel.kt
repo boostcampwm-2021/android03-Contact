@@ -29,13 +29,12 @@ class PlanDetailsViewModel @Inject constructor(
             if (planData != null) {
                 val friends = mutableListOf<String>()
                 planData.participant.forEach {
-                    friends.add(repository.getFriendNameByPhoneNumber(it))
+//                    friends.add(repository.getFriendNameByPhoneNumber(it))
                 }
                 _planParticipants.postValue(friends)
                 _planDetails.postValue(planData)
             } else { // temp
                 val tmpPlanData = PlanData(
-                    0L,
                     emptyList(),
                     Date(System.currentTimeMillis()),
                     "부스트캠프 모임",

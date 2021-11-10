@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivyclub.contact.model.FriendListData
+import com.ivyclub.contact.util.FriendListViewType
 import com.ivyclub.contact.util.GroupNameValidation
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData

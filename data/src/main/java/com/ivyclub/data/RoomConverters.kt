@@ -8,10 +8,10 @@ import java.util.*
 
 class RoomConverters {
     @TypeConverter
-    fun listToJson(value: List<String>) = Gson().toJson(value)
+    fun longListToJson(value: List<Long>) = Gson().toJson(value)
 
     @TypeConverter
-    fun jsonToList(value: String) = Gson().fromJson(value,Array<String>::class.java).toList()
+    fun jsonToLongList(value: String) = Gson().fromJson(value, Array<Long>::class.java).toList()
 
     @TypeConverter
     fun mapToJson(value: Map<String,String>) = Gson().toJson(value)
