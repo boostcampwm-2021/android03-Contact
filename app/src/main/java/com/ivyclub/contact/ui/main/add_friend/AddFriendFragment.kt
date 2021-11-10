@@ -63,15 +63,16 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
     }
 
     private fun observeRequiredState() {
-        viewModel.canSaveNewFriend.observe(viewLifecycleOwner) {
+        viewModel.canSaveFriendData.observe(viewLifecycleOwner) {
             if (it) {
                 with(binding) {
-                    this@AddFriendFragment.viewModel.saveNewFriend(
+                    this@AddFriendFragment.viewModel.saveFriendData(
                         etPhoneNumber.text.toString(),
                         etName.text.toString(),
                         etBirthday.text.toString(),
                         spnGroup.selectedItem.toString(),
-                        extraInfoListAdapter.currentList
+                        extraInfoListAdapter.currentList ,
+                        args.friendId
                     )
                     findNavController().popBackStack()
                 }
