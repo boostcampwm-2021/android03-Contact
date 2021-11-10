@@ -18,6 +18,8 @@ dependencies {
     implementation(Dep.AndroidX.sharedPreference)
     implementation(Dep.Libs.gson)
     implementation(Dep.Libs.hilt)
+    implementation(Dep.AndroidX.coroutine)
+    implementation(Dep.AndroidX.coroutineCore)
     androidTestImplementation(Dep.Test.ext)
     androidTestImplementation(Dep.Test.espresso)
     testImplementation(Dep.Test.jUnit)

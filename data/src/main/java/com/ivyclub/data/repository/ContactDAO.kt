@@ -1,9 +1,6 @@
 package com.ivyclub.data.repository
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.PlanData
 import com.ivyclub.data.model.GroupData
@@ -27,4 +24,10 @@ interface ContactDAO {
 
     @Insert
     fun insertGroupData(groupData: GroupData)
+
+    @Query("UPDATE FriendData SET isFavorite = :state WHERE phoneNumber = :phoneNumber")
+    fun setFavorite(phoneNumber: String, state: Boolean)
+
+    @Query("SELECT * FROM PlanData WHERE title = :planTitle LIMIT 1")
+    fun getPlanByTitle(planTitle: String): PlanData
 }
