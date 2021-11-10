@@ -30,4 +30,7 @@ interface ContactDAO {
 
     @Query("SELECT * FROM PlanData WHERE title = :planTitle LIMIT 1")
     fun getPlanByTitle(planTitle: String): PlanData
+
+    @Query("SELECT * FROM FriendData WHERE id = :friendId")
+    fun getFriendDataById(friendId: Long): FriendData
 }
