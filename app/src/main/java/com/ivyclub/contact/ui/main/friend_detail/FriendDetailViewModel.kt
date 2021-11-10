@@ -9,6 +9,8 @@ import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,6 +30,17 @@ class FriendDetailViewModel @Inject constructor(
     fun setFavorite(id: Long, state: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.setFavorite(id, state)
+        }
+    }
+
+    fun loadPlans(planIds: List<Long>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val plans = repository.getPlansByIds(planIds)
+            val now = Date()
+            plans.filter { it.date < now }.sortedBy { it.date }
+            if(plans.size > 2) {
+
+            }
         }
     }
 }

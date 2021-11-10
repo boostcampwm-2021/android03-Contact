@@ -18,4 +18,5 @@ interface ContactRepository {
     fun setFavorite(id: Long, state: Boolean)
     fun getPlanDetailsByTitle(title: String): PlanData
     fun getFriendDataById(id: Long): FriendData
+    fun getPlansByIds(planIds: List<Long>): List<PlanData>
 }

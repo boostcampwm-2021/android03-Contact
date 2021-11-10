@@ -18,25 +18,15 @@ import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class FriendDetailFragment :
     BaseFragment<FragmentFriendDetailBinding>(R.layout.fragment_friend_detail) {
-    val me = FriendData(
-        "01054985135",
-        "Kim MinJi",
-        "1900.01.01",
-        "부캠동기",
-        listOf(1,2),
-        false,
-        mapOf("나이" to "32", "성격" to "좋음", "MBTI" to "ESTJ", "학벌" to "좋음", "캐미" to "나쁨")
-    )
     private val viewModel: FriendDetailViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObserver()
-        loadFriendDetail(1)
-        initButtons(1)
         arguments?.getLong("id")?.let {
             loadFriendDetail(it)
             initButtons(it)
@@ -83,8 +73,9 @@ class FriendDetailFragment :
                 val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${friend.phoneNumber}"))
                 startActivity(intent)
             }
+            bindPlan(friend.planList)
         }
-        bindPlan()
+
     }
 
     private fun getTitle(text: String): TextView {
@@ -93,13 +84,13 @@ class FriendDetailFragment :
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
         layoutParams.setMargins(0, 100, 0, 0)
-        val tv = TextView(context)
-        tv.text = text
-        tv.setTypeface(null, Typeface.BOLD)
-        tv.setTextColor(Color.BLACK)
-        tv.textSize = 20f
-        tv.layoutParams = layoutParams
-        return tv
+        return TextView(context).apply {
+            this.text = text
+            setTypeface(null, Typeface.BOLD)
+            setTextColor(Color.BLACK)
+            textSize = 20f
+            this.layoutParams = layoutParams
+        }
     }
 
     private fun getContent(text: String): TextView {
@@ -108,15 +99,16 @@ class FriendDetailFragment :
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
         layoutParams.setMargins(0, 16, 0, 0)
-        val tv = TextView(context)
-        tv.text = text
-        tv.setTextColor(Color.BLACK)
-        tv.textSize = 20f
-        tv.layoutParams = layoutParams
-        return tv
+        return TextView(context).apply {
+            this.text = text
+            setTextColor(Color.BLACK)
+            textSize = 20f
+            this.layoutParams = layoutParams
+        }
     }
 
-    private fun bindPlan() {
+    private fun bindPlan(planIds: List<Long>) {
+        viewModel.loadPlans(planIds)
         binding.llPlan1.visibility = View.GONE
         binding.llPlan2.visibility = View.GONE
     }

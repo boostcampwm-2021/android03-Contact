@@ -69,6 +69,10 @@ class ContactRepositoryImpl @Inject constructor(
         return contactDAO.getFriendDataById(id)
     }
 
+    override fun getPlansByIds(planIds: List<Long>): List<PlanData> {
+        return contactDAO.getPlansByIds(planIds)
+    }
+
     companion object {
         private const val NOTIFICATION_START = "NOTIFICATION_START"
         private const val NOTIFICATION_END = "NOTIFICATION_END"

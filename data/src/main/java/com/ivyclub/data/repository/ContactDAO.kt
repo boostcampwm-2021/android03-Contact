@@ -33,4 +33,7 @@ interface ContactDAO {
 
     @Query("SELECT * FROM FriendData WHERE id = :id LIMIT 1")
     fun getFriendDataById(id: Long): FriendData
+
+    @Query("SELECT * FROM PlanData WHERE id IN (:planIds)")
+    fun getPlansByIds(planIds: List<Long>): List<PlanData>
 }
