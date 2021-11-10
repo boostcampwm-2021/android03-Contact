@@ -1,8 +1,8 @@
 package com.ivyclub.data
 
 import com.ivyclub.data.model.FriendData
-import com.ivyclub.data.model.PlanData
 import com.ivyclub.data.model.GroupData
+import com.ivyclub.data.model.PlanData
 
 interface ContactRepository {
     fun loadFriends(): List<FriendData>
@@ -17,4 +17,5 @@ interface ContactRepository {
     fun saveNewGroup(groupData: GroupData)
     fun setFavorite(phoneNumber: String, state: Boolean)
     fun getPlanDetailsByTitle(title: String): PlanData
+    fun updateGroupOf(targetFriend: List<Long>, targetGroup: String)
 }

@@ -5,8 +5,8 @@ import androidx.annotation.RequiresApi
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.MyPreference
 import com.ivyclub.data.model.FriendData
-import com.ivyclub.data.model.PlanData
 import com.ivyclub.data.model.GroupData
+import com.ivyclub.data.model.PlanData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -63,6 +63,12 @@ class ContactRepositoryImpl @Inject constructor(
 
     override fun getPlanDetailsByTitle(title: String): PlanData {
         return contactDAO.getPlanByTitle(title)
+    }
+
+    override fun updateGroupOf(targetFriend: List<Long>, targetGroup: String) {
+        targetFriend.forEach {
+            contactDAO.updateFriendGroup(it, targetGroup)
+        }
     }
 
     companion object {
