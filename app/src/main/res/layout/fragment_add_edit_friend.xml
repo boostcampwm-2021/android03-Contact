@@ -6,10 +6,10 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="com.ivyclub.contact.ui.main.add_friend.AddFriendViewModel" />
+            type="com.ivyclub.contact.ui.main.add_edit_friend.AddEditFriendViewModel" />
         <variable
             name="fragment"
-            type="com.ivyclub.contact.ui.main.add_friend.AddFriendFragment" />
+            type="com.ivyclub.contact.ui.main.add_edit_friend.AddEditFriendFragment" />
 
     </data>
 
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:contentDescription="@string/fragment_add_friend_back"
+                android:contentDescription="@string/add_edit_friend_back_button_description"
                 android:padding="4dp"
                 android:src="@drawable/ic_baseline_arrow_back_24"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +68,7 @@
                     android:id="@+id/iv_profile_image"
                     android:layout_width="128dp"
                     android:layout_height="128dp"
-                    android:contentDescription="@string/add_friend_profile_image"
+                    android:contentDescription="@string/add_edit_friend_profile_image"
                     android:src="@drawable/photo"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:text="@string/add_friend_name"
+                    android:text="@string/add_edit_friend_name"
                     android:textColor="@color/green_300"
                     android:textSize="12sp"
                     android:textStyle="bold"
@@ -92,7 +92,7 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/bg_add_friend_info"
+                    android:background="@drawable/bg_add_edit_friend_info"
                     android:inputType="textPersonName"
                     android:padding="8dp"
                     android:textSize="16sp"
@@ -105,7 +105,7 @@
                     android:id="@+id/tv_name_empty_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_friend_required_check"
+                    android:text="@string/add_edit_friend_required_check"
                     android:textColor="@color/red"
                     android:textSize="8sp"
                     android:visibility="@{viewModel.isNameEmpty() ? View.VISIBLE : View.GONE}"
@@ -118,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@string/add_friend_group"
+                    android:text="@string/add_edit_friend_group"
                     android:textColor="@color/green_300"
                     android:textSize="12sp"
                     android:textStyle="bold"
@@ -131,8 +131,8 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/bg_add_friend_group"
-                    android:popupBackground="@drawable/bg_add_friend_group_pop_up"
+                    android:background="@drawable/bg_add_edit_friend_group"
+                    android:popupBackground="@drawable/bg_add_edit_friend_group_pop_up"
                     android:spinnerMode="dropdown"
                     app:layout_constraintBottom_toBottomOf="@id/iv_profile_image"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -144,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@string/add_friend_phone_number"
+                    android:text="@string/add_edit_friend_phone_number"
                     android:textColor="@color/green_300"
                     android:textSize="12sp"
                     android:textStyle="bold"
@@ -156,7 +156,7 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/bg_add_friend_info"
+                    android:background="@drawable/bg_add_edit_friend_info"
                     android:inputType="phone"
                     android:padding="8dp"
                     android:textSize="16sp"
@@ -168,7 +168,7 @@
                     android:id="@+id/tv_phone_number_empty_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_friend_required_check"
+                    android:text="@string/add_edit_friend_required_check"
                     android:textColor="@color/red"
                     android:textSize="8sp"
                     android:visibility="@{viewModel.isPhoneNumberEmpty() ? View.VISIBLE : View.GONE}"
@@ -180,7 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@string/add_friend_birthday"
+                    android:text="@string/add_edit_friend_birthday"
                     android:textColor="@color/green_300"
                     android:textSize="12sp"
                     android:textStyle="bold"
@@ -192,7 +192,7 @@
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/bg_add_friend_info"
+                    android:background="@drawable/bg_add_edit_friend_info"
                     android:inputType="phone"
                     android:padding="8dp"
                     android:textSize="16sp"

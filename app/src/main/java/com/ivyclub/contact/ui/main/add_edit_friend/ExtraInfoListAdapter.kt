@@ -1,4 +1,4 @@
-package com.ivyclub.contact.ui.main.add_friend
+package com.ivyclub.contact.ui.main.add_edit_friend
 
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged

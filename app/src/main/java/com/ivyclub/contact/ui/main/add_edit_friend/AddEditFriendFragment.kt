@@ -1,4 +1,4 @@
-package com.ivyclub.contact.ui.main.add_friend
+package com.ivyclub.contact.ui.main.add_edit_friend
 
 import android.os.Bundle
 import android.view.View
@@ -7,16 +7,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ivyclub.contact.R
-import com.ivyclub.contact.databinding.FragmentAddFriendBinding
+import com.ivyclub.contact.databinding.FragmentAddEditFriendBinding
 import com.ivyclub.contact.util.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragment_add_friend) {
+class AddEditFriendFragment : BaseFragment<FragmentAddEditFriendBinding>(R.layout.fragment_add_edit_friend) {
 
-    private val viewModel: AddFriendViewModel by viewModels()
+    private val viewModel: AddEditFriendViewModel by viewModels()
     val extraInfoListAdapter by lazy { ExtraInfoListAdapter(viewModel::removeExtraInfo) }
-    private val args: AddFriendFragmentArgs by navArgs()
+    private val args: AddEditFriendFragmentArgs by navArgs()
     lateinit var spinnerAdapter: ArrayAdapter<String>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +54,7 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
             }
 
             ivSaveIcon.setOnClickListener {
-                this@AddFriendFragment.viewModel.checkRequiredNotEmpty(
+                this@AddEditFriendFragment.viewModel.checkRequiredNotEmpty(
                     etPhoneNumber.text.toString(),
                     etName.text.toString()
                 )
@@ -66,7 +66,7 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(R.layout.fragme
         viewModel.canSaveFriendData.observe(viewLifecycleOwner) {
             if (it) {
                 with(binding) {
-                    this@AddFriendFragment.viewModel.saveFriendData(
+                    this@AddEditFriendFragment.viewModel.saveFriendData(
                         etPhoneNumber.text.toString(),
                         etName.text.toString(),
                         etBirthday.text.toString(),
