@@ -17,6 +17,7 @@ object Versions {
     const val room = "2.3.0"
     const val hilt = "2.38.1"
     const val hiltViewModel = "1.0.0-alpha03"
+    const val flexbox = "3.0.0"
 }
 
 object Dep {
@@ -54,5 +55,6 @@ object Dep {
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
         const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltViewModel}"
         const val hiltViewModelCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltViewModel}"
+        const val flexboxLayout = "com.google.android.flexbox:flexbox:${Versions.flexbox}"
     }
 }

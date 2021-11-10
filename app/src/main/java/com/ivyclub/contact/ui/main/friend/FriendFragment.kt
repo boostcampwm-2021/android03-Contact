@@ -2,6 +2,7 @@ package com.ivyclub.contact.ui.main.friend
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.ivyclub.contact.databinding.FragmentFriendBinding
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.changeVisibilityWithDirection
 import com.ivyclub.contact.util.hideKeyboard
+import com.ivyclub.contact.util.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -131,7 +133,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun initFriendListAdapter() {
-        friendListAdapter = FriendListAdapter()
+        friendListAdapter = FriendListAdapter(onGroupClick = viewModel::manageGroupFolded)
         binding.rvFriendList.adapter = friendListAdapter
     }
 
@@ -139,10 +141,12 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         viewModel.isSearchViewVisible.observe(viewLifecycleOwner) { newVisibilityState ->
             with(binding) {
                 if (newVisibilityState) {
+                    showKeyboard()
                     etSearch.changeVisibilityWithDirection(
                         Gravity.TOP,
                         View.VISIBLE,
-                        ANIMATION_TIME
+                        ANIMATION_TIME,
+                        this@FriendFragment::requestFocus
                     )
                 } else {
                     hideKeyboard()
@@ -157,12 +161,14 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         }
     }
 
+    private fun requestFocus() {
+        binding.etSearch.requestFocus()
+    }
+
     private fun observeFriendList() {
         viewModel.friendList.observe(viewLifecycleOwner) { newFriendList ->
             // 새로운 리스트로 리사이클러뷰 갱신
-            friendListAdapter.submitList(newFriendList) {
-                binding.rvFriendList.scrollToPosition(0)
-            }
+            friendListAdapter.submitList(newFriendList)
         }
     }
 

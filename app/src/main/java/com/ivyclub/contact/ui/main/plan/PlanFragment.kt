@@ -2,7 +2,6 @@ package com.ivyclub.contact.ui.main.plan
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -18,7 +17,9 @@ class PlanFragment : BaseFragment<FragmentPlanBinding>(R.layout.fragment_plan) {
 
     private val planListAdapter: PlanListAdapter by lazy {
         PlanListAdapter {
-            findNavController().navigate(PlanFragmentDirections.actionNavigationPlanToPlanDetailsFragment(it))
+            findNavController().navigate(
+                PlanFragmentDirections.actionNavigationPlanToPlanDetailsFragment(it)
+            )
         }
     }
 
@@ -37,8 +38,7 @@ class PlanFragment : BaseFragment<FragmentPlanBinding>(R.layout.fragment_plan) {
     private fun initToolbarButtons() {
         with(binding) {
             ivAddPlanIcon.setOnClickListener {
-                // TODO: 약속 추가 화면 이동
-                Toast.makeText(requireContext(), "add new plan", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(PlanFragmentDirections.actionNavigationPlanToAddEditFragment())
             }
 
             ivSettingsIcon.setOnClickListener {
