@@ -18,13 +18,13 @@ class FriendAutoCompleteAdapter(
     private lateinit var binding: ItemFriendAutoCompleteBinding
 
     private val friendFilter = object : Filter() {
-        override fun performFiltering(p0: CharSequence?): FilterResults {
+        override fun performFiltering(inputText: CharSequence?): FilterResults {
             val results = FilterResults()
             val suggestions = mutableListOf<SimpleFriendData>()
 
-            if (p0.isNullOrEmpty()) suggestions.addAll(friendList)
+            if (inputText.isNullOrEmpty()) suggestions.addAll(friendList)
             else {
-                val filterPattern = p0.toString().lowercase().replace(" ", "")
+                val filterPattern = inputText.toString().lowercase().replace(" ", "")
 
                 suggestions.addAll(
                     friendList.filter {
@@ -40,9 +40,9 @@ class FriendAutoCompleteAdapter(
             }
         }
 
-        override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
+        override fun publishResults(inputText: CharSequence?, filterResults: FilterResults?) {
             clear()
-            addAll(p1?.values as List<SimpleFriendData>)
+            addAll(filterResults?.values as List<SimpleFriendData>)
         }
 
         override fun convertResultToString(resultValue: Any?): CharSequence {
