@@ -18,7 +18,7 @@ interface ContactDAO {
 
     @Query("SELECT name FROM FriendData WHERE phoneNumber = :phoneNumber")
     fun getFriendNameByPhoneNumber(phoneNumber: String): String
-  
+
     @Query("SELECT * FROM GroupData")
     fun getGroups(): List<GroupData>
 
@@ -33,4 +33,14 @@ interface ContactDAO {
 
     @Query("SELECT * FROM FriendData WHERE id = :friendId")
     fun getFriendDataById(friendId: Long): FriendData
+
+    @Query("UPDATE FriendData SET phoneNumber = :phoneNumber, name = :name, birthday = :birthday, groupName = :groupName, extraInfo = :extraInfo WHERE id = :id ")
+    fun updateFriendData(
+        phoneNumber: String,
+        name: String,
+        birthday: String,
+        groupName: String,
+        extraInfo: Map<String, String>,
+        id: Long
+    )
 }
