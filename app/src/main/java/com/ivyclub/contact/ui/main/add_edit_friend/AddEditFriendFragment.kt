@@ -89,6 +89,7 @@ class AddEditFriendFragment : BaseFragment<FragmentAddEditFriendBinding>(R.layou
     }
 
     private fun initSpinnerAdapter(groups: List<String>) {
+        if (context == null) return
         spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, groups)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spnGroup.adapter = spinnerAdapter
