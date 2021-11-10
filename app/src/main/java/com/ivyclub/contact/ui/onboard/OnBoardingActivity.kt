@@ -1,6 +1,7 @@
 package com.ivyclub.contact.ui.onboard
 
 import android.content.DialogInterface
+import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ActivityOnBoardingBinding
@@ -12,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class OnBoardingActivity : BaseActivity<ActivityOnBoardingBinding>(R.layout.activity_on_boarding) {
 
     private lateinit var navHostFragment: NavHostFragment
+    private val viewModel: OnBoardingViewModel by viewModels()
 
     private val ok = DialogInterface.OnClickListener { _, _ ->
         finish()
@@ -24,5 +26,10 @@ class OnBoardingActivity : BaseActivity<ActivityOnBoardingBinding>(R.layout.acti
         } else {
             SkipDialog(ok, this).showDialog()
         }
+    }
+
+    override fun onDestroy() {
+        viewModel.setShowOnBoardingState(false)
+        super.onDestroy()
     }
 }
