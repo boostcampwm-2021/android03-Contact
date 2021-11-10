@@ -10,7 +10,7 @@ data class FriendData(
     val name: String, // 이름
     val birthday: String, // 생년월일
     val groupName: String, // 속한 그룹명
-    val planList: List<Long>, // 약속 리스트
+    val planList: List<Long>, // 약속 리스트(id)
     val isFavorite: Boolean, // 즐겨찾기 포함 유무
     val extraInfo: Map<String, String>, // 성격
     @PrimaryKey(autoGenerate = true)
@@ -19,7 +19,7 @@ data class FriendData(
 
 @Entity(tableName = "PlanData")
 data class PlanData(
-    val participant: List<Long> = emptyList(), // 만나는 사람들(번호)
+    val participant: List<Long>, // 만나는 사람들(id)
     val date: Date, // datetime
     val title: String = "", // 제목
     val place: String = "", // 장소

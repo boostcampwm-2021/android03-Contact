@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ivyclub.contact.databinding.ItemContactBinding
-import com.ivyclub.data.model.PhoneContactData
+import com.ivyclub.contact.model.PhoneContactData
 
 class ContactAdapter: ListAdapter<PhoneContactData,ContactAdapter.ViewHolder>(diffUtil) {
 

@@ -55,7 +55,7 @@ class AddEditPlanViewModel @Inject constructor(
                 loadFriendsJob.join()
                 val names = mutableListOf<Pair<String, String>>()
                 it.participant.forEach { phoneNumber ->
-                    friendMap[phoneNumber]?.let { name -> names.add(Pair(phoneNumber, name)) }
+                    //friendMap[phoneNumber]?.let { name -> names.add(Pair(phoneNumber, name)) }
                 }
                 _planParticipants.postValue(names)
             }

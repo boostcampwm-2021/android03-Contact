@@ -24,18 +24,18 @@ class PlanViewModel : ViewModel() {
         val participants = listOf("홍길동", "철수", "영희", "맹구", "태훈")
         repeat(30) {
             val date = Date(startCalendar.timeInMillis + (DAY_IN_MILLIS * 10 * it))
-            plans.add(
-                PlanListItemViewModel(
-                    PlanData(
-                        it.toLong(),
-                        participants,
-                        date,
-                        "부캠 나들이",
-                        content = "ㅋㅋㅋ",
-                        color = ""
-                    )
-                )
-            )
+//            plans.add(
+//                PlanListItemViewModel(
+//                    PlanData(
+//                        it.toLong(),
+//                        participants,
+//                        date,
+//                        "부캠 나들이",
+//                        content = "ㅋㅋㅋ",
+//                        color = ""
+//                    )
+//                )
+//            )
         }
 
         _planListItems.value = plans

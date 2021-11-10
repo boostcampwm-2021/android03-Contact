@@ -25,7 +25,7 @@ class FriendDetailFragment :
         "Kim MinJi",
         "1900.01.01",
         "부캠동기",
-        listOf("aa", "bb"),
+        listOf(1,2),
         false,
         mapOf("나이" to "32", "성격" to "좋음", "MBTI" to "ESTJ", "학벌" to "좋음", "캐미" to "나쁨")
     )

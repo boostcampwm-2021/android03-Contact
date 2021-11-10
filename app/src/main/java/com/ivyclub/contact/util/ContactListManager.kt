@@ -3,7 +3,7 @@ package com.ivyclub.contact.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.ContactsContract
-import com.ivyclub.data.model.PhoneContactData
+import com.ivyclub.contact.model.PhoneContactData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

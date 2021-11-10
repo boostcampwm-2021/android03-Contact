@@ -15,5 +15,5 @@ data class PlanListItemViewModel(private val planData: PlanData) {
     val planDayOfWeek = date.getDayOfWeek().korean
 
     val title: String = planData.title
-    val friends: List<String> = planData.participant
+    val friends: List<String> = emptyList()
 }

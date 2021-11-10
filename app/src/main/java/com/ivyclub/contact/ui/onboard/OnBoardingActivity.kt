@@ -1,7 +1,6 @@
 package com.ivyclub.contact.ui.onboard
 
 import android.content.DialogInterface
-import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ActivityOnBoardingBinding
@@ -14,11 +13,8 @@ class OnBoardingActivity : BaseActivity<ActivityOnBoardingBinding>(R.layout.acti
 
     private lateinit var navHostFragment: NavHostFragment
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fcv_on_boarding) as NavHostFragment
-        val navController = navHostFragment.navController
+    private val ok = DialogInterface.OnClickListener { _, _ ->
+        finish()
     }
 
     override fun onBackPressed() {
@@ -29,9 +25,4 @@ class OnBoardingActivity : BaseActivity<ActivityOnBoardingBinding>(R.layout.acti
             SkipDialog(ok, this).showDialog()
         }
     }
-
-    private val ok = DialogInterface.OnClickListener { _, _ ->
-        finish()
-    }
-
 }
