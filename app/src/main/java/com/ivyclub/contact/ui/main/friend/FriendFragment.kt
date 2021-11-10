@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.DialogFriendBinding
 import com.ivyclub.contact.databinding.FragmentFriendBinding
+import com.ivyclub.contact.ui.main.friend.dialog.SelectGroupFragment
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.changeVisibilityWithDirection
 import com.ivyclub.contact.util.hideKeyboard
@@ -79,11 +80,15 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             val popupMenu = PopupMenu(requireContext(), it)
             val menuInflater = popupMenu.menuInflater
             if (friendListAdapter.isOneOfItemLongClicked()) {
+
                 menuInflater.inflate(R.menu.menu_set_friends_at_friendlist, popupMenu.menu)
                 popupMenu.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.item_move_friends_to -> {
-
+                            SelectGroupFragment().show(
+                                childFragmentManager,
+                                SelectGroupFragment.TAG
+                            )
                         }
                     }
                     false
