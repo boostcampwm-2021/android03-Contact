@@ -1,7 +1,10 @@
 package com.ivyclub.contact.ui.main.add_edit_plan
 
 import androidx.lifecycle.*
+import com.ivyclub.contact.R
+import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
+import com.ivyclub.data.model.PlanData
 import com.ivyclub.data.model.SimpleFriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -38,8 +41,11 @@ class AddEditPlanViewModel @Inject constructor(
     val planPlace = MutableLiveData<String>()
     val planContent = MutableLiveData<String>()
 
-    private val _toastMessage = MutableLiveData<String>()
-    val toastMessage: LiveData<String> = _toastMessage
+    private val _toastMessage = SingleLiveEvent<Int>()
+    val toastMessage: LiveData<Int> = _toastMessage
+
+    private val _finishEvent = SingleLiveEvent<Unit>()
+    val finishEvent: LiveData<Unit> = _finishEvent
 
     fun getLastPlan(planId: Long) {
         if (this.planId != -1L) return
@@ -47,7 +53,7 @@ class AddEditPlanViewModel @Inject constructor(
         this.planId = planId
 
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getPlanDetailsById(planId)?.let {
+            repository.getPlanDataById(planId)?.let {
                 planTitle.postValue(it.title)
                 _planTime.postValue(it.date)
                 planPlace.postValue(it.place)
@@ -83,7 +89,54 @@ class AddEditPlanViewModel @Inject constructor(
         _planTime.value = newDate
     }
 
-    fun savePlan(planId: Long) {
-        val participants = planParticipants.value?.map { it.id }
+    fun savePlan() {
+        val participants = planParticipants.value?.map { it.id } ?: emptyList()
+
+        val planDate = planTime.value ?: Date(System.currentTimeMillis())
+
+        val title = planTitle.value
+        if (title.isNullOrEmpty()) {
+            makeToast(R.string.hint_plan_title)
+            return
+        }
+
+        val place = planPlace.value ?: ""
+
+        val content = planContent.value ?: ""
+
+        val color = ""  // TODO: 랜덤 색 만들기
+
+        val newPlan =
+            if (planId != -1L) PlanData(participants, planDate, title, place, content, color, planId)
+            else PlanData(participants, planDate, title, place, content, color)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.savePlanData(newPlan)
+            makeToast(
+                if (planId == -1L) R.string.add_plan_success
+                else R.string.update_plan_success
+            )
+            finish()
+        }
+    }
+
+    fun deletePlan() {
+        if (planId == -1L) {
+            finish()
+            return
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deletePlanData(planId)
+            makeToast(R.string.delete_plan_success)
+            finish()
+        }
+    }
+
+    private fun makeToast(strId: Int) {
+        _toastMessage.postValue(strId)
+    }
+
+    fun finish() {
+        _finishEvent.call()
     }
 }
