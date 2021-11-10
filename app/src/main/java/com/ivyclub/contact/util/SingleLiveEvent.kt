@@ -16,6 +16,11 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
         super.setValue(value)
     }
 
+    override fun postValue(value: T?) {
+        isPending.set(true)
+        super.postValue(value)
+    }
+
     override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
         super.observe(owner, {
             if (isPending.compareAndSet(true, false)) {
@@ -24,8 +29,7 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
         })
     }
 
-    @MainThread
     fun call() {
-        value = null
+        postValue(null)
     }
 }
