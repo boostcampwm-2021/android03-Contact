@@ -1,4 +1,6 @@
-package com.ivyclub.contact.ui.main.friend
+package com.ivyclub.contact.model
+
+import com.ivyclub.contact.util.FriendListViewType
 
 data class FriendListData(
     val phoneNumber: String = "", // 전화번호, pk
