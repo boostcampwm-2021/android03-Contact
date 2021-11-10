@@ -12,7 +12,9 @@ interface ContactRepository {
     fun getShowOnBoardingState(): Boolean
     fun setNotificationTime(start: String, end: String)
     fun setNotificationOnOff(state: Boolean)
-    fun getPlanDetailsById(planId: Long): PlanData
+    fun getPlanDataById(planId: Long): PlanData
+    fun savePlanData(planData: PlanData)
+    fun deletePlanData(planId: Long)
     fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
     fun getSimpleFriendData(): List<SimpleFriendData>
     fun loadGroups(): List<GroupData>

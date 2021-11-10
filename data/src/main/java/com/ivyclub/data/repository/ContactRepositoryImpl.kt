@@ -42,8 +42,16 @@ class ContactRepositoryImpl @Inject constructor(
         myPreference.setNotificationOnOff(state)
     }
 
-    override fun getPlanDetailsById(planId: Long): PlanData {
+    override fun getPlanDataById(planId: Long): PlanData {
         return contactDAO.getPlanDetailsById(planId)
+    }
+
+    override fun savePlanData(planData: PlanData) {
+        contactDAO.savePlanData(planData)
+    }
+
+    override fun deletePlanData(planId: Long) {
+        contactDAO.deletePlanData(planId)
     }
 
     override fun getSimpleFriendDataById(friendId: Long): SimpleFriendData {
