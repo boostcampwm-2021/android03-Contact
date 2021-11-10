@@ -1,10 +1,14 @@
 package com.ivyclub.contact.ui.main.add_edit_plan
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditPlanBinding
@@ -21,24 +25,42 @@ class AddEditPlanFragment :
     private val viewModel: AddEditPlanViewModel by viewModels()
     private val args: AddEditPlanFragmentArgs by navArgs()
 
+    private val onBackPressedCallback by lazy {
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showBackPressedDialog()
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewModel = viewModel
         binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date))
 
+        initBackPressedCallback()
         checkFrom()
         setButtonClickListeners()
         setObservers()
     }
 
+    override fun onDetach() {
+        onBackPressedCallback.remove()
+        super.onDetach()
+    }
+
+    private fun initBackPressedCallback() {
+        activity?.onBackPressedDispatcher?.addCallback(this, onBackPressedCallback)
+    }
+
     private fun setButtonClickListeners() {
         with(binding) {
             ivBtnEditPlanFinish.setOnClickListener {
-                this@AddEditPlanFragment.viewModel.savePlan(args.planId)
+                this@AddEditPlanFragment.viewModel.savePlan()
             }
             ivBtnDeletePlan.setOnClickListener {
-                // TODO: 일정 삭제
+                showDeletePlanDialog()
             }
             tvPlanTime.setOnClickListener {
                 this@AddEditPlanFragment.viewModel.planTime.value?.let {
@@ -69,6 +91,28 @@ class AddEditPlanFragment :
         ).show()
     }
 
+    private fun showDeletePlanDialog() {
+        if (context == null) return
+        AlertDialog.Builder(context)
+            .setMessage(R.string.ask_delete_plan)
+            .setPositiveButton(R.string.yes) { _, _ ->
+                viewModel.deletePlan()
+            }
+            .setNegativeButton(R.string.no, null)
+            .show()
+    }
+
+    private fun showBackPressedDialog() {
+        if (context == null) return
+        AlertDialog.Builder(context)
+            .setMessage(R.string.ask_back_while_edit_plan)
+            .setPositiveButton(R.string.yes) { _, _ ->
+                viewModel.finish()
+            }
+            .setNegativeButton(R.string.no, null)
+            .show()
+    }
+
     private fun checkFrom() {
         if (args.planId != -1L) viewModel.getLastPlan(args.planId)
     }
@@ -84,6 +128,15 @@ class AddEditPlanFragment :
             binding.flPlanParticipants.addChips(it.map { pair -> pair.name }) { index ->
                 viewModel.removeParticipant(index)
             }
+        }
+
+        viewModel.toastMessage.observe(viewLifecycleOwner) {
+            if (context == null) return@observe
+            Toast.makeText(context, getString(it), Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.finishEvent.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
         }
     }
 
