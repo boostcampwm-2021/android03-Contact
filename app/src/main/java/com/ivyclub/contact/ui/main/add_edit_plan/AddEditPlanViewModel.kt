@@ -73,8 +73,7 @@ class AddEditPlanViewModel @Inject constructor(
     fun removeParticipant(index: Int) {
         val participants = planParticipants.value?.toMutableList()
         participants?.let {
-            val participantToBeRemoved = it[index]
-            it.remove(participantToBeRemoved)
+            it.removeAt(index)
             _planParticipants.value = it
         }
     }
