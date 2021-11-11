@@ -69,6 +69,10 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.deletePlanData(planId)
     }
 
+    override fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData> {
+        return contactDAO.getSimpleFriendDataListByGroup(groupName)
+    }
+
     override fun getSimpleFriendDataById(friendId: Long): SimpleFriendData {
         return contactDAO.getSimpleFriendDataById(friendId)
     }

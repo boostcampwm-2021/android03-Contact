@@ -13,6 +13,7 @@ interface ContactRepository {
     fun getPlanDataById(planId: Long): PlanData
     fun savePlanData(planData: PlanData, lastParticipants: List<Long> = emptyList())
     fun deletePlanData(planId: Long)
+    fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
     fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
     fun getSimpleFriendData(): List<SimpleFriendData>
     fun loadGroups(): List<GroupData>

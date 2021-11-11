@@ -29,6 +29,9 @@ interface ContactDAO {
     @Query("SELECT planList FROM friendData WHERE id = :friendId")
     fun getFriendsPlanList(friendId: Long): FriendsPlanList
 
+    @Query("SELECT id, name, phoneNumber FROM FriendData WHERE groupName = :groupName")
+    fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
+
     @Query("DELETE FROM PlanData WHERE id = :planId")
     fun deletePlanData(planId: Long)
 
