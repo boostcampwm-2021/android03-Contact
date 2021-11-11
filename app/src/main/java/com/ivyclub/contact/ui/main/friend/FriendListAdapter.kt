@@ -54,11 +54,6 @@ class FriendListAdapter(
         return getItem(position).viewType.ordinal
     }
 
-    private fun setLongClicked(isLongClicked: Boolean) {
-        if (isLongClicked) longClickedItemCount++
-        else longClickedItemCount--
-    }
-
     // 아이템 중 하나라도 클릭 된 것이 있는지 확인하는 함수
     fun isOneOfItemLongClicked(): Boolean {
         return longClickedItemCount != 0
@@ -76,6 +71,11 @@ class FriendListAdapter(
 
     fun clearLongClickedItemCount() {
         longClickedItemCount = 0
+    }
+
+    private fun setLongClicked(isLongClicked: Boolean) {
+        if (isLongClicked) longClickedItemCount++
+        else longClickedItemCount--
     }
 
     class GroupNameViewHolder(
