@@ -73,10 +73,10 @@ class AddEditPlanViewModel @Inject constructor(
     }
 
     fun addParticipant(participantData: SimpleFriendData) {
-        val participants = planParticipants.value?.toMutableList()
+        val participants = planParticipants.value?.toMutableSet()
         participants?.let {
             it.add(participantData)
-            _planParticipants.value = it
+            _planParticipants.value = it.toList()
         }
     }
 
