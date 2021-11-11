@@ -107,6 +107,7 @@ class FriendDetailFragment :
             if(friend.birthday == "") {
                 llBirthday.visibility = View.GONE
             } else {
+                llBirthday.visibility = View.VISIBLE
                 tvBirthday.text = friend.birthday
             }
             for (key in friend.extraInfo.keys) {
