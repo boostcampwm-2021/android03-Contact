@@ -97,7 +97,7 @@ class ContactRepositoryImpl @Inject constructor(
         extraInfo: Map<String, String>,
         id: Long
     ) {
-        contactDAO.updateFriendData(phoneNumber, name, birthday, groupName, extraInfo, id
+        contactDAO.updateFriendData(phoneNumber, name, birthday, groupName, extraInfo, id)
     }
 
     companion object {
