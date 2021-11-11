@@ -71,6 +71,7 @@ class FriendListAdapter(
             getItem(targetItemIndex).isColored = false
             notifyItemChanged(targetItemIndex)
         }
+        longClickedItemCount = 0
     }
 
     class GroupNameViewHolder(
