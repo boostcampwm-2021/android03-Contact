@@ -1,5 +1,6 @@
 package com.ivyclub.contact.util
 
+import android.app.AlertDialog
 import android.content.Context
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -8,10 +9,11 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.children
 import androidx.core.view.isNotEmpty
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -107,11 +109,7 @@ fun ChipGroup.setFriendChips(friendList: List<String>, chipCount: Int = friendLi
 }
 
 fun ViewGroup.addChips(names: List<String>, onCloseIconClick: (Int) -> (Unit)) {
-    if (childCount > 1) {
-        children.toList().subList(0, childCount - 1).forEach {
-            removeView(it)
-        }
-    }
+    if (childCount > 0) { removeAllViews() }
 
     val layoutParams = ViewGroup.MarginLayoutParams(
         ViewGroup.MarginLayoutParams.WRAP_CONTENT,
@@ -133,9 +131,29 @@ fun ViewGroup.addChips(names: List<String>, onCloseIconClick: (Int) -> (Unit)) {
                 setOnCloseIconClickListener {
                     onCloseIconClick(index)
                 }
-            }, childCount - 1, layoutParams
+            }, layoutParams
         )
     }
+}
+
+fun View.setCustomBackgroundColor(@ColorRes color: Int) {
+    this.setBackgroundColor(ContextCompat.getColor(this.context, color))
+}
+
+fun Context.showAlertDialog(
+   message: String,
+   positiveCallback: () -> (Unit),
+   negativeCallback: (() -> (Unit))? = null
+) {
+    AlertDialog.Builder(this)
+        .setMessage(message)
+        .setPositiveButton(R.string.yes) { _, _ ->
+            positiveCallback.invoke()
+        }
+        .setNegativeButton(R.string.no) { _, _ ->
+            negativeCallback?.invoke()
+        }
+        .show()
 }
 
 fun Context.dpToPx(dp: Int) =

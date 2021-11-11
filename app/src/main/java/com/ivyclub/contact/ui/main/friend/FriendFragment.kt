@@ -2,7 +2,6 @@ package com.ivyclub.contact.ui.main.friend
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.DialogFriendBinding
 import com.ivyclub.contact.databinding.FragmentFriendBinding
+import com.ivyclub.contact.ui.main.friend.dialog.SelectGroupFragment
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.changeVisibilityWithDirection
 import com.ivyclub.contact.util.hideKeyboard
@@ -41,7 +41,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     private var _dialogBinding: DialogFriendBinding? = null
     private val dialogBinding get() = _dialogBinding ?: error("dialogBinding이 초기화되지 않았습니다.")
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -65,6 +64,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         observeSearchViewVisibility()
         observeFriendList()
         viewModel.getFriendData()
+        getGroupSelectFragmentResult()
     }
 
     override fun onDetach() {
@@ -80,17 +80,32 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         ivAddFriendIcon.setOnClickListener {
             val popupMenu = PopupMenu(requireContext(), it)
             val menuInflater = popupMenu.menuInflater
-            menuInflater.inflate(R.menu.menu_friend_and_group, popupMenu.menu)
-            popupMenu.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.item_new_friend -> {
-                        findNavController().navigate(R.id.action_navigation_friend_to_addFriendFragment)
+            if (friendListAdapter.isOneOfItemLongClicked()) {
+                menuInflater.inflate(R.menu.menu_set_friends_at_friendlist, popupMenu.menu)
+                popupMenu.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.item_move_friends_to -> {
+                            SelectGroupFragment().show(
+                                childFragmentManager,
+                                SelectGroupFragment.TAG
+                            )
+                        }
                     }
-                    R.id.item_new_group -> {
-                        showDialog()
-                    }
+                    false
                 }
-                false
+            } else {
+                menuInflater.inflate(R.menu.menu_friend_and_group, popupMenu.menu)
+                popupMenu.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.item_new_friend -> {
+                            findNavController().navigate(R.id.action_navigation_friend_to_addFriendFragment)
+                        }
+                        R.id.item_new_group -> {
+                            showDialog()
+                        }
+                    }
+                    false
+                }
             }
             popupMenu.show()
         }
@@ -133,7 +148,11 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun initFriendListAdapter() {
-        friendListAdapter = FriendListAdapter(onGroupClick = viewModel::manageGroupFolded)
+        friendListAdapter = FriendListAdapter(
+            onGroupClick = viewModel::manageGroupFolded,
+            onFriendClick = this::navigateToFriendDetailFragment,
+            onFriendLongClick = viewModel::setLongClickedId
+        )
         binding.rvFriendList.adapter = friendListAdapter
     }
 
@@ -169,6 +188,22 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         viewModel.friendList.observe(viewLifecycleOwner) { newFriendList ->
             // 새로운 리스트로 리사이클러뷰 갱신
             friendListAdapter.submitList(newFriendList)
+        }
+    }
+
+    private fun navigateToFriendDetailFragment(friendId: Long) {
+        findNavController().navigate(
+            FriendFragmentDirections.actionNavigationFriendToFriendDetailFragment(
+                friendId
+            )
+        )
+    }
+
+    private fun getGroupSelectFragmentResult() {
+        childFragmentManager.setFragmentResultListener("requestKey", this) { key, bundle ->
+            val result = bundle.getString("bundleKey")
+            viewModel.updateFriendsGroup(result)
+            binding.rvFriendList.adapter = friendListAdapter
         }
     }
 

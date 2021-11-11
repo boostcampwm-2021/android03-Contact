@@ -1,9 +1,10 @@
 package com.ivyclub.data.repository
 
-import androidx.room.*
-import com.ivyclub.data.model.FriendData
-import com.ivyclub.data.model.PlanData
-import com.ivyclub.data.model.GroupData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.ivyclub.data.model.*
 
 @Dao
 interface ContactDAO {
@@ -13,11 +14,26 @@ interface ContactDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFriendData(friendData: FriendData)
 
+    @Query("SELECT id, title, date, participant FROM PlanData ORDER BY date ASC")
+    fun getPlanList(): List<SimplePlanData>
+
     @Query("SELECT * FROM PlanData WHERE id = :planId")
     fun getPlanDetailsById(planId: Long): PlanData
 
     @Query("SELECT name FROM FriendData WHERE phoneNumber = :phoneNumber")
     fun getFriendNameByPhoneNumber(phoneNumber: String): String
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun savePlanData(planData: PlanData)
+
+    @Query("DELETE FROM PlanData WHERE id = :planId")
+    fun deletePlanData(planId: Long)
+
+    @Query("SELECT id, name, phoneNumber FROM FriendData WHERE id = :friendId")
+    fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
+
+    @Query("SELECT id, name, phoneNumber FROM FriendData")
+    fun getSimpleFriendData(): List<SimpleFriendData>
 
     @Query("SELECT * FROM GroupData")
     fun getGroups(): List<GroupData>
@@ -31,9 +47,23 @@ interface ContactDAO {
     @Query("SELECT * FROM PlanData WHERE title = :planTitle LIMIT 1")
     fun getPlanByTitle(planTitle: String): PlanData
 
+
     @Query("SELECT * FROM FriendData WHERE id = :id LIMIT 1")
     fun getFriendDataById(id: Long): FriendData
 
     @Query("SELECT * FROM PlanData WHERE id IN (:planIds)")
     fun getPlansByIds(planIds: List<Long>): List<PlanData>
+
+    @Query("UPDATE FriendData SET groupName = :groupName WHERE id = :friendId")
+    fun updateFriendGroup(friendId: Long, groupName: String)
+
+    @Query("UPDATE FriendData SET phoneNumber = :phoneNumber, name = :name, birthday = :birthday, groupName = :groupName, extraInfo = :extraInfo WHERE id = :id ")
+    fun updateFriendData(
+        phoneNumber: String,
+        name: String,
+        birthday: String,
+        groupName: String,
+        extraInfo: Map<String, String>,
+        id: Long
+    )
 }

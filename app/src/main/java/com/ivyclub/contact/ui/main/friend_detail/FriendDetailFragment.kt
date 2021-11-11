@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
 import com.ivyclub.contact.util.BaseFragment
@@ -23,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class FriendDetailFragment :
     BaseFragment<FragmentFriendDetailBinding>(R.layout.fragment_friend_detail) {
     private val viewModel: FriendDetailViewModel by viewModels()
+    private val args: FriendDetailFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,7 +53,7 @@ class FriendDetailFragment :
                 viewModel.setFavorite(id, btnFavorite.isChecked)
             }
             ivEdit.setOnClickListener {
-                Toast.makeText(context,"Good",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Good", Toast.LENGTH_SHORT).show()
             }
             ivBackIcon.setOnClickListener {
                 findNavController().popBackStack()

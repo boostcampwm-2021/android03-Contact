@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/item_new_friend"
-        android:title="New friend"/>
+        android:title="@string/menu_add_friend"/>
     <item
         android:id="@+id/item_new_group"
-        android:title="New group"/>
+        android:title="@string/menu_add_group"/>
 </menu>
