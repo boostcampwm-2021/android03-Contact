@@ -63,7 +63,8 @@ class AddEditFriendFragment :
             tvBirthdayValue.setOnClickListener {
                 val today = Date(System.currentTimeMillis())
                 val listener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                    tvBirthdayValue.text = "${year}.${month}.${day}"
+                    tvBirthdayValue.text = "${year}.${month + 1}.${day}"
+                    this@AddEditFriendFragment.viewModel.showClearButtonVisible(true)
                 }
                 DatePickerDialog(
                     requireContext(),
@@ -76,6 +77,7 @@ class AddEditFriendFragment :
 
             ivClearBirthday.setOnClickListener {
                 tvBirthdayValue.text = ""
+                this@AddEditFriendFragment.viewModel.showClearButtonVisible(false)
             }
         }
     }
