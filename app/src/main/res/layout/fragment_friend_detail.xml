@@ -102,7 +102,7 @@
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toEndOf="@id/iv_profile_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_name_text"
                     tools:text="홍길동" />
@@ -129,7 +129,7 @@
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="4dp"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     app:layout_constraintTop_toBottomOf="@id/tv_group_title"
                     tools:text="부스트 캠프 1기" />
 
@@ -155,7 +155,7 @@
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="8dp"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="@+id/iv_profile_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_phone_num_text"
                     tools:text="010-1234-5678" />
@@ -184,7 +184,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="생일"
+                        android:text="@string/friend_detail_birthday"
                         android:textSize="12sp" />
 
                     <TextView
@@ -196,7 +196,7 @@
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="8dp"
                         android:textColor="@color/black"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         tools:text="2019.12.12" />
 
                 </LinearLayout>
@@ -243,7 +243,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_plan"
                     android:orientation="vertical"
-                    android:paddingStart="16dp"
+                    android:paddingHorizontal="16dp"
                     android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/tv_plan_text">
 
@@ -262,8 +262,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         tools:text="2021.01.01" />
                 </LinearLayout>
 
@@ -275,7 +274,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_plan"
                     android:orientation="vertical"
-                    android:paddingStart="16dp"
+                    android:paddingHorizontal="16dp"
                     android:visibility="gone"
                     app:layout_constraintTop_toBottomOf="@id/ll_plan1">
 
@@ -294,8 +293,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         tools:text="2022.01.01" />
                 </LinearLayout>
 

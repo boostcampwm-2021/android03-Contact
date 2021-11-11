@@ -47,18 +47,32 @@ class FriendDetailFragment :
         viewModel.friendData.observe(this, {
             initDetails(it)
         })
-        viewModel.plan1.observe(this, {
+        viewModel.plan1.observe(this, { data ->
             with(binding) {
                 llPlan1.visibility = View.VISIBLE
-                tvPlan1Title.text = it.title
-                tvPlan1Time.text = LocalDate.parse(it.date.toString(),formatFrom).format(formatTo)
+                tvPlan1Title.text = data.title
+                tvPlan1Time.text = LocalDate.parse(data.date.toString(),formatFrom).format(formatTo)
+                llPlan1.setOnClickListener {
+                    findNavController().navigate(
+                        FriendDetailFragmentDirections.actionFriendDetailFragmentToPlanDetailsFragment(
+                            data.id
+                        )
+                    )
+                }
             }
         })
-        viewModel.plan2.observe(this, {
+        viewModel.plan2.observe(this, { data ->
             with(binding) {
                 llPlan2.visibility = View.VISIBLE
-                tvPlan2Title.text = it.title
-                tvPlan2Time.text = LocalDate.parse(it.date.toString(),formatFrom).format(formatTo)
+                tvPlan2Title.text = data.title
+                tvPlan2Time.text = LocalDate.parse(data.date.toString(),formatFrom).format(formatTo)
+                llPlan2.setOnClickListener {
+                    findNavController().navigate(
+                        FriendDetailFragmentDirections.actionFriendDetailFragmentToPlanDetailsFragment(
+                            data.id
+                        )
+                    )
+                }
             }
         })
     }
@@ -130,7 +144,7 @@ class FriendDetailFragment :
         return TextView(context).apply {
             this.text = text
             setTextColor(Color.BLACK)
-            textSize = 20f
+            textSize = 16f
             this.layoutParams = layoutParams
             setBackgroundResource(R.drawable.bg_details)
             setPadding(48,24,48,24)

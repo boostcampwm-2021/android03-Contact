@@ -63,4 +63,5 @@
     <string name="ask_save_plan">해당 일정을 저장하시겠습니까?</string>
     <string name="alert_plan_empty">추가한 일정이 없습니다!\n새로운 일정을 추가하려면 상단의 추가 버튼을 탭해주세요</string>
     <string name="add_edit_plan_load_group">그룹 불러오기</string>
+    <string name="friend_detail_birthday">생일</string>
 </resources>
