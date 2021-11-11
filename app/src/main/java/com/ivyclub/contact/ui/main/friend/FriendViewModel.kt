@@ -133,6 +133,11 @@ class FriendViewModel @Inject constructor(
         }
     }
 
+    fun clearLongClickedId() {
+        longClickedId.clear()
+        _isInLongClickedState.value = longClickedId.isNotEmpty()
+    }
+
     private fun initLongClickedId() {
         longClickedId.clear()
     }

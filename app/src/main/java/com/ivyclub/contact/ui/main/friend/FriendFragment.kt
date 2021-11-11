@@ -34,6 +34,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                     }
                     viewModel.isInLongClickedState.value == true -> {
                         friendListAdapter.setAllClickedClear(viewModel.longClickedId)
+                        viewModel.clearLongClickedId()
                     }
                     else -> {
                         requireActivity().finish()
