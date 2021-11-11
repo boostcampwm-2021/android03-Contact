@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -15,21 +16,36 @@
             android:id="@+id/et_extra_info_title"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:background="@drawable/bg_add_friend_info"
-            android:hint="@string/add_extra_info_i_title_hint"
+            android:background="@drawable/bg_add_edit_friend_info"
+            android:hint="@string/add_edit_friend_extra_info_title_hint"
             android:paddingHorizontal="8dp"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/et_extra_info_value"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_remove_extra_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_remove_24"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/et_extra_info_value"/>
 
         <EditText
             android:id="@+id/et_extra_info_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:background="@drawable/bg_add_friend_info"
+            android:background="@drawable/bg_add_edit_friend_info"
             android:paddingHorizontal="8dp"
             android:paddingVertical="12dp"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/et_extra_info_title"
+            app:layout_constraintTop_toBottomOf="@id/et_extra_info_title" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

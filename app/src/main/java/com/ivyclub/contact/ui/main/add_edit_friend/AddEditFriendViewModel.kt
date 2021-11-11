@@ -1,4 +1,4 @@
-package com.ivyclub.contact.ui.main.add_friend
+package com.ivyclub.contact.ui.main.add_edit_friend
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddFriendViewModel @Inject constructor(val repository: ContactRepository) : ViewModel() {
+class AddEditFriendViewModel @Inject constructor(val repository: ContactRepository) : ViewModel() {
 
     private val _groups = MutableLiveData<List<String>>()
     val groups: LiveData<List<String>> get() = _groups
@@ -47,6 +47,21 @@ class AddFriendViewModel @Inject constructor(val repository: ContactRepository) 
     @JvmOverloads
     fun addExtraInfo(title: String = EMPTY_STRING, value: String = EMPTY_STRING) {
         extraInfoList.add(FriendExtraInfoData(title, value))
+        _extraInfos.value = extraInfoList
+    }
+
+    fun addExtraInfoList(extraInfoMap: Map<String, String>) {
+        extraInfoMap.keys.forEach { key ->
+            val value = extraInfoMap[key]
+            if (value != null) {
+                extraInfoList.add(FriendExtraInfoData(key, value))
+            }
+        }
+        _extraInfos.value = extraInfoList
+    }
+
+    fun removeExtraInfo(position: Int) {
+        extraInfoList.removeAt(position)
         _extraInfos.value = extraInfoList
     }
 

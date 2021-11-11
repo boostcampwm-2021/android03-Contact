@@ -11,7 +11,7 @@
         tools:layout="@layout/fragment_friend" >
         <action
             android:id="@+id/action_navigation_friend_to_addFriendFragment"
-            app:destination="@id/addFriendFragment" />
+            app:destination="@id/addEditFriendFragment" />
         <action
             android:id="@+id/action_navigation_friend_to_settingsFragment"
             app:destination="@id/settingsFragment" />
@@ -36,10 +36,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/addFriendFragment"
-        android:name="com.ivyclub.contact.ui.main.add_friend.AddFriendFragment"
-        android:label="AddFriendFragment"
-        tools:layout="@layout/fragment_add_friend">
+        android:id="@+id/addEditFriendFragment"
+        android:name="com.ivyclub.contact.ui.main.add_edit_friend.AddEditFriendFragment"
+        android:label="AddEditFriendFragment"
+        tools:layout="@layout/fragment_add_edit_friend">
         <argument
             android:name="friendId"
             app:argType="long"
