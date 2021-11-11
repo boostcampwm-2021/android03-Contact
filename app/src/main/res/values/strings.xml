@@ -47,6 +47,7 @@
     <string name="add_friend_phone_number">*전화번호</string>
     <string name="add_friend_birthday">생년월일</string>
     <string name="add_extra_info_i_title_hint">추가 정보</string>
+    <string name="menu_select_all">모두선택</string>
     <string name="add_plan_success">새로운 일정이 저장되었습니다.</string>
     <string name="update_plan_success">일정 정보가 갱신되었습니다.</string>
     <string name="delete_plan_success">해당 일정이 삭제되었습니다.</string>

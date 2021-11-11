@@ -57,7 +57,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             requestPermission()
         }
         btnCommit.setOnClickListener {
-            viewModel.saveFriendsData(contactAdapter.addList)
+            viewModel.saveFriendsData(contactAdapter.addSet.toMutableList())
             val intent = Intent(context, MainActivity::class.java)
             activity?.setResult(RESULT_OK, intent)
             activity?.finish()
@@ -100,10 +100,15 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         binding.tbAddContact.setupWithNavController(navController, appBarConfiguration)
         binding.tbAddContact.title = ""
-        binding.tbAddContact.inflateMenu(R.menu.menu_on_boarding)
+        binding.tbAddContact.inflateMenu(R.menu.menu_on_boarding_add)
         binding.tbAddContact.setOnMenuItemClickListener {
-            if (it.itemId == R.id.skip) {
-                SkipDialog(ok, context).showDialog()
+            when (it.itemId) {
+                R.id.skip -> {
+                    SkipDialog(ok, context).showDialog()
+                }
+                R.id.select_all -> {
+                    contactAdapter.selectAllItem()
+                }
             }
             true
         }
