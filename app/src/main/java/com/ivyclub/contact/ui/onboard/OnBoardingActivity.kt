@@ -1,6 +1,7 @@
 package com.ivyclub.contact.ui.onboard
 
 import android.content.DialogInterface
+import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.ivyclub.contact.R
@@ -17,6 +18,11 @@ class OnBoardingActivity : BaseActivity<ActivityOnBoardingBinding>(R.layout.acti
 
     private val ok = DialogInterface.OnClickListener { _, _ ->
         finish()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.saveDefaultGroup()
     }
 
     override fun onBackPressed() {
