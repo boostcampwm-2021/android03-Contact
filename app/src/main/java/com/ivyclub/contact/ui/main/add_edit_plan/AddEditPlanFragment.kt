@@ -102,7 +102,7 @@ class AddEditPlanFragment :
     }
 
     private fun showBackPressedDialog() {
-        context?.showAlertDialog(getString(R.string.ask_back_while_edit_plan), {
+        context?.showAlertDialog(getString(R.string.ask_back_while_edit), {
             viewModel.finish()
         })
     }

@@ -26,6 +26,8 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     val canSaveFriendData: LiveData<Boolean> get() = _canSaveFriendData
     private val _friendData = MutableLiveData<FriendData>()
     val friendData: LiveData<FriendData> get() = _friendData
+    private val _showClearButtonVisible = MutableLiveData<Boolean>()
+    val showClearButtonVisible: LiveData<Boolean> get() = _showClearButtonVisible
     private val extraInfoList = mutableListOf<FriendExtraInfoData>()
 
 
@@ -41,6 +43,7 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
         viewModelScope.launch(Dispatchers.IO) {
             val friendData = repository.getFriendDataById(friendId)
             _friendData.postValue(friendData)
+            showClearButtonVisible(friendData.birthday.isNotEmpty())
         }
     }
 
@@ -116,6 +119,10 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
         _isPhoneNumberEmpty.value = isPhoneNumberEmpty
         _isNameEmpty.value = isNameEmpty
         _canSaveFriendData.value = !(isPhoneNumberEmpty || isNameEmpty)
+    }
+
+    fun showClearButtonVisible(show: Boolean) {
+        _showClearButtonVisible.postValue(show)
     }
 
     companion object {
