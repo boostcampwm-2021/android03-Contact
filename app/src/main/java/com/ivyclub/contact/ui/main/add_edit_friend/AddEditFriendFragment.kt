@@ -6,16 +6,14 @@ import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.activity.addCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditFriendBinding
-import com.ivyclub.contact.util.BaseFragment
-import com.ivyclub.contact.util.getDayOfMonth
-import com.ivyclub.contact.util.getExactMonth
-import com.ivyclub.contact.util.getExactYear
+import com.ivyclub.contact.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
 
@@ -36,6 +34,7 @@ class AddEditFriendFragment :
         observeExtraInfos()
         observeRequiredState()
         initClickListener()
+        initBackPressedListener()
     }
 
     private fun setFriendData() {
@@ -54,7 +53,7 @@ class AddEditFriendFragment :
     private fun initClickListener() {
         with(binding) {
             ivBackIcon.setOnClickListener {
-                findNavController().popBackStack()
+                showBackPressedDialog()
             }
 
             ivSaveIcon.setOnClickListener {
@@ -112,6 +111,19 @@ class AddEditFriendFragment :
     private fun observeExtraInfos() {
         viewModel.extraInfos.observe(viewLifecycleOwner) {
             extraInfoListAdapter.submitList(it.toMutableList())
+        }
+    }
+
+    private fun showBackPressedDialog() {
+        requireContext().showAlertDialog(getString(R.string.ask_back_while_edit_plan), {
+            findNavController().popBackStack()
+        })
+    }
+
+    private fun initBackPressedListener() {
+        if (context == null) return
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            showBackPressedDialog()
         }
     }
 
