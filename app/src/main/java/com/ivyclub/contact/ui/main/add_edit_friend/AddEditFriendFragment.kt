@@ -1,13 +1,10 @@
 package com.ivyclub.contact.ui.main.add_edit_friend
 
 import android.app.DatePickerDialog
-import android.os.Build
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.activity.addCallback
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -115,7 +112,7 @@ class AddEditFriendFragment :
     }
 
     private fun showBackPressedDialog() {
-        requireContext().showAlertDialog(getString(R.string.ask_back_while_edit_plan), {
+        requireContext().showAlertDialog(getString(R.string.ask_back_while_edit), {
             findNavController().popBackStack()
         })
     }
