@@ -65,8 +65,13 @@ class ContactRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun deletePlanData(planId: Long) {
-        contactDAO.deletePlanData(planId)
+    override fun deletePlanData(planData: PlanData) {
+        contactDAO.deletePlanData(planData)
+        planData.participant.forEach { friendId ->
+            val planSet = contactDAO.getFriendsPlanList(friendId).planList.toMutableSet()
+            planSet.remove(planData.id)
+            contactDAO.updateFriendsPlanList(friendId, planSet.toList())
+        }
     }
 
     override fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData> {

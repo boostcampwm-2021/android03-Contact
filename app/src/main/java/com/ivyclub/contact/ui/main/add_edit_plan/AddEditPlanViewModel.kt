@@ -131,18 +131,6 @@ class AddEditPlanViewModel @Inject constructor(
         }
     }
 
-    fun deletePlan() {
-        if (planId == -1L) {
-            finish()
-            return
-        }
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deletePlanData(planId)
-            makeToast(R.string.delete_plan_success)
-            finish()
-        }
-    }
-
     private fun makeToast(strId: Int) {
         _toastMessage.postValue(strId)
     }

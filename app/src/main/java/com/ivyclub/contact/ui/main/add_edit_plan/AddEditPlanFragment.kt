@@ -60,9 +60,6 @@ class AddEditPlanFragment :
             ivBtnEditPlanFinish.setOnClickListener {
                 showSavePlanDialog()
             }
-            ivBtnDeletePlan.setOnClickListener {
-                showDeletePlanDialog()
-            }
             tvPlanTime.setOnClickListener {
                 this@AddEditPlanFragment.viewModel.planTime.value?.let {
                     showDatePickerDialog(it)
@@ -101,12 +98,6 @@ class AddEditPlanFragment :
     private fun showSavePlanDialog() {
         context?.showAlertDialog(getString(R.string.ask_save_plan), {
             viewModel.savePlan()
-        })
-    }
-
-    private fun showDeletePlanDialog() {
-        context?.showAlertDialog(getString(R.string.ask_delete_plan), {
-            viewModel.deletePlan()
         })
     }
 
