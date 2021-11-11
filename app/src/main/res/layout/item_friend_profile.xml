@@ -15,8 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/FriendListViewSelectableItemBackground"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/iv_profile_image"
