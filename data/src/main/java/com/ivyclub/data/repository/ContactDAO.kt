@@ -4,9 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ivyclub.data.model.FriendData
-import com.ivyclub.data.model.GroupData
-import com.ivyclub.data.model.PlanData
+import com.ivyclub.data.model.*
 
 @Dao
 interface ContactDAO {
