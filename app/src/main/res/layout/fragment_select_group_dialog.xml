@@ -27,14 +27,14 @@
             app:layout_constraintTop_toBottomOf="@id/tv_please_select" />
 
         <TextView
-            android:id="@+id/tv_move"
+            android:id="@+id/tv_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
             android:layout_marginBottom="32dp"
             android:background="?attr/selectableItemBackground"
             android:padding="4dp"
-            android:text="@string/fragment_select_group_dialog_move"
+            android:text="@string/fragment_select_group_dialog_select"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/spn_group"
@@ -48,8 +48,8 @@
             android:background="?attr/selectableItemBackground"
             android:padding="4dp"
             android:text="@string/fragment_select_group_dialog_cancel"
-            app:layout_constraintEnd_toStartOf="@id/tv_move"
-            app:layout_constraintTop_toTopOf="@id/tv_move" />
+            app:layout_constraintEnd_toStartOf="@id/tv_select"
+            app:layout_constraintTop_toTopOf="@id/tv_select" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

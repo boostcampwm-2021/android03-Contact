@@ -1,9 +1,6 @@
 package com.ivyclub.data.repository
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.ivyclub.data.model.*
 
 @Dao
@@ -24,7 +21,16 @@ interface ContactDAO {
     fun getFriendNameByPhoneNumber(phoneNumber: String): String
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun savePlanData(planData: PlanData)
+    fun insertPlanData(planData: PlanData): Long
+
+    @Query("UPDATE FriendData SET planList = :planList WHERE id = :friendId")
+    fun updateFriendsPlanList(friendId: Long, planList: List<Long>)
+
+    @Query("SELECT planList FROM friendData WHERE id = :friendId")
+    fun getFriendsPlanList(friendId: Long): FriendsPlanList
+
+    @Query("SELECT id, name, phoneNumber FROM FriendData WHERE groupName = :groupName")
+    fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
 
     @Query("DELETE FROM PlanData WHERE id = :planId")
     fun deletePlanData(planId: Long)

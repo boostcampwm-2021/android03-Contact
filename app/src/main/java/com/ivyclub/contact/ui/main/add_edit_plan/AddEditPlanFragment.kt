@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditPlanBinding
+import com.ivyclub.contact.ui.main.friend.dialog.SelectGroupFragment
 import com.ivyclub.contact.util.*
 import com.ivyclub.data.model.SimpleFriendData
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +42,7 @@ class AddEditPlanFragment :
         initBackPressedCallback()
         checkFrom()
         setButtonClickListeners()
+        getGroupSelectFragmentResult()
         setObservers()
     }
 
@@ -65,6 +67,12 @@ class AddEditPlanFragment :
                 this@AddEditPlanFragment.viewModel.planTime.value?.let {
                     showDatePickerDialog(it)
                 }
+            }
+            tvBtnLoadGroup.setOnClickListener {
+                SelectGroupFragment().show(
+                    childFragmentManager,
+                    SelectGroupFragment.TAG
+                )
             }
         }
     }
@@ -110,6 +118,15 @@ class AddEditPlanFragment :
 
     private fun checkFrom() {
         if (args.planId != -1L) viewModel.getLastPlan(args.planId)
+    }
+
+    private fun getGroupSelectFragmentResult() {
+        childFragmentManager.setFragmentResultListener("requestKey", this) { _, bundle ->
+            val result = bundle.getString("bundleKey")
+            result?.let {
+                viewModel.addParticipantsByGroup(it)
+            }
+        }
     }
 
     private fun setObservers() {

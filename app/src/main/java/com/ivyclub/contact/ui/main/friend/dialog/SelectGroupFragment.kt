@@ -48,7 +48,7 @@ class SelectGroupFragment : DialogFragment() {
     }
 
     private fun initMoveButton() {
-        binding.tvMove.setOnClickListener {
+        binding.tvSelect.setOnClickListener {
             val result = binding.spnGroup.selectedItem.toString()
             setFragmentResult("requestKey", bundleOf("bundleKey" to result))
             dismiss()

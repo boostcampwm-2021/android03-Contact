@@ -47,3 +47,7 @@ data class SimplePlanData(
     val date: Date,
     val participant: List<Long>
 )
+
+data class FriendsPlanList(
+    val planList: List<Long>
+)

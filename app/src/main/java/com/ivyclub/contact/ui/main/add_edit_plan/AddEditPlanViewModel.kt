@@ -18,6 +18,7 @@ class AddEditPlanViewModel @Inject constructor(
     private val repository: ContactRepository
 ) : ViewModel() {
     private var planId = -1L
+    private val lastParticipants = mutableListOf<Long>()
     private val friendMap = mutableMapOf<Long, SimpleFriendData>()
     private val _friendList = MutableLiveData<List<SimpleFriendData>>()
     val friendList: LiveData<List<SimpleFriendData>> = _friendList
@@ -54,6 +55,8 @@ class AddEditPlanViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             repository.getPlanDataById(planId)?.let {
+                lastParticipants.addAll(it.participant)
+
                 planTitle.postValue(it.title)
                 _planTime.postValue(it.date)
                 planPlace.postValue(it.place)
@@ -85,6 +88,17 @@ class AddEditPlanViewModel @Inject constructor(
         }
     }
 
+    fun addParticipantsByGroup(groupName: String) {
+        val participantSet = planParticipants.value?.toMutableSet()
+        participantSet?.let { set ->
+            viewModelScope.launch(Dispatchers.IO) {
+                val friendsInGroup = repository.getSimpleFriendDataListByGroup(groupName)
+                set.addAll(friendsInGroup)
+                _planParticipants.postValue(set.toList())
+            }
+        }
+    }
+
     fun setNewDate(newDate: Date) {
         _planTime.value = newDate
     }
@@ -108,7 +122,7 @@ class AddEditPlanViewModel @Inject constructor(
             else PlanData(participants, planDate, title, place, content, color)
 
         viewModelScope.launch(Dispatchers.IO) {
-            repository.savePlanData(newPlan)
+            repository.savePlanData(newPlan, lastParticipants)
             makeToast(
                 if (planId == -1L) R.string.add_plan_success
                 else R.string.update_plan_success
