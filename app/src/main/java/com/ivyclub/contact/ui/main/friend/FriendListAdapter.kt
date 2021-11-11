@@ -64,6 +64,15 @@ class FriendListAdapter(
         return longClickedItemCount != 0
     }
 
+    fun setAllClickedClear(clickedIdList: List<Long>) {
+        for (currentId in clickedIdList) {
+            val targetItemIndex = currentList.indexOfFirst { it.id == currentId }
+            if (targetItemIndex == -1) continue // 없을 경우 1반환
+            getItem(targetItemIndex).isColored = false
+            notifyItemChanged(targetItemIndex)
+        }
+    }
+
     class GroupNameViewHolder(
         private val binding: ItemGroupNameBinding,
         private val onGroupClick: (String) -> Unit
@@ -95,8 +104,7 @@ class FriendListAdapter(
         private val isOneOfItemLongClicked: () -> Boolean, // 다른 아이템 중 하나라도 long clicked 되어 있는지 확인하는 함수
         private val transferClickedIdToViewModel: (Boolean, Long) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        private var friendId = -1L
-        private var isItemLongClicked = false
+        private lateinit var currentItem: FriendListData
 
         init {
             onFriendClick()
@@ -104,30 +112,31 @@ class FriendListAdapter(
         }
 
         fun bind(friendItemData: FriendListData) {
+            binding.root.setCustomBackgroundColor(if (friendItemData.isColored) R.color.blue_100 else R.color.white) // 배경색 변경
             binding.data = friendItemData
-            this.friendId = friendItemData.id
+            this.currentItem = friendItemData
         }
 
         private fun onFriendClick() = with(binding.root) {
             setOnClickListener {
                 // 롱 클릭 되어 있는 상태에서 누르는 것인지 구분
                 if (isOneOfItemLongClicked.invoke()) {
-                    isItemLongClicked = !isItemLongClicked // 현재 아이템이 클릭된 아이템으로 명시
-                    setLongClicked(isItemLongClicked) // 롱클릭된 아이템 하나 추가
-                    setCustomBackgroundColor(if (isItemLongClicked) R.color.blue_100 else R.color.white) // 배경색 변경
-                    transferClickedIdToViewModel(isItemLongClicked, friendId)
+                    currentItem.isColored = !(currentItem.isColored) // 현재 아이템이 클릭된 아이템으로 명시
+                    setLongClicked(currentItem.isColored) // 롱클릭된 아이템 하나 추가
+                    setCustomBackgroundColor(if (currentItem.isColored) R.color.blue_100 else R.color.white) // 배경색 변경
+                    transferClickedIdToViewModel(currentItem.isColored, currentItem.id)
                 } else { // 롱 클릭 하는 중이 아니라면
-                    onFriendClick.invoke(friendId) // 해당 친구 리스트로 이동
+                    onFriendClick.invoke(currentItem.id) // 해당 친구 리스트로 이동
                 }
             }
         }
 
         private fun onFriendLongClick() {
             binding.root.setOnLongClickListener {
-                isItemLongClicked = true
+                currentItem.isColored = true
                 setLongClicked(true)
                 it.setCustomBackgroundColor(R.color.blue_100)
-                transferClickedIdToViewModel(true, friendId)
+                transferClickedIdToViewModel(true, currentItem.id)
                 true // true로 반환하면 click이벤트는 무시하고, longClick 이벤트만 적용하는 것
             }
         }

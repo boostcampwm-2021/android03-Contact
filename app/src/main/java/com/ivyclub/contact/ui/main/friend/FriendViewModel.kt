@@ -40,7 +40,7 @@ class FriendViewModel @Inject constructor(
     val isInLongClickedState: LiveData<Boolean> get() = _isInLongClickedState
 
     private val foldedGroupNameList = mutableListOf<String>()
-    private val longClickedId = mutableListOf<Long>()
+    val longClickedId = mutableListOf<Long>()
 
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendData() {
