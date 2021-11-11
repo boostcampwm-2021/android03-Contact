@@ -8,6 +8,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditFriendBinding
 import com.ivyclub.contact.util.*
@@ -95,6 +96,7 @@ class AddEditFriendFragment :
                         args.friendId
                     )
                     findNavController().popBackStack()
+                    Snackbar.make(binding.root, getString(R.string.add_edit_success_message), Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
