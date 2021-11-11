@@ -79,6 +79,21 @@ class ContactRepositoryImpl @Inject constructor(
         return contactDAO.getPlanByTitle(title)
     }
 
+    override fun getFriendDataById(friendId: Long): FriendData {
+        return contactDAO.getFriendDataById(friendId)
+    }
+
+    override fun updateFriend(
+        phoneNumber: String,
+        name: String,
+        birthday: String,
+        groupName: String,
+        extraInfo: Map<String, String>,
+        id: Long
+    ) {
+        return contactDAO.updateFriendData(phoneNumber, name, birthday, groupName, extraInfo, id)
+    }
+
     companion object {
         const val NOTIFICATION_START = "NOTIFICATION_START"
         const val NOTIFICATION_END = "NOTIFICATION_END"

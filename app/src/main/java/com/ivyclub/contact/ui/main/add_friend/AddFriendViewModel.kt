@@ -22,8 +22,10 @@ class AddFriendViewModel @Inject constructor(val repository: ContactRepository) 
     val isPhoneNumberEmpty: LiveData<Boolean> get() = _isPhoneNumberEmpty
     private val _isNameEmpty = MutableLiveData(false)
     val isNameEmpty: LiveData<Boolean> get() = _isNameEmpty
-    private val _canSaveNewFriend = MutableLiveData<Boolean>()
-    val canSaveNewFriend: LiveData<Boolean> get() = _canSaveNewFriend
+    private val _canSaveFriendData = MutableLiveData<Boolean>()
+    val canSaveFriendData: LiveData<Boolean> get() = _canSaveFriendData
+    private val _friendData = MutableLiveData<FriendData>()
+    val friendData: LiveData<FriendData> get() = _friendData
     private val extraInfoList = mutableListOf<FriendExtraInfoData>()
 
 
@@ -34,17 +36,27 @@ class AddFriendViewModel @Inject constructor(val repository: ContactRepository) 
         }
     }
 
-    fun addExtraInfo() {
-        extraInfoList.add(FriendExtraInfoData(EMPTY_STRING, EMPTY_STRING))
+    fun getFriendData(friendId: Long) {
+        if (friendId == -1L) return
+        viewModelScope.launch(Dispatchers.IO) {
+            val friendData = repository.getFriendDataById(friendId)
+            _friendData.postValue(friendData)
+        }
+    }
+
+    @JvmOverloads
+    fun addExtraInfo(title: String = EMPTY_STRING, value: String = EMPTY_STRING) {
+        extraInfoList.add(FriendExtraInfoData(title, value))
         _extraInfos.value = extraInfoList
     }
 
-    fun saveNewFriend(
+    fun saveFriendData(
         phoneNumber: String,
         name: String,
         birthday: String,
         groupName: String,
-        extraInfo: List<FriendExtraInfoData>
+        extraInfo: List<FriendExtraInfoData>,
+        id: Long
     ) {
         val extraInfoMap = mutableMapOf<String, String>()
         extraInfo.forEach {
@@ -53,17 +65,29 @@ class AddFriendViewModel @Inject constructor(val repository: ContactRepository) 
             }
         }
         viewModelScope.launch(Dispatchers.IO) {
-            repository.saveFriend(
-                FriendData(
+            if (id == -1L) {
+                repository.saveFriend(
+                    FriendData(
+                        phoneNumber,
+                        name,
+                        birthday,
+                        groupName,
+                        listOf(),
+                        false,
+                        extraInfoMap
+                    )
+                )
+            } else {
+                repository.updateFriend(
                     phoneNumber,
                     name,
                     birthday,
                     groupName,
-                    listOf(),
-                    false,
-                    extraInfoMap
+                    extraInfoMap,
+                    id
                 )
-            )
+            }
+
         }
     }
 
@@ -76,7 +100,7 @@ class AddFriendViewModel @Inject constructor(val repository: ContactRepository) 
 
         _isPhoneNumberEmpty.value = isPhoneNumberEmpty
         _isNameEmpty.value = isNameEmpty
-        _canSaveNewFriend.value = !(isPhoneNumberEmpty || isNameEmpty)
+        _canSaveFriendData.value = !(isPhoneNumberEmpty || isNameEmpty)
     }
 
     companion object {

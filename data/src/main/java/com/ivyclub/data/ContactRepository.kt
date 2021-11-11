@@ -19,4 +19,13 @@ interface ContactRepository {
     fun saveNewGroup(groupData: GroupData)
     fun setFavorite(phoneNumber: String, state: Boolean)
     fun getPlanDetailsByTitle(title: String): PlanData
+    fun getFriendDataById(friendId: Long): FriendData
+    fun updateFriend(
+        phoneNumber: String,
+        name: String,
+        birthday: String,
+        groupName: String,
+        extraInfo: Map<String, String>,
+        id: Long
+    )
 }

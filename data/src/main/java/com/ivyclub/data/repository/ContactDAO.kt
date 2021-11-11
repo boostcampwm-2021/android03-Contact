@@ -17,6 +17,9 @@ interface ContactDAO {
     @Query("SELECT * FROM PlanData WHERE id = :planId")
     fun getPlanDetailsById(planId: Long): PlanData
 
+    @Query("SELECT name FROM FriendData WHERE phoneNumber = :phoneNumber")
+    fun getFriendNameByPhoneNumber(phoneNumber: String): String
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun savePlanData(planData: PlanData)
 
@@ -40,4 +43,17 @@ interface ContactDAO {
 
     @Query("SELECT * FROM PlanData WHERE title = :planTitle LIMIT 1")
     fun getPlanByTitle(planTitle: String): PlanData
+
+    @Query("SELECT * FROM FriendData WHERE id = :friendId")
+    fun getFriendDataById(friendId: Long): FriendData
+
+    @Query("UPDATE FriendData SET phoneNumber = :phoneNumber, name = :name, birthday = :birthday, groupName = :groupName, extraInfo = :extraInfo WHERE id = :id ")
+    fun updateFriendData(
+        phoneNumber: String,
+        name: String,
+        birthday: String,
+        groupName: String,
+        extraInfo: Map<String, String>,
+        id: Long
+    )
 }
