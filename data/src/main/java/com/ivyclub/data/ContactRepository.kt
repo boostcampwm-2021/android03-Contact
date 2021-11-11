@@ -1,8 +1,6 @@
 package com.ivyclub.data
 
-import com.ivyclub.data.model.FriendData
-import com.ivyclub.data.model.PlanData
-import com.ivyclub.data.model.GroupData
+import com.ivyclub.data.model.*
 
 interface ContactRepository {
     fun loadFriends(): List<FriendData>
@@ -11,8 +9,12 @@ interface ContactRepository {
     fun getShowOnBoardingState(): Boolean
     fun setNotificationTime(start: String, end: String)
     fun setNotificationOnOff(state: Boolean)
-    fun getPlanDetailsById(planId: Long): PlanData
-    fun getFriendNameByPhoneNumber(phoneNumber: String): String
+    fun getPlanList(): List<SimplePlanData>
+    fun getPlanDataById(planId: Long): PlanData
+    fun savePlanData(planData: PlanData)
+    fun deletePlanData(planId: Long)
+    fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
+    fun getSimpleFriendData(): List<SimpleFriendData>
     fun loadGroups(): List<GroupData>
     fun saveNewGroup(groupData: GroupData)
     fun setFavorite(phoneNumber: String, state: Boolean)
