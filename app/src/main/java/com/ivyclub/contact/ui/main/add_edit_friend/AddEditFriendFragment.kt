@@ -118,7 +118,7 @@ class AddEditFriendFragment :
     }
 
     private fun initBackPressedListener() {
-        if (context == null) return
+        if (activity == null) return
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             showBackPressedDialog()
         }
