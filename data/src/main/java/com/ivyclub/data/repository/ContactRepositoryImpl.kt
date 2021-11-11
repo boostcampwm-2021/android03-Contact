@@ -4,9 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.MyPreference
-import com.ivyclub.data.model.FriendData
-import com.ivyclub.data.model.PlanData
-import com.ivyclub.data.model.GroupData
+import com.ivyclub.data.model.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -41,12 +39,28 @@ class ContactRepositoryImpl @Inject constructor(
         myPreference.setNotificationOnOff(state)
     }
 
-    override fun getPlanDetailsById(planId: Long): PlanData {
+    override fun getPlanList(): List<SimplePlanData> {
+        return contactDAO.getPlanList()
+    }
+
+    override fun getPlanDataById(planId: Long): PlanData {
         return contactDAO.getPlanDetailsById(planId)
     }
 
-    override fun getFriendNameByPhoneNumber(phoneNumber: String): String {
-        return contactDAO.getFriendNameByPhoneNumber(phoneNumber)
+    override fun savePlanData(planData: PlanData) {
+        contactDAO.savePlanData(planData)
+    }
+
+    override fun deletePlanData(planId: Long) {
+        contactDAO.deletePlanData(planId)
+    }
+
+    override fun getSimpleFriendDataById(friendId: Long): SimpleFriendData {
+        return contactDAO.getSimpleFriendDataById(friendId)
+    }
+
+    override fun getSimpleFriendData(): List<SimpleFriendData> {
+        return contactDAO.getSimpleFriendData()
     }
 
     override fun loadGroups(): List<GroupData> {

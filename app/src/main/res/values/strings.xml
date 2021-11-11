@@ -48,4 +48,14 @@
     <string name="add_edit_friend_birthday">생년월일</string>
     <string name="add_edit_friend_extra_info_title_hint">추가 정보</string>
     <string name="add_edit_friend_required_check">필수 입력 항목입니다.</string>
+    <string name="menu_select_all">모두선택</string>
+    <string name="add_plan_success">새로운 일정이 저장되었습니다.</string>
+    <string name="update_plan_success">일정 정보가 갱신되었습니다.</string>
+    <string name="delete_plan_success">해당 일정이 삭제되었습니다.</string>
+    <string name="ask_delete_plan">해당 일정 정보를 삭제하시겠습니까?</string>
+    <string name="yes">예</string>
+    <string name="no">아니오</string>
+    <string name="ask_back_while_edit_plan">해당 페이지를 나가시면 기존에 작성했던 기록은 사라집니다.\n나가시겠습니까?</string>
+    <string name="ask_save_plan">해당 일정을 저장하시겠습니까?</string>
+    <string name="alert_plan_empty">추가한 일정이 없습니다!\n새로운 일정을 추가하려면 상단의 추가 버튼을 탭해주세요</string>
 </resources>
