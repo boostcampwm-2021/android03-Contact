@@ -33,14 +33,13 @@ class PlanDetailsViewModel @Inject constructor(
     fun getPlanDetails(planId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             val planData = repository.getPlanDataById(planId)
-            if (planData != null) {
-                val friends = mutableListOf<String>()
-                planData.participant.forEach {
-                    friends.add(repository.getSimpleFriendDataById(it).name)
-                }
-                _planParticipants.postValue(friends)
-                _planDetails.postValue(planData)
+
+            val friends = mutableListOf<String>()
+            planData.participant.forEach {
+                friends.add(repository.getSimpleFriendDataById(it).name)
             }
+            _planParticipants.postValue(friends)
+            _planDetails.postValue(planData)
         }
     }
 
@@ -48,7 +47,7 @@ class PlanDetailsViewModel @Inject constructor(
         val planData = planDetails.value ?: return
 
         viewModelScope.launch(Dispatchers.IO) {
-            //repository.deletePlanData(planData)
+            repository.deletePlanData(planData)
             makeToast(R.string.delete_plan_success)
             finish()
         }
@@ -58,7 +57,7 @@ class PlanDetailsViewModel @Inject constructor(
         _toastMessage.postValue(strId)
     }
 
-    fun finish() {
+    private fun finish() {
         _finishEvent.call()
     }
 }

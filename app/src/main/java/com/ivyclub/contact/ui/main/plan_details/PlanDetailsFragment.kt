@@ -34,14 +34,14 @@ class PlanDetailsFragment :
 
     private fun setEditPlanButton() {
         with(binding) {
-            binding.ivBtnEditPlan.setOnClickListener {
+            ivBtnEditPlan.setOnClickListener {
                 findNavController().navigate(
                     PlanDetailsFragmentDirections.actionPlanDetailsFragmentToAddEditFragment(
                         args.planId
                     )
                 )
             }
-            binding.ivBtnDeletePlan.setOnClickListener {
+            ivBtnDeletePlan.setOnClickListener {
                 showDeletePlanDialog()
             }
         }
