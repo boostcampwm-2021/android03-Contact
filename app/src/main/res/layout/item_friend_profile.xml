@@ -13,8 +13,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/FriendListViewSelectableItemBackground"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground">
 
         <ImageView
             android:id="@+id/iv_profile_image"

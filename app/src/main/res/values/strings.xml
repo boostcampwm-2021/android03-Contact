@@ -48,4 +48,6 @@
     <string name="add_friend_birthday">생년월일</string>
     <string name="add_extra_info_i_title_hint">추가 정보</string>
     <string name="menu_move_friends_to">그룹 이동하기</string>
+    <string name="fragment_select_group_dialog_move">옮기기</string>
+    <string name="fragment_select_group_dialog_cancel">취소</string>
 </resources>
