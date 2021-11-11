@@ -1,18 +1,27 @@
 package com.ivyclub.contact.ui.main.add_edit_friend
 
+import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditFriendBinding
 import com.ivyclub.contact.util.BaseFragment
+import com.ivyclub.contact.util.getDayOfMonth
+import com.ivyclub.contact.util.getExactMonth
+import com.ivyclub.contact.util.getExactYear
 import dagger.hilt.android.AndroidEntryPoint
+import java.sql.Date
 
 @AndroidEntryPoint
-class AddEditFriendFragment : BaseFragment<FragmentAddEditFriendBinding>(R.layout.fragment_add_edit_friend) {
+class AddEditFriendFragment :
+    BaseFragment<FragmentAddEditFriendBinding>(R.layout.fragment_add_edit_friend) {
 
     private val viewModel: AddEditFriendViewModel by viewModels()
     val extraInfoListAdapter by lazy { ExtraInfoListAdapter(viewModel::removeExtraInfo) }
@@ -35,7 +44,7 @@ class AddEditFriendFragment : BaseFragment<FragmentAddEditFriendBinding>(R.layou
             binding.apply {
                 etName.setText(friendData.name)
                 etPhoneNumber.setText(friendData.phoneNumber)
-                etBirthday.setText(friendData.birthday)
+                tvBirthdayValue.text = friendData.birthday
                 spnGroup.setSelection(spinnerAdapter.getPosition(friendData.groupName))
             }
             viewModel.addExtraInfoList(friendData.extraInfo)
@@ -54,6 +63,24 @@ class AddEditFriendFragment : BaseFragment<FragmentAddEditFriendBinding>(R.layou
                     etName.text.toString()
                 )
             }
+
+            tvBirthdayValue.setOnClickListener {
+                val today = Date(System.currentTimeMillis())
+                val listener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+                    tvBirthdayValue.text = "${year}.${month}.${day}"
+                }
+                DatePickerDialog(
+                    requireContext(),
+                    listener,
+                    today.getExactYear(),
+                    today.getExactMonth() - 1,
+                    today.getDayOfMonth()
+                ).show()
+            }
+
+            ivClearBirthday.setOnClickListener {
+                tvBirthdayValue.text = ""
+            }
         }
     }
 
@@ -64,9 +91,9 @@ class AddEditFriendFragment : BaseFragment<FragmentAddEditFriendBinding>(R.layou
                     this@AddEditFriendFragment.viewModel.saveFriendData(
                         etPhoneNumber.text.toString(),
                         etName.text.toString(),
-                        etBirthday.text.toString(),
+                        tvBirthdayValue.text.toString(),
                         spnGroup.selectedItem.toString(),
-                        extraInfoListAdapter.currentList ,
+                        extraInfoListAdapter.currentList,
                         args.friendId
                     )
                     findNavController().popBackStack()
@@ -90,7 +117,8 @@ class AddEditFriendFragment : BaseFragment<FragmentAddEditFriendBinding>(R.layou
 
     private fun initSpinnerAdapter(groups: List<String>) {
         if (context == null) return
-        spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, groups)
+        spinnerAdapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, groups)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spnGroup.adapter = spinnerAdapter
     }

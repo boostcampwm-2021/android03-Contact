@@ -3,10 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.ivyclub.contact.ui.main.add_edit_friend.AddEditFriendViewModel" />
+
         <variable
             name="fragment"
             type="com.ivyclub.contact.ui.main.add_edit_friend.AddEditFriendFragment" />
@@ -109,9 +112,9 @@
                     android:textColor="@color/red"
                     android:textSize="8sp"
                     android:visibility="@{viewModel.isNameEmpty() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toTopOf="@id/tv_group"
                     app:layout_constraintStart_toStartOf="@id/et_name"
-                    app:layout_constraintTop_toBottomOf="@id/et_name"
-                    app:layout_constraintBottom_toTopOf="@id/tv_group"/>
+                    app:layout_constraintTop_toBottomOf="@id/et_name" />
 
                 <TextView
                     android:id="@+id/tv_group"
@@ -173,7 +176,7 @@
                     android:textSize="8sp"
                     android:visibility="@{viewModel.isPhoneNumberEmpty() ? View.VISIBLE : View.GONE}"
                     app:layout_constraintStart_toStartOf="@id/et_phone_number"
-                    app:layout_constraintTop_toBottomOf="@id/et_phone_number"/>
+                    app:layout_constraintTop_toBottomOf="@id/et_phone_number" />
 
                 <TextView
                     android:id="@+id/tv_birthday"
@@ -187,18 +190,30 @@
                     app:layout_constraintStart_toStartOf="@id/iv_profile_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_phone_number_empty_check" />
 
-                <EditText
-                    android:id="@+id/et_birthday"
+                <TextView
+                    android:id="@+id/tv_birthday_value"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/bg_add_edit_friend_info"
-                    android:inputType="phone"
+                    android:drawablePadding="4dp"
                     android:padding="8dp"
+                    android:textColor="@color/green_300"
                     android:textSize="16sp"
+                    app:drawableStartCompat="@drawable/ic_baseline_calendar_today_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/iv_profile_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_birthday" />
+
+                <ImageView
+                    android:id="@+id/iv_clear_birthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_baseline_clear_24"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_birthday_value"
+                    app:layout_constraintEnd_toEndOf="@id/tv_birthday_value"
+                    app:layout_constraintTop_toTopOf="@id/tv_birthday_value" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_extra_info"
@@ -208,15 +223,15 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_birthday" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_birthday_value" />
 
                 <ImageView
                     android:id="@+id/iv_add_extra_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{() -> viewModel.addExtraInfo()}"
                     android:padding="8dp"
                     android:src="@drawable/ic_baseline_add_24"
-                    android:onClick="@{() -> viewModel.addExtraInfo()}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rv_extra_info" />
 
