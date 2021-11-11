@@ -120,7 +120,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
 
     private fun initSettingsButton() = with(binding) {
         ivSettingsIcon.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_friend_to_friendDetailFragment)
+            findNavController().navigate(R.id.action_navigation_friend_to_settingsFragment)
         }
     }
 
