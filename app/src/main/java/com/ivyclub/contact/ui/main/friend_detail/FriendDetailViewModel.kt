@@ -43,11 +43,15 @@ class FriendDetailViewModel @Inject constructor(
     fun loadPlans(planIds: List<Long>) {
         viewModelScope.launch(Dispatchers.IO) {
             val plans = repository.getPlansByIds(planIds).filter { it.date < Date() }.sortedByDescending { it.date }
-            if(plans.size > 2) {
-                _plan1.postValue(plans[0])
-                _plan2.postValue(plans[1])
+            when {
+                plans.size > 1 -> {
+                    _plan1.postValue(plans[0])
+                    _plan2.postValue(plans[1])
+                }
+                plans.size == 1 -> {
+                    _plan1.postValue(plans[0])
+                }
             }
-            println(plans)
         }
     }
 }

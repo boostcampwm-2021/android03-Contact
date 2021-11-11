@@ -4,11 +4,13 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,13 +20,17 @@ import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
-
+@RequiresApi(Build.VERSION_CODES.O)
 @AndroidEntryPoint
 class FriendDetailFragment :
     BaseFragment<FragmentFriendDetailBinding>(R.layout.fragment_friend_detail) {
     private val viewModel: FriendDetailViewModel by viewModels()
     private val args: FriendDetailFragmentArgs by navArgs()
+    private val formatFrom = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private val formatTo = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,14 +51,14 @@ class FriendDetailFragment :
             with(binding) {
                 llPlan1.visibility = View.VISIBLE
                 tvPlan1Title.text = it.title
-                tvPlan1Time.text = it.date.toString()
+                tvPlan1Time.text = LocalDate.parse(it.date.toString(),formatFrom).format(formatTo)
             }
         })
         viewModel.plan2.observe(this, {
             with(binding) {
                 llPlan2.visibility = View.VISIBLE
                 tvPlan2Title.text = it.title
-                tvPlan2Time.text = it.date.toString()
+                tvPlan2Time.text = LocalDate.parse(it.date.toString(),formatFrom).format(formatTo)
             }
         })
     }
@@ -83,6 +89,12 @@ class FriendDetailFragment :
             tvGroup.text = friend.groupName
             tvPhoneNum.text = friend.phoneNumber
             btnFavorite.isChecked = friend.isFavorite
+            llExtraInfo.removeAllViews()
+            if(friend.birthday == "") {
+                llBirthday.visibility = View.GONE
+            } else {
+                tvBirthday.text = friend.birthday
+            }
             for (key in friend.extraInfo.keys) {
                 llExtraInfo.addView(getTitle(key))
                 llExtraInfo.addView(getContent(friend.extraInfo[key] ?: ""))
@@ -91,8 +103,7 @@ class FriendDetailFragment :
                 val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${friend.phoneNumber}"))
                 startActivity(intent)
             }
-            //bindPlan(friend.planList)
-            demoPlan()
+            bindPlan(friend.planList)
         }
 
     }
@@ -102,10 +113,10 @@ class FriendDetailFragment :
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        layoutParams.setMargins(25, 50, 0, 0)
+        layoutParams.setMargins(24, 48, 0, 0)
         return TextView(context).apply {
             this.text = text
-            textSize = 16f
+            textSize = 12f
             this.layoutParams = layoutParams
         }
     }
@@ -115,7 +126,7 @@ class FriendDetailFragment :
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        layoutParams.setMargins(0,25,0,0)
+        layoutParams.setMargins(0,24,0,0)
         return TextView(context).apply {
             this.text = text
             setTextColor(Color.BLACK)
@@ -128,11 +139,5 @@ class FriendDetailFragment :
 
     private fun bindPlan(planIds: List<Long>) {
         viewModel.loadPlans(planIds)
-        //binding.llPlan1.visibility = View.GONE
-        //binding.llPlan2.visibility = View.GONE
-    }
-
-    private fun demoPlan() {
-        viewModel.loadPlans(listOf<Long>(1,2,3,4))
     }
 }
