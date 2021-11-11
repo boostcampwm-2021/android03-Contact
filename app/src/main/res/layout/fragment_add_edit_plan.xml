@@ -90,6 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="@string/add_edit_plan_load_group"
+                android:textSize="14sp"
                 android:textColor="@color/green_200"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tv_plan_participants"/>

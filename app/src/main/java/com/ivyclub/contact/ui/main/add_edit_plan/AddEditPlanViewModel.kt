@@ -88,6 +88,17 @@ class AddEditPlanViewModel @Inject constructor(
         }
     }
 
+    fun addParticipantsByGroup(groupName: String) {
+        val participantSet = planParticipants.value?.toMutableSet()
+        participantSet?.let { set ->
+            viewModelScope.launch(Dispatchers.IO) {
+                val friendsInGroup = repository.getSimpleFriendDataListByGroup(groupName)
+                set.addAll(friendsInGroup)
+                _planParticipants.postValue(set.toList())
+            }
+        }
+    }
+
     fun setNewDate(newDate: Date) {
         _planTime.value = newDate
     }
