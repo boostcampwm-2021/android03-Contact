@@ -40,11 +40,11 @@
     <string name="hint_plan_place">일정 장소를 입력해주세요</string>
     <string name="hint_plan_content">이 일정에서 할 일이나 준비할 것들을 구체적으로 입력해주세요</string>
     <string name="hint_plan_participants">일정을 함께 할 사람들을 추가해주세요</string>
-    <string name="add_friend_name">이름</string>
+    <string name="add_friend_name">*이름</string>
     <string name="add_friend_group">그룹</string>
     <string name="add_friend_profile_image">add friend profile image</string>
     <string name="fragment_add_friend_back">back</string>
-    <string name="add_friend_phone_number">전화번호</string>
+    <string name="add_friend_phone_number">*전화번호</string>
     <string name="add_friend_birthday">생년월일</string>
     <string name="add_extra_info_i_title_hint">추가 정보</string>
     <string name="add_plan_success">새로운 일정이 저장되었습니다.</string>
@@ -56,4 +56,5 @@
     <string name="ask_back_while_edit_plan">해당 페이지를 나가시면 기존에 작성했던 기록은 사라집니다.\n나가시겠습니까?</string>
     <string name="ask_save_plan">해당 일정을 저장하시겠습니까?</string>
     <string name="alert_plan_empty">추가한 일정이 없습니다!\n새로운 일정을 추가하려면 상단의 추가 버튼을 탭해주세요</string>
+    <string name="add_friend_required_check">필수 입력 항목입니다.</string>
 </resources>
