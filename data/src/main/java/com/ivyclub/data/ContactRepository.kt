@@ -11,7 +11,7 @@ interface ContactRepository {
     fun setNotificationOnOff(state: Boolean)
     fun getPlanList(): List<SimplePlanData>
     fun getPlanDataById(planId: Long): PlanData
-    fun savePlanData(planData: PlanData)
+    fun savePlanData(planData: PlanData, lastParticipants: List<Long> = emptyList())
     fun deletePlanData(planId: Long)
     fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
     fun getSimpleFriendData(): List<SimpleFriendData>

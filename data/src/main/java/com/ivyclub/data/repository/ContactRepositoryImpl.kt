@@ -47,8 +47,22 @@ class ContactRepositoryImpl @Inject constructor(
         return contactDAO.getPlanDetailsById(planId)
     }
 
-    override fun savePlanData(planData: PlanData) {
-        contactDAO.savePlanData(planData)
+    override fun savePlanData(planData: PlanData, lastParticipants: List<Long>) {
+        val planId = contactDAO.insertPlanData(planData)
+
+        if (lastParticipants.isNotEmpty()) {
+            (lastParticipants - planData.participant).forEach { friendId ->
+                val planSet = contactDAO.getFriendsPlanList(friendId).planList.toMutableSet()
+                planSet.remove(planId)
+                contactDAO.updateFriendsPlanList(friendId, planSet.toList())
+            }
+        }
+
+        planData.participant.forEach { friendId ->
+            val planSet = contactDAO.getFriendsPlanList(friendId).planList.toMutableSet()
+            planSet.add(planId)
+            contactDAO.updateFriendsPlanList(friendId, planSet.toList())
+        }
     }
 
     override fun deletePlanData(planId: Long) {
