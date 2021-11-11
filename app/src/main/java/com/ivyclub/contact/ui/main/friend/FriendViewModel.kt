@@ -1,5 +1,6 @@
 package com.ivyclub.contact.ui.main.friend
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -131,6 +132,7 @@ class FriendViewModel @Inject constructor(
             initLongClickedId() // 그룹 이동이 끝나서 저장된 값들 초기화
             getFriendData() // 리스트 업데이트
         }
+        clearLongClickedId() // long clicked된 id 값들 처리 해제
     }
 
     fun clearLongClickedId() {
