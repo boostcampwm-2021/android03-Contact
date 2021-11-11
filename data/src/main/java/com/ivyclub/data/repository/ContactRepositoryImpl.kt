@@ -79,6 +79,12 @@ class ContactRepositoryImpl @Inject constructor(
         return contactDAO.getPlanByTitle(title)
     }
 
+    override fun updateGroupOf(targetFriend: List<Long>, targetGroup: String) {
+        targetFriend.forEach {
+            contactDAO.updateFriendGroup(it, targetGroup)
+        }
+    }
+    
     override fun getFriendDataById(friendId: Long): FriendData {
         return contactDAO.getFriendDataById(friendId)
     }
@@ -91,7 +97,7 @@ class ContactRepositoryImpl @Inject constructor(
         extraInfo: Map<String, String>,
         id: Long
     ) {
-        return contactDAO.updateFriendData(phoneNumber, name, birthday, groupName, extraInfo, id)
+        contactDAO.updateFriendData(phoneNumber, name, birthday, groupName, extraInfo, id)
     }
 
     companion object {

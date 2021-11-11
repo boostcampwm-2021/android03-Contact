@@ -38,6 +38,7 @@ class FriendViewModel @Inject constructor(
     val isAddGroupButtonActive: LiveData<Boolean> = _isAddGroupButtonActive
 
     private val foldedGroupNameList = mutableListOf<String>()
+    private val longClickedId = mutableListOf<Long>()
 
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendData() {
@@ -45,7 +46,7 @@ class FriendViewModel @Inject constructor(
             val loadedPersonData = repository.loadFriends().sortedBy { it.name }.toFriendListData()
             if (loadedPersonData.isEmpty()) return@launch
             val newFriendList = mutableListOf<FriendListData>()
-            newFriendList.addAll(loadedPersonData.groupBy { it.groupName }.values.flatten()) // 그룹 별로 사람 추가
+            newFriendList.addAll(loadedPersonData.groupBy { it.groupName }.toSortedMap().values.flatten()) // 그룹 별로 사람 추가
             addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
             _friendList.postValue(newFriendList)
             originEntireFriendList = loadedPersonData
@@ -109,6 +110,29 @@ class FriendViewModel @Inject constructor(
         }
     }
 
+    // 클릭이 되었으면 true, 해제되었으면 false로 넘어온다.
+    // isAdd가 true면 삽입, false면 제거
+    fun setLongClickedId(isAdd: Boolean, friendId: Long) {
+        if (isAdd) {
+            longClickedId.add(friendId)
+        } else {
+            longClickedId.remove(friendId)
+        }
+    }
+
+    fun updateFriendsGroup(groupName: String?) {
+        if (groupName == null) return
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateGroupOf(longClickedId, groupName)
+            initLongClickedId() // 그룹 이동이 끝나서 저장된 값들 초기화
+            getFriendData() // 리스트 업데이트
+        }
+    }
+
+    private fun initLongClickedId() {
+        longClickedId.clear()
+    }
+
     private fun setAddGroupButtonActive(isActive: Boolean) {
         _isAddGroupButtonActive.value = isActive
     }
@@ -162,6 +186,7 @@ class FriendViewModel @Inject constructor(
         val convertedFriendList = mutableListOf<FriendListData>()
         this.forEach {
             val changedData = FriendListData(
+                id = it.id,
                 phoneNumber = it.phoneNumber,
                 name = it.name,
                 groupName = it.groupName,

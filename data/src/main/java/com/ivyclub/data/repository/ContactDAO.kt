@@ -1,6 +1,9 @@
 package com.ivyclub.data.repository
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.ivyclub.data.model.*
 
 @Dao
@@ -43,6 +46,9 @@ interface ContactDAO {
 
     @Query("SELECT * FROM PlanData WHERE title = :planTitle LIMIT 1")
     fun getPlanByTitle(planTitle: String): PlanData
+
+    @Query("UPDATE FriendData SET groupName = :groupName WHERE id = :friendId")
+    fun updateFriendGroup(friendId: Long, groupName: String)
 
     @Query("SELECT * FROM FriendData WHERE id = :friendId")
     fun getFriendDataById(friendId: Long): FriendData
