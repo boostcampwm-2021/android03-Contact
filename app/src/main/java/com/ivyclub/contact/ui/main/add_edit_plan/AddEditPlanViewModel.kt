@@ -91,7 +91,6 @@ class AddEditPlanViewModel @Inject constructor(
 
     fun savePlan() {
         val participants = planParticipants.value?.map { it.id } ?: emptyList()
-
         val planDate = planTime.value ?: Date(System.currentTimeMillis())
 
         val title = planTitle.value
@@ -101,9 +100,7 @@ class AddEditPlanViewModel @Inject constructor(
         }
 
         val place = planPlace.value ?: ""
-
         val content = planContent.value ?: ""
-
         val color = ""  // TODO: 랜덤 색 만들기
 
         val newPlan =
