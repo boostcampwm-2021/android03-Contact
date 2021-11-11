@@ -8,26 +8,28 @@ import android.widget.Filter
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ItemFriendAutoCompleteBinding
 import com.ivyclub.contact.util.binding
+import com.ivyclub.data.model.SimpleFriendData
 
 class FriendAutoCompleteAdapter(
     context: Context,
-    private val friendList: List<Pair<String, String>>,
-) : ArrayAdapter<Pair<String, String>>(context, 0, friendList.toMutableList()) {
+    private val friendList: List<SimpleFriendData>,
+) : ArrayAdapter<SimpleFriendData>(context, 0, friendList.toMutableList()) {
 
     private lateinit var binding: ItemFriendAutoCompleteBinding
 
     private val friendFilter = object : Filter() {
-        override fun performFiltering(p0: CharSequence?): FilterResults {
+        override fun performFiltering(inputText: CharSequence?): FilterResults {
             val results = FilterResults()
-            val suggestions = mutableListOf<Pair<String, String>>()
+            val suggestions = mutableListOf<SimpleFriendData>()
 
-            if (p0.isNullOrEmpty()) suggestions.addAll(friendList)
+            if (inputText.isNullOrEmpty()) suggestions.addAll(friendList)
             else {
-                val filterPattern = p0.toString().lowercase().trim()
+                val filterPattern = inputText.toString().lowercase().replace(" ", "")
 
                 suggestions.addAll(
                     friendList.filter {
-                        it.second.lowercase().trim().contains(filterPattern)
+                        val str = it.name.lowercase().replace(" ", "")
+                        str.contains(filterPattern)
                     }
                 )
             }
@@ -38,13 +40,13 @@ class FriendAutoCompleteAdapter(
             }
         }
 
-        override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
+        override fun publishResults(inputText: CharSequence?, filterResults: FilterResults?) {
             clear()
-            addAll(p1?.values as List<Pair<String, String>>)
+            addAll(filterResults?.values as List<SimpleFriendData>)
         }
 
         override fun convertResultToString(resultValue: Any?): CharSequence {
-            return (resultValue as Pair<String, String>).second
+            return (resultValue as SimpleFriendData).name
         }
     }
 
@@ -56,11 +58,8 @@ class FriendAutoCompleteAdapter(
 
         binding = parent.binding(R.layout.item_friend_auto_complete)
 
-        getItem(position)?.let { pair ->
-            with(binding) {
-                tvFriendPhone.text = pair.first
-                tvFriendName.text = pair.second
-            }
+        getItem(position)?.let { data ->
+            binding.friendData = data
         }
 
         return binding.root
