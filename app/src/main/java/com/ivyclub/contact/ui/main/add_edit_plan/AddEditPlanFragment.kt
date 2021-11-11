@@ -9,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditPlanBinding
 import com.ivyclub.contact.ui.main.friend.dialog.SelectGroupFragment
@@ -133,9 +134,9 @@ class AddEditPlanFragment :
             }
         }
 
-        viewModel.toastMessage.observe(viewLifecycleOwner) {
+        viewModel.snackbarMessage.observe(viewLifecycleOwner) {
             if (context == null) return@observe
-            Toast.makeText(context, getString(it), Toast.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
         }
 
         viewModel.finishEvent.observe(viewLifecycleOwner) {
