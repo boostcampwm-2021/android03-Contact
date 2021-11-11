@@ -25,7 +25,7 @@ class AddContactViewModel @Inject constructor(
                         it.phoneNumber,
                         it.name,
                         "",
-                        "friend",
+                        "친구",
                         listOf(),
                         false,
                         mapOf()
