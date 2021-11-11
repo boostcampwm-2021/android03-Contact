@@ -71,6 +71,10 @@ class FriendListAdapter(
             getItem(targetItemIndex).isColored = false
             notifyItemChanged(targetItemIndex)
         }
+        clearLongClickedItemCount()
+    }
+
+    fun clearLongClickedItemCount() {
         longClickedItemCount = 0
     }
 
