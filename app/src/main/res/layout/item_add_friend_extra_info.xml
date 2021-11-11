@@ -21,6 +21,7 @@
             android:paddingHorizontal="8dp"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/et_extra_info_value"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
