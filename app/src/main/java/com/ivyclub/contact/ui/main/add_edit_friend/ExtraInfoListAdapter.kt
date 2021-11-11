@@ -1,6 +1,7 @@
-package com.ivyclub.contact.ui.main.add_friend
+package com.ivyclub.contact.ui.main.add_edit_friend
 
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +9,7 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ItemAddFriendExtraInfoBinding
 import com.ivyclub.contact.util.binding
 
-class ExtraInfoListAdapter :
+class ExtraInfoListAdapter(private val onRemoveButtonClick: (Int) -> (Unit)) :
     ListAdapter<FriendExtraInfoData, ExtraInfoListAdapter.ExtraInfoViewHolder>(DIFF_UTIL) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExtraInfoViewHolder {
@@ -19,10 +20,28 @@ class ExtraInfoListAdapter :
         holder.bind(getItem(position))
     }
 
-    class ExtraInfoViewHolder(private val binding: ItemAddFriendExtraInfoBinding) :
+    inner class ExtraInfoViewHolder(private val binding: ItemAddFriendExtraInfoBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.etExtraInfoTitle.doOnTextChanged { text, _, _, _ ->
+                val currentExtraInfo = getItem(adapterPosition)
+                currentExtraInfo.title = text.toString()
+            }
+            binding.etExtraInfoValue.doOnTextChanged { text, _, _, _ ->
+                val currentExtraInfo = getItem(adapterPosition)
+                currentExtraInfo.value = text.toString()
+            }
+            binding.ivRemoveExtraInfo.setOnClickListener {
+                onRemoveButtonClick(adapterPosition)
+            }
+        }
+
         fun bind(extraInfo: FriendExtraInfoData) {
-            binding.etExtraInfoTitle.setText(extraInfo.title)
+            with(binding) {
+                etExtraInfoTitle.setText(extraInfo.title)
+                etExtraInfoValue.setText(extraInfo.value)
+            }
         }
 
     }

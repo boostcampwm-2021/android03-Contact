@@ -10,7 +10,9 @@ import com.ivyclub.contact.databinding.FragmentPlanBinding
 import com.ivyclub.contact.ui.plan_list.PlanListAdapter
 import com.ivyclub.contact.ui.plan_list.PlanListHeaderItemDecoration
 import com.ivyclub.contact.util.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PlanFragment : BaseFragment<FragmentPlanBinding>(R.layout.fragment_plan) {
 
     private val viewModel: PlanViewModel by viewModels()

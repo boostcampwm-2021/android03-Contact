@@ -10,7 +10,7 @@ import com.ivyclub.contact.model.PhoneContactData
 
 class ContactAdapter: ListAdapter<PhoneContactData,ContactAdapter.ViewHolder>(diffUtil) {
 
-    val addList = mutableListOf<PhoneContactData>()
+    val addSet = mutableSetOf<PhoneContactData>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(
@@ -23,26 +23,32 @@ class ContactAdapter: ListAdapter<PhoneContactData,ContactAdapter.ViewHolder>(di
         holder.bind(getItem(position))
     }
 
+    fun selectAllItem() {
+        addSet.clear()
+        currentList.forEach { addSet.add(it) }
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(
         private val binding: ItemContactBinding
     ): RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.cbAdd.setOnCheckedChangeListener { _, checked ->
-                if(checked) {
-                    addList.add(getItem(adapterPosition))
-                } else {
-                    addList.remove(getItem(adapterPosition))
-                }
-            }
             binding.clParent.setOnClickListener {
                 binding.cbAdd.isChecked = !binding.cbAdd.isChecked
+            }
+            binding.cbAdd.setOnCheckedChangeListener { _, checked ->
+                if(checked) {
+                    addSet.add(getItem(adapterPosition))
+                } else {
+                    addSet.remove(getItem(adapterPosition))
+                }
             }
         }
 
         fun bind(data: PhoneContactData) {
             binding.tvName.text = data.name
             binding.tvPhoneNum.text = data.phoneNumber
-            binding.cbAdd.isChecked = addList.contains(data)
+            binding.cbAdd.isChecked = addSet.contains(data)
         }
     }
 

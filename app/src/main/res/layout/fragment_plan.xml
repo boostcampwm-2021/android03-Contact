@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.ivyclub.contact.ui.main.plan.PlanViewModel" />
@@ -47,6 +48,34 @@
                 app:layout_constraintEnd_toStartOf="@id/iv_settings_icon"
                 app:layout_constraintTop_toTopOf="@id/iv_settings_icon" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+        
+        <RelativeLayout
+            android:id="@+id/rl_plan_empty"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.planListItems.empty ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_toolbar">
+
+            <TextView
+                android:id="@+id/tv_plan_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/alert_plan_empty"/>
+
+            <ImageView
+                android:id="@+id/iv_plan_empty"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_calendar"
+                android:layout_above="@+id/tv_plan_empty"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_plan_list"
