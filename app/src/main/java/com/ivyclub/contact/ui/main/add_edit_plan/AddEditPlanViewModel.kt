@@ -42,8 +42,8 @@ class AddEditPlanViewModel @Inject constructor(
     val planPlace = MutableLiveData<String>()
     val planContent = MutableLiveData<String>()
 
-    private val _toastMessage = SingleLiveEvent<Int>()
-    val toastMessage: LiveData<Int> = _toastMessage
+    private val _snackbarMessage = SingleLiveEvent<Int>()
+    val snackbarMessage: LiveData<Int> = _snackbarMessage
 
     private val _finishEvent = SingleLiveEvent<Unit>()
     val finishEvent: LiveData<Unit> = _finishEvent
@@ -109,7 +109,7 @@ class AddEditPlanViewModel @Inject constructor(
 
         val title = planTitle.value
         if (title.isNullOrEmpty()) {
-            makeToast(R.string.hint_plan_title)
+            makeSnackbar(R.string.hint_plan_title)
             return
         }
 
@@ -123,7 +123,7 @@ class AddEditPlanViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             repository.savePlanData(newPlan, lastParticipants)
-            makeToast(
+            makeSnackbar(
                 if (planId == -1L) R.string.add_plan_success
                 else R.string.update_plan_success
             )
@@ -131,8 +131,8 @@ class AddEditPlanViewModel @Inject constructor(
         }
     }
 
-    private fun makeToast(strId: Int) {
-        _toastMessage.postValue(strId)
+    private fun makeSnackbar(strId: Int) {
+        _snackbarMessage.postValue(strId)
     }
 
     fun finish() {

@@ -24,8 +24,8 @@ class PlanDetailsViewModel @Inject constructor(
     private val _planParticipants = MutableLiveData<List<String>>()
     val planParticipants: LiveData<List<String>> = _planParticipants
 
-    private val _toastMessage = SingleLiveEvent<Int>()
-    val toastMessage: LiveData<Int> = _toastMessage
+    private val _snackbarMessage = SingleLiveEvent<Int>()
+    val snackbarMessage: LiveData<Int> = _snackbarMessage
 
     private val _finishEvent = SingleLiveEvent<Unit>()
     val finishEvent: LiveData<Unit> = _finishEvent
@@ -48,13 +48,13 @@ class PlanDetailsViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             repository.deletePlanData(planData)
-            makeToast(R.string.delete_plan_success)
+            makeSnackbar(R.string.delete_plan_success)
             finish()
         }
     }
 
-    private fun makeToast(strId: Int) {
-        _toastMessage.postValue(strId)
+    private fun makeSnackbar(strId: Int) {
+        _snackbarMessage.postValue(strId)
     }
 
     private fun finish() {

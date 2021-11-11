@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPlanDetailsBinding
 import com.ivyclub.contact.util.BaseFragment
@@ -58,9 +59,9 @@ class PlanDetailsFragment :
             binding.cgPlanParticipants.setFriendChips(it)
         }
 
-        viewModel.toastMessage.observe(viewLifecycleOwner) {
+        viewModel.snackbarMessage.observe(viewLifecycleOwner) {
             if (context == null) return@observe
-            Toast.makeText(context, getString(it), Toast.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
         }
 
         viewModel.finishEvent.observe(viewLifecycleOwner) {
