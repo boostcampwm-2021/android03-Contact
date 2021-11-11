@@ -18,10 +18,11 @@ interface ContactRepository {
     fun getSimpleFriendData(): List<SimpleFriendData>
     fun loadGroups(): List<GroupData>
     fun saveNewGroup(groupData: GroupData)
-    fun setFavorite(phoneNumber: String, state: Boolean)
+    fun setFavorite(id: Long, state: Boolean)
     fun getPlanDetailsByTitle(title: String): PlanData
+    fun getFriendDataById(id: Long): FriendData
+    fun getPlansByIds(planIds: List<Long>): List<PlanData>
     fun updateGroupOf(targetFriend: List<Long>, targetGroup: String)
-    fun getFriendDataById(friendId: Long): FriendData
     fun updateFriend(
         phoneNumber: String,
         name: String,

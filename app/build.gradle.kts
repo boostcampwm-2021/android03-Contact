@@ -52,6 +52,7 @@ dependencies {
     implementation(Dep.AndroidX.liveDataKtx)
     implementation(Dep.Libs.glide)
     implementation(Dep.Libs.gson)
+    implementation(Dep.Libs.flexboxLayout)
     implementation(project(mapOf("path" to ":data")))
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt(Dep.AndroidX.roomCompiler)
@@ -62,7 +63,7 @@ dependencies {
     kapt(Dep.Libs.hiltCompiler)
     implementation(Dep.Libs.hiltViewModel)
     kapt(Dep.Libs.hiltViewModelCompiler)
-    implementation(Dep.Libs.flexboxLayout)
+
 
     implementation(project(":data"))
 }

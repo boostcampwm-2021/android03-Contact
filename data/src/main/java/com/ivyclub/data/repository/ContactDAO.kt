@@ -40,24 +40,28 @@ interface ContactDAO {
 
     @Query("SELECT id, name, phoneNumber FROM FriendData")
     fun getSimpleFriendData(): List<SimpleFriendData>
-  
+
     @Query("SELECT * FROM GroupData")
     fun getGroups(): List<GroupData>
 
     @Insert
     fun insertGroupData(groupData: GroupData)
 
-    @Query("UPDATE FriendData SET isFavorite = :state WHERE phoneNumber = :phoneNumber")
-    fun setFavorite(phoneNumber: String, state: Boolean)
+    @Query("UPDATE FriendData SET isFavorite = :state WHERE id = :id")
+    fun setFavorite(id: Long, state: Boolean)
 
     @Query("SELECT * FROM PlanData WHERE title = :planTitle LIMIT 1")
     fun getPlanByTitle(planTitle: String): PlanData
 
+
+    @Query("SELECT * FROM FriendData WHERE id = :id LIMIT 1")
+    fun getFriendDataById(id: Long): FriendData
+
+    @Query("SELECT * FROM PlanData WHERE id IN (:planIds)")
+    fun getPlansByIds(planIds: List<Long>): List<PlanData>
+
     @Query("UPDATE FriendData SET groupName = :groupName WHERE id = :friendId")
     fun updateFriendGroup(friendId: Long, groupName: String)
-
-    @Query("SELECT * FROM FriendData WHERE id = :friendId")
-    fun getFriendDataById(friendId: Long): FriendData
 
     @Query("UPDATE FriendData SET phoneNumber = :phoneNumber, name = :name, birthday = :birthday, groupName = :groupName, extraInfo = :extraInfo WHERE id = :id ")
     fun updateFriendData(
