@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.ivyclub.contact.ui.main.add_friend.AddFriendViewModel" />
@@ -95,10 +96,22 @@
                     android:inputType="textPersonName"
                     android:padding="8dp"
                     android:textSize="16sp"
-                    app:layout_constraintBottom_toTopOf="@id/tv_group"
+                    app:layout_constraintBottom_toTopOf="@id/tv_name_empty_check"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/tv_name"
                     app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+                <TextView
+                    android:id="@+id/tv_name_empty_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_friend_required_check"
+                    android:textColor="@color/red"
+                    android:textSize="8sp"
+                    android:visibility="@{viewModel.isNameEmpty() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintStart_toStartOf="@id/et_name"
+                    app:layout_constraintTop_toBottomOf="@id/et_name"
+                    app:layout_constraintBottom_toTopOf="@id/tv_group"/>
 
                 <TextView
                     android:id="@+id/tv_group"
@@ -111,7 +124,7 @@
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/spn_group"
                     app:layout_constraintStart_toStartOf="@id/tv_name"
-                    app:layout_constraintTop_toBottomOf="@id/et_name" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_name_empty_check" />
 
                 <Spinner
                     android:id="@+id/spn_group"
@@ -152,6 +165,17 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_phone_number" />
 
                 <TextView
+                    android:id="@+id/tv_phone_number_empty_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_friend_required_check"
+                    android:textColor="@color/red"
+                    android:textSize="8sp"
+                    android:visibility="@{viewModel.isPhoneNumberEmpty() ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintStart_toStartOf="@id/et_phone_number"
+                    app:layout_constraintTop_toBottomOf="@id/et_phone_number"/>
+
+                <TextView
                     android:id="@+id/tv_birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -161,7 +185,7 @@
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@id/iv_profile_image"
-                    app:layout_constraintTop_toBottomOf="@id/et_phone_number" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_phone_number_empty_check" />
 
                 <EditText
                     android:id="@+id/et_birthday"

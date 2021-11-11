@@ -34,3 +34,16 @@ data class GroupData(
     @PrimaryKey
     val name: String // 이름, pk
 )
+
+data class SimpleFriendData(
+    val id: Long,
+    val name: String,
+    val phoneNumber: String
+)
+
+data class SimplePlanData(
+    val id: Long,
+    val title: String,
+    val date: Date,
+    val participant: List<Long>
+)

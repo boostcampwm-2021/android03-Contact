@@ -25,26 +25,14 @@ class PlanDetailsViewModel @Inject constructor(
 
     fun getPlanDetails(planId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            val planData = repository.getPlanDetailsById(planId)
+            val planData = repository.getPlanDataById(planId)
             if (planData != null) {
                 val friends = mutableListOf<String>()
                 planData.participant.forEach {
-//                    friends.add(repository.getFriendNameByPhoneNumber(it))
+                    friends.add(repository.getSimpleFriendDataById(it).name)
                 }
                 _planParticipants.postValue(friends)
                 _planDetails.postValue(planData)
-            } else { // temp
-                val tmpPlanData = PlanData(
-                    emptyList(),
-                    Date(System.currentTimeMillis()),
-                    "부스트캠프 모임",
-                    "서울시 강남구",
-                    "프로젝트 회의, 저녁식사",
-                    ""
-                )
-                val friends = listOf("홍길동", "철수", "영희", "맹구", "태훈")
-                _planParticipants.postValue(friends)
-                _planDetails.postValue(tmpPlanData)
             }
         }
     }

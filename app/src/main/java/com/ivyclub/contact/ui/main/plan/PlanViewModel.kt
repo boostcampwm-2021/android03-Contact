@@ -3,41 +3,52 @@ package com.ivyclub.contact.ui.main.plan
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.ui.plan_list.PlanListItemViewModel
-import com.ivyclub.contact.util.DAY_IN_MILLIS
-import com.ivyclub.data.model.PlanData
-import java.sql.Date
-import java.util.*
+import com.ivyclub.data.ContactRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PlanViewModel : ViewModel() {
+@HiltViewModel
+class PlanViewModel @Inject constructor(
+    private val repository: ContactRepository
+) : ViewModel() {
 
     private val _planListItems = MutableLiveData<List<PlanListItemViewModel>>()
     val planListItems: LiveData<List<PlanListItemViewModel>> = _planListItems
 
-    fun getMyPlans() {
-        // temp
-        val plans = mutableListOf<PlanListItemViewModel>()
+    private val friendMap = mutableMapOf<Long, String>()
 
-        val startCalendar = Calendar.getInstance()
-        startCalendar.set(Calendar.MONTH, 6)
-        startCalendar.set(Calendar.DAY_OF_MONTH, 19)
-        val participants = listOf("홍길동", "철수", "영희", "맹구", "태훈")
-        repeat(30) {
-            val date = Date(startCalendar.timeInMillis + (DAY_IN_MILLIS * 10 * it))
-//            plans.add(
-//                PlanListItemViewModel(
-//                    PlanData(
-//                        it.toLong(),
-//                        participants,
-//                        date,
-//                        "부캠 나들이",
-//                        content = "ㅋㅋㅋ",
-//                        color = ""
-//                    )
-//                )
-//            )
+    private val loadFriendsJob: Job = viewModelScope.launch(Dispatchers.IO) {
+        val myFriends = repository.getSimpleFriendData()
+        myFriends?.forEach {
+            friendMap[it.id] = it.name
         }
+    }
 
-        _planListItems.value = plans
+    fun getMyPlans() {
+        viewModelScope.launch(Dispatchers.IO) {
+            loadFriendsJob.join()
+
+            val myPlanList = repository.getPlanList()
+            val planItems = mutableListOf<PlanListItemViewModel>()
+
+            myPlanList?.forEach { planData ->
+                val friends = mutableListOf<String>()
+                planData.participant.forEach { friendId ->
+                    friendMap[friendId]?.let { friendName ->
+                        friends.add(friendName)
+                    }
+                }
+                planItems.add(
+                    PlanListItemViewModel(planData, friends)
+                )
+            }
+
+            _planListItems.postValue(planItems)
+        }
     }
 }

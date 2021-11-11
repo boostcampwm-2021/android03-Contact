@@ -1,6 +1,7 @@
 package com.ivyclub.contact.ui.main.add_friend
 
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +20,25 @@ class ExtraInfoListAdapter :
         holder.bind(getItem(position))
     }
 
-    class ExtraInfoViewHolder(private val binding: ItemAddFriendExtraInfoBinding) :
+    inner class ExtraInfoViewHolder(private val binding: ItemAddFriendExtraInfoBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.etExtraInfoTitle.doOnTextChanged { text, _, _, _ ->
+                val currentExtraInfo = getItem(adapterPosition)
+                currentExtraInfo.title = text.toString()
+            }
+            binding.etExtraInfoValue.doOnTextChanged { text, _, _, _ ->
+                val currentExtraInfo = getItem(adapterPosition)
+                currentExtraInfo.value = text.toString()
+            }
+        }
+
         fun bind(extraInfo: FriendExtraInfoData) {
-            binding.etExtraInfoTitle.setText(extraInfo.title)
+            with(binding) {
+                etExtraInfoTitle.setText(extraInfo.title)
+                etExtraInfoValue.setText(extraInfo.value)
+            }
         }
 
     }
