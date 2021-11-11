@@ -28,10 +28,17 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     private val onBackPressedCallback by lazy {
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (viewModel.isSearchViewVisible.value == true) {
-                    viewModel.setSearchViewVisibility()
-                } else {
-                    requireActivity().finish()
+                when {
+                    viewModel.isSearchViewVisible.value == true -> {
+                        viewModel.setSearchViewVisibility()
+                    }
+                    viewModel.isInLongClickedState.value == true -> {
+                        friendListAdapter.setAllClickedClear(viewModel.longClickedId)
+                        viewModel.clearLongClickedId()
+                    }
+                    else -> {
+                        requireActivity().finish()
+                    }
                 }
             }
         }

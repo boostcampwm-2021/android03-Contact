@@ -36,9 +36,11 @@ class FriendViewModel @Inject constructor(
     val groupNameValidation: LiveData<String> get() = _groupNameValidation
     private val _isAddGroupButtonActive = MutableLiveData(false)
     val isAddGroupButtonActive: LiveData<Boolean> = _isAddGroupButtonActive
+    private val _isInLongClickedState = MutableLiveData(false)
+    val isInLongClickedState: LiveData<Boolean> get() = _isInLongClickedState
 
     private val foldedGroupNameList = mutableListOf<String>()
-    private val longClickedId = mutableListOf<Long>()
+    val longClickedId = mutableListOf<Long>()
 
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendData() {
@@ -46,7 +48,8 @@ class FriendViewModel @Inject constructor(
             val loadedPersonData = repository.loadFriends().sortedBy { it.name }.toFriendListData()
             if (loadedPersonData.isEmpty()) return@launch
             val newFriendList = mutableListOf<FriendListData>()
-            newFriendList.addAll(loadedPersonData.groupBy { it.groupName }.toSortedMap().values.flatten()) // 그룹 별로 사람 추가
+            newFriendList.addAll(loadedPersonData.groupBy { it.groupName }
+                .toSortedMap().values.flatten()) // 그룹 별로 사람 추가
             addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
             _friendList.postValue(newFriendList)
             originEntireFriendList = loadedPersonData
@@ -118,6 +121,7 @@ class FriendViewModel @Inject constructor(
         } else {
             longClickedId.remove(friendId)
         }
+        _isInLongClickedState.value = longClickedId.isNotEmpty()
     }
 
     fun updateFriendsGroup(groupName: String?) {
@@ -127,6 +131,11 @@ class FriendViewModel @Inject constructor(
             initLongClickedId() // 그룹 이동이 끝나서 저장된 값들 초기화
             getFriendData() // 리스트 업데이트
         }
+    }
+
+    fun clearLongClickedId() {
+        longClickedId.clear()
+        _isInLongClickedState.value = longClickedId.isNotEmpty()
     }
 
     private fun initLongClickedId() {
