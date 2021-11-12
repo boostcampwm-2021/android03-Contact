@@ -79,6 +79,10 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         onBackPressedCallback.remove()
     }
 
+    fun loadFriendList() {
+        viewModel.getFriendData()
+    }
+
     private fun initBackPressedCallback() {
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
