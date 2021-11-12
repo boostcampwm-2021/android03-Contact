@@ -1,13 +1,12 @@
 package com.ivyclub.contact.ui.main.friend
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivyclub.contact.R
 import com.ivyclub.contact.model.FriendListData
 import com.ivyclub.contact.util.FriendListViewType
-import com.ivyclub.contact.util.GroupNameValidation
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.GroupData
@@ -33,12 +32,15 @@ class FriendViewModel @Inject constructor(
     val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
     private val _searchEditTextInputText = MutableLiveData<String>()
     val searchEditTextInputText: LiveData<String> get() = _searchEditTextInputText
-    private val _groupNameValidation = MutableLiveData(GroupNameValidation.WRONG_EMPTY.message)
-    val groupNameValidation: LiveData<String> get() = _groupNameValidation
+
+    //    private val _groupNameValidation = MutableLiveData(GroupNameValidation.WRONG_EMPTY.message)
+//    val groupNameValidation: LiveData<String> get() = _groupNameValidation
     private val _isAddGroupButtonActive = MutableLiveData(false)
     val isAddGroupButtonActive: LiveData<Boolean> = _isAddGroupButtonActive
     private val _isInLongClickedState = MutableLiveData(false)
     val isInLongClickedState: LiveData<Boolean> get() = _isInLongClickedState
+    private val _groupNameValidation = MutableLiveData(R.string.group_name_validation_wrong_empty)
+    val groupNameValidation: LiveData<Int> get() = _groupNameValidation
 
     private val foldedGroupNameList = mutableListOf<String>()
     val longClickedId = mutableListOf<Long>()
@@ -102,15 +104,19 @@ class FriendViewModel @Inject constructor(
     }
 
     fun checkGroupNameValid(text: String) {
-        if (text.isEmpty()) {
-            _groupNameValidation.value = GroupNameValidation.WRONG_EMPTY.message
-            setAddGroupButtonActive(false)
-        } else if (text in groups) {
-            _groupNameValidation.value = GroupNameValidation.WRONG_DUPLICATE.message
-            setAddGroupButtonActive(false)
-        } else {
-            _groupNameValidation.value = GroupNameValidation.CORRECT.message
-            setAddGroupButtonActive(true)
+        when {
+            text.isEmpty() -> {
+                _groupNameValidation.value = R.string.group_name_validation_wrong_empty
+                setAddGroupButtonActive(false)
+            }
+            text in groups -> {
+                _groupNameValidation.value = R.string.group_name_validation_wrong_duplicate
+                setAddGroupButtonActive(false)
+            }
+            else -> {
+                _groupNameValidation.value = R.string.empty_string
+                setAddGroupButtonActive(true)
+            }
         }
     }
 
