@@ -54,13 +54,6 @@ class AddEditFriendFragment :
                 showBackPressedDialog()
             }
 
-            ivSaveIcon.setOnClickListener {
-                this@AddEditFriendFragment.viewModel.checkRequiredNotEmpty(
-                    etPhoneNumber.text.toString(),
-                    etName.text.toString()
-                )
-            }
-
             tvBirthdayValue.setOnClickListener {
                 val today = Date(System.currentTimeMillis())
                 val listener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
@@ -84,7 +77,7 @@ class AddEditFriendFragment :
     }
 
     private fun observeRequiredState() {
-        viewModel.canSaveFriendData.observe(viewLifecycleOwner) {
+        viewModel.isSaveButtonClicked.observe(viewLifecycleOwner) {
             if (it) {
                 with(binding) {
                     this@AddEditFriendFragment.viewModel.saveFriendData(

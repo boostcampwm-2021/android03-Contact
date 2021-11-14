@@ -18,17 +18,15 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     val groups: LiveData<List<String>> get() = _groups
     private val _extraInfos = MutableLiveData<List<FriendExtraInfoData>>()
     val extraInfos: LiveData<List<FriendExtraInfoData>> get() = _extraInfos
-    private val _isPhoneNumberEmpty = MutableLiveData(false)
-    val isPhoneNumberEmpty: LiveData<Boolean> get() = _isPhoneNumberEmpty
-    private val _isNameEmpty = MutableLiveData(false)
-    val isNameEmpty: LiveData<Boolean> get() = _isNameEmpty
-    private val _canSaveFriendData = MutableLiveData<Boolean>()
-    val canSaveFriendData: LiveData<Boolean> get() = _canSaveFriendData
+    private val _isSaveButtonClicked = MutableLiveData(false)
+    val isSaveButtonClicked: LiveData<Boolean> get() = _isSaveButtonClicked
     private val _friendData = MutableLiveData<FriendData>()
     val friendData: LiveData<FriendData> get() = _friendData
     private val _showClearButtonVisible = MutableLiveData<Boolean>()
     val showClearButtonVisible: LiveData<Boolean> get() = _showClearButtonVisible
     private val extraInfoList = mutableListOf<FriendExtraInfoData>()
+    val phoneNumber = MutableLiveData("")
+    val name = MutableLiveData("")
 
 
     init {
@@ -66,6 +64,10 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     fun removeExtraInfo(position: Int) {
         extraInfoList.removeAt(position)
         _extraInfos.value = extraInfoList
+    }
+
+    fun onSaveButtonClicked() {
+        _isSaveButtonClicked.value = true
     }
 
     fun saveFriendData(
@@ -107,18 +109,6 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
             }
 
         }
-    }
-
-    fun checkRequiredNotEmpty(
-        phoneNumber: String,
-        name: String
-    ) {
-        val isPhoneNumberEmpty = phoneNumber.trim().isEmpty()
-        val isNameEmpty = name.trim().isEmpty()
-
-        _isPhoneNumberEmpty.value = isPhoneNumberEmpty
-        _isNameEmpty.value = isNameEmpty
-        _canSaveFriendData.value = !(isPhoneNumberEmpty || isNameEmpty)
     }
 
     fun showClearButtonVisible(show: Boolean) {
