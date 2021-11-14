@@ -1,19 +1,15 @@
 package com.ivyclub.contact.ui.main.friend
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
-import com.ivyclub.contact.databinding.DialogFriendBinding
 import com.ivyclub.contact.databinding.FragmentFriendBinding
+import com.ivyclub.contact.ui.main.friend.dialog.AddGroupDialogFragment
 import com.ivyclub.contact.ui.main.friend.dialog.SelectGroupFragment
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.changeVisibilityWithDirection
@@ -44,27 +40,10 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         }
     }
     private lateinit var friendListAdapter: FriendListAdapter
-    private lateinit var dialog: Dialog
-    private var _dialogBinding: DialogFriendBinding? = null
-    private val dialogBinding get() = _dialogBinding ?: error("dialogBinding이 초기화되지 않았습니다.")
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _dialogBinding = DialogFriendBinding.inflate(LayoutInflater.from(context))
-        with(dialogBinding) {
-            friendViewModel = viewModel
-            lifecycleOwner = viewLifecycleOwner
-        }
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
         initBackPressedCallback()
-        initDialog()
         initAddButton()
         initSettingsButton()
         initFriendListAdapter()
@@ -124,34 +103,8 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         }
     }
 
-    private fun initDialog() {
-        dialog = Dialog(requireContext())
-
-        if (dialogBinding.root.parent == null) {
-            dialog.setContentView(dialogBinding.root)
-        }
-
-        val layoutParams = dialog.window?.attributes
-        layoutParams?.width = ConstraintLayout.LayoutParams.MATCH_PARENT
-        layoutParams?.height = ConstraintLayout.LayoutParams.WRAP_CONTENT
-
-        with(dialogBinding) {
-            btnCancel.setOnClickListener {
-                dialog.dismiss()
-            }
-
-            btnAddNewGroup.setOnClickListener {
-                val groupName = etNewGroupName.text.toString()
-                viewModel.saveGroupData(groupName)
-                dialog.dismiss()
-            }
-        }
-    }
-
     private fun showDialog() {
-        viewModel.getGroupData()
-        dialogBinding.etNewGroupName.text?.clear()
-        dialog.show()
+        AddGroupDialogFragment().show(childFragmentManager, ADD_GROUP_DIALOG_TAG)
     }
 
     private fun initFriendListAdapter() {
@@ -215,12 +168,8 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _dialogBinding = null
-    }
-
     companion object {
         private const val ANIMATION_TIME = 150L
+        private const val ADD_GROUP_DIALOG_TAG = "AddGroupDialog"
     }
 }
