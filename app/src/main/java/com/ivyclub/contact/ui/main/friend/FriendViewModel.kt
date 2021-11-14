@@ -12,6 +12,7 @@ import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,28 +44,19 @@ class FriendViewModel @Inject constructor(
     private val foldedGroupNameList = mutableListOf<String>()
     val longClickedId = mutableListOf<Long>()
 
-    init {
-        getFriendDataWithFlow()
-    }
-
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
-    fun getFriendData() {
+    fun getFriendDataWithFlow() {
         viewModelScope.launch(Dispatchers.IO) {
-            val loadedPersonData = repository.loadFriends().sortedBy { it.name }.toFriendListData()
-            if (loadedPersonData.isEmpty()) return@launch
-            val newFriendList = mutableListOf<FriendListData>()
-            newFriendList.addAll(loadedPersonData.groupBy { it.groupName }
-                .toSortedMap().values.flatten()) // 그룹 별로 사람 추가
-            addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
-            _friendList.postValue(newFriendList)
-            originEntireFriendList = loadedPersonData
-        }
-    }
-
-    private fun getFriendDataWithFlow() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val loadedFriendsData = repository.loadFriendsWithFlow().collect {
-
+            repository.loadFriendsWithFlow().buffer().collect { newLoadedPersonData ->
+                val loadedPersonData =
+                    newLoadedPersonData.sortedBy { it.name }.toFriendListData()
+                if (loadedPersonData.isEmpty()) return@collect
+                val newFriendList = mutableListOf<FriendListData>()
+                newFriendList.addAll(loadedPersonData.groupBy { it.groupName }
+                    .toSortedMap().values.flatten()) // 그룹 별로 사람 추가
+                addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
+                _friendList.postValue(newFriendList)
+                originEntireFriendList = loadedPersonData
             }
         }
     }
@@ -146,7 +138,7 @@ class FriendViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateGroupOf(longClickedId, groupName)
             initLongClickedId() // 그룹 이동이 끝나서 저장된 값들 초기화
-            getFriendData() // 리스트 업데이트
+            getFriendDataWithFlow() // 리스트 업데이트
             clearLongClickedId() // long clicked된 id 값들 처리 해제
         }
     }

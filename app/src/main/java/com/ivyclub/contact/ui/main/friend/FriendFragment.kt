@@ -70,7 +70,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         initFriendListAdapter()
         observeSearchViewVisibility()
         observeFriendList()
-        viewModel.getFriendData()
+        viewModel.getFriendDataWithFlow()
         getGroupSelectFragmentResult()
     }
 
@@ -80,7 +80,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     fun loadFriendList() {
-        viewModel.getFriendData()
+        viewModel.getFriendDataWithFlow()
     }
 
     private fun initBackPressedCallback() {
