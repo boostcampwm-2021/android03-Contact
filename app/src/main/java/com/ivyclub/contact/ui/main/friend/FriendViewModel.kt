@@ -12,6 +12,7 @@ import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,9 +33,6 @@ class FriendViewModel @Inject constructor(
     val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
     private val _searchEditTextInputText = MutableLiveData<String>()
     val searchEditTextInputText: LiveData<String> get() = _searchEditTextInputText
-
-    //    private val _groupNameValidation = MutableLiveData(GroupNameValidation.WRONG_EMPTY.message)
-//    val groupNameValidation: LiveData<String> get() = _groupNameValidation
     private val _isAddGroupButtonActive = MutableLiveData(false)
     val isAddGroupButtonActive: LiveData<Boolean> = _isAddGroupButtonActive
     private val _isInLongClickedState = MutableLiveData(false)
@@ -44,6 +42,10 @@ class FriendViewModel @Inject constructor(
 
     private val foldedGroupNameList = mutableListOf<String>()
     val longClickedId = mutableListOf<Long>()
+
+    init {
+        getFriendDataWithFlow()
+    }
 
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendData() {
@@ -56,6 +58,14 @@ class FriendViewModel @Inject constructor(
             addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
             _friendList.postValue(newFriendList)
             originEntireFriendList = loadedPersonData
+        }
+    }
+
+    private fun getFriendDataWithFlow() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val loadedFriendsData = repository.loadFriendsWithFlow().collect {
+
+            }
         }
     }
 

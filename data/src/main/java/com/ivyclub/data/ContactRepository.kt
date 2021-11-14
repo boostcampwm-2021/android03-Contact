@@ -1,6 +1,7 @@
 package com.ivyclub.data
 
 import com.ivyclub.data.model.*
+import kotlinx.coroutines.flow.Flow
 
 interface ContactRepository {
     fun loadFriends(): List<FriendData>
@@ -31,4 +32,5 @@ interface ContactRepository {
         extraInfo: Map<String, String>,
         id: Long
     )
+    fun loadFriendsWithFlow(): Flow<List<FriendData>>
 }

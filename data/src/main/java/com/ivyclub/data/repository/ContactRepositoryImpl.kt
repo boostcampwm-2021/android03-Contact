@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.MyPreference
 import com.ivyclub.data.model.*
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -125,6 +126,10 @@ class ContactRepositoryImpl @Inject constructor(
         id: Long
     ) {
         contactDAO.updateFriendData(phoneNumber, name, birthday, groupName, extraInfo, id)
+    }
+
+    override fun loadFriendsWithFlow(): Flow<List<FriendData>> {
+        return contactDAO.getFriendsWithFlow()
     }
 
     companion object {

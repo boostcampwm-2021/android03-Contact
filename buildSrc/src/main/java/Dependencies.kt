@@ -39,6 +39,7 @@ object Dep {
         const val support = "com.android.support:support-compat:28.0.0"
         const val sharedPreference = "androidx.preference:preference-ktx:1.1.0"
         const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+        const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     }
 
     object Test {

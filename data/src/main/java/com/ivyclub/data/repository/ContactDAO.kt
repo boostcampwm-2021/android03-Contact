@@ -2,11 +2,15 @@ package com.ivyclub.data.repository
 
 import androidx.room.*
 import com.ivyclub.data.model.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ContactDAO {
     @Query("SELECT * FROM FriendData")
     fun getFriends(): List<FriendData>
+
+    @Query("SELECT * FROM FriendData")
+    fun getFriendsWithFlow(): Flow<List<FriendData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFriendData(friendData: FriendData)
