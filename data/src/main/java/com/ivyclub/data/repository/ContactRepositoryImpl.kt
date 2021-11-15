@@ -5,6 +5,8 @@ import androidx.annotation.RequiresApi
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.MyPreference
 import com.ivyclub.data.model.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,58 +16,63 @@ class ContactRepositoryImpl @Inject constructor(
     private val contactDAO: ContactDAO,
     private val myPreference: MyPreference
 ) : ContactRepository {
-    override fun loadFriends(): List<FriendData> {
-        return contactDAO.getFriends()
+
+    private val ioDispatcher = Dispatchers.IO
+
+    override suspend fun loadFriends() = withContext(ioDispatcher) {
+        contactDAO.getFriends()
     }
 
-    override fun saveFriend(friendData: FriendData) {
+    override suspend fun saveFriend(friendData: FriendData) = withContext(ioDispatcher) {
         contactDAO.insertFriendData(friendData)
     }
 
-    override fun setShowOnBoardingState(state: Boolean) {
+    override suspend fun setShowOnBoardingState(state: Boolean) = withContext(ioDispatcher) {
         myPreference.setShowOnBoardingState(state)
     }
 
-    override fun getShowOnBoardingState(): Boolean {
-        return myPreference.getShowOnBoardingState()
+    override suspend fun getShowOnBoardingState(): Boolean = withContext(ioDispatcher) {
+        myPreference.getShowOnBoardingState()
     }
 
-    override fun setNotificationTime(start: String, end: String) {
-        myPreference.setNotificationTime(NOTIFICATION_START, start)
-        myPreference.setNotificationTime(NOTIFICATION_END, end)
-    }
+    override suspend fun setNotificationTime(start: String, end: String) =
+        withContext(ioDispatcher) {
+            myPreference.setNotificationTime(NOTIFICATION_START, start)
+            myPreference.setNotificationTime(NOTIFICATION_END, end)
+        }
 
-    override fun setNotificationOnOff(state: Boolean) {
+    override suspend fun setNotificationOnOff(state: Boolean) = withContext(ioDispatcher) {
         myPreference.setNotificationOnOff(state)
     }
 
-    override fun getPlanList(): List<SimplePlanData> {
-        return contactDAO.getPlanList()
+    override suspend fun getPlanList(): List<SimplePlanData> = withContext(ioDispatcher) {
+        contactDAO.getPlanList()
     }
 
-    override fun getPlanDataById(planId: Long): PlanData {
-        return contactDAO.getPlanDetailsById(planId)
+    override suspend fun getPlanDataById(planId: Long): PlanData = withContext(ioDispatcher) {
+        contactDAO.getPlanDetailsById(planId)
     }
 
-    override fun savePlanData(planData: PlanData, lastParticipants: List<Long>) {
-        val planId = contactDAO.insertPlanData(planData)
+    override suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long>) =
+        withContext(ioDispatcher) {
+            val planId = contactDAO.insertPlanData(planData)
 
-        if (lastParticipants.isNotEmpty()) {
-            (lastParticipants - planData.participant).forEach { friendId ->
+            if (lastParticipants.isNotEmpty()) {
+                (lastParticipants - planData.participant).forEach { friendId ->
+                    val planSet = contactDAO.getFriendsPlanList(friendId).planList.toMutableSet()
+                    planSet.remove(planId)
+                    contactDAO.updateFriendsPlanList(friendId, planSet.toList())
+                }
+            }
+
+            planData.participant.forEach { friendId ->
                 val planSet = contactDAO.getFriendsPlanList(friendId).planList.toMutableSet()
-                planSet.remove(planId)
+                planSet.add(planId)
                 contactDAO.updateFriendsPlanList(friendId, planSet.toList())
             }
         }
 
-        planData.participant.forEach { friendId ->
-            val planSet = contactDAO.getFriendsPlanList(friendId).planList.toMutableSet()
-            planSet.add(planId)
-            contactDAO.updateFriendsPlanList(friendId, planSet.toList())
-        }
-    }
-
-    override fun deletePlanData(planData: PlanData) {
+    override suspend fun deletePlanData(planData: PlanData) = withContext(ioDispatcher) {
         contactDAO.deletePlanData(planData)
         planData.participant.forEach { friendId ->
             val planSet = contactDAO.getFriendsPlanList(friendId).planList.toMutableSet()
@@ -74,56 +81,53 @@ class ContactRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData> {
-        return contactDAO.getSimpleFriendDataListByGroup(groupName)
+    override suspend fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData> =
+        withContext(ioDispatcher) {
+            contactDAO.getSimpleFriendDataListByGroup(groupName)
+        }
+
+    override suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData = withContext(ioDispatcher) {
+        contactDAO.getSimpleFriendDataById(friendId)
     }
 
-    override fun getSimpleFriendDataById(friendId: Long): SimpleFriendData {
-        return contactDAO.getSimpleFriendDataById(friendId)
+    override suspend fun getSimpleFriendData(): List<SimpleFriendData> = withContext(ioDispatcher) {
+        contactDAO.getSimpleFriendData()
     }
 
-    override fun getSimpleFriendData(): List<SimpleFriendData> {
-        return contactDAO.getSimpleFriendData()
+    override suspend fun loadGroups(): List<GroupData> = withContext(ioDispatcher) {
+        contactDAO.getGroups()
     }
 
-    override fun loadGroups(): List<GroupData> {
-        return contactDAO.getGroups()
-    }
-
-    override fun saveNewGroup(groupData: GroupData) {
+    override suspend fun saveNewGroup(groupData: GroupData) = withContext(ioDispatcher) {
         contactDAO.insertGroupData(groupData)
     }
 
-    override fun setFavorite(id: Long, state: Boolean) {
+    override suspend fun setFavorite(id: Long, state: Boolean) = withContext(ioDispatcher) {
         contactDAO.setFavorite(id, state)
     }
 
-    override fun getPlanDetailsByTitle(title: String): PlanData {
-        return contactDAO.getPlanByTitle(title)
+    override suspend fun getFriendDataById(id: Long): FriendData = withContext(ioDispatcher) {
+        contactDAO.getFriendDataById(id)
     }
 
-    override fun getFriendDataById(id: Long): FriendData {
-        return contactDAO.getFriendDataById(id)
+    override suspend fun getPlansByIds(planIds: List<Long>): List<PlanData> = withContext(ioDispatcher) {
+        contactDAO.getPlansByIds(planIds)
     }
 
-    override fun getPlansByIds(planIds: List<Long>): List<PlanData> {
-        return contactDAO.getPlansByIds(planIds)
-    }
-
-    override fun updateGroupOf(targetFriend: List<Long>, targetGroup: String) {
+    override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String) = withContext(ioDispatcher) {
         targetFriend.forEach {
             contactDAO.updateFriendGroup(it, targetGroup)
         }
     }
 
-    override fun updateFriend(
+    override suspend fun updateFriend(
         phoneNumber: String,
         name: String,
         birthday: String,
         groupName: String,
         extraInfo: Map<String, String>,
         id: Long
-    ) {
+    ) = withContext(ioDispatcher) {
         contactDAO.updateFriendData(phoneNumber, name, birthday, groupName, extraInfo, id)
     }
 
