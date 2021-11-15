@@ -43,6 +43,8 @@ class FriendViewModel @Inject constructor(
                     newLoadedPersonData.sortedBy { it.name }.toFriendListData()
                 if (loadedPersonData.isEmpty()) return@collect
                 val newFriendList = mutableListOf<FriendListData>()
+//                newFriendList.addAll(loadedPersonData.filter { it.isFavoriteFriend }
+//                    .sortedBy { it.name }) // 즐겨찾기 친구 상단에 추가
                 newFriendList.addAll(loadedPersonData.groupBy { it.groupName }
                     .toSortedMap().values.flatten()) // 그룹 별로 사람 추가
                 addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
@@ -134,8 +136,8 @@ class FriendViewModel @Inject constructor(
     private fun addGroupViewAt(pureFriendList: MutableList<FriendListData>) {
         // 첫 그룹 뷰 추가
         pureFriendList.add(0, getGroupData(pureFriendList[0].groupName))
-        // 중간 그룹 뷰 추가
         if (pureFriendList.isEmpty()) return
+        // 중간 그룹 뷰 추가
         for (index in pureFriendList.size - 1 downTo 0) {
             val friendData = pureFriendList[index]
             if (index >= 1) {
@@ -168,7 +170,8 @@ class FriendViewModel @Inject constructor(
                 phoneNumber = it.phoneNumber,
                 name = it.name,
                 groupName = it.groupName,
-                viewType = FriendListViewType.FRIEND
+                viewType = FriendListViewType.FRIEND,
+                isFavoriteFriend = it.isFavorite
             )
             convertedFriendList.add(changedData)
         }
