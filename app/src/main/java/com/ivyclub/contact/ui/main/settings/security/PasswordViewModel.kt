@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SetPasswordViewModel @Inject constructor(private val repository: ContactRepository) :
+class PasswordViewModel @Inject constructor(private val repository: ContactRepository) :
     ViewModel() {
 
     lateinit var passwordViewType: PasswordViewType

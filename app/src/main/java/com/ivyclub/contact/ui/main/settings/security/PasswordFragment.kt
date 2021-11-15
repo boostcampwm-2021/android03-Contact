@@ -7,17 +7,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
-import com.ivyclub.contact.databinding.FragmentSetPasswordBinding
+import com.ivyclub.contact.databinding.FragmentPasswordBinding
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.PasswordViewType
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SetPasswordFragment :
-    BaseFragment<FragmentSetPasswordBinding>(R.layout.fragment_set_password) {
+class PasswordFragment :
+    BaseFragment<FragmentPasswordBinding>(R.layout.fragment_password) {
 
-    private val viewModel: SetPasswordViewModel by viewModels()
-    private val args: SetPasswordFragmentArgs by navArgs()
+    private val viewModel: PasswordViewModel by viewModels()
+    private val args: PasswordFragmentArgs by navArgs()
     private val passwordEditTextList by lazy {
         with(binding) {
             listOf(etPassword1, etPassword2, etPassword3, etPassword4)
@@ -40,7 +40,7 @@ class SetPasswordFragment :
             PasswordViewType.SET_PASSWORD -> {
                 viewModel.moveToReconfirmPassword.observe(viewLifecycleOwner) { password ->
                     findNavController().navigate(
-                        SetPasswordFragmentDirections.actionSetPasswordFragmentSelf(
+                        PasswordFragmentDirections.actionSetPasswordFragmentSelf(
                             PasswordViewType.RECONFIRM_PASSWORD,
                             password
                         )
@@ -81,7 +81,7 @@ class SetPasswordFragment :
     private fun initMoveFragmentObserver() {
         viewModel.moveToSetPassword.observe(viewLifecycleOwner) {
             findNavController().navigate(
-                SetPasswordFragmentDirections.actionSetPasswordFragmentSelf(
+                PasswordFragmentDirections.actionSetPasswordFragmentSelf(
                     PasswordViewType.SET_PASSWORD
                 )
             )
