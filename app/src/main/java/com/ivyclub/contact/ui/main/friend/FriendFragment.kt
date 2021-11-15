@@ -27,9 +27,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                 when {
                     viewModel.isSearchViewVisible.value == true -> {
                         viewModel.setSearchViewVisibility()
-                        friendListAdapter.submitList(viewModel.getOrderedEntireFriendList()) {
-                            binding.rvFriendList.scrollToPosition(0)
-                        }
+                        initFriendList()
                     }
                     viewModel.isInLongClickedState.value == true -> {
                         friendListAdapter.setAllClickedClear(viewModel.longClickedId)
@@ -49,6 +47,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         initBackPressedCallback()
         initAddButton()
         initSettingsButton()
+        initClearButton()
         initFriendListAdapter()
         observeSearchViewVisibility()
         observeFriendList()
@@ -107,6 +106,13 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     private fun initSettingsButton() = with(binding) {
         ivSettingsIcon.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_friend_to_settingsFragment)
+        }
+    }
+
+    private fun initClearButton() = with(binding) {
+        ivRemoveEt.setOnClickListener {
+            etSearch.setText("")
+            initFriendList()
         }
     }
 
@@ -172,6 +178,12 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             viewModel.updateFriendsGroup(result) // 뷰모델에서 클릭 된 아이템 처리 해제
             friendListAdapter.clearLongClickedItemCount() // 리스트 어댑터에서 클릭 된 아이템 처리 해제
             binding.rvFriendList.adapter = friendListAdapter
+        }
+    }
+
+    private fun initFriendList() {
+        friendListAdapter.submitList(viewModel.getOrderedEntireFriendList()) {
+            binding.rvFriendList.scrollToPosition(0)
         }
     }
 

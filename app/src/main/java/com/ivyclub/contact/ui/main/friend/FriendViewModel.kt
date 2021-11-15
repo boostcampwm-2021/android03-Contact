@@ -30,8 +30,6 @@ class FriendViewModel @Inject constructor(
     val friendList: LiveData<List<FriendListData>> get() = _friendList
     private val _isClearButtonVisible = MutableLiveData(false)
     val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
-    private val _searchEditTextInputText = MutableLiveData<String>()
-    val searchEditTextInputText: LiveData<String> get() = _searchEditTextInputText
     private val _isInLongClickedState = MutableLiveData(false)
     val isInLongClickedState: LiveData<Boolean> get() = _isInLongClickedState
     private val foldedGroupNameList = mutableListOf<String>()
@@ -64,10 +62,6 @@ class FriendViewModel @Inject constructor(
     fun setSearchViewVisibility() {
         _isSearchViewVisible.value = !(_isSearchViewVisible.value ?: true)
         setClearButtonVisibility(searchInputString)
-    }
-
-    fun removeText() {
-        _searchEditTextInputText.value = ""
     }
 
     fun manageGroupFolded(groupName: String) {
