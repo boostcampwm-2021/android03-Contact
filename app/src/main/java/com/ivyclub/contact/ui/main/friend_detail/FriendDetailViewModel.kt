@@ -22,9 +22,17 @@ class FriendDetailViewModel @Inject constructor(
 
     private val _plan1 = MutableLiveData<PlanData>()
     val plan1: LiveData<PlanData> get() = _plan1
+    private val _plan1Exist = MutableLiveData<Boolean>()
+    val plan1Exist: LiveData<Boolean> get() = _plan1Exist
+    private val _plan1Date = MutableLiveData<Date>()
+    val plan1Date: LiveData<Date> get() = _plan1Date
 
     private val _plan2 = MutableLiveData<PlanData>()
     val plan2: LiveData<PlanData> get() = _plan2
+    private val _plan2Exist = MutableLiveData<Boolean>()
+    val plan2Exist: LiveData<Boolean> get() = _plan2Exist
+    private val _plan2Date = MutableLiveData<Date>()
+    val plan2Date: LiveData<Date> get() = _plan2Date
 
     fun loadFriendData(id: Long) {
         viewModelScope.launch {
@@ -45,10 +53,17 @@ class FriendDetailViewModel @Inject constructor(
             when {
                 plans.size > 1 -> {
                     _plan1.value = plans[0]
+                    _plan1Exist.value = true
+                    _plan1Date.value = plans[0].date
+
                     _plan2.value = plans[1]
+                    _plan2Exist.value = true
+                    _plan2Date.value = plans[1].date
                 }
                 plans.size == 1 -> {
                     _plan1.value = plans[0]
+                    _plan1Exist.value = true
+                    _plan1Date.value = plans[0].date
                 }
             }
         }
