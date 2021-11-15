@@ -92,6 +92,23 @@
         <action
             android:id="@+id/action_friendDetailFragment_to_planDetailsFragment"
             app:destination="@id/planDetailsFragment" />
+        <action
+            android:id="@+id/action_friendDetailFragment_to_friendAllPlanFragment"
+            app:destination="@id/friendAllPlanFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/friendAllPlanFragment"
+        android:name="com.ivyclub.contact.ui.main.friend_detail.FriendAllPlanFragment"
+        android:label="FriendAllPlanFragment"
+        tools:layout="@layout/fragment_friend_all_plan">
+        <action
+            android:id="@+id/action_friendAllPlanFragment_to_planDetailsFragment"
+            app:destination="@id/planDetailsFragment" />
+        <argument
+            android:name="planList"
+            app:argType="long[]" />
+
     </fragment>
 
 </navigation>

@@ -32,6 +32,8 @@ class FriendDetailViewModel @Inject constructor(
         }
     }
 
+    var planList = listOf<Long>()
+
     fun setFavorite(id: Long, state: Boolean) {
         viewModelScope.launch {
             repository.setFavorite(id, state)
