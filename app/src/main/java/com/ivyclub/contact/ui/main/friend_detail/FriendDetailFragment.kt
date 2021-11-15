@@ -125,7 +125,6 @@ class FriendDetailFragment :
                 val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${friend.phoneNumber}"))
                 startActivity(intent)
             }
-            viewModel.planList = friend.planList
             bindPlan(friend.planList)
         }
 
