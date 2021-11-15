@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="friendViewModel"
-            type="com.ivyclub.contact.ui.main.friend.FriendViewModel" />
+            name="viewModel"
+            type="com.ivyclub.contact.ui.main.friend.dialog.AddGroupViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_add_group_title">
 
@@ -40,8 +41,8 @@
                 android:id="@+id/et_new_group_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onTextChanged="@{(text, start, before, count) -> friendViewModel.checkGroupNameValid(text.toString())}"
-                android:hint="@string/friend_dialog_new_group_name_hint" />
+                android:hint="@string/friend_dialog_new_group_name_hint"
+                android:onTextChanged="@{(text, start, before, count) -> viewModel.checkGroupNameValid(text.toString())}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,10 +76,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="4dp"
+            android:clickable="@{viewModel.isAddGroupButtonActive}"
             android:text="@string/friend_dialog_add"
             android:textColor="@color/green_300"
             android:textSize="16sp"
-            android:clickable="@{friendViewModel.isAddGroupButtonActive}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_duplicate_check" />
     </androidx.constraintlayout.widget.ConstraintLayout>

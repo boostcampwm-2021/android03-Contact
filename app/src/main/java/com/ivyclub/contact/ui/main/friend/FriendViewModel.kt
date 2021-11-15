@@ -9,7 +9,6 @@ import com.ivyclub.contact.model.FriendListData
 import com.ivyclub.contact.util.FriendListViewType
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
-import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.buffer
@@ -58,6 +57,17 @@ class FriendViewModel @Inject constructor(
                 _friendList.postValue(newFriendList)
                 originEntireFriendList = loadedPersonData
             }
+            
+    fun getFriendData() {
+        viewModelScope.launch {
+            val loadedPersonData = repository.loadFriends().sortedBy { it.name }.toFriendListData()
+            if (loadedPersonData.isEmpty()) return@launch
+            val newFriendList = mutableListOf<FriendListData>()
+            newFriendList.addAll(loadedPersonData.groupBy { it.groupName }
+                .toSortedMap().values.flatten()) // 그룹 별로 사람 추가
+            addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
+            _friendList.value = newFriendList
+            originEntireFriendList = loadedPersonData
         }
     }
 
@@ -135,7 +145,7 @@ class FriendViewModel @Inject constructor(
 
     fun updateFriendsGroup(groupName: String?) {
         if (groupName == null) return
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.updateGroupOf(longClickedId, groupName)
             initLongClickedId() // 그룹 이동이 끝나서 저장된 값들 초기화
             getFriendDataWithFlow() // 리스트 업데이트
@@ -145,24 +155,20 @@ class FriendViewModel @Inject constructor(
 
     fun clearLongClickedId() {
         longClickedId.clear()
-        _isInLongClickedState.postValue(longClickedId.isNotEmpty())
+        _isInLongClickedState.value = longClickedId.isNotEmpty()
     }
 
     private fun initLongClickedId() {
         longClickedId.clear()
     }
 
-    private fun setAddGroupButtonActive(isActive: Boolean) {
-        _isAddGroupButtonActive.value = isActive
-    }
-
     private fun sortNameWith(inputString: String) {
         val sortedList =
             originEntireFriendList.filter { it.name.contains(inputString) }.toMutableList()
         if (inputString.isEmpty()) {
-            _friendList.postValue(originEntireFriendList)
+            _friendList.value = originEntireFriendList
         } else {
-            _friendList.postValue(sortedList)
+            _friendList.value = sortedList
         }
     }
 

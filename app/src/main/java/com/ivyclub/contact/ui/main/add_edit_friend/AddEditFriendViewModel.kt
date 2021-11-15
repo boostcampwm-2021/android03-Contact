@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,31 +17,28 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     val groups: LiveData<List<String>> get() = _groups
     private val _extraInfos = MutableLiveData<List<FriendExtraInfoData>>()
     val extraInfos: LiveData<List<FriendExtraInfoData>> get() = _extraInfos
-    private val _isPhoneNumberEmpty = MutableLiveData(false)
-    val isPhoneNumberEmpty: LiveData<Boolean> get() = _isPhoneNumberEmpty
-    private val _isNameEmpty = MutableLiveData(false)
-    val isNameEmpty: LiveData<Boolean> get() = _isNameEmpty
-    private val _canSaveFriendData = MutableLiveData<Boolean>()
-    val canSaveFriendData: LiveData<Boolean> get() = _canSaveFriendData
+    private val _isSaveButtonClicked = MutableLiveData(false)
+    val isSaveButtonClicked: LiveData<Boolean> get() = _isSaveButtonClicked
     private val _friendData = MutableLiveData<FriendData>()
     val friendData: LiveData<FriendData> get() = _friendData
     private val _showClearButtonVisible = MutableLiveData<Boolean>()
     val showClearButtonVisible: LiveData<Boolean> get() = _showClearButtonVisible
     private val extraInfoList = mutableListOf<FriendExtraInfoData>()
+    val phoneNumber = MutableLiveData("")
+    val name = MutableLiveData("")
 
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            val groupList = repository.loadGroups().map { it.name }
-            _groups.postValue(groupList)
+        viewModelScope.launch {
+            _groups.value = repository.loadGroups().map { it.name }
         }
     }
 
     fun getFriendData(friendId: Long) {
         if (friendId == -1L) return
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val friendData = repository.getFriendDataById(friendId)
-            _friendData.postValue(friendData)
+            _friendData.value = friendData
             showClearButtonVisible(friendData.birthday.isNotEmpty())
         }
     }
@@ -68,6 +64,10 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
         _extraInfos.value = extraInfoList
     }
 
+    fun onSaveButtonClicked() {
+        _isSaveButtonClicked.value = true
+    }
+
     fun saveFriendData(
         phoneNumber: String,
         name: String,
@@ -82,7 +82,7 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
                 extraInfoMap[it.title] = it.value
             }
         }
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             if (id == -1L) {
                 repository.saveFriend(
                     FriendData(
@@ -109,20 +109,8 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
         }
     }
 
-    fun checkRequiredNotEmpty(
-        phoneNumber: String,
-        name: String
-    ) {
-        val isPhoneNumberEmpty = phoneNumber.trim().isEmpty()
-        val isNameEmpty = name.trim().isEmpty()
-
-        _isPhoneNumberEmpty.value = isPhoneNumberEmpty
-        _isNameEmpty.value = isNameEmpty
-        _canSaveFriendData.value = !(isPhoneNumberEmpty || isNameEmpty)
-    }
-
     fun showClearButtonVisible(show: Boolean) {
-        _showClearButtonVisible.postValue(show)
+        _showClearButtonVisible.value = show
     }
 
     companion object {

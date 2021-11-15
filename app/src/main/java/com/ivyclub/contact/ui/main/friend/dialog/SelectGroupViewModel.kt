@@ -1,9 +1,11 @@
 package com.ivyclub.contact.ui.main.friend.dialog
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ivyclub.data.ContactRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,8 +22,8 @@ class SelectGroupViewModel @Inject constructor(
     }
 
     private fun getGroupNameListFromDatabase() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _groupNameList.postValue(repository.loadGroups().map { it.name })
+        viewModelScope.launch {
+            _groupNameList.value = repository.loadGroups().map { it.name }
         }
     }
 }

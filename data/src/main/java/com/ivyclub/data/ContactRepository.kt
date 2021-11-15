@@ -4,27 +4,12 @@ import com.ivyclub.data.model.*
 import kotlinx.coroutines.flow.Flow
 
 interface ContactRepository {
-    fun loadFriends(): List<FriendData>
-    fun saveFriend(friendData: FriendData)
-    fun setShowOnBoardingState(state: Boolean)
-    fun getShowOnBoardingState(): Boolean
-    fun setNotificationTime(start: String, end: String)
-    fun setNotificationOnOff(state: Boolean)
-    fun getPlanList(): List<SimplePlanData>
-    fun getPlanDataById(planId: Long): PlanData
-    fun savePlanData(planData: PlanData, lastParticipants: List<Long> = emptyList())
-    fun deletePlanData(planData: PlanData)
-    fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
-    fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
-    fun getSimpleFriendData(): List<SimpleFriendData>
-    fun loadGroups(): List<GroupData>
-    fun saveNewGroup(groupData: GroupData)
-    fun setFavorite(id: Long, state: Boolean)
-    fun getPlanDetailsByTitle(title: String): PlanData
-    fun getFriendDataById(id: Long): FriendData
-    fun getPlansByIds(planIds: List<Long>): List<PlanData>
-    fun updateGroupOf(targetFriend: List<Long>, targetGroup: String)
-    fun updateFriend(
+    // Friend
+    suspend fun loadFriends(): List<FriendData>
+    suspend fun saveFriend(friendData: FriendData)
+    suspend fun setFavorite(id: Long, state: Boolean)
+    suspend fun getFriendDataById(id: Long): FriendData
+    suspend fun updateFriend(
         phoneNumber: String,
         name: String,
         birthday: String,
@@ -33,4 +18,25 @@ interface ContactRepository {
         id: Long
     )
     fun loadFriendsWithFlow(): Flow<List<FriendData>>
+
+    // OnBoarding
+    suspend fun setShowOnBoardingState(state: Boolean)
+    suspend fun getShowOnBoardingState(): Boolean
+    suspend fun setNotificationTime(start: String, end: String)
+    suspend fun setNotificationOnOff(state: Boolean)
+
+    // Plan
+    suspend fun getPlanList(): List<SimplePlanData>
+    suspend fun getPlanDataById(planId: Long): PlanData
+    suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long> = emptyList())
+    suspend fun deletePlanData(planData: PlanData)
+    suspend fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
+    suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
+    suspend fun getSimpleFriendData(): List<SimpleFriendData>
+    suspend fun getPlansByIds(planIds: List<Long>): List<PlanData>
+
+    // Group
+    suspend fun loadGroups(): List<GroupData>
+    suspend fun saveNewGroup(groupData: GroupData)
+    suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String)
 }
