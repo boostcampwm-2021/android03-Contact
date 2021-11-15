@@ -48,10 +48,6 @@ class FriendAllPlanFragment :
                     )
                 )
             }
-
-            ivSettingsIcon.setOnClickListener {
-                findNavController().navigate(R.id.action_navigation_plan_to_settingsFragment)
-            }
             ivBackIcon.setOnClickListener {
                 findNavController().popBackStack()
             }
