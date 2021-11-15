@@ -69,6 +69,10 @@
             android:name="planId"
             android:defaultValue="-1L"
             app:argType="long" />
+        <argument
+            android:name="friendId"
+            app:argType="long"
+            android:defaultValue="-1L" />
     </fragment>
 
     <fragment
@@ -108,6 +112,13 @@
         <argument
             android:name="planList"
             app:argType="long[]" />
+        <action
+            android:id="@+id/action_friendAllPlanFragment_to_addEditFragment"
+            app:destination="@id/addEditFragment" />
+        <argument
+            android:name="friendId"
+            app:argType="long"
+            android:defaultValue="-1L" />
 
     </fragment>
 

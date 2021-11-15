@@ -46,7 +46,7 @@ class FriendAllPlanFragment :
     private fun initToolbarButtons() {
         with(binding) {
             ivAddPlanIcon.setOnClickListener {
-                findNavController().navigate(PlanFragmentDirections.actionNavigationPlanToAddEditFragment())
+                findNavController().navigate(FriendAllPlanFragmentDirections.actionFriendAllPlanFragmentToAddEditFragment(friendId = args.friendId))
             }
 
             ivSettingsIcon.setOnClickListener {

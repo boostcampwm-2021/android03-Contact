@@ -97,7 +97,7 @@ class FriendDetailFragment :
             tvSeeAllPlan.setOnClickListener {
                 findNavController().navigate(
                     FriendDetailFragmentDirections.actionFriendDetailFragmentToFriendAllPlanFragment(
-                        viewModel.planList.toLongArray()
+                        viewModel.planList.toLongArray(), args.friendId
                     )
                 )
             }
