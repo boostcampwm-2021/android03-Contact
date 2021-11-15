@@ -18,7 +18,7 @@ class AddContactViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun saveFriendsData(data: List<PhoneContactData>) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             data.forEach {
                 repository.saveFriend(
                     FriendData(

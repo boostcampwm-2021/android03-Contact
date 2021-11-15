@@ -27,7 +27,7 @@ class AddGroupViewModel @Inject constructor(private val repository: ContactRepos
     }
 
     private fun getGroupData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val groupNameList = repository.loadGroups().map { it.name }
             groups.clear()
             groups.addAll(groupNameList)
@@ -35,7 +35,7 @@ class AddGroupViewModel @Inject constructor(private val repository: ContactRepos
     }
 
     fun saveGroupData(groupName: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.saveNewGroup(GroupData(groupName))
         }
     }

@@ -30,17 +30,16 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
 
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            val groupList = repository.loadGroups().map { it.name }
-            _groups.postValue(groupList)
+        viewModelScope.launch {
+            _groups.value = repository.loadGroups().map { it.name }
         }
     }
 
     fun getFriendData(friendId: Long) {
         if (friendId == -1L) return
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val friendData = repository.getFriendDataById(friendId)
-            _friendData.postValue(friendData)
+            _friendData.value = friendData
             showClearButtonVisible(friendData.birthday.isNotEmpty())
         }
     }
@@ -84,7 +83,7 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
                 extraInfoMap[it.title] = it.value
             }
         }
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             if (id == -1L) {
                 repository.saveFriend(
                     FriendData(
@@ -112,7 +111,7 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     }
 
     fun showClearButtonVisible(show: Boolean) {
-        _showClearButtonVisible.postValue(show)
+        _showClearButtonVisible.value = show
     }
 
     companion object {

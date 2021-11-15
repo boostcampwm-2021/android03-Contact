@@ -23,12 +23,12 @@ class AddEditPlanViewModel @Inject constructor(
     private val _friendList = MutableLiveData<List<SimpleFriendData>>()
     val friendList: LiveData<List<SimpleFriendData>> = _friendList
 
-    private val loadFriendsJob: Job = viewModelScope.launch(Dispatchers.IO) {
+    private val loadFriendsJob: Job = viewModelScope.launch {
         val myFriends = repository.getSimpleFriendData()
         myFriends?.forEach {
             friendMap[it.id] = it
         }
-        _friendList.postValue(myFriends)
+        _friendList.value = myFriends
     }
 
     val planTitle = MutableLiveData<String>()
@@ -53,21 +53,21 @@ class AddEditPlanViewModel @Inject constructor(
 
         this.planId = planId
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.getPlanDataById(planId)?.let {
                 lastParticipants.addAll(it.participant)
 
-                planTitle.postValue(it.title)
-                _planTime.postValue(it.date)
-                planPlace.postValue(it.place)
-                planContent.postValue(it.content)
+                planTitle.value = it.title
+                _planTime.value = it.date
+                planPlace.value = it.place
+                planContent.value = it.content
 
                 loadFriendsJob.join()
                 val friendsOnPlan = mutableListOf<SimpleFriendData>()
                 it.participant.forEach { phoneNumber ->
                     friendMap[phoneNumber]?.let { friendInfo -> friendsOnPlan.add(friendInfo) }
                 }
-                _planParticipants.postValue(friendsOnPlan)
+                _planParticipants.value = friendsOnPlan
             }
         }
     }
@@ -91,10 +91,10 @@ class AddEditPlanViewModel @Inject constructor(
     fun addParticipantsByGroup(groupName: String) {
         val participantSet = planParticipants.value?.toMutableSet()
         participantSet?.let { set ->
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch {
                 val friendsInGroup = repository.getSimpleFriendDataListByGroup(groupName)
                 set.addAll(friendsInGroup)
-                _planParticipants.postValue(set.toList())
+                _planParticipants.value = set.toList()
             }
         }
     }
@@ -121,7 +121,7 @@ class AddEditPlanViewModel @Inject constructor(
             if (planId != -1L) PlanData(participants, planDate, title, place, content, color, planId)
             else PlanData(participants, planDate, title, place, content, color)
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.savePlanData(newPlan, lastParticipants)
             makeSnackbar(
                 if (planId == -1L) R.string.add_plan_success
@@ -132,7 +132,7 @@ class AddEditPlanViewModel @Inject constructor(
     }
 
     private fun makeSnackbar(strId: Int) {
-        _snackbarMessage.postValue(strId)
+        _snackbarMessage.value = strId
     }
 
     fun finish() {

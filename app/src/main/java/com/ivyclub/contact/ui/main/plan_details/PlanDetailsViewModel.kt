@@ -31,22 +31,22 @@ class PlanDetailsViewModel @Inject constructor(
     val finishEvent: LiveData<Unit> = _finishEvent
 
     fun getPlanDetails(planId: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val planData = repository.getPlanDataById(planId)
 
             val friends = mutableListOf<String>()
             planData.participant.forEach {
                 friends.add(repository.getSimpleFriendDataById(it).name)
             }
-            _planParticipants.postValue(friends)
-            _planDetails.postValue(planData)
+            _planParticipants.value = friends
+            _planDetails.value = planData
         }
     }
 
     fun deletePlan() {
         val planData = planDetails.value ?: return
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.deletePlanData(planData)
             makeSnackbar(R.string.delete_plan_success)
             finish()
@@ -54,7 +54,7 @@ class PlanDetailsViewModel @Inject constructor(
     }
 
     private fun makeSnackbar(strId: Int) {
-        _snackbarMessage.postValue(strId)
+        _snackbarMessage.value = strId
     }
 
     private fun finish() {
