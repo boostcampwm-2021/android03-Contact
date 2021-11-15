@@ -1,9 +1,9 @@
 package com.ivyclub.data
 
 import com.ivyclub.data.model.*
+import kotlinx.coroutines.flow.Flow
 
 interface ContactRepository {
-
     // Friend
     suspend fun loadFriends(): List<FriendData>
     suspend fun saveFriend(friendData: FriendData)
@@ -17,6 +17,7 @@ interface ContactRepository {
         extraInfo: Map<String, String>,
         id: Long
     )
+    fun loadFriendsWithFlow(): Flow<List<FriendData>>
 
     // OnBoarding
     suspend fun setShowOnBoardingState(state: Boolean)

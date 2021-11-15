@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivyclub.contact.util.GroupNameValidation
+import com.ivyclub.contact.R
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +16,8 @@ class AddGroupViewModel @Inject constructor(private val repository: ContactRepos
     ViewModel() {
 
     private val groups = mutableListOf<String>()
-    private val _groupNameValidation = MutableLiveData(GroupNameValidation.WRONG_EMPTY.message)
-    val groupNameValidation: LiveData<String> get() = _groupNameValidation
+    private val _groupNameValidation = MutableLiveData(R.string.group_name_validation_wrong_empty)
+    val groupNameValidation: LiveData<Int> get() = _groupNameValidation
     private val _isAddGroupButtonActive = MutableLiveData(false)
     val isAddGroupButtonActive: LiveData<Boolean> = _isAddGroupButtonActive
 
@@ -40,15 +40,19 @@ class AddGroupViewModel @Inject constructor(private val repository: ContactRepos
     }
 
     fun checkGroupNameValid(text: String) {
-        if (text.isEmpty()) {
-            _groupNameValidation.value = GroupNameValidation.WRONG_EMPTY.message
-            setAddGroupButtonActive(false)
-        } else if (text in groups) {
-            _groupNameValidation.value = GroupNameValidation.WRONG_DUPLICATE.message
-            setAddGroupButtonActive(false)
-        } else {
-            _groupNameValidation.value = GroupNameValidation.CORRECT.message
-            setAddGroupButtonActive(true)
+        when {
+            text.isEmpty() -> {
+                _groupNameValidation.value = R.string.group_name_validation_wrong_empty
+                setAddGroupButtonActive(false)
+            }
+            text in groups -> {
+                _groupNameValidation.value = R.string.group_name_validation_wrong_duplicate
+                setAddGroupButtonActive(false)
+            }
+            else -> {
+                _groupNameValidation.value = R.string.empty_string
+                setAddGroupButtonActive(true)
+            }
         }
     }
 
