@@ -27,3 +27,7 @@ interface KoreanTranslatable {
 enum class FriendListViewType {
     GROUP_NAME, FRIEND, GROUP_DIVIDER
 }
+
+enum class PasswordViewType {
+    SET_PASSWORD, RECONFIRM_PASSWORD, CONFIRM_PASSWORD
+}
