@@ -8,9 +8,7 @@ import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.PlanData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import java.util.*
 import javax.inject.Inject
 
@@ -42,7 +40,8 @@ class FriendDetailViewModel @Inject constructor(
 
     fun loadPlans(planIds: List<Long>) {
         viewModelScope.launch {
-            val plans = repository.getPlansByIds(planIds).filter { it.date < Date() }.sortedByDescending { it.date }
+            val plans = repository.getPlansByIds(planIds).filter { it.date < Date() }
+                .sortedByDescending { it.date }
             when {
                 plans.size > 1 -> {
                     _plan1.value = plans[0]

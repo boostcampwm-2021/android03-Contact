@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.ui.plan_list.PlanListItemViewModel
 import com.ivyclub.data.ContactRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
