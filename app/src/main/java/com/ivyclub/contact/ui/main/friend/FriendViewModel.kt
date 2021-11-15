@@ -55,8 +55,12 @@ class FriendViewModel @Inject constructor(
 
     fun onEditTextClicked(inputString: CharSequence) {
         searchInputString = inputString.toString()
-        sortNameWith(inputString.toString())
         setClearButtonVisibility(inputString.toString())
+        if (searchInputString.isEmpty()) { // 입력한 글자가 없다면 원래 리스트로 교체
+            _friendList.value = orderedEntireFriendList
+            return
+        }
+        sortNameWith(inputString.toString())
     }
 
     fun setSearchViewVisibility() {
