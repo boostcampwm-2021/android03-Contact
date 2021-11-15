@@ -46,7 +46,7 @@ class FriendViewModel @Inject constructor(
                 sortedFriendList
                     .addAll(loadedPersonData.groupBy { it.groupName }
                         .toSortedMap().values.flatten()) // 그룹 별로 사람 추가
-                val newFriendList = sortedFriendList.addGroupView().addFavoriteGroup()
+                val newFriendList = sortedFriendList.addGroupView() // 즐겨찾기 구현할 때 사용 -> .addFavoriteGroup()
                 _friendList.postValue(newFriendList)
                 orderedEntireFriendList = newFriendList
                 originEntireFriendList = loadedPersonData
