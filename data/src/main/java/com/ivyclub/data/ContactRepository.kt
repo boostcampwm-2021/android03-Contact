@@ -38,4 +38,7 @@ interface ContactRepository {
     suspend fun loadGroups(): List<GroupData>
     suspend fun saveNewGroup(groupData: GroupData)
     suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String)
+
+    // Password
+    suspend fun savePassword(password: String)
 }

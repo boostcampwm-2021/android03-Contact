@@ -37,8 +37,13 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context) {
         prefs.edit().putBoolean(FIRST_ON_BOARDING, state).apply()
     }
 
+    fun setPassword(password: String) {
+        prefs.edit().putString(PASSWORD, password).apply()
+    }
+
     companion object {
         const val FIRST_ON_BOARDING = "FIRST_ON_BOARDING"
         const val NOTIFICATION_ON_OFF = "NOTIFICATION_ON_OFF"
+        const val PASSWORD = "password"
     }
 }

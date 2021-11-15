@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentSetPasswordBinding
 import com.ivyclub.contact.util.BaseFragment
@@ -29,11 +30,12 @@ class SetPasswordFragment :
         initPasswordViewType()
         initNumberClickListener()
         initCancelButtonClickListener()
+        initMoveFragmentObserver()
         observeFocusedEditTextIndex()
     }
 
     private fun initPasswordViewType() {
-        viewModel.initPasswordViewType(args.passwordViewType)
+        viewModel.initPasswordViewType(args.passwordViewType, args.password)
         when (args.passwordViewType) {
             PasswordViewType.SET_PASSWORD -> {
                 viewModel.moveToReconfirmPassword.observe(viewLifecycleOwner) { password ->
@@ -47,6 +49,7 @@ class SetPasswordFragment :
             }
             PasswordViewType.RECONFIRM_PASSWORD -> {
                 binding.tvPassword.text = "확인을 위해 한번 더 입력해 주세요."
+
             }
         }
     }
@@ -72,6 +75,21 @@ class SetPasswordFragment :
     private fun observeFocusedEditTextIndex() {
         viewModel.focusedEditTextIndex.observe(viewLifecycleOwner) {
             passwordEditTextList[it - 1].requestFocus()
+        }
+    }
+
+    private fun initMoveFragmentObserver() {
+        viewModel.moveToSetPassword.observe(viewLifecycleOwner) {
+            findNavController().navigate(
+                SetPasswordFragmentDirections.actionSetPasswordFragmentSelf(
+                    PasswordViewType.SET_PASSWORD
+                )
+            )
+            Snackbar.make(binding.root, "비밀번호가 일치하지 않습니다.\n처음부터 다시 시도해주세요.", Snackbar.LENGTH_SHORT)
+                .show()
+        }
+        viewModel.moveToPreviousFragment.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
         }
     }
 }

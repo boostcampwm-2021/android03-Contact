@@ -3,10 +3,12 @@ package com.ivyclub.contact.ui.main.settings.security
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.util.PasswordViewType
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,18 +16,24 @@ class SetPasswordViewModel @Inject constructor(private val repository: ContactRe
     ViewModel() {
 
     lateinit var passwordViewType: PasswordViewType
+    lateinit var password: String
 
     private val _focusedEditTextIndex = MutableLiveData(1)
     val focusedEditTextIndex: LiveData<Int> get() = _focusedEditTextIndex
     private val _moveToReconfirmPassword = SingleLiveEvent<String>()
     val moveToReconfirmPassword: LiveData<String> get() = _moveToReconfirmPassword
+    private val _moveToPreviousFragment = SingleLiveEvent<Unit>()
+    val moveToPreviousFragment: LiveData<Unit> get() = _moveToPreviousFragment
+    private val _moveToSetPassword = SingleLiveEvent<Unit>()
+    val moveToSetPassword: LiveData<Unit> get() = _moveToSetPassword
     var password1 = MutableLiveData("")
     var password2 = MutableLiveData("")
     var password3 = MutableLiveData("")
     var password4 = MutableLiveData("")
 
-    fun initPasswordViewType(type: PasswordViewType) {
+    fun initPasswordViewType(type: PasswordViewType, password: String = "") {
         passwordViewType = type
+        this.password = password
     }
 
     private fun updatePasswordInput(number: String) {
@@ -62,14 +70,27 @@ class SetPasswordViewModel @Inject constructor(private val repository: ContactRe
     }
 
     private fun nextStep() {
+        val inputPassword = "${password1.value}${password2.value}${password3.value}${password4.value}"
+
         when (passwordViewType) {
             PasswordViewType.SET_PASSWORD -> {
-                _moveToReconfirmPassword.value =
-                    "${password1.value}${password2.value}${password3.value}${password4.value}"
+                _moveToReconfirmPassword.value = inputPassword
             }
-            else -> {
+            PasswordViewType.RECONFIRM_PASSWORD -> {
+                if (password == inputPassword) {
+                    savePassword(password)
+                    _moveToPreviousFragment.call()
+                } else {
+                    _moveToSetPassword.call()
+                }
+           }
+            PasswordViewType.CONFIRM_PASSWORD -> {
                 // TODO: 비밀번호 일치여부 확인
             }
         }
+    }
+
+    private fun savePassword(password: String) = viewModelScope.launch {
+        repository.savePassword(password)
     }
 }
