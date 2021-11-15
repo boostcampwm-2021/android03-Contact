@@ -27,6 +27,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+
+        lint {
+            isAbortOnError = false
+        }
     }
     buildFeatures {
         viewBinding = true
