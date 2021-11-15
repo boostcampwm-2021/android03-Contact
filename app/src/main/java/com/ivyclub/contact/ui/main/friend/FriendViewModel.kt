@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ivyclub.contact.R
 import com.ivyclub.contact.model.FriendListData
 import com.ivyclub.contact.util.FriendListViewType
 import com.ivyclub.data.ContactRepository
@@ -23,7 +22,6 @@ class FriendViewModel @Inject constructor(
 
     private var searchInputString = ""
     private lateinit var originEntireFriendList: List<FriendListData>
-    private val groups = mutableListOf<String>()
 
     private val _isSearchViewVisible = MutableLiveData(false)
     val isSearchViewVisible: LiveData<Boolean> get() = _isSearchViewVisible
@@ -33,13 +31,8 @@ class FriendViewModel @Inject constructor(
     val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
     private val _searchEditTextInputText = MutableLiveData<String>()
     val searchEditTextInputText: LiveData<String> get() = _searchEditTextInputText
-    private val _isAddGroupButtonActive = MutableLiveData(false)
-    val isAddGroupButtonActive: LiveData<Boolean> = _isAddGroupButtonActive
     private val _isInLongClickedState = MutableLiveData(false)
     val isInLongClickedState: LiveData<Boolean> get() = _isInLongClickedState
-    private val _groupNameValidation = MutableLiveData(R.string.group_name_validation_wrong_empty)
-    val groupNameValidation: LiveData<Int> get() = _groupNameValidation
-
     private val foldedGroupNameList = mutableListOf<String>()
     val longClickedId = mutableListOf<Long>()
 
@@ -57,17 +50,6 @@ class FriendViewModel @Inject constructor(
                 _friendList.postValue(newFriendList)
                 originEntireFriendList = loadedPersonData
             }
-            
-    fun getFriendData() {
-        viewModelScope.launch {
-            val loadedPersonData = repository.loadFriends().sortedBy { it.name }.toFriendListData()
-            if (loadedPersonData.isEmpty()) return@launch
-            val newFriendList = mutableListOf<FriendListData>()
-            newFriendList.addAll(loadedPersonData.groupBy { it.groupName }
-                .toSortedMap().values.flatten()) // 그룹 별로 사람 추가
-            addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
-            _friendList.value = newFriendList
-            originEntireFriendList = loadedPersonData
         }
     }
 
@@ -98,37 +80,6 @@ class FriendViewModel @Inject constructor(
                 _friendList.value?.filterNot { it.groupName == groupName && it.viewType == FriendListViewType.FRIEND }
                     ?: emptyList()
             _friendList.value = newList
-        }
-    }
-
-    fun saveGroupData(groupName: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.saveNewGroup(GroupData(groupName))
-        }
-    }
-
-    fun getGroupData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val groupNameList = repository.loadGroups().map { it.name }
-            groups.clear()
-            groups.addAll(groupNameList)
-        }
-    }
-
-    fun checkGroupNameValid(text: String) {
-        when {
-            text.isEmpty() -> {
-                _groupNameValidation.value = R.string.group_name_validation_wrong_empty
-                setAddGroupButtonActive(false)
-            }
-            text in groups -> {
-                _groupNameValidation.value = R.string.group_name_validation_wrong_duplicate
-                setAddGroupButtonActive(false)
-            }
-            else -> {
-                _groupNameValidation.value = R.string.empty_string
-                setAddGroupButtonActive(true)
-            }
         }
     }
 
