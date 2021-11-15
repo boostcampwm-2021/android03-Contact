@@ -93,5 +93,32 @@
             android:id="@+id/action_friendDetailFragment_to_planDetailsFragment"
             app:destination="@id/planDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.security.PasswordFragment"
+        android:label="SetPasswordFragment"
+        tools:layout="@layout/fragment_password">
+        <action
+            android:id="@+id/action_setPasswordFragment_self"
+            app:destination="@id/passwordFragment"
+            app:popUpTo="@id/securityFragment"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="passwordViewType"
+            app:argType="com.ivyclub.contact.util.PasswordViewType" />
+        <argument
+            android:name="password"
+            app:argType="string"
+            android:defaultValue="null" />
+    </fragment>
+    <fragment
+        android:id="@+id/securityFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.security.SecurityFragment"
+        android:label="SecurityFragment"
+        tools:layout="@layout/fragment_security">
+        <action
+            android:id="@+id/action_securityFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment" />
+    </fragment>
 
 </navigation>
