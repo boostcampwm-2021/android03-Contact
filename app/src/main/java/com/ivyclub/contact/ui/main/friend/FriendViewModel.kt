@@ -9,7 +9,6 @@ import com.ivyclub.contact.util.FriendListViewType
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -38,14 +37,14 @@ class FriendViewModel @Inject constructor(
 
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val loadedPersonData = repository.loadFriends().sortedBy { it.name }.toFriendListData()
             if (loadedPersonData.isEmpty()) return@launch
             val newFriendList = mutableListOf<FriendListData>()
             newFriendList.addAll(loadedPersonData.groupBy { it.groupName }
                 .toSortedMap().values.flatten()) // 그룹 별로 사람 추가
             addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
-            _friendList.postValue(newFriendList)
+            _friendList.value = newFriendList
             originEntireFriendList = loadedPersonData
         }
     }
@@ -93,7 +92,7 @@ class FriendViewModel @Inject constructor(
 
     fun updateFriendsGroup(groupName: String?) {
         if (groupName == null) return
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.updateGroupOf(longClickedId, groupName)
             initLongClickedId() // 그룹 이동이 끝나서 저장된 값들 초기화
             getFriendData() // 리스트 업데이트
@@ -103,7 +102,7 @@ class FriendViewModel @Inject constructor(
 
     fun clearLongClickedId() {
         longClickedId.clear()
-        _isInLongClickedState.postValue(longClickedId.isNotEmpty())
+        _isInLongClickedState.value = longClickedId.isNotEmpty()
     }
 
     private fun initLongClickedId() {
@@ -114,9 +113,9 @@ class FriendViewModel @Inject constructor(
         val sortedList =
             originEntireFriendList.filter { it.name.contains(inputString) }.toMutableList()
         if (inputString.isEmpty()) {
-            _friendList.postValue(originEntireFriendList)
+            _friendList.value = originEntireFriendList
         } else {
-            _friendList.postValue(sortedList)
+            _friendList.value = sortedList
         }
     }
 

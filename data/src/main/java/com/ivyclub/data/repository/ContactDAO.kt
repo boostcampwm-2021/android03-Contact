@@ -6,65 +6,58 @@ import com.ivyclub.data.model.*
 @Dao
 interface ContactDAO {
     @Query("SELECT * FROM FriendData")
-    fun getFriends(): List<FriendData>
+    suspend fun getFriends(): List<FriendData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFriendData(friendData: FriendData)
+    suspend fun insertFriendData(friendData: FriendData)
 
     @Query("SELECT id, title, date, participant FROM PlanData ORDER BY date ASC")
-    fun getPlanList(): List<SimplePlanData>
+    suspend fun getPlanList(): List<SimplePlanData>
 
     @Query("SELECT * FROM PlanData WHERE id = :planId")
-    fun getPlanDetailsById(planId: Long): PlanData
-
-    @Query("SELECT name FROM FriendData WHERE phoneNumber = :phoneNumber")
-    fun getFriendNameByPhoneNumber(phoneNumber: String): String
+    suspend fun getPlanDetailsById(planId: Long): PlanData
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPlanData(planData: PlanData): Long
+    suspend fun insertPlanData(planData: PlanData): Long
 
     @Query("UPDATE FriendData SET planList = :planList WHERE id = :friendId")
-    fun updateFriendsPlanList(friendId: Long, planList: List<Long>)
+    suspend fun updateFriendsPlanList(friendId: Long, planList: List<Long>)
 
     @Query("SELECT planList FROM friendData WHERE id = :friendId")
-    fun getFriendsPlanList(friendId: Long): FriendsPlanList
+    suspend fun getFriendsPlanList(friendId: Long): FriendsPlanList
 
     @Query("SELECT id, name, phoneNumber FROM FriendData WHERE groupName = :groupName")
-    fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
+    suspend fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
 
     @Delete
-    fun deletePlanData(planData: PlanData)
+    suspend fun deletePlanData(planData: PlanData)
 
     @Query("SELECT id, name, phoneNumber FROM FriendData WHERE id = :friendId")
-    fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
+    suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
 
     @Query("SELECT id, name, phoneNumber FROM FriendData")
-    fun getSimpleFriendData(): List<SimpleFriendData>
+    suspend fun getSimpleFriendData(): List<SimpleFriendData>
 
     @Query("SELECT * FROM GroupData")
-    fun getGroups(): List<GroupData>
+    suspend fun getGroups(): List<GroupData>
 
     @Insert
-    fun insertGroupData(groupData: GroupData)
+    suspend fun insertGroupData(groupData: GroupData)
 
     @Query("UPDATE FriendData SET isFavorite = :state WHERE id = :id")
-    fun setFavorite(id: Long, state: Boolean)
-
-    @Query("SELECT * FROM PlanData WHERE title = :planTitle LIMIT 1")
-    fun getPlanByTitle(planTitle: String): PlanData
-
+    suspend fun setFavorite(id: Long, state: Boolean)
 
     @Query("SELECT * FROM FriendData WHERE id = :id LIMIT 1")
-    fun getFriendDataById(id: Long): FriendData
+    suspend fun getFriendDataById(id: Long): FriendData
 
     @Query("SELECT * FROM PlanData WHERE id IN (:planIds)")
-    fun getPlansByIds(planIds: List<Long>): List<PlanData>
+    suspend fun getPlansByIds(planIds: List<Long>): List<PlanData>
 
     @Query("UPDATE FriendData SET groupName = :groupName WHERE id = :friendId")
-    fun updateFriendGroup(friendId: Long, groupName: String)
+    suspend fun updateFriendGroup(friendId: Long, groupName: String)
 
     @Query("UPDATE FriendData SET phoneNumber = :phoneNumber, name = :name, birthday = :birthday, groupName = :groupName, extraInfo = :extraInfo WHERE id = :id ")
-    fun updateFriendData(
+    suspend fun updateFriendData(
         phoneNumber: String,
         name: String,
         birthday: String,

@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.ui.plan_list.PlanListItemViewModel
 import com.ivyclub.data.ContactRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,7 +21,7 @@ class PlanViewModel @Inject constructor(
 
     private val friendMap = mutableMapOf<Long, String>()
 
-    private val loadFriendsJob: Job = viewModelScope.launch(Dispatchers.IO) {
+    private val loadFriendsJob: Job = viewModelScope.launch {
         val myFriends = repository.getSimpleFriendData()
         myFriends?.forEach {
             friendMap[it.id] = it.name
@@ -30,7 +29,7 @@ class PlanViewModel @Inject constructor(
     }
 
     fun getMyPlans() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             loadFriendsJob.join()
 
             val myPlanList = repository.getPlanList()
@@ -48,7 +47,7 @@ class PlanViewModel @Inject constructor(
                 )
             }
 
-            _planListItems.postValue(planItems)
+            _planListItems.value = planItems
         }
     }
 }

@@ -8,7 +8,6 @@ import com.ivyclub.contact.util.GroupNameValidation
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +26,7 @@ class AddGroupViewModel @Inject constructor(private val repository: ContactRepos
     }
 
     private fun getGroupData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val groupNameList = repository.loadGroups().map { it.name }
             groups.clear()
             groups.addAll(groupNameList)
@@ -35,7 +34,7 @@ class AddGroupViewModel @Inject constructor(private val repository: ContactRepos
     }
 
     fun saveGroupData(groupName: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.saveNewGroup(GroupData(groupName))
         }
     }

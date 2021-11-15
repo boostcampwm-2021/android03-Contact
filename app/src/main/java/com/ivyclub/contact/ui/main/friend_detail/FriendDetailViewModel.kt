@@ -8,9 +8,7 @@ import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.PlanData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import java.util.*
 import javax.inject.Inject
 
@@ -29,27 +27,28 @@ class FriendDetailViewModel @Inject constructor(
     val plan2: LiveData<PlanData> get() = _plan2
 
     fun loadFriendData(id: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _friendData.postValue(repository.getFriendDataById(id))
+        viewModelScope.launch {
+            _friendData.value = repository.getFriendDataById(id)
         }
     }
 
     fun setFavorite(id: Long, state: Boolean) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.setFavorite(id, state)
         }
     }
 
     fun loadPlans(planIds: List<Long>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val plans = repository.getPlansByIds(planIds).filter { it.date < Date() }.sortedByDescending { it.date }
+        viewModelScope.launch {
+            val plans = repository.getPlansByIds(planIds).filter { it.date < Date() }
+                .sortedByDescending { it.date }
             when {
                 plans.size > 1 -> {
-                    _plan1.postValue(plans[0])
-                    _plan2.postValue(plans[1])
+                    _plan1.value = plans[0]
+                    _plan2.value = plans[1]
                 }
                 plans.size == 1 -> {
-                    _plan1.postValue(plans[0])
+                    _plan1.value = plans[0]
                 }
             }
         }
