@@ -48,7 +48,7 @@ class PasswordFragment :
                 }
             }
             PasswordViewType.RECONFIRM_PASSWORD -> {
-                binding.tvPassword.text = "확인을 위해 한번 더 입력해 주세요."
+                binding.tvPassword.text = getString(R.string.password_reconfirm_message)
 
             }
         }
@@ -85,12 +85,12 @@ class PasswordFragment :
                     PasswordViewType.SET_PASSWORD
                 )
             )
-            Snackbar.make(binding.root, "비밀번호가 일치하지 않습니다.\n처음부터 다시 시도해주세요.", Snackbar.LENGTH_SHORT)
+            Snackbar.make(binding.root, getString(R.string.password_reconfirm_fail), Snackbar.LENGTH_SHORT)
                 .show()
         }
         viewModel.moveToPreviousFragment.observe(viewLifecycleOwner) {
             findNavController().popBackStack()
-            Snackbar.make(binding.root, "비밀번호가 설정되었습니다.", Snackbar.LENGTH_SHORT)
+            Snackbar.make(binding.root, getString(R.string.password_set_success), Snackbar.LENGTH_SHORT)
                 .show()
         }
     }
