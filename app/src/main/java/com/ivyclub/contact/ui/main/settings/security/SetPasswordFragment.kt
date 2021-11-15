@@ -2,14 +2,17 @@ package com.ivyclub.contact.ui.main.settings.security
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentSetPasswordBinding
 import com.ivyclub.contact.util.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SetPasswordFragment :
     BaseFragment<FragmentSetPasswordBinding>(R.layout.fragment_set_password) {
 
-    private var focusedEditTextIndex = 0
+    private val viewModel: SetPasswordViewModel by viewModels()
     private val passwordEditTextList by lazy {
         with(binding) {
             listOf(etPassword1, etPassword2, etPassword3, etPassword4)
@@ -18,8 +21,10 @@ class SetPasswordFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
         initNumberClickListener()
         initCancelButtonClickListener()
+        observeFocusedEditTextIndex()
     }
 
     private fun initNumberClickListener() {
@@ -29,26 +34,20 @@ class SetPasswordFragment :
 
         numberButtonList.forEachIndexed { number, button ->
             button.setOnClickListener {
-                updateEditText(number)
+                viewModel.moveFocusFront(number.toString())
             }
         }
     }
 
     private fun initCancelButtonClickListener() {
         binding.btnCancel.setOnClickListener {
-            if (focusedEditTextIndex != 0) {
-                passwordEditTextList[--focusedEditTextIndex].requestFocus()
-                passwordEditTextList[focusedEditTextIndex].setText("")
-            }
+            viewModel.moveFocusBack()
         }
     }
 
-    private fun updateEditText(number: Int) {
-        passwordEditTextList[focusedEditTextIndex].setText(number.toString())
-        if (focusedEditTextIndex == passwordEditTextList.lastIndex) {
-            // TODO : 비밀번호 입력 종료
-        } else {
-            passwordEditTextList[++focusedEditTextIndex].requestFocus()
+    private fun observeFocusedEditTextIndex() {
+        viewModel.focusedEditTextIndex.observe(viewLifecycleOwner) {
+            passwordEditTextList[it - 1].requestFocus()
         }
     }
 }
