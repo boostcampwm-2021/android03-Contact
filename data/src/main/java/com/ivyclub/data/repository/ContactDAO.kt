@@ -69,4 +69,7 @@ interface ContactDAO {
         extraInfo: Map<String, String>,
         id: Long
     )
+
+    @Query("UPDATE GroupData SET isGroupFolded = :isGroupFolded WHERE name = :name")
+    suspend fun updateGroupFolded(isGroupFolded: Boolean, name: String)
 }
