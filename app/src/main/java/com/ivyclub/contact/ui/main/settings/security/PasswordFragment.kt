@@ -90,6 +90,8 @@ class PasswordFragment :
         }
         viewModel.moveToPreviousFragment.observe(viewLifecycleOwner) {
             findNavController().popBackStack()
+            Snackbar.make(binding.root, "비밀번호가 설정되었습니다.", Snackbar.LENGTH_SHORT)
+                .show()
         }
     }
 }
