@@ -19,6 +19,7 @@ class SetPasswordFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initNumberClickListener()
+        initCancelButtonClickListener()
     }
 
     private fun initNumberClickListener() {
@@ -29,6 +30,15 @@ class SetPasswordFragment :
         numberButtonList.forEachIndexed { number, button ->
             button.setOnClickListener {
                 updateEditText(number)
+            }
+        }
+    }
+
+    private fun initCancelButtonClickListener() {
+        binding.btnCancel.setOnClickListener {
+            if (focusedEditTextIndex != 0) {
+                passwordEditTextList[--focusedEditTextIndex].requestFocus()
+                passwordEditTextList[focusedEditTextIndex].setText("")
             }
         }
     }
