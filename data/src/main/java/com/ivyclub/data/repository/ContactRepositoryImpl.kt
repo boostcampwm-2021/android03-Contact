@@ -5,7 +5,10 @@ import androidx.annotation.RequiresApi
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.MyPreference
 import com.ivyclub.data.model.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -129,7 +132,7 @@ class ContactRepositoryImpl @Inject constructor(
     }
 
     override fun loadFriendsWithFlow(): Flow<List<FriendData>> {
-        return contactDAO.getFriendsWithFlow()
+        return contactDAO.getFriendsWithFlow().flowOn(Dispatchers.IO).conflate()
     }
 
     companion object {
