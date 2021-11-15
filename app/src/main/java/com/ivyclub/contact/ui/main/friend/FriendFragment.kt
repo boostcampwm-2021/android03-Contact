@@ -27,6 +27,9 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                 when {
                     viewModel.isSearchViewVisible.value == true -> {
                         viewModel.setSearchViewVisibility()
+                        friendListAdapter.submitList(viewModel.getOrderedEntireFriendList()) {
+                            binding.rvFriendList.scrollToPosition(0)
+                        }
                     }
                     viewModel.isInLongClickedState.value == true -> {
                         friendListAdapter.setAllClickedClear(viewModel.longClickedId)

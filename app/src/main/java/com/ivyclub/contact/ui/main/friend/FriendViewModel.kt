@@ -21,7 +21,8 @@ class FriendViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var searchInputString = ""
-    private lateinit var originEntireFriendList: List<FriendListData>
+    private lateinit var originEntireFriendList: List<FriendListData> // 다른 뷰홀더는 없고 친구들만 있는 데이터
+    private lateinit var orderedEntireFriendList: List<FriendListData> // 모든 뷰타입으로 정렬된 전체 친구 데이터
 
     private val _isSearchViewVisible = MutableLiveData(false)
     val isSearchViewVisible: LiveData<Boolean> get() = _isSearchViewVisible
@@ -48,6 +49,7 @@ class FriendViewModel @Inject constructor(
                     .toSortedMap().values.flatten()) // 그룹 별로 사람 추가
                 addGroupViewAt(newFriendList) // 중간 중간에 그룹 뷰 추가
                 _friendList.postValue(newFriendList)
+                orderedEntireFriendList = newFriendList
                 originEntireFriendList = loadedPersonData
             }
         }
@@ -108,6 +110,8 @@ class FriendViewModel @Inject constructor(
         longClickedId.clear()
         _isInLongClickedState.value = longClickedId.isNotEmpty()
     }
+
+    fun getOrderedEntireFriendList() = orderedEntireFriendList
 
     private fun initLongClickedId() {
         longClickedId.clear()
