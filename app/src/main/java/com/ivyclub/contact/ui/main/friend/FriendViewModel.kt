@@ -1,16 +1,13 @@
 package com.ivyclub.contact.ui.main.friend
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.model.FriendListData
 import com.ivyclub.contact.util.FriendListViewType
-import com.ivyclub.contact.util.GroupNameValidation
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
-import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,10 +30,6 @@ class FriendViewModel @Inject constructor(
     val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
     private val _searchEditTextInputText = MutableLiveData<String>()
     val searchEditTextInputText: LiveData<String> get() = _searchEditTextInputText
-    private val _groupNameValidation = MutableLiveData(GroupNameValidation.WRONG_EMPTY.message)
-    val groupNameValidation: LiveData<String> get() = _groupNameValidation
-    private val _isAddGroupButtonActive = MutableLiveData(false)
-    val isAddGroupButtonActive: LiveData<Boolean> = _isAddGroupButtonActive
     private val _isInLongClickedState = MutableLiveData(false)
     val isInLongClickedState: LiveData<Boolean> get() = _isInLongClickedState
 
@@ -87,33 +80,6 @@ class FriendViewModel @Inject constructor(
         }
     }
 
-    fun saveGroupData(groupName: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.saveNewGroup(GroupData(groupName))
-        }
-    }
-
-    fun getGroupData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val groupNameList = repository.loadGroups().map { it.name }
-            groups.clear()
-            groups.addAll(groupNameList)
-        }
-    }
-
-    fun checkGroupNameValid(text: String) {
-        if (text.isEmpty()) {
-            _groupNameValidation.value = GroupNameValidation.WRONG_EMPTY.message
-            setAddGroupButtonActive(false)
-        } else if (text in groups) {
-            _groupNameValidation.value = GroupNameValidation.WRONG_DUPLICATE.message
-            setAddGroupButtonActive(false)
-        } else {
-            _groupNameValidation.value = GroupNameValidation.CORRECT.message
-            setAddGroupButtonActive(true)
-        }
-    }
-
     // 클릭이 되었으면 true, 해제되었으면 false로 넘어온다.
     // isAdd가 true면 삽입, false면 제거
     fun setLongClickedId(isAdd: Boolean, friendId: Long) {
@@ -142,10 +108,6 @@ class FriendViewModel @Inject constructor(
 
     private fun initLongClickedId() {
         longClickedId.clear()
-    }
-
-    private fun setAddGroupButtonActive(isActive: Boolean) {
-        _isAddGroupButtonActive.value = isActive
     }
 
     private fun sortNameWith(inputString: String) {

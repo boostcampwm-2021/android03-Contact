@@ -59,7 +59,7 @@ class PlanFragment : BaseFragment<FragmentPlanBinding>(R.layout.fragment_plan) {
                     override fun isHeader(position: Int) =
                         planListAdapter.isHeader(position)
 
-                    override fun getHeaderLayoutView(list: RecyclerView, position: Int) =
+                    override fun getHeaderView(list: RecyclerView, position: Int) =
                         planListAdapter.getHeaderView(list, position)
                 }))
             }

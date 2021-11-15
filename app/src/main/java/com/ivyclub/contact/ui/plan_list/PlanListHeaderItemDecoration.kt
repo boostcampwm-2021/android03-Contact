@@ -18,13 +18,13 @@ class PlanListHeaderItemDecoration(private val sectionCallback: SectionCallback)
         val topChildPosition  = parent.getChildAdapterPosition(topChild)
         if (topChildPosition == RecyclerView.NO_POSITION) return
 
-        /* 헤더 */
-        val currentHeader: View = sectionCallback.getHeaderLayoutView(parent, topChildPosition) ?: return
+        // 헤더뷰
+        val currentHeader: View = sectionCallback.getHeaderView(parent, topChildPosition) ?: return
 
-        /* View의 레이아웃 설정 */
-        fixLayoutSize(parent, currentHeader, topChild.measuredHeight)
+        // 헤더뷰 크기 지정
+        fixHeaderSize(parent, currentHeader, topChild.measuredHeight)
 
-        val contactPoint = currentHeader.bottom // 현재 헤더가 부모로부터 밑에서 얼만큼 떨어져 있는지
+        val contactPoint = currentHeader.bottom // 현재 헤더의 bottom이 부모의 top에서 얼마나 떨어졌는지
         val childInContact: View = getChildInContact(parent, contactPoint) ?: return
 
         val childAdapterPosition = parent.getChildAdapterPosition(childInContact)
@@ -65,7 +65,7 @@ class PlanListHeaderItemDecoration(private val sectionCallback: SectionCallback)
         return childInContact
     }
 
-    private fun fixLayoutSize(parent: RecyclerView, currentHeader: View, measuredHeight: Int) {
+    private fun fixHeaderSize(parent: RecyclerView, currentHeader: View, measuredHeight: Int) {
         val widthSpec = View.MeasureSpec.makeMeasureSpec(
             parent.width,
             View.MeasureSpec.EXACTLY
@@ -95,7 +95,7 @@ class PlanListHeaderItemDecoration(private val sectionCallback: SectionCallback)
     interface SectionCallback {
         // header가 고정되어있는지, 움직여야하는지 판단할 함수
         fun isHeader(position: Int): Boolean
-        // 어떤 뷰를 그려줄지를 반환하는 함수
-        fun getHeaderLayoutView(list: RecyclerView, position: Int): View?
+        // 헤더 뷰를 반환하는 함수
+        fun getHeaderView(list: RecyclerView, position: Int): View?
     }
 }
