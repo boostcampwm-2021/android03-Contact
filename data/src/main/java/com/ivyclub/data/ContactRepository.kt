@@ -21,7 +21,7 @@ interface ContactRepository {
     // OnBoarding
     suspend fun setShowOnBoardingState(state: Boolean)
     suspend fun getShowOnBoardingState(): Boolean
-    suspend fun setNotificationTime(start: String, end: String)
+    suspend fun setNotificationTime(start: Int, end: Int)
     suspend fun setNotificationOnOff(state: Boolean)
 
     // Plan

@@ -4,6 +4,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.MyPreference
+import com.ivyclub.data.MyPreference.Companion.NOTIFICATION_END
+import com.ivyclub.data.MyPreference.Companion.NOTIFICATION_START
 import com.ivyclub.data.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -35,7 +37,7 @@ class ContactRepositoryImpl @Inject constructor(
         myPreference.getShowOnBoardingState()
     }
 
-    override suspend fun setNotificationTime(start: String, end: String) =
+    override suspend fun setNotificationTime(start: Int, end: Int) =
         withContext(ioDispatcher) {
             myPreference.setNotificationTime(NOTIFICATION_START, start)
             myPreference.setNotificationTime(NOTIFICATION_END, end)
@@ -129,10 +131,5 @@ class ContactRepositoryImpl @Inject constructor(
         id: Long
     ) = withContext(ioDispatcher) {
         contactDAO.updateFriendData(phoneNumber, name, birthday, groupName, extraInfo, id)
-    }
-
-    companion object {
-        private const val NOTIFICATION_START = "NOTIFICATION_START"
-        private const val NOTIFICATION_END = "NOTIFICATION_END"
     }
 }
