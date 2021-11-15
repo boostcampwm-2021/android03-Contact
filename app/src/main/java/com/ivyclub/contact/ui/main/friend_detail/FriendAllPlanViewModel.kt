@@ -28,11 +28,12 @@ class FriendAllPlanViewModel @Inject constructor(
         }
     }
 
-    fun getMyPlans(plans: LongArray) {
+    fun getMyPlans(friendId: Long) {
         viewModelScope.launch {
             loadFriendsJob.join()
 
-            val myPlanList = repository.getPlansByIds(plans.toList()).sortedBy { it.date }
+            val friend = repository.getFriendDataById(friendId)
+            val myPlanList = repository.getPlansByIds(friend.planList).sortedBy { it.date }
             val planItems = mutableListOf<PlanListItemViewModel>()
 
             myPlanList?.forEach { planData ->
@@ -52,7 +53,6 @@ class FriendAllPlanViewModel @Inject constructor(
                         ), friends
                     )
                 )
-
             }
 
             _planListItems.value = planItems

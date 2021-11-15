@@ -2,7 +2,6 @@ package com.ivyclub.contact.ui.main.friend_detail
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -19,7 +18,6 @@ import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.DateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -51,7 +49,8 @@ class FriendDetailFragment :
             with(binding) {
                 llPlan1.visibility = View.VISIBLE
                 tvPlan1Title.text = data.title
-                tvPlan1Time.text = LocalDate.parse(data.date.toString(),formatFrom).format(formatTo)
+                tvPlan1Time.text =
+                    LocalDate.parse(data.date.toString(), formatFrom).format(formatTo)
                 llPlan1.setOnClickListener {
                     findNavController().navigate(
                         FriendDetailFragmentDirections.actionFriendDetailFragmentToPlanDetailsFragment(
@@ -65,7 +64,8 @@ class FriendDetailFragment :
             with(binding) {
                 llPlan2.visibility = View.VISIBLE
                 tvPlan2Title.text = data.title
-                tvPlan2Time.text = LocalDate.parse(data.date.toString(),formatFrom).format(formatTo)
+                tvPlan2Time.text =
+                    LocalDate.parse(data.date.toString(), formatFrom).format(formatTo)
                 llPlan2.setOnClickListener {
                     findNavController().navigate(
                         FriendDetailFragmentDirections.actionFriendDetailFragmentToPlanDetailsFragment(
@@ -97,7 +97,7 @@ class FriendDetailFragment :
             tvSeeAllPlan.setOnClickListener {
                 findNavController().navigate(
                     FriendDetailFragmentDirections.actionFriendDetailFragmentToFriendAllPlanFragment(
-                        viewModel.planList.toLongArray(), args.friendId
+                        args.friendId
                     )
                 )
             }
@@ -111,7 +111,7 @@ class FriendDetailFragment :
             tvPhoneNum.text = friend.phoneNumber
             btnFavorite.isChecked = friend.isFavorite
             llExtraInfo.removeAllViews()
-            if(friend.birthday == "") {
+            if (friend.birthday == "") {
                 llBirthday.visibility = View.GONE
             } else {
                 llBirthday.visibility = View.VISIBLE
@@ -149,14 +149,14 @@ class FriendDetailFragment :
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        layoutParams.setMargins(0,24,0,0)
+        layoutParams.setMargins(0, 24, 0, 0)
         return TextView(context).apply {
             this.text = text
             setTextColor(Color.BLACK)
             textSize = 16f
             this.layoutParams = layoutParams
             setBackgroundResource(R.drawable.bg_details)
-            setPadding(48,24,48,24)
+            setPadding(48, 24, 48, 24)
         }
     }
 

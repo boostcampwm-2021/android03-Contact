@@ -1,17 +1,13 @@
 package com.ivyclub.contact.ui.main.friend_detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendAllPlanBinding
-import com.ivyclub.contact.ui.main.plan.PlanFragmentDirections
 import com.ivyclub.contact.ui.plan_list.PlanListAdapter
 import com.ivyclub.contact.ui.plan_list.PlanListHeaderItemDecoration
 import com.ivyclub.contact.util.BaseFragment
@@ -40,13 +36,17 @@ class FriendAllPlanFragment :
         initRecyclerView()
         observePlanListItems()
 
-        args.planList.let { viewModel.getMyPlans(it) }
+        args.friendId.let { viewModel.getMyPlans(it) }
     }
 
     private fun initToolbarButtons() {
         with(binding) {
             ivAddPlanIcon.setOnClickListener {
-                findNavController().navigate(FriendAllPlanFragmentDirections.actionFriendAllPlanFragmentToAddEditFragment(friendId = args.friendId))
+                findNavController().navigate(
+                    FriendAllPlanFragmentDirections.actionFriendAllPlanFragmentToAddEditFragment(
+                        friendId = args.friendId
+                    )
+                )
             }
 
             ivSettingsIcon.setOnClickListener {

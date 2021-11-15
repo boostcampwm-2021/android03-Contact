@@ -109,9 +109,6 @@
         <action
             android:id="@+id/action_friendAllPlanFragment_to_planDetailsFragment"
             app:destination="@id/planDetailsFragment" />
-        <argument
-            android:name="planList"
-            app:argType="long[]" />
         <action
             android:id="@+id/action_friendAllPlanFragment_to_addEditFragment"
             app:destination="@id/addEditFragment" />
