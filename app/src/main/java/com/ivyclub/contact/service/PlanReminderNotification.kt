@@ -9,6 +9,7 @@ import com.ivyclub.contact.R
 
 object PlanReminderNotification {
     private const val CHANNEL_ID = "plan_reminder"
+    private const val CHANNEL_NAME = "contact plans"
 
     private var notificationManager: NotificationManager? = null
 
@@ -39,7 +40,7 @@ object PlanReminderNotification {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notiChannel = NotificationChannel(
                 CHANNEL_ID,
-                "contact plans",
+                CHANNEL_NAME,
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
                 enableVibration(true)
