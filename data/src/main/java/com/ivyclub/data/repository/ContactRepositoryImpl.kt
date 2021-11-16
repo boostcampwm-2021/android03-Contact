@@ -123,6 +123,10 @@ class ContactRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun savePassword(password: String) = withContext(ioDispatcher) {
+        myPreference.setPassword(password)
+    }
+
     override suspend fun updateFriend(
         phoneNumber: String,
         name: String,
