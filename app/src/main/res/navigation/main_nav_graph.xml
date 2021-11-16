@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_navigation_friend_to_friendDetailFragment"
             app:destination="@id/friendDetailFragment" />
+        <action
+            android:id="@+id/action_navigation_friend_to_planDetailsFragment"
+            app:destination="@id/planDetailsFragment" />
     </fragment>
 
     <fragment

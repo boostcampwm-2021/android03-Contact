@@ -22,6 +22,9 @@ class PlanReminderNotificationWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
+
+        if (tags.isEmpty()) return Result.failure()
+
         val notiStart = notiPreferences.getNotificationTime(NOTIFICATION_START)
         val notiEnd = notiPreferences.getNotificationTime(NOTIFICATION_END)
         val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
@@ -57,7 +60,8 @@ class PlanReminderNotificationWorker @AssistedInject constructor(
                     )
                 }
 
-            PlanReminderNotification.makeNotification(context, notiText)
+            val planId = tags.toList()[0].toLong()
+            PlanReminderNotification.makeNotification(context, planId, notiText)
 
             return Result.success()
         }
