@@ -12,7 +12,7 @@ object PlanReminderNotification {
 
     private var notificationManager: NotificationManager? = null
 
-    fun makeNotification(context: Context) {
+    fun makeNotification(context: Context, text: String) {
 
         if (notificationManager == null) {
             notificationManager = context.getSystemService(
@@ -26,8 +26,8 @@ object PlanReminderNotification {
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher_round)
-            .setContentTitle("Contact")
-            .setContentText("test")
+            .setContentTitle(context.getString(R.string.app_name))
+            .setContentText(text)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
             .build()

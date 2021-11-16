@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkManager
 import com.ivyclub.contact.R
+import com.ivyclub.contact.service.PlanReminderNotificationWorker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.PlanData
@@ -14,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlanDetailsViewModel @Inject constructor(
-    private val repository: ContactRepository
+    private val repository: ContactRepository,
+    private val workManager: WorkManager
 ) : ViewModel() {
 
     private val _planDetails = MutableLiveData<PlanData>()
@@ -47,6 +50,7 @@ class PlanDetailsViewModel @Inject constructor(
 
         viewModelScope.launch {
             repository.deletePlanData(planData)
+            PlanReminderNotificationWorker.cancelPlanAlarm(planData.id, workManager)
             makeSnackbar(R.string.delete_plan_success)
             finish()
         }
