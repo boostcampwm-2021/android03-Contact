@@ -8,5 +8,6 @@ data class FriendListData(
     val name: String = "", // 이름
     val groupName: String = "", // 속한 그룹명
     val viewType: FriendListViewType,
-    var isColored: Boolean = false
+    var isColored: Boolean = false,
+    val isFavoriteFriend: Boolean = false
 )

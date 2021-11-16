@@ -32,7 +32,7 @@ data class PlanData(
 @Entity(tableName = "GroupData")
 data class GroupData(
     @PrimaryKey
-    val name: String // 이름, pk
+    val name: String, // 이름, pk
 )
 
 data class SimpleFriendData(
