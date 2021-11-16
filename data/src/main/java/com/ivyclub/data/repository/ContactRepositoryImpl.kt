@@ -6,6 +6,9 @@ import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.MyPreference
 import com.ivyclub.data.model.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -133,6 +136,10 @@ class ContactRepositoryImpl @Inject constructor(
         id: Long
     ) = withContext(ioDispatcher) {
         contactDAO.updateFriendData(phoneNumber, name, birthday, groupName, extraInfo, id)
+    }
+
+    override fun loadFriendsWithFlow(): Flow<List<FriendData>> {
+        return contactDAO.getFriendsWithFlow().flowOn(Dispatchers.IO).conflate()
     }
 
     companion object {

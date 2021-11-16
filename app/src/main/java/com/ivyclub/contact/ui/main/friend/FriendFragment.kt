@@ -49,13 +49,17 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         initFriendListAdapter()
         observeSearchViewVisibility()
         observeFriendList()
-        viewModel.getFriendData()
+        viewModel.getFriendDataWithFlow()
         getGroupSelectFragmentResult()
     }
 
     override fun onDetach() {
         super.onDetach()
         onBackPressedCallback.remove()
+    }
+
+    fun loadFriendList() {
+        viewModel.getFriendDataWithFlow()
     }
 
     private fun initBackPressedCallback() {

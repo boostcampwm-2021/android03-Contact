@@ -4,7 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.ivyclub.contact.ui.main.friend_detail.FriendDetailViewModel" />
+        <variable
+            name="dateFormat"
+            type="java.text.SimpleDateFormat" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -244,7 +250,7 @@
                     android:background="@drawable/bg_plan"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
-                    android:visibility="gone"
+                    android:visibility="@{viewModel.plan1Exist ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toBottomOf="@id/tv_plan_text">
 
                     <TextView
@@ -255,6 +261,7 @@
                         android:textColor="@color/black"
                         android:textSize="22sp"
                         android:textStyle="bold"
+                        android:text="@{viewModel.plan1.title}"
                         tools:text="약속1 제목" />
 
                     <TextView
@@ -263,6 +270,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
                         android:textSize="16sp"
+                        android:text="@{viewModel.plan1Date != null ? dateFormat.format(viewModel.plan1Date) : @string/format_simple_date}"
                         tools:text="2021.01.01" />
                 </LinearLayout>
 
@@ -275,7 +283,7 @@
                     android:background="@drawable/bg_plan"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
-                    android:visibility="gone"
+                    android:visibility="@{viewModel.plan2Exist ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toBottomOf="@id/ll_plan1">
 
                     <TextView
@@ -286,6 +294,7 @@
                         android:textColor="@color/black"
                         android:textSize="22sp"
                         android:textStyle="bold"
+                        android:text="@{viewModel.plan2.title}"
                         tools:text="약속2 제목" />
 
                     <TextView
@@ -294,6 +303,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
                         android:textSize="16sp"
+                        android:text="@{viewModel.plan2Date != null ? dateFormat.format(viewModel.plan2Date) : @string/format_simple_date}"
                         tools:text="2022.01.01" />
                 </LinearLayout>
 
