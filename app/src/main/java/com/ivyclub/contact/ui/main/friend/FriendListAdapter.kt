@@ -2,6 +2,8 @@ package com.ivyclub.contact.ui.main.friend
 
 import android.util.Log
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,10 +12,7 @@ import com.ivyclub.contact.databinding.ItemFriendProfileBinding
 import com.ivyclub.contact.databinding.ItemGroupDividerBinding
 import com.ivyclub.contact.databinding.ItemGroupNameBinding
 import com.ivyclub.contact.model.FriendListData
-import com.ivyclub.contact.util.FriendListViewType
-import com.ivyclub.contact.util.binding
-import com.ivyclub.contact.util.setCustomBackgroundColor
-import com.ivyclub.contact.util.setRotateAnimation
+import com.ivyclub.contact.util.*
 
 class FriendListAdapter(
     private val onGroupClick: (String) -> Unit,
@@ -23,11 +22,16 @@ class FriendListAdapter(
     ListAdapter<FriendListData, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     private var longClickedItemCount = 0 // 클릭된 아이템 개수를 확인하는 변수, 0이면 하나도 없는 것
+    private val clickedGroupNameList = mutableListOf<String>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             FriendListViewType.GROUP_NAME.ordinal ->
-                GroupNameViewHolder(parent.binding(R.layout.item_group_name), onGroupClick)
+                GroupNameViewHolder(
+                    parent.binding(R.layout.item_group_name),
+                    onGroupClick,
+                    clickedGroupNameList
+                )
             FriendListViewType.GROUP_DIVIDER.ordinal ->
                 GroupDividerViewHolder(parent.binding(R.layout.item_group_divider))
             else ->
@@ -80,25 +84,32 @@ class FriendListAdapter(
 
     class GroupNameViewHolder(
         private val binding: ItemGroupNameBinding,
-        private val onGroupClick: (String) -> Unit
+        private val onGroupClick: (String) -> Unit,
+        private val clickedGroupNameList: MutableList<String>
     ) : RecyclerView.ViewHolder(binding.root) {
 
         lateinit var groupName: String
-        private var isClicked = false
 
         init {
             binding.ivFolder.setOnClickListener {
+                if (clickedGroupNameList.contains(groupName)) {
+                    (it as ImageView).setCustomBackgroundDrawable(R.drawable.ic_baseline_keyboard_arrow_down_24)
+                    clickedGroupNameList.remove(groupName)
+                } else {
+                    (it as ImageView).setCustomBackgroundDrawable(R.drawable.ic_baseline_keyboard_arrow_up_24)
+                    clickedGroupNameList.add(groupName)
+                }
                 if (this::groupName.isInitialized) onGroupClick.invoke(groupName)
                 else Log.e(this::class.java.simpleName, "groupName has not been initialized")
-                if (isClicked) it.setRotateAnimation(180F, 0F)
-                else it.setRotateAnimation(0F, 180F)
-                isClicked = !isClicked
+//                if (clickedGroupNameList.contains(groupName)) it.setRotateAnimation(0F, 180F)
+//                else it.setRotateAnimation(180F, 0F) // 애니메이션 추후에 추가하기
             }
         }
 
         fun bind(groupName: String) {
             binding.groupName = groupName
             this.groupName = groupName
+            binding.ivFolder.setCustomBackgroundDrawable(if (clickedGroupNameList.contains(groupName)) R.drawable.ic_baseline_keyboard_arrow_up_24 else R.drawable.ic_baseline_keyboard_arrow_down_24)
         }
     }
 

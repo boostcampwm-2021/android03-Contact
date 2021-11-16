@@ -1,5 +1,6 @@
 package com.ivyclub.contact.ui.main.friend
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -35,8 +36,13 @@ class FriendViewModel @Inject constructor(
     private val foldedGroupNameList = mutableListOf<String>()
     val longClickedId = mutableListOf<Long>()
 
+    init {
+        getFriendDataWithFlow()
+    }
+
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendDataWithFlow() {
+        Log.e("getFriendDataWithFlow", "called")
         viewModelScope.launch(Dispatchers.IO) {
             repository.loadFriendsWithFlow().buffer().collect { newLoadedPersonData ->
                 val loadedPersonData =

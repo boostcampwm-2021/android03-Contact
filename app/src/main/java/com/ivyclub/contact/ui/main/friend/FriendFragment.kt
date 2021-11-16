@@ -1,8 +1,11 @@
 package com.ivyclub.contact.ui.main.friend
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
@@ -40,7 +43,13 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             }
         }
     }
-    private lateinit var friendListAdapter: FriendListAdapter
+    private val friendListAdapter: FriendListAdapter by lazy {
+        FriendListAdapter(
+            onGroupClick = viewModel::manageGroupFolded,
+            onFriendClick = this::navigateToFriendDetailFragment,
+            onFriendLongClick = viewModel::setLongClickedId
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
@@ -51,7 +60,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         initFriendListAdapter()
         observeSearchViewVisibility()
         observeFriendList()
-        viewModel.getFriendDataWithFlow()
         getGroupSelectFragmentResult()
     }
 
@@ -121,11 +129,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun initFriendListAdapter() {
-        friendListAdapter = FriendListAdapter(
-            onGroupClick = viewModel::manageGroupFolded,
-            onFriendClick = this::navigateToFriendDetailFragment,
-            onFriendLongClick = viewModel::setLongClickedId
-        )
         binding.rvFriendList.adapter = friendListAdapter
     }
 
