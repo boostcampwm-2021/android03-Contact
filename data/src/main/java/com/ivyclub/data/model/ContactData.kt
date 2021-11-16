@@ -33,7 +33,6 @@ data class PlanData(
 data class GroupData(
     @PrimaryKey
     val name: String, // 이름, pk
-    val isGroupFolded: Boolean = false
 )
 
 data class SimpleFriendData(
