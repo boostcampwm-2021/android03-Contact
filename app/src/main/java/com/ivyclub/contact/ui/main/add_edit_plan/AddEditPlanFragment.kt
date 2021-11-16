@@ -110,6 +110,10 @@ class AddEditPlanFragment :
 
     private fun checkFrom() {
         if (args.planId != -1L) viewModel.getLastPlan(args.planId)
+        if (args.friendId != -1L) {
+            viewModel.addFriend(args.friendId)
+        }
+
     }
 
     private fun getGroupSelectFragmentResult() {

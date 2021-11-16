@@ -150,4 +150,11 @@ class AddEditPlanViewModel @Inject constructor(
     fun finish() {
         _finishEvent.call()
     }
+
+    fun addFriend(friendId: Long) {
+        viewModelScope.launch {
+            val friend = repository.getSimpleFriendDataById(friendId)
+            addParticipant(friend)
+        }
+    }
 }

@@ -2,7 +2,6 @@ package com.ivyclub.contact.ui.main.friend_detail
 
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -19,21 +18,21 @@ import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
 @AndroidEntryPoint
 class FriendDetailFragment :
     BaseFragment<FragmentFriendDetailBinding>(R.layout.fragment_friend_detail) {
     private val viewModel: FriendDetailViewModel by viewModels()
     private val args: FriendDetailFragmentArgs by navArgs()
-    private val formatFrom = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    private val formatTo = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
+        binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date))
+
         setObserver()
         loadFriendDetail(args.friendId)
         initButtons(args.friendId)
@@ -47,34 +46,6 @@ class FriendDetailFragment :
         viewModel.friendData.observe(this, {
             initDetails(it)
         })
-        viewModel.plan1.observe(this, { data ->
-            with(binding) {
-                llPlan1.visibility = View.VISIBLE
-                tvPlan1Title.text = data.title
-                tvPlan1Time.text = LocalDate.parse(data.date.toString(),formatFrom).format(formatTo)
-                llPlan1.setOnClickListener {
-                    findNavController().navigate(
-                        FriendDetailFragmentDirections.actionFriendDetailFragmentToPlanDetailsFragment(
-                            data.id
-                        )
-                    )
-                }
-            }
-        })
-        viewModel.plan2.observe(this, { data ->
-            with(binding) {
-                llPlan2.visibility = View.VISIBLE
-                tvPlan2Title.text = data.title
-                tvPlan2Time.text = LocalDate.parse(data.date.toString(),formatFrom).format(formatTo)
-                llPlan2.setOnClickListener {
-                    findNavController().navigate(
-                        FriendDetailFragmentDirections.actionFriendDetailFragmentToPlanDetailsFragment(
-                            data.id
-                        )
-                    )
-                }
-            }
-        })
     }
 
     private fun initButtons(id: Long) {
@@ -82,7 +53,7 @@ class FriendDetailFragment :
             btnFavorite.setOnClickListener {
                 val animation = AnimationUtils.loadAnimation(context, R.anim.star_animation)
                 btnFavorite.startAnimation(animation)
-                viewModel.setFavorite(id, btnFavorite.isChecked)
+                this@FriendDetailFragment.viewModel.setFavorite(id, btnFavorite.isChecked)
             }
             ivEdit.setOnClickListener {
                 findNavController().navigate(
@@ -94,6 +65,13 @@ class FriendDetailFragment :
             ivBackIcon.setOnClickListener {
                 findNavController().popBackStack()
             }
+            tvSeeAllPlan.setOnClickListener {
+                findNavController().navigate(
+                    FriendDetailFragmentDirections.actionFriendDetailFragmentToFriendAllPlanFragment(
+                        args.friendId
+                    )
+                )
+            }
         }
     }
 
@@ -104,7 +82,7 @@ class FriendDetailFragment :
             tvPhoneNum.text = friend.phoneNumber
             btnFavorite.isChecked = friend.isFavorite
             llExtraInfo.removeAllViews()
-            if(friend.birthday == "") {
+            if (friend.birthday == "") {
                 llBirthday.visibility = View.GONE
             } else {
                 llBirthday.visibility = View.VISIBLE
@@ -141,14 +119,14 @@ class FriendDetailFragment :
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        layoutParams.setMargins(0,24,0,0)
+        layoutParams.setMargins(0, 24, 0, 0)
         return TextView(context).apply {
             this.text = text
             setTextColor(Color.BLACK)
             textSize = 16f
             this.layoutParams = layoutParams
             setBackgroundResource(R.drawable.bg_details)
-            setPadding(48,24,48,24)
+            setPadding(48, 24, 48, 24)
         }
     }
 
