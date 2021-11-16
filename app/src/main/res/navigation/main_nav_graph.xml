@@ -99,6 +99,9 @@
         <action
             android:id="@+id/action_friendDetailFragment_to_friendAllPlanFragment"
             app:destination="@id/friendAllPlanFragment" />
+        <action
+            android:id="@+id/action_friendDetailFragment_to_imageDetailFragment"
+            app:destination="@id/imageDetailFragment" />
     </fragment>
 
     <fragment
@@ -145,5 +148,10 @@
             android:id="@+id/action_securityFragment_to_passwordFragment"
             app:destination="@id/passwordFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/imageDetailFragment"
+        android:name="com.ivyclub.contact.ui.main.friend_detail.ImageDetailFragment"
+        android:label="ImageDetailFragment"
+        tools:layout="@layout/fragment_image_detail"/>
 
 </navigation>

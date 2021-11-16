@@ -86,5 +86,5 @@
     <string name="security_password">비밀번호</string>
     <string name="group_name_validation_wrong_empty">한글자 이상 입력해주세요.</string>
     <string name="group_name_validation_wrong_duplicate">이미 존재하는 그룹 이름입니다.</string>
-    <string name="empty_string"/>
+    <string name="empty_string" />
 </resources>

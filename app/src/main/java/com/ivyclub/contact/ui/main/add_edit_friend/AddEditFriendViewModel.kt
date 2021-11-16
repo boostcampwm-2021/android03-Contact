@@ -1,13 +1,19 @@
 package com.ivyclub.contact.ui.main.add_edit_friend
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.data.ContactRepository
+import com.ivyclub.data.ImageManager
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -111,6 +117,14 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
 
     fun showClearButtonVisible(show: Boolean) {
         _showClearButtonVisible.value = show
+    }
+
+    fun saveProfileImage(currentBitmap: Bitmap?, friendId: Long) {
+        ImageManager.saveProfileImage(currentBitmap, friendId)
+    }
+
+    fun loadProfileImage(friendId: Long): Bitmap? {
+        return ImageManager.loadProfileImage(friendId)
     }
 
     companion object {
