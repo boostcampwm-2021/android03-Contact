@@ -4,10 +4,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.MyPreference
-import com.ivyclub.data.MyPreference.Companion.NOTIFICATION_END
-import com.ivyclub.data.MyPreference.Companion.NOTIFICATION_START
 import com.ivyclub.data.model.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -55,7 +56,7 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.getPlanDetailsById(planId)
     }
 
-    override suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long>) =
+    override suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long>): Long =
         withContext(ioDispatcher) {
             val planId = contactDAO.insertPlanData(planData)
 
@@ -72,6 +73,8 @@ class ContactRepositoryImpl @Inject constructor(
                 planSet.add(planId)
                 contactDAO.updateFriendsPlanList(friendId, planSet.toList())
             }
+
+            planId
         }
 
     override suspend fun deletePlanData(planData: PlanData) = withContext(ioDispatcher) {
@@ -122,6 +125,10 @@ class ContactRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun savePassword(password: String) = withContext(ioDispatcher) {
+        myPreference.setPassword(password)
+    }
+
     override suspend fun updateFriend(
         phoneNumber: String,
         name: String,
@@ -131,5 +138,14 @@ class ContactRepositoryImpl @Inject constructor(
         id: Long
     ) = withContext(ioDispatcher) {
         contactDAO.updateFriendData(phoneNumber, name, birthday, groupName, extraInfo, id)
+    }
+
+    override fun loadFriendsWithFlow(): Flow<List<FriendData>> {
+        return contactDAO.getFriendsWithFlow().flowOn(Dispatchers.IO).conflate()
+    }
+
+    companion object {
+        private const val NOTIFICATION_START = "NOTIFICATION_START"
+        private const val NOTIFICATION_END = "NOTIFICATION_END"
     }
 }

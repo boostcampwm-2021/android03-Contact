@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkManager
 import com.ivyclub.contact.R
+import com.ivyclub.contact.service.NotificationWorker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.PlanData
@@ -27,7 +29,8 @@ import kotlin.collections.toMutableSet
 
 @HiltViewModel
 class AddEditPlanViewModel @Inject constructor(
-    private val repository: ContactRepository
+    private val repository: ContactRepository,
+    private val workManager: WorkManager
 ) : ViewModel() {
     private var planId = -1L
     private val lastParticipants = mutableListOf<Long>()
@@ -134,7 +137,8 @@ class AddEditPlanViewModel @Inject constructor(
             else PlanData(participants, planDate, title, place, content, color)
 
         viewModelScope.launch {
-            repository.savePlanData(newPlan, lastParticipants)
+            planId = repository.savePlanData(newPlan, lastParticipants)
+            NotificationWorker.setPlanAlarm(planId, planDate, workManager)
             makeSnackbar(
                 if (planId == -1L) R.string.add_plan_success
                 else R.string.update_plan_success
@@ -149,5 +153,12 @@ class AddEditPlanViewModel @Inject constructor(
 
     fun finish() {
         _finishEvent.call()
+    }
+
+    fun addFriend(friendId: Long) {
+        viewModelScope.launch {
+            val friend = repository.getSimpleFriendDataById(friendId)
+            addParticipant(friend)
+        }
     }
 }

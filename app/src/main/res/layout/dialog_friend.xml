@@ -51,9 +51,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="@{viewModel.groupNameValidation}"
+            android:text="@{context.getString(viewModel.groupNameValidation)}"
             android:textColor="#BA1A1A"
-            android:textSize="8sp"
+            android:textSize="11sp"
             app:layout_constraintStart_toStartOf="@id/til_new_group_name"
             app:layout_constraintTop_toBottomOf="@id/til_new_group_name" />
 

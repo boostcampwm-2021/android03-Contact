@@ -65,4 +65,26 @@
     <string name="add_edit_plan_load_group">그룹 불러오기</string>
     <string name="friend_detail_birthday">생일</string>
     <string name="add_edit_success_message">저장되었습니다.</string>
+    <string name="password_reconfirm_message">확인을 위해 한번 더 입력해 주세요.</string>
+    <string name="password_reconfirm_fail">비밀번호가 일치하지 않습니다.\n처음부터 다시 시도해주세요.</string>
+    <string name="password_set_success">비밀번호가 설정되었습니다.</string>
+    <string name="password_input_password">암호를 입력해주세요</string>
+    <string name="password_button_1">1</string>
+    <string name="password_button_2">2</string>
+    <string name="password_button_3">3</string>
+    <string name="password_button_4">4</string>
+    <string name="password_button_5">5</string>
+    <string name="password_button_6">6</string>
+    <string name="password_button_7">7</string>
+    <string name="password_button_8">8</string>
+    <string name="password_button_9">9</string>
+    <string name="password_button_0">0</string>
+    <string name="password_button_cancel">←</string>
+    <string name="security_finger_print">지문</string>
+    <string name="security_reset_password">비밀번호 재설정</string>
+    <string name="security_not_set">설정 안 함</string>
+    <string name="security_password">비밀번호</string>
+    <string name="group_name_validation_wrong_empty">한글자 이상 입력해주세요.</string>
+    <string name="group_name_validation_wrong_duplicate">이미 존재하는 그룹 이름입니다.</string>
+    <string name="empty_string"/>
 </resources>

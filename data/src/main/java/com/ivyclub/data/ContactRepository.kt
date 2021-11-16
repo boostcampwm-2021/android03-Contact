@@ -1,9 +1,9 @@
 package com.ivyclub.data
 
 import com.ivyclub.data.model.*
+import kotlinx.coroutines.flow.Flow
 
 interface ContactRepository {
-
     // Friend
     suspend fun loadFriends(): List<FriendData>
     suspend fun saveFriend(friendData: FriendData)
@@ -17,6 +17,7 @@ interface ContactRepository {
         extraInfo: Map<String, String>,
         id: Long
     )
+    fun loadFriendsWithFlow(): Flow<List<FriendData>>
 
     // OnBoarding
     suspend fun setShowOnBoardingState(state: Boolean)
@@ -27,7 +28,7 @@ interface ContactRepository {
     // Plan
     suspend fun getPlanList(): List<SimplePlanData>
     suspend fun getPlanDataById(planId: Long): PlanData
-    suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long> = emptyList())
+    suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long> = emptyList()): Long
     suspend fun deletePlanData(planData: PlanData)
     suspend fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
     suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
@@ -38,4 +39,7 @@ interface ContactRepository {
     suspend fun loadGroups(): List<GroupData>
     suspend fun saveNewGroup(groupData: GroupData)
     suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String)
+
+    // Password
+    suspend fun savePassword(password: String)
 }
