@@ -48,11 +48,14 @@ class FriendViewModel @Inject constructor(
                 val loadedPersonData =
                     newLoadedPersonData.sortedBy { it.name }.toFriendListData()
                 if (loadedPersonData.isEmpty()) return@collect
-                val sortedFriendList = mutableListOf<FriendListData>()
+                val sortedFriendList =
+                    loadedPersonData.groupBy { it.groupName }.toSortedMap().values.flatten()
+                        .filterNot { it.groupName == "친구" }.toMutableList() // 그룹 지정이 된 친구 리스트
+                val undefinedFriendList = loadedPersonData.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
                 sortedFriendList
-                    .addAll(loadedPersonData.groupBy { it.groupName }
-                        .toSortedMap().values.flatten()) // 그룹 별로 사람 추가
-                val newFriendList = sortedFriendList.addGroupView() // 즐겨찾기 구현할 때 사용 -> .addFavoriteGroup()
+                    .addAll(undefinedFriendList) // 그룹 별로 사람 추가
+                val newFriendList =
+                    sortedFriendList.addGroupView() // 즐겨찾기 구현할 때 사용 -> .addFavoriteGroup()
                 _friendList.postValue(newFriendList)
                 orderedEntireFriendList = newFriendList
                 originEntireFriendList = loadedPersonData
