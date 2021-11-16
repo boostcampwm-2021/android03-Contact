@@ -15,7 +15,6 @@ import com.ivyclub.contact.service.PlanReminderNotification.NOTIFICATION
 import com.ivyclub.contact.service.PlanReminderNotification.NOTI_PLAN_ID
 import com.ivyclub.contact.ui.main.friend.FriendFragment
 import com.ivyclub.contact.ui.main.friend.FriendFragmentDirections
-import com.ivyclub.contact.ui.main.plan_details.PlanDetailsFragmentDirections
 import com.ivyclub.contact.ui.onboard.OnBoardingActivity
 import com.ivyclub.contact.util.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
