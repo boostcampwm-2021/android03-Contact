@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
+import android.widget.ImageView
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -109,7 +111,9 @@ fun ChipGroup.setFriendChips(friendList: List<String>, chipCount: Int = friendLi
 }
 
 fun ViewGroup.addChips(names: List<String>, onCloseIconClick: (Int) -> (Unit)) {
-    if (childCount > 0) { removeAllViews() }
+    if (childCount > 0) {
+        removeAllViews()
+    }
 
     val layoutParams = ViewGroup.MarginLayoutParams(
         ViewGroup.MarginLayoutParams.WRAP_CONTENT,
@@ -140,10 +144,14 @@ fun View.setCustomBackgroundColor(@ColorRes color: Int) {
     this.setBackgroundColor(ContextCompat.getColor(this.context, color))
 }
 
+fun ImageView.setCustomBackgroundDrawable(@DrawableRes drawable: Int) {
+    this.setImageDrawable(ContextCompat.getDrawable(this.context, drawable))
+}
+
 fun Context.showAlertDialog(
-   message: String,
-   positiveCallback: () -> (Unit),
-   negativeCallback: (() -> (Unit))? = null
+    message: String,
+    positiveCallback: () -> (Unit),
+    negativeCallback: (() -> (Unit))? = null
 ) {
     AlertDialog.Builder(this)
         .setMessage(message)

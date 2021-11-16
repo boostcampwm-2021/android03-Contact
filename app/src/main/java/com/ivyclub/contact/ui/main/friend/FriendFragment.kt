@@ -1,8 +1,11 @@
 package com.ivyclub.contact.ui.main.friend
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
@@ -27,6 +30,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                 when {
                     viewModel.isSearchViewVisible.value == true -> {
                         viewModel.setSearchViewVisibility()
+                        initFriendList()
                     }
                     viewModel.isInLongClickedState.value == true -> {
                         friendListAdapter.setAllClickedClear(viewModel.longClickedId)
@@ -39,17 +43,23 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             }
         }
     }
-    private lateinit var friendListAdapter: FriendListAdapter
+    private val friendListAdapter: FriendListAdapter by lazy {
+        FriendListAdapter(
+            onGroupClick = viewModel::manageGroupFolded,
+            onFriendClick = this::navigateToFriendDetailFragment,
+            onFriendLongClick = viewModel::setLongClickedId
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
         initBackPressedCallback()
         initAddButton()
         initSettingsButton()
+        initClearButton()
         initFriendListAdapter()
         observeSearchViewVisibility()
         observeFriendList()
-        viewModel.getFriendDataWithFlow()
         getGroupSelectFragmentResult()
     }
 
@@ -107,23 +117,25 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         }
     }
 
+    private fun initClearButton() = with(binding) {
+        ivRemoveEt.setOnClickListener {
+            etSearch.setText("")
+            initFriendList()
+        }
+    }
+
     private fun showDialog() {
         AddGroupDialogFragment().show(childFragmentManager, ADD_GROUP_DIALOG_TAG)
     }
 
     private fun initFriendListAdapter() {
-        friendListAdapter = FriendListAdapter(
-            onGroupClick = viewModel::manageGroupFolded,
-            onFriendClick = this::navigateToFriendDetailFragment,
-            onFriendLongClick = viewModel::setLongClickedId
-        )
         binding.rvFriendList.adapter = friendListAdapter
     }
 
     private fun observeSearchViewVisibility() {
         viewModel.isSearchViewVisible.observe(viewLifecycleOwner) { newVisibilityState ->
             with(binding) {
-                if (newVisibilityState) {
+                if (newVisibilityState) { // 안보이던 상황에서 -> 보이던 상황으로 될 때
                     showKeyboard()
                     etSearch.changeVisibilityWithDirection(
                         Gravity.TOP,
@@ -131,13 +143,14 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                         ANIMATION_TIME,
                         this@FriendFragment::requestFocus
                     )
-                } else {
+                } else { // 보이던 상황에서 -> 안보이던 상황으로 될 때
                     hideKeyboard()
                     etSearch.changeVisibilityWithDirection(
                         Gravity.TOP,
                         View.GONE,
                         ANIMATION_TIME
                     )
+                    etSearch.text.clear()
                     ivRemoveEt.visibility = View.GONE
                 }
             }
@@ -169,6 +182,12 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             viewModel.updateFriendsGroup(result) // 뷰모델에서 클릭 된 아이템 처리 해제
             friendListAdapter.clearLongClickedItemCount() // 리스트 어댑터에서 클릭 된 아이템 처리 해제
             binding.rvFriendList.adapter = friendListAdapter
+        }
+    }
+
+    private fun initFriendList() {
+        friendListAdapter.submitList(viewModel.getOrderedEntireFriendList()) {
+            binding.rvFriendList.scrollToPosition(0)
         }
     }
 
