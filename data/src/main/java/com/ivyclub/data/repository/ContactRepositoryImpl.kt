@@ -89,9 +89,10 @@ class ContactRepositoryImpl @Inject constructor(
             contactDAO.getSimpleFriendDataListByGroup(groupName)
         }
 
-    override suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData = withContext(ioDispatcher) {
-        contactDAO.getSimpleFriendDataById(friendId)
-    }
+    override suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData =
+        withContext(ioDispatcher) {
+            contactDAO.getSimpleFriendDataById(friendId)
+        }
 
     override suspend fun getSimpleFriendData(): List<SimpleFriendData> = withContext(ioDispatcher) {
         contactDAO.getSimpleFriendData()
@@ -113,15 +114,17 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.getFriendDataById(id)
     }
 
-    override suspend fun getPlansByIds(planIds: List<Long>): List<PlanData> = withContext(ioDispatcher) {
-        contactDAO.getPlansByIds(planIds)
-    }
-
-    override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String) = withContext(ioDispatcher) {
-        targetFriend.forEach {
-            contactDAO.updateFriendGroup(it, targetGroup)
+    override suspend fun getPlansByIds(planIds: List<Long>): List<PlanData> =
+        withContext(ioDispatcher) {
+            contactDAO.getPlansByIds(planIds)
         }
-    }
+
+    override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String) =
+        withContext(ioDispatcher) {
+            targetFriend.forEach {
+                contactDAO.updateFriendGroup(it, targetGroup)
+            }
+        }
 
     override suspend fun savePassword(password: String) = withContext(ioDispatcher) {
         myPreference.setPassword(password)
@@ -140,6 +143,10 @@ class ContactRepositoryImpl @Inject constructor(
 
     override fun loadFriendsWithFlow(): Flow<List<FriendData>> {
         return contactDAO.getFriendsWithFlow().flowOn(Dispatchers.IO).conflate()
+    }
+
+    override suspend fun getFavoriteFriends(): List<FriendData>  = withContext(ioDispatcher) {
+        contactDAO.getFavoriteFriend()
     }
 
     companion object {
