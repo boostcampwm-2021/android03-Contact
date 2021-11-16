@@ -42,4 +42,5 @@ interface ContactRepository {
 
     // Password
     suspend fun savePassword(password: String)
+    suspend fun getPassword(): String
 }
