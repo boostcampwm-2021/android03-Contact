@@ -135,7 +135,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     private fun observeSearchViewVisibility() {
         viewModel.isSearchViewVisible.observe(viewLifecycleOwner) { newVisibilityState ->
             with(binding) {
-                if (newVisibilityState) {
+                if (newVisibilityState) { // 안보이던 상황에서 -> 보이던 상황으로 될 때
                     showKeyboard()
                     etSearch.changeVisibilityWithDirection(
                         Gravity.TOP,
@@ -143,13 +143,14 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                         ANIMATION_TIME,
                         this@FriendFragment::requestFocus
                     )
-                } else {
+                } else { // 보이던 상황에서 -> 안보이던 상황으로 될 때
                     hideKeyboard()
                     etSearch.changeVisibilityWithDirection(
                         Gravity.TOP,
                         View.GONE,
                         ANIMATION_TIME
                     )
+                    etSearch.text.clear()
                     ivRemoveEt.visibility = View.GONE
                 }
             }
