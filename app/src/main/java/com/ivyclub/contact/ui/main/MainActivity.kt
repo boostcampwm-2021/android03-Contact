@@ -1,4 +1,4 @@
-package com.ivyclub.contact.ui
+package com.ivyclub.contact.ui.main
 
 import android.content.Intent
 import android.os.Bundle
