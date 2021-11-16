@@ -18,7 +18,11 @@ class SecurityFragment : BaseFragment<FragmentSecurityBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        binding.btnPassword.setOnClickListener {
+        observeMoveFragment()
+    }
+
+    private fun observeMoveFragment() {
+        viewModel.moveToSetPassword.observe(viewLifecycleOwner) {
             findNavController().navigate(
                 SecurityFragmentDirections.actionSecurityFragmentToPasswordFragment(
                     PasswordViewType.SET_PASSWORD
