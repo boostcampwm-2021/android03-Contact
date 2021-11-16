@@ -17,11 +17,7 @@ class SecurityViewModel @Inject constructor(private val repository: ContactRepos
     private val _moveToSetPassword = SingleLiveEvent<Unit>()
     val moveToSetPassword: LiveData<Unit> get() = _moveToSetPassword
 
-    init {
-        initSecurityState()
-    }
-
-    private fun initSecurityState() {
+    fun initSecurityState() {
         viewModelScope.launch {
             password.value = repository.getPassword()
         }
@@ -35,5 +31,14 @@ class SecurityViewModel @Inject constructor(private val repository: ContactRepos
 
     fun onResetPasswordButtonClicked() {
         _moveToSetPassword.call()
+    }
+
+    fun onNotSetButtonClicked() {
+        if (password.value?.isNotEmpty() == true) {
+            viewModelScope.launch {
+                repository.removePassword()
+                initSecurityState()
+            }
+        }
     }
 }

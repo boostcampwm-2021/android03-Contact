@@ -131,6 +131,10 @@ class ContactRepositoryImpl @Inject constructor(
         myPreference.getPassword()
     }
 
+    override suspend fun removePassword() {
+        myPreference.removePassword()
+    }
+
     override suspend fun updateFriend(
         phoneNumber: String,
         name: String,
