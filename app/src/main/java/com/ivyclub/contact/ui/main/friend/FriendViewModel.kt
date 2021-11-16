@@ -1,6 +1,5 @@
 package com.ivyclub.contact.ui.main.friend
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,6 @@ import com.ivyclub.contact.util.FriendListViewType
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -42,8 +40,7 @@ class FriendViewModel @Inject constructor(
 
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendDataWithFlow() {
-        Log.e("getFriendDataWithFlow", "called")
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             repository.loadFriendsWithFlow().buffer().collect { newLoadedPersonData ->
                 val loadedPersonData =
                     newLoadedPersonData.sortedBy { it.name }.toFriendListData()
