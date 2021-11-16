@@ -26,10 +26,10 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     val moveToPreviousFragment: LiveData<Unit> get() = _moveToPreviousFragment
     private val _moveToSetPassword = SingleLiveEvent<Unit>()
     val moveToSetPassword: LiveData<Unit> get() = _moveToSetPassword
-    var password1 = MutableLiveData("")
-    var password2 = MutableLiveData("")
-    var password3 = MutableLiveData("")
-    var password4 = MutableLiveData("")
+    val password1 = MutableLiveData("")
+    val password2 = MutableLiveData("")
+    val password3 = MutableLiveData("")
+    val password4 = MutableLiveData("")
 
     fun initPasswordViewType(type: PasswordViewType, password: String = "") {
         passwordViewType = type
