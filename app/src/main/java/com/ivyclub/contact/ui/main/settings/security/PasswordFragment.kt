@@ -70,6 +70,9 @@ class PasswordFragment :
                     vibrate()
                 }
             }
+            PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
+                viewModel.initPasswordViewType(args.passwordViewType, args.password)
+            }
         }
     }
 

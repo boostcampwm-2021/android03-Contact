@@ -105,6 +105,14 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                     reset()
                 }
             }
+            PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
+                if (password == inputPassword) {
+                    _moveToPreviousFragment.call()
+                } else {
+                    _retry.call()
+                    reset()
+                }
+            }
         }
     }
 

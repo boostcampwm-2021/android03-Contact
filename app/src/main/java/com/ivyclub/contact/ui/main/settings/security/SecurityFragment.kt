@@ -1,7 +1,9 @@
 package com.ivyclub.contact.ui.main.settings.security
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
@@ -23,6 +25,16 @@ class SecurityFragment : BaseFragment<FragmentSecurityBinding>(R.layout.fragment
     }
 
     private fun observeMoveFragment() {
+        viewModel.moveToConfirmPassword.observe(viewLifecycleOwner) { password ->
+            if (password.isNotEmpty()) {
+                findNavController().navigate(
+                    SecurityFragmentDirections.actionSecurityFragmentToPasswordFragment(
+                        PasswordViewType.SECURITY_CONFIRM_PASSWORD,
+                        password
+                    )
+                )
+            }
+        }
         viewModel.moveToSetPassword.observe(viewLifecycleOwner) {
             findNavController().navigate(
                 SecurityFragmentDirections.actionSecurityFragmentToPasswordFragment(
