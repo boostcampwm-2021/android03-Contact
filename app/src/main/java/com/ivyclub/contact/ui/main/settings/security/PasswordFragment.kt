@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPasswordBinding
-import com.ivyclub.contact.ui.MainActivity
+import com.ivyclub.contact.ui.main.MainActivity
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.PasswordViewType
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,7 +55,7 @@ class PasswordFragment :
                 binding.tvPassword.text = getString(R.string.password_reconfirm_message)
 
             }
-            PasswordViewType.CONFIRM_PASSWORD -> {
+            PasswordViewType.APP_CONFIRM_PASSWORD -> {
                 viewModel.initPasswordViewType(args.passwordViewType)
                 viewModel.finishConfirmPassword.observe(viewLifecycleOwner) {
                     val intent = Intent(context, MainActivity::class.java)

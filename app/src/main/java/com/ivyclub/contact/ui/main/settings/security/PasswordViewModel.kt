@@ -38,7 +38,7 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     fun initPasswordViewType(type: PasswordViewType, password: String = "") {
         passwordViewType = type
         when (passwordViewType) {
-            PasswordViewType.CONFIRM_PASSWORD -> {
+            PasswordViewType.APP_CONFIRM_PASSWORD -> {
                 viewModelScope.launch {
                     this@PasswordViewModel.password = repository.getPassword()
                 }
@@ -95,7 +95,7 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                     _moveToSetPassword.call()
                 }
            }
-            PasswordViewType.CONFIRM_PASSWORD -> {
+            PasswordViewType.APP_CONFIRM_PASSWORD -> {
                 if (password == inputPassword) {
                     _finishConfirmPassword.call()
                 }

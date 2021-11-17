@@ -19,5 +19,5 @@ enum class FriendListViewType {
 }
 
 enum class PasswordViewType {
-    SET_PASSWORD, RECONFIRM_PASSWORD, CONFIRM_PASSWORD
+    SET_PASSWORD, RECONFIRM_PASSWORD, APP_CONFIRM_PASSWORD
 }
