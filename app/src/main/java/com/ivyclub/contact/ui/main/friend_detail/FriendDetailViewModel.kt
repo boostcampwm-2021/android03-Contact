@@ -1,10 +1,12 @@
 package com.ivyclub.contact.ui.main.friend_detail
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.data.ContactRepository
+import com.ivyclub.data.ImageManager
 import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.PlanData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -67,5 +69,9 @@ class FriendDetailViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun loadProfileImage(friendId: Long): Bitmap? {
+        return ImageManager.loadProfileImage(friendId)
     }
 }
