@@ -139,7 +139,11 @@ class AddEditPlanViewModel @Inject constructor(
 
         viewModelScope.launch {
             planId = repository.savePlanData(newPlan, lastParticipants)
-            PlanReminderNotificationWorker.setPlanAlarm(planId, title, participantNames, planDate, workManager)
+            val alarmStart = repository.getStartAlarmHour()
+            val alarmEnd = repository.getEndAlarmHour()
+            PlanReminderNotificationWorker.setPlanAlarm(
+                planId, title, participantNames, planDate, alarmStart, alarmEnd, workManager
+            )
             makeSnackbar(
                 if (planId == -1L) R.string.add_plan_success
                 else R.string.update_plan_success
