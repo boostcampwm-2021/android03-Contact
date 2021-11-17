@@ -62,6 +62,9 @@ class PasswordFragment :
                     activity?.setResult(RESULT_OK, intent)
                     activity?.finish()
                 }
+                viewModel.retry.observe(viewLifecycleOwner) {
+                    binding.tvPassword.text = "다시 시도해주세요."
+                }
             }
         }
     }

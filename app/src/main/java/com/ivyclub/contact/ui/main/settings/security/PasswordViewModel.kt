@@ -15,7 +15,7 @@ import javax.inject.Inject
 class PasswordViewModel @Inject constructor(private val repository: ContactRepository) :
     ViewModel() {
 
-    lateinit var passwordViewType: PasswordViewType
+    private lateinit var passwordViewType: PasswordViewType
     lateinit var password: String
 
     private val _focusedEditTextIndex = MutableLiveData(1)
@@ -29,6 +29,8 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     val moveToSetPassword: LiveData<Unit> get() = _moveToSetPassword
     private val _finishConfirmPassword = SingleLiveEvent<Unit>()
     val finishConfirmPassword: LiveData<Unit> get() = _finishConfirmPassword
+    private val _retry = SingleLiveEvent<Unit>()
+    val retry: LiveData<Unit> get() = _retry
 
     val password1 = MutableLiveData("")
     val password2 = MutableLiveData("")
@@ -98,9 +100,20 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
             PasswordViewType.APP_CONFIRM_PASSWORD -> {
                 if (password == inputPassword) {
                     _finishConfirmPassword.call()
+                } else {
+                    _retry.call()
+                    reset()
                 }
             }
         }
+    }
+
+    private fun reset() {
+        password1.value = ""
+        password2.value = ""
+        password3.value = ""
+        password4.value = ""
+        _focusedEditTextIndex.value = 1
     }
 
     private fun savePassword(password: String) = viewModelScope.launch {
