@@ -23,6 +23,8 @@ class SecurityViewModel @Inject constructor(private val repository: ContactRepos
     val moveToSetPassword: LiveData<Unit> get() = _moveToSetPassword
     private val _moveToConfirmPassword = SingleLiveEvent<String>()
     val moveToConfirmPassword: LiveData<String> get() = _moveToConfirmPassword
+    private val _moveToPreviousFragment = SingleLiveEvent<Unit>()
+    val moveToPreviousFragment: LiveData<Unit> get() = _moveToPreviousFragment
 
     fun initSecurityState() {
         viewModelScope.launch {
@@ -70,5 +72,9 @@ class SecurityViewModel @Inject constructor(private val repository: ContactRepos
                 repository.setFingerPrintState(true)
             }
         }
+    }
+
+    fun moveToPreviousFragment() {
+        _moveToPreviousFragment.call()
     }
 }

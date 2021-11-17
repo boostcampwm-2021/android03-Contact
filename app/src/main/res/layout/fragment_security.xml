@@ -24,6 +24,7 @@
             android:layout_marginStart="8dp"
             android:background="?attr/selectableItemBackground"
             android:padding="4dp"
+            android:onClick="@{() -> viewModel.moveToPreviousFragment()}"
             android:src="@drawable/ic_baseline_arrow_back_24"
             app:layout_constraintBottom_toBottomOf="@id/tv_security"
             app:layout_constraintStart_toStartOf="parent"

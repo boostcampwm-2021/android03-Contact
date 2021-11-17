@@ -62,5 +62,8 @@ class SecurityFragment : BaseFragment<FragmentSecurityBinding>(R.layout.fragment
                 )
             )
         }
+        viewModel.moveToPreviousFragment.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
+        }
     }
 }
