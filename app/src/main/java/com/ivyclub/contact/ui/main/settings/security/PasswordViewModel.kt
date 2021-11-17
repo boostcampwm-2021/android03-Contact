@@ -35,6 +35,9 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     private val _retry = SingleLiveEvent<Unit>()
     val retry: LiveData<Unit> get() = _retry
 
+    private val _fingerPrint = SingleLiveEvent<Unit>()
+    val fingerPrint: LiveData<Unit> get() = _fingerPrint
+
     val password1 = MutableLiveData("")
     val password2 = MutableLiveData("")
     val password3 = MutableLiveData("")
@@ -131,5 +134,22 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
 
     private fun savePassword(password: String) = viewModelScope.launch {
         repository.savePassword(password)
+    }
+
+    fun checkFingerPrintState() {
+        viewModelScope.launch {
+            val fingerPrint = repository.getFingerPrintState()
+            if (fingerPrint) {
+                _fingerPrint.call()
+            }
+        }
+    }
+
+    fun succeedFingerPrintAuth() {
+        if (passwordViewType == PasswordViewType.APP_CONFIRM_PASSWORD) {
+            _finishConfirmPassword.call()
+        } else if (passwordViewType == PasswordViewType.SECURITY_CONFIRM_PASSWORD) {
+            _moveToPreviousFragment.call()
+        }
     }
 }

@@ -7,6 +7,8 @@ import android.content.Intent
 import android.os.*
 import android.view.View
 import androidx.activity.addCallback
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -33,6 +35,7 @@ class PasswordFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+        checkFingerPrintState()
         initPasswordViewType()
         initNumberClickListener()
         initCancelButtonClickListener()
@@ -40,6 +43,17 @@ class PasswordFragment :
         initBackPressedListener()
         observeFocusedEditTextIndex()
         observeShowSnackBar()
+    }
+
+    private fun checkFingerPrintState() {
+        if (args.passwordViewType == PasswordViewType.APP_CONFIRM_PASSWORD || args.passwordViewType == PasswordViewType.SECURITY_CONFIRM_PASSWORD) {
+            viewModel.checkFingerPrintState()
+            viewModel.fingerPrint.observe(viewLifecycleOwner) {
+                val prompt = createBiometricPrompt()
+                val promptInfo = createBiometricPromptInfo()
+                prompt.authenticate(promptInfo)
+            }
+        }
     }
 
     private fun initBackPressedListener() {
@@ -147,6 +161,32 @@ class PasswordFragment :
     private fun observeShowSnackBar() {
         viewModel.showSnackBar.observe(viewLifecycleOwner) { id ->
             Snackbar.make(binding.root, getString(id), Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun createBiometricPromptInfo(): BiometricPrompt.PromptInfo {
+        return BiometricPrompt.PromptInfo.Builder()
+            .setTitle("지문 인증")
+            .setDescription("지문으로 인증해 주세요.")
+            .setNegativeButtonText("취소")
+            .build()
+    }
+
+    private fun createBiometricPrompt(): BiometricPrompt {
+        val executor = ContextCompat.getMainExecutor(requireContext())
+        val authenticationCallback = getAuthenticationCallback()
+        return BiometricPrompt(this, executor, authenticationCallback)
+    }
+
+    private fun getAuthenticationCallback() = object : BiometricPrompt.AuthenticationCallback() {
+        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+            super.onAuthenticationError(errorCode, errString)
+            Snackbar.make(binding.root, "지문 인증이 취소되었습니다.", Snackbar.LENGTH_SHORT).show()
+        }
+
+        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+            super.onAuthenticationSucceeded(result)
+            viewModel.succeedFingerPrintAuth()
         }
     }
 }
