@@ -3,19 +3,27 @@ package com.ivyclub.contact.ui.main.settings
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentSettingsBinding
 import com.ivyclub.contact.ui.main.settings.dialog.NotificationTimeDialogFragment
 import com.ivyclub.contact.util.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_settings) {
+    private val viewModel: SettingsViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewModel()
         initBackIcon()
         initSettingButton()
         initOtherButton()
-        initAlarmButton()
+    }
+
+    private fun initViewModel() {
+        binding.viewModel = viewModel
     }
 
     private fun initBackIcon() {
@@ -29,19 +37,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         binding.tvNotificationTime.setOnClickListener {
             val notificationTimeDialog = NotificationTimeDialogFragment()
             notificationTimeDialog.show(childFragmentManager, NotificationTimeDialogFragment.TAG)
-        }
-        binding.tvSetNotification.setOnClickListener {
-            binding.switchSetAlarm.isChecked = !binding.switchSetAlarm.isChecked
-        }
-    }
-
-    private fun initAlarmButton() {
-        binding.switchSetAlarm.setOnCheckedChangeListener { compoundButton, isChecked ->
-            if (isChecked) {
-                binding.tvNotificationTime.visibility = View.VISIBLE
-            } else {
-                binding.tvNotificationTime.visibility = View.GONE
-            }
         }
     }
 
