@@ -27,8 +27,6 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context) {
     fun getNotificationTime(startOrEnd: String) =
         prefs.getInt(startOrEnd, 0)
 
-    fun getNotificationFloatTime(startOrEnd: String) = prefs.all[startOrEnd].toString().toFloat()
-
     /*
     true일 경우 앱이 최초로 실행
     false일 경우 앱이 최초로 실행이 아님
