@@ -7,4 +7,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class PasswordActivity : BaseActivity<ActivityPasswordBinding>(R.layout.activity_password) {
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
+    }
 }

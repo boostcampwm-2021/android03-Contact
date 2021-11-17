@@ -6,7 +6,7 @@ import android.content.Context.VIBRATOR_SERVICE
 import android.content.Intent
 import android.os.*
 import android.view.View
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -37,8 +37,22 @@ class PasswordFragment :
         initNumberClickListener()
         initCancelButtonClickListener()
         initMoveFragmentObserver()
+        initBackPressedListener()
         observeFocusedEditTextIndex()
         observeShowSnackBar()
+    }
+
+    private fun initBackPressedListener() {
+        if (activity == null) return
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            when (args.passwordViewType) {
+                PasswordViewType.SECURITY_CONFIRM_PASSWORD -> findNavController().popBackStack(
+                    R.id.navigation_friend,
+                    false
+                )
+                else -> findNavController().popBackStack()
+            }
+        }
     }
 
     private fun initPasswordViewType() {
@@ -78,8 +92,9 @@ class PasswordFragment :
     }
 
     private fun vibrate() {
-        val vibrator  = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val vibratorManager =  activity?.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+        val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager =
+                activity?.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
             vibratorManager.defaultVibrator;
         } else {
             activity?.getSystemService(VIBRATOR_SERVICE) as Vibrator
