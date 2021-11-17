@@ -38,6 +38,7 @@ class PasswordFragment :
         initCancelButtonClickListener()
         initMoveFragmentObserver()
         observeFocusedEditTextIndex()
+        observeShowSnackBar()
     }
 
     private fun initPasswordViewType() {
@@ -122,13 +123,15 @@ class PasswordFragment :
                     PasswordViewType.SET_PASSWORD
                 )
             )
-            Snackbar.make(binding.root, getString(R.string.password_reconfirm_fail), Snackbar.LENGTH_SHORT)
-                .show()
         }
         viewModel.moveToPreviousFragment.observe(viewLifecycleOwner) {
             findNavController().popBackStack()
-            Snackbar.make(binding.root, getString(R.string.password_set_success), Snackbar.LENGTH_SHORT)
-                .show()
+        }
+    }
+
+    private fun observeShowSnackBar() {
+        viewModel.showSnackBar.observe(viewLifecycleOwner) { id ->
+            Snackbar.make(binding.root, getString(id), Snackbar.LENGTH_SHORT).show()
         }
     }
 }

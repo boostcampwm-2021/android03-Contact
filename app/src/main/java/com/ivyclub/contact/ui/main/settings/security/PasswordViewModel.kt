@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivyclub.contact.R
 import com.ivyclub.contact.util.PasswordViewType
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
@@ -29,6 +30,8 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     val moveToSetPassword: LiveData<Unit> get() = _moveToSetPassword
     private val _finishConfirmPassword = SingleLiveEvent<Unit>()
     val finishConfirmPassword: LiveData<Unit> get() = _finishConfirmPassword
+    private val _showSnackBar = SingleLiveEvent<Int>()
+    val showSnackBar: LiveData<Int> get() = _showSnackBar
     private val _retry = SingleLiveEvent<Unit>()
     val retry: LiveData<Unit> get() = _retry
 
@@ -93,8 +96,10 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                 if (password == inputPassword) {
                     savePassword(password)
                     _moveToPreviousFragment.call()
+                    _showSnackBar.value = R.string.password_set_success
                 } else {
                     _moveToSetPassword.call()
+                    _showSnackBar.value = R.string.password_reconfirm_fail
                 }
            }
             PasswordViewType.APP_CONFIRM_PASSWORD -> {
