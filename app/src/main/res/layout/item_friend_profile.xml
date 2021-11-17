@@ -25,10 +25,12 @@
             android:layout_marginStart="12dp"
             android:contentDescription="@string/item_friend_profile_profile_image"
             android:src="@drawable/photo"
+
+            android:scaleType="centerCrop"
+            android:background="@drawable/round_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_launcher_background" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_name"
