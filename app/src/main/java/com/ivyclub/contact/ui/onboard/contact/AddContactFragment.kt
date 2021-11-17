@@ -18,6 +18,7 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddContactBinding
 import com.ivyclub.contact.model.PhoneContactData
 import com.ivyclub.contact.ui.main.MainActivity
+import com.ivyclub.contact.ui.onboard.contact.dialog.DialogGetContactsLoadingFragment
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.SkipDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +30,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     private lateinit var contactList: MutableList<PhoneContactData>
     private val viewModel: AddContactViewModel by viewModels()
     private val navController by lazy { findNavController() }
+    private val loadingDialog = DialogGetContactsLoadingFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +47,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
         initRecyclerView()
         initButtons()
         initAppBar()
+        observeSavingDone()
     }
 
     private fun initRecyclerView() {
@@ -58,9 +61,10 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
         }
         btnCommit.setOnClickListener {
             viewModel.saveFriendsData(contactAdapter.addSet.toMutableList())
-            val intent = Intent(context, MainActivity::class.java)
-            activity?.setResult(RESULT_OK, intent)
-            activity?.finish()
+            loadingDialog.show(
+                childFragmentManager,
+                DialogGetContactsLoadingFragment.TAG
+            ) // 로딩 다이얼로그 보여주기
         }
         btnCommit.isClickable = false
     }
@@ -118,4 +122,14 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
         activity?.finish()
     }
 
+    private fun observeSavingDone() {
+        viewModel.isSavingDone.observe(viewLifecycleOwner) { isDone ->
+            if (isDone) {
+                loadingDialog.dismiss()
+                val intent = Intent(context, MainActivity::class.java)
+                activity?.setResult(RESULT_OK, intent)
+                activity?.finish()
+            }
+        }
+    }
 }

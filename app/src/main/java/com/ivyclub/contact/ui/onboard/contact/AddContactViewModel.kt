@@ -1,5 +1,7 @@
 package com.ivyclub.contact.ui.onboard.contact
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.model.PhoneContactData
@@ -16,6 +18,9 @@ class AddContactViewModel @Inject constructor(
     private val contactListManager: ContactListManager
 ) : ViewModel() {
 
+    private val _isSavingDone = MutableLiveData(false)
+    val isSavingDone: LiveData<Boolean> get() = _isSavingDone
+
     fun saveFriendsData(data: List<PhoneContactData>) {
         viewModelScope.launch {
             data.forEach {
@@ -31,6 +36,7 @@ class AddContactViewModel @Inject constructor(
                     )
                 )
             }
+            _isSavingDone.value = true
         }
     }
 
