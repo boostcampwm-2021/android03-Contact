@@ -44,8 +44,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         val fromNotification = intent.getBooleanExtra(NOTIFICATION, false)
         val planId = intent.getLongExtra(NOTI_PLAN_ID, -1L)
-        if (fromNotification && planId != -1L) {
-            navController.navigate(FriendFragmentDirections.actionNavigationFriendToPlanDetailsFragment(planId))
+        if (fromNotification) {
+            when (planId) {
+                -1L -> binding.bnvMain.selectedItemId = R.id.navigation_plan
+                else -> {
+                    navController.navigate(
+                        FriendFragmentDirections.actionNavigationFriendToPlanDetailsFragment(
+                            planId
+                        )
+                    )
+                }
+            }
         }
     }
 
