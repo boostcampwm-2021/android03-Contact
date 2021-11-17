@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkManager
 import com.ivyclub.contact.R
+import com.ivyclub.contact.service.PlanReminderNotificationWorker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.PlanData
@@ -27,7 +29,8 @@ import kotlin.collections.toMutableSet
 
 @HiltViewModel
 class AddEditPlanViewModel @Inject constructor(
-    private val repository: ContactRepository
+    private val repository: ContactRepository,
+    private val workManager: WorkManager
 ) : ViewModel() {
     private var planId = -1L
     private val lastParticipants = mutableListOf<Long>()
@@ -116,7 +119,8 @@ class AddEditPlanViewModel @Inject constructor(
     }
 
     fun savePlan() {
-        val participants = planParticipants.value?.map { it.id } ?: emptyList()
+        val participantIds = planParticipants.value?.map { it.id } ?: emptyList()
+        val participantNames = planParticipants.value?.map { it.name } ?: emptyList()
         val planDate = planTime.value ?: Date(System.currentTimeMillis())
 
         val title = planTitle.value
@@ -130,11 +134,12 @@ class AddEditPlanViewModel @Inject constructor(
         val color = ""  // TODO: 랜덤 색 만들기
 
         val newPlan =
-            if (planId != -1L) PlanData(participants, planDate, title, place, content, color, planId)
-            else PlanData(participants, planDate, title, place, content, color)
+            if (planId != -1L) PlanData(participantIds, planDate, title, place, content, color, planId)
+            else PlanData(participantIds, planDate, title, place, content, color)
 
         viewModelScope.launch {
-            repository.savePlanData(newPlan, lastParticipants)
+            planId = repository.savePlanData(newPlan, lastParticipants)
+            PlanReminderNotificationWorker.setPlanAlarm(planId, title, participantNames, planDate, workManager)
             makeSnackbar(
                 if (planId == -1L) R.string.add_plan_success
                 else R.string.update_plan_success

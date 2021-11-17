@@ -38,7 +38,7 @@ class ContactRepositoryImpl @Inject constructor(
         myPreference.getShowOnBoardingState()
     }
 
-    override suspend fun setNotificationTime(start: String, end: String) =
+    override suspend fun setNotificationTime(start: Int, end: Int) =
         withContext(ioDispatcher) {
             myPreference.setNotificationTime(NOTIFICATION_START, start)
             myPreference.setNotificationTime(NOTIFICATION_END, end)
@@ -56,7 +56,7 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.getPlanDetailsById(planId)
     }
 
-    override suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long>) =
+    override suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long>): Long =
         withContext(ioDispatcher) {
             val planId = contactDAO.insertPlanData(planData)
 
@@ -73,6 +73,8 @@ class ContactRepositoryImpl @Inject constructor(
                 planSet.add(planId)
                 contactDAO.updateFriendsPlanList(friendId, planSet.toList())
             }
+
+            planId
         }
 
     override suspend fun deletePlanData(planData: PlanData) = withContext(ioDispatcher) {
