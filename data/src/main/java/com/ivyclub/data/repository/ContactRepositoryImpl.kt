@@ -48,9 +48,8 @@ class ContactRepositoryImpl @Inject constructor(
         myPreference.setNotificationOnOff(state)
     }
 
-    override suspend fun getPlanList(): List<SimplePlanData> = withContext(ioDispatcher) {
-        contactDAO.getPlanList()
-    }
+    override fun loadPlanListWithFlow(): Flow<List<SimplePlanData>> =
+        contactDAO.getPlanListWithFlow().flowOn(Dispatchers.IO).conflate()
 
     override suspend fun getPlanDataById(planId: Long): PlanData = withContext(ioDispatcher) {
         contactDAO.getPlanDetailsById(planId)
