@@ -55,12 +55,15 @@ class PlanReminderNotificationWorker @AssistedInject constructor(
         val participants =
             inputData.getStringArray(DATA_PARTICIPANTS) ?: return Result.failure()
 
-        val strFormat =
-            if (notiType == NotificationType.PLAN) {
-                context.getString(R.string.format_plan_reminder_notification_solo)
-            } else {
-                context.getString(R.string.format_after_plan)
-            }
+        val notiTitle: String
+        val strFormat: String
+        if (notiType == NotificationType.PLAN) {
+            notiTitle = context.getString(R.string.plan_reminder_notification_title)
+            strFormat = context.getString(R.string.format_plan_reminder_notification_solo)
+        } else {
+            notiTitle = context.getString(R.string.plan_night_notification_title)
+            strFormat = context.getString(R.string.format_after_plan)
+        }
 
         val notiText =
             if (participants.isEmpty()) {
@@ -85,7 +88,7 @@ class PlanReminderNotificationWorker @AssistedInject constructor(
         val planId = tags.find { it.isDigitsOnly() }?.toLong()
         PlanReminderNotification.makePlanNotification(
             context,
-            context.getString(R.string.plan_reminder_notification_title),
+            notiTitle,
             notiText,
             planId ?: -1L
         )
