@@ -95,4 +95,8 @@
     <string name="fragment_settings_notification">알림 시간 설정</string>
     <string name="fragment_settings_security_icon">security icon</string>
     <string name="fragment_settings_security">보안</string>
+    <string name="dialog_notification_time_set_time">시간 설정하기</string>
+    <string name="dialog_notification_time_zero_hour">0시</string>
+    <string name="dialog_notification_time_last_hour">24시</string>
+    <string name="dialog_notification_time_confirm">설정</string>
 </resources>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="20dp">
+
+        <TextView
+            android:id="@+id/tv_update_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:text="@string/dialog_notification_time_set_time"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/rs_time_range"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_first_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/dialog_notification_time_zero_hour"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/rs_time_range"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_time" />
+
+        <TextView
+            android:id="@+id/tv_last_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:text="@string/dialog_notification_time_last_hour"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/rs_time_range"
+            app:layout_constraintTop_toBottomOf="@id/tv_update_time" />
+
+        <com.google.android.material.slider.RangeSlider
+            android:id="@+id/rs_time_range"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stepSize="1"
+            android:valueFrom="0"
+            android:valueTo="24"
+            android:value="10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_first_hour" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/friend_dialog_cancel"
+            app:layout_constraintEnd_toStartOf="@id/tv_confirm"
+            app:layout_constraintTop_toTopOf="@id/tv_confirm" />
+
+        <TextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/dialog_notification_time_confirm"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/rs_time_range"
+            app:layout_constraintTop_toBottomOf="@id/rs_time_range" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
