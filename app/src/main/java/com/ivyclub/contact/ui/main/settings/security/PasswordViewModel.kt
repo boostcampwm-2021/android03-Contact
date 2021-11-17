@@ -20,12 +20,16 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
 
     private val _focusedEditTextIndex = MutableLiveData(1)
     val focusedEditTextIndex: LiveData<Int> get() = _focusedEditTextIndex
+
     private val _moveToReconfirmPassword = SingleLiveEvent<String>()
     val moveToReconfirmPassword: LiveData<String> get() = _moveToReconfirmPassword
     private val _moveToPreviousFragment = SingleLiveEvent<Unit>()
     val moveToPreviousFragment: LiveData<Unit> get() = _moveToPreviousFragment
     private val _moveToSetPassword = SingleLiveEvent<Unit>()
     val moveToSetPassword: LiveData<Unit> get() = _moveToSetPassword
+    private val _finishConfirmPassword = SingleLiveEvent<Unit>()
+    val finishConfirmPassword: LiveData<Unit> get() = _finishConfirmPassword
+
     val password1 = MutableLiveData("")
     val password2 = MutableLiveData("")
     val password3 = MutableLiveData("")
@@ -33,7 +37,14 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
 
     fun initPasswordViewType(type: PasswordViewType, password: String = "") {
         passwordViewType = type
-        this.password = password
+        when (passwordViewType) {
+            PasswordViewType.CONFIRM_PASSWORD -> {
+                viewModelScope.launch {
+                    this@PasswordViewModel.password = repository.getPassword()
+                }
+            }
+            else -> this.password = password
+        }
     }
 
     private fun updatePasswordInput(number: String) {
@@ -85,7 +96,9 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                 }
            }
             PasswordViewType.CONFIRM_PASSWORD -> {
-                // TODO: 비밀번호 일치여부 확인
+                if (password == inputPassword) {
+                    _finishConfirmPassword.call()
+                }
             }
         }
     }

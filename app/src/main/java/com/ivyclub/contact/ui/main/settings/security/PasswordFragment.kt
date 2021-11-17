@@ -1,5 +1,7 @@
 package com.ivyclub.contact.ui.main.settings.security
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -8,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPasswordBinding
+import com.ivyclub.contact.ui.MainActivity
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.PasswordViewType
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,9 +38,9 @@ class PasswordFragment :
     }
 
     private fun initPasswordViewType() {
-        viewModel.initPasswordViewType(args.passwordViewType, args.password)
         when (args.passwordViewType) {
             PasswordViewType.SET_PASSWORD -> {
+                viewModel.initPasswordViewType(args.passwordViewType)
                 viewModel.moveToReconfirmPassword.observe(viewLifecycleOwner) { password ->
                     findNavController().navigate(
                         PasswordFragmentDirections.actionSetPasswordFragmentSelf(
@@ -48,8 +51,17 @@ class PasswordFragment :
                 }
             }
             PasswordViewType.RECONFIRM_PASSWORD -> {
+                viewModel.initPasswordViewType(args.passwordViewType, args.password)
                 binding.tvPassword.text = getString(R.string.password_reconfirm_message)
 
+            }
+            PasswordViewType.CONFIRM_PASSWORD -> {
+                viewModel.initPasswordViewType(args.passwordViewType)
+                viewModel.finishConfirmPassword.observe(viewLifecycleOwner) {
+                    val intent = Intent(context, MainActivity::class.java)
+                    activity?.setResult(RESULT_OK, intent)
+                    activity?.finish()
+                }
             }
         }
     }

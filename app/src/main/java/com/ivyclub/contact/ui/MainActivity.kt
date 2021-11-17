@@ -11,7 +11,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ActivityMainBinding
 import com.ivyclub.contact.ui.main.friend.FriendFragment
+import com.ivyclub.contact.ui.main.settings.security.PasswordFragmentDirections
 import com.ivyclub.contact.ui.onboard.OnBoardingActivity
+import com.ivyclub.contact.ui.password.PasswordActivity
 import com.ivyclub.contact.util.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var getOnBoardingResult: ActivityResultLauncher<Intent>
+    private lateinit var getOnPasswordResult: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         setNavigation()
         viewModel.checkOnBoarding()
         setOnBoardingResult()
+        viewModel.checkPasswordOnCreate()
+        setOnPasswordResult()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkPasswordOnStart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.lock()
     }
 
     private fun setOnBoardingResult() {
@@ -50,6 +65,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 getOnBoardingResult.launch(intent)
             }
         })
+        viewModel.moveToConfirmPassword.observe(this) {
+            val intent = Intent(this, PasswordActivity::class.java)
+            getOnPasswordResult.launch(intent)
+        }
+    }
+
+    private fun setOnPasswordResult() {
+        getOnPasswordResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    viewModel.unlock()
+                }
+            }
     }
 
     private fun setNavigation() {
