@@ -4,6 +4,7 @@
     package="com.ivyclub.contact">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
         android:name=".MainApplication"

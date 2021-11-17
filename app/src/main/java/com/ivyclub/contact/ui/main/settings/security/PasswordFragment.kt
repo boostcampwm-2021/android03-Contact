@@ -1,9 +1,12 @@
 package com.ivyclub.contact.ui.main.settings.security
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
+import android.content.Context.VIBRATOR_SERVICE
 import android.content.Intent
-import android.os.Bundle
+import android.os.*
 import android.view.View
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -64,8 +67,24 @@ class PasswordFragment :
                 }
                 viewModel.retry.observe(viewLifecycleOwner) {
                     binding.tvPassword.text = "다시 시도해주세요."
+                    vibrate()
                 }
             }
+        }
+    }
+
+    private fun vibrate() {
+        val vibrator  = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager =  activity?.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibratorManager.defaultVibrator;
+        } else {
+            activity?.getSystemService(VIBRATOR_SERVICE) as Vibrator
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(100)
         }
     }
 
