@@ -2,6 +2,7 @@ package com.ivyclub.contact.ui.main.settings.dialog
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,9 +43,9 @@ class NotificationTimeDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
-        viewModel
         initRangeSlider()
         initCancelButton()
+        initConfirmButton()
     }
 
     private fun initRangeSlider() = with(binding.rsTimeRange) {
@@ -58,7 +59,19 @@ class NotificationTimeDialogFragment : DialogFragment() {
         binding.tvCancel.setOnClickListener { dismiss() }
     }
 
+    private fun initConfirmButton() {
+        binding.tvConfirm.setOnClickListener {
+            viewModel.updateNotificationTime(
+                binding.rsTimeRange.values[START_TIME_INDEX],
+                binding.rsTimeRange.values[END_TIME_INDEX]
+            )
+            dismiss()
+        }
+    }
+
     companion object {
-        val TAG = "NOTIFICATION_TIME_DIALOG"
+        const val TAG = "NOTIFICATION_TIME_DIALOG"
+        private const val START_TIME_INDEX = 0
+        private const val END_TIME_INDEX = 1
     }
 }

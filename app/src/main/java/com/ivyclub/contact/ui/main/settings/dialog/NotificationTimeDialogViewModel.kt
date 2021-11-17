@@ -17,4 +17,9 @@ class NotificationTimeDialogViewModel @Inject constructor(
     val notificationEndTime: Float by lazy {
         preference.getNotificationFloatTime(NOTIFICATION_END)
     }
+
+    fun updateNotificationTime(startTime: Float, endTime: Float) {
+        preference.setNotificationTime(NOTIFICATION_START, startTime.toInt())
+        preference.setNotificationTime(NOTIFICATION_END, endTime.toInt())
+    }
 }
