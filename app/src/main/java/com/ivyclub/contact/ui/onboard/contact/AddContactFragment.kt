@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -22,6 +23,7 @@ import com.ivyclub.contact.ui.onboard.contact.dialog.DialogGetContactsLoadingFra
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.SkipDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.fragment_add_contact) {
@@ -123,12 +125,14 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     }
 
     private fun observeSavingDone() {
-        viewModel.isSavingDone.observe(viewLifecycleOwner) { isDone ->
-            if (isDone) {
-                loadingDialog.dismiss()
-                val intent = Intent(context, MainActivity::class.java)
-                activity?.setResult(RESULT_OK, intent)
-                activity?.finish()
+        lifecycleScope.launchWhenStarted {
+            viewModel.isSavingDone.collectLatest { isDone ->
+                if (isDone) {
+                    loadingDialog.dismiss()
+                    val intent = Intent(context, MainActivity::class.java)
+                    activity?.setResult(RESULT_OK, intent)
+                    activity?.finish()
+                }
             }
         }
     }

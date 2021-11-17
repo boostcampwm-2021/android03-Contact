@@ -1,7 +1,5 @@
 package com.ivyclub.contact.ui.onboard.contact
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.model.PhoneContactData
@@ -9,6 +7,8 @@ import com.ivyclub.contact.util.ContactListManager
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,8 +18,9 @@ class AddContactViewModel @Inject constructor(
     private val contactListManager: ContactListManager
 ) : ViewModel() {
 
-    private val _isSavingDone = MutableLiveData(false)
-    val isSavingDone: LiveData<Boolean> get() = _isSavingDone
+    // one-shot event로 추후 개선이 필요
+    private val _isSavingDone = MutableStateFlow(false)
+    val isSavingDone = _isSavingDone.asStateFlow()
 
     fun saveFriendsData(data: List<PhoneContactData>) {
         viewModelScope.launch {
