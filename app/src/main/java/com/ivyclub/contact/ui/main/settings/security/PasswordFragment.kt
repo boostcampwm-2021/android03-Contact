@@ -170,9 +170,9 @@ class PasswordFragment :
 
     private fun createBiometricPromptInfo(): BiometricPrompt.PromptInfo {
         return BiometricPrompt.PromptInfo.Builder()
-            .setTitle("지문 인증")
-            .setDescription("지문으로 인증해 주세요.")
-            .setNegativeButtonText("취소")
+            .setTitle(getString(R.string.biometric_prompt_title))
+            .setDescription(getString(R.string.biometric_prompt_description))
+            .setNegativeButtonText(getString(R.string.biometric_prompt_cancel))
             .build()
     }
 
@@ -185,7 +185,7 @@ class PasswordFragment :
     private fun getAuthenticationCallback() = object : BiometricPrompt.AuthenticationCallback() {
         override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
             super.onAuthenticationError(errorCode, errString)
-            Snackbar.make(binding.root, "지문 인증이 취소되었습니다.", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, getString(R.string.biometric_auth_error), Snackbar.LENGTH_SHORT).show()
         }
 
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {

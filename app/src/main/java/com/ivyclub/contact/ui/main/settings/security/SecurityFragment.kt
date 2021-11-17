@@ -32,13 +32,13 @@ class SecurityFragment : BaseFragment<FragmentSecurityBinding>(R.layout.fragment
                     viewModel.setFingerPrint()
                 }
                 BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                    Snackbar.make(binding.root, "지문인식을 지원하지 않는 기기입니다.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, getString(R.string.biometric_error_hw_unavailable), Snackbar.LENGTH_SHORT).show()
                 }
                 BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                    Snackbar.make(binding.root, "기기에 등록된 지문이 없습니다.\n지문 등록 후 이용해주세요.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, getString(R.string.biometric_error_none_enrolled), Snackbar.LENGTH_SHORT).show()
                 }
                 BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-                    Snackbar.make(binding.root, "지문인식을 지원하지 않는 기기입니다.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.root, getString(R.string.biometric_error_hw_unavailable), Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
