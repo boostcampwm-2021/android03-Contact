@@ -103,4 +103,5 @@
     <string name="dialog_notification_time_zero_hour">0시</string>
     <string name="dialog_notification_time_last_hour">24시</string>
     <string name="dialog_notification_time_confirm">설정</string>
+    <string name="fragment_settings_active_notification">알림 활성화</string>
 </resources>

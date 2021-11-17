@@ -52,19 +52,44 @@
             app:layout_constraintTop_toBottomOf="@id/tv_settings" />
 
         <TextView
-            android:id="@+id/tv_notification_time"
+            android:id="@+id/tv_set_notification"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
+            android:layout_height="wrap_content"
             android:drawablePadding="20dp"
             android:padding="12dp"
-            android:text="@string/fragment_settings_notification"
+            android:text="@string/fragment_settings_active_notification"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:drawableStartCompat="@drawable/ic_baseline_notifications_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_get_contacts" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch_set_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_set_notification"
+            app:layout_constraintEnd_toEndOf="@id/tv_set_notification"
+            app:layout_constraintTop_toTopOf="@id/tv_set_notification" />
+
+        <TextView
+            android:id="@+id/tv_notification_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp"
+            android:text="@string/fragment_settings_notification"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:paddingStart="58dp"
+            android:paddingEnd="58dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_set_notification" />
 
         <TextView
             android:id="@+id/tv_security"

@@ -13,8 +13,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBackIcon()
-        initTimeSettingButton()
+        initSettingButton()
         initOtherButton()
+        initAlarmButton()
     }
 
     private fun initBackIcon() {
@@ -24,10 +25,23 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         }
     }
 
-    private fun initTimeSettingButton() {
+    private fun initSettingButton() {
         binding.tvNotificationTime.setOnClickListener {
             val notificationTimeDialog = NotificationTimeDialogFragment()
             notificationTimeDialog.show(childFragmentManager, NotificationTimeDialogFragment.TAG)
+        }
+        binding.tvSetNotification.setOnClickListener {
+            binding.switchSetAlarm.isChecked = !binding.switchSetAlarm.isChecked
+        }
+    }
+
+    private fun initAlarmButton() {
+        binding.switchSetAlarm.setOnCheckedChangeListener { compoundButton, isChecked ->
+            if (isChecked) {
+                binding.tvNotificationTime.visibility = View.VISIBLE
+            } else {
+                binding.tvNotificationTime.visibility = View.GONE
+            }
         }
     }
 
