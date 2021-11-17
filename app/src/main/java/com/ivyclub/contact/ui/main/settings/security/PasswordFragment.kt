@@ -81,7 +81,7 @@ class PasswordFragment :
                     activity?.finish()
                 }
                 viewModel.retry.observe(viewLifecycleOwner) {
-                    binding.tvPassword.text = "다시 시도해주세요."
+                    binding.tvPassword.text = getString(R.string.password_retry_message)
                     vibrate()
                 }
             }
