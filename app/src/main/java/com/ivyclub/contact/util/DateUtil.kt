@@ -3,7 +3,8 @@ package com.ivyclub.contact.util
 import java.sql.Date
 import java.util.*
 
-const val DAY_IN_MILLIS = (1000 * 60 * 60 * 24).toLong()
+const val HOUR_IN_MILLIS = (1000 * 60 * 60).toLong()
+const val DAY_IN_MILLIS = HOUR_IN_MILLIS * 24L
 
 private val calendar: Calendar by lazy { Calendar.getInstance() }
 

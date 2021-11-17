@@ -17,7 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddContactBinding
 import com.ivyclub.contact.model.PhoneContactData
-import com.ivyclub.contact.ui.MainActivity
+import com.ivyclub.contact.ui.main.MainActivity
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.SkipDialog
 import dagger.hilt.android.AndroidEntryPoint

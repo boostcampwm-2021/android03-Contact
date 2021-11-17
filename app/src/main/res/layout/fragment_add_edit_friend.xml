@@ -76,7 +76,8 @@
                     android:contentDescription="@string/add_edit_friend_profile_image"
                     android:src="@drawable/photo"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:scaleType="centerCrop"/>
 
                 <TextView
                     android:id="@+id/tv_name"

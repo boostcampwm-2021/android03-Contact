@@ -69,4 +69,7 @@ interface ContactDAO {
         extraInfo: Map<String, String>,
         id: Long
     )
+
+    @Query("SELECT * FROM FriendData WHERE isFavorite = :isFavorite")
+    fun getFavoriteFriend(isFavorite: Boolean = true): List<FriendData>
 }

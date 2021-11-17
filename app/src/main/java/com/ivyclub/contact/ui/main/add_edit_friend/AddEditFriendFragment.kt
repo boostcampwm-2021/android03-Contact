@@ -1,10 +1,21 @@
 package com.ivyclub.contact.ui.main.add_edit_friend
 
+import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -15,6 +26,7 @@ import com.ivyclub.contact.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
 
+
 @AndroidEntryPoint
 class AddEditFriendFragment :
     BaseFragment<FragmentAddEditFriendBinding>(R.layout.fragment_add_edit_friend) {
@@ -23,6 +35,7 @@ class AddEditFriendFragment :
     val extraInfoListAdapter by lazy { ExtraInfoListAdapter(viewModel::removeExtraInfo) }
     private val args: AddEditFriendFragmentArgs by navArgs()
     lateinit var spinnerAdapter: ArrayAdapter<String>
+    private var currentBitmap: Bitmap? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,6 +59,7 @@ class AddEditFriendFragment :
             }
             viewModel.addExtraInfoList(friendData.extraInfo)
         }
+        viewModel.loadProfileImage(args.friendId)?.let { binding.ivProfileImage.setImageBitmap(it) }
     }
 
     private fun initClickListener() {
@@ -73,8 +87,50 @@ class AddEditFriendFragment :
                 tvBirthdayValue.text = ""
                 this@AddEditFriendFragment.viewModel.showClearButtonVisible(false)
             }
+
+            ivProfileImage.setOnClickListener {
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.setType("image/*")
+                filterActivityLauncher.launch(intent)
+            }
         }
     }
+
+    private val filterActivityLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            if (activityResult.resultCode == RESULT_OK && activityResult.data != null) {
+                var currentImageUri = activityResult.data?.data
+                try {
+                    currentImageUri?.let {
+                        activity?.let {
+                            if (Build.VERSION.SDK_INT < 28) {
+                                val bitmap = MediaStore.Images.Media.getBitmap(
+                                    it.contentResolver,
+                                    currentImageUri
+                                )
+                                binding.ivProfileImage.setImageBitmap(bitmap)
+                                currentBitmap = bitmap
+                            } else {
+                                val source =
+                                    ImageDecoder.createSource(it.contentResolver, currentImageUri)
+                                val bitmap = ImageDecoder.decodeBitmap(source)
+                                binding.ivProfileImage.setImageBitmap(bitmap)
+                                currentBitmap = bitmap
+                            }
+                        }
+
+                    }
+
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            } else if (activityResult.resultCode == RESULT_CANCELED) {
+                Toast.makeText(context, "사진 선택 취소", Toast.LENGTH_LONG).show();
+            } else {
+                Log.d("ActivityResult", "something wrong")
+            }
+        }
 
     private fun observeRequiredState() {
         viewModel.isSaveButtonClicked.observe(viewLifecycleOwner) {
@@ -88,8 +144,13 @@ class AddEditFriendFragment :
                         extraInfoListAdapter.currentList,
                         args.friendId
                     )
+                    this@AddEditFriendFragment.viewModel.saveProfileImage(currentBitmap, args.friendId)
                     findNavController().popBackStack()
-                    Snackbar.make(binding.root, getString(R.string.add_edit_success_message), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        binding.root,
+                        getString(R.string.add_edit_success_message),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

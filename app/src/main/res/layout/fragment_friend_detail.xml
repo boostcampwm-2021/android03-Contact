@@ -76,15 +76,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp">
 
-                <ImageView
-                    android:id="@+id/iv_profile_image"
-                    android:layout_width="128dp"
-                    android:layout_height="128dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="12dp"
-                    android:src="@drawable/photo"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+
 
                 <TextView
                     android:id="@+id/tv_name_text"
@@ -306,6 +298,18 @@
                         android:text="@{viewModel.plan2Date != null ? dateFormat.format(viewModel.plan2Date) : @string/format_simple_date}"
                         tools:text="2022.01.01" />
                 </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_profile_image"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/photo"
+                    android:scaleType="centerCrop"
+                    android:transitionName="firstTransitionName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

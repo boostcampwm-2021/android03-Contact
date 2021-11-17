@@ -11,15 +11,21 @@ import javax.inject.Singleton
 @Singleton
 @RequiresApi(Build.VERSION_CODES.GINGERBREAD)
 class MyPreference @Inject constructor(@ApplicationContext context: Context) {
-    val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun setNotificationOnOff(onOff: Boolean) {
         prefs.edit().putBoolean(NOTIFICATION_ON_OFF, onOff).apply()
     }
 
-    fun setNotificationTime(startOrEnd: String, time: String) {
-        prefs.edit().putString(startOrEnd,time).apply()
+    fun getNotificationState() =
+        prefs.getBoolean(NOTIFICATION_ON_OFF, false)
+
+    fun setNotificationTime(startOrEnd: String, time: Int) {
+        prefs.edit().putInt(startOrEnd,time).apply()
     }
+
+    fun getNotificationTime(startOrEnd: String) =
+        prefs.getInt(startOrEnd, 0)
 
     /*
     true일 경우 앱이 최초로 실행
@@ -52,6 +58,8 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context) {
     companion object {
         const val FIRST_ON_BOARDING = "FIRST_ON_BOARDING"
         const val NOTIFICATION_ON_OFF = "NOTIFICATION_ON_OFF"
+        const val NOTIFICATION_START = "NOTIFICATION_START"
+        const val NOTIFICATION_END = "NOTIFICATION_END"
         const val PASSWORD = "password"
     }
 }

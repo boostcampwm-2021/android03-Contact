@@ -1,17 +1,21 @@
-package com.ivyclub.contact.ui
+package com.ivyclub.contact.ui.main
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ActivityMainBinding
+import com.ivyclub.contact.service.PlanReminderNotification.NOTIFICATION
+import com.ivyclub.contact.service.PlanReminderNotification.NOTI_PLAN_ID
 import com.ivyclub.contact.ui.main.friend.FriendFragment
 import com.ivyclub.contact.ui.main.settings.security.PasswordFragmentDirections
+import com.ivyclub.contact.ui.main.friend.FriendFragmentDirections
 import com.ivyclub.contact.ui.onboard.OnBoardingActivity
 import com.ivyclub.contact.ui.password.PasswordActivity
 import com.ivyclub.contact.util.BaseActivity
@@ -23,6 +27,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private lateinit var getOnBoardingResult: ActivityResultLauncher<Intent>
     private lateinit var getOnPasswordResult: ActivityResultLauncher<Intent>
 
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObserver()
@@ -33,14 +39,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         setOnPasswordResult()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.checkPasswordOnStart()
-    }
-
     override fun onPause() {
         super.onPause()
         viewModel.lock()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkPasswordOnStart()
+        val fromNotification = intent.getBooleanExtra(NOTIFICATION, false)
+        val planId = intent.getLongExtra(NOTI_PLAN_ID, -1L)
+        if (fromNotification && planId != -1L) {
+            navController.navigate(FriendFragmentDirections.actionNavigationFriendToPlanDetailsFragment(planId))
+        }
     }
 
     private fun setOnBoardingResult() {
@@ -84,7 +100,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         val navView: BottomNavigationView = binding.bnvMain
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
         navView.setupWithNavController(navController)
     }
 }

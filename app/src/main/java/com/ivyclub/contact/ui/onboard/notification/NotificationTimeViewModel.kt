@@ -14,7 +14,7 @@ class NotificationTimeViewModel @Inject constructor(
 
     fun setTime(times: List<Float>) {
         viewModelScope.launch {
-            repository.setNotificationTime(times[0].toInt().toString(), times[1].toInt().toString())
+            repository.setNotificationTime(times[0].toInt(), times[1].toInt())
         }
     }
 

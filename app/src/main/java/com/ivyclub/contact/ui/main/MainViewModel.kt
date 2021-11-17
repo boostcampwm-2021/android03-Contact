@@ -1,4 +1,4 @@
-package com.ivyclub.contact.ui
+package com.ivyclub.contact.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
