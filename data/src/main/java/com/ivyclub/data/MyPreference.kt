@@ -21,11 +21,13 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context) {
         prefs.getBoolean(NOTIFICATION_ON_OFF, false)
 
     fun setNotificationTime(startOrEnd: String, time: Int) {
-        prefs.edit().putInt(startOrEnd,time).apply()
+        prefs.edit().putInt(startOrEnd, time).apply()
     }
 
     fun getNotificationTime(startOrEnd: String) =
         prefs.getInt(startOrEnd, 0)
+
+    fun getNotificationFloatTime(startOrEnd: String) = prefs.all[startOrEnd].toString().toFloat()
 
     /*
     true일 경우 앱이 최초로 실행

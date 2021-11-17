@@ -2,6 +2,8 @@ package com.ivyclub.contact.ui.main.settings.dialog
 
 import androidx.lifecycle.ViewModel
 import com.ivyclub.data.MyPreference
+import com.ivyclub.data.MyPreference.Companion.NOTIFICATION_END
+import com.ivyclub.data.MyPreference.Companion.NOTIFICATION_START
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -9,4 +11,10 @@ import javax.inject.Inject
 class NotificationTimeDialogViewModel @Inject constructor(
     private val preference: MyPreference
 ) : ViewModel() {
+    val notificationStartTime: Float by lazy {
+        preference.getNotificationFloatTime(NOTIFICATION_START)
+    }
+    val notificationEndTime: Float by lazy {
+        preference.getNotificationFloatTime(NOTIFICATION_END)
+    }
 }

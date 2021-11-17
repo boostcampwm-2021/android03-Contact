@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentDialogNotificationTimeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,6 +17,7 @@ import kotlin.math.roundToInt
 class NotificationTimeDialogFragment : DialogFragment() {
 
     private lateinit var binding: FragmentDialogNotificationTimeBinding
+    private val viewModel: NotificationTimeDialogViewModel by viewModels()
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
@@ -40,12 +42,13 @@ class NotificationTimeDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
+        viewModel
         initRangeSlider()
         initCancelButton()
     }
 
     private fun initRangeSlider() = with(binding.rsTimeRange) {
-        values = listOf(8f, 22f)
+        values = listOf(viewModel.notificationStartTime, viewModel.notificationEndTime)
         setLabelFormatter { value ->
             return@setLabelFormatter "${value.roundToInt()}시"
         }
