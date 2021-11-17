@@ -101,6 +101,10 @@ class PasswordFragment :
             }
             PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 viewModel.initPasswordViewType(args.passwordViewType, args.password)
+                viewModel.retry.observe(viewLifecycleOwner) {
+                    binding.tvPassword.text = getString(R.string.password_retry_message)
+                    vibrate()
+                }
             }
         }
     }
