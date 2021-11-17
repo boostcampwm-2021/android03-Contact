@@ -18,17 +18,18 @@ interface ContactRepository {
         id: Long
     )
     fun loadFriendsWithFlow(): Flow<List<FriendData>>
+    suspend fun getFavoriteFriends(): List<FriendData>
 
     // OnBoarding
     suspend fun setShowOnBoardingState(state: Boolean)
     suspend fun getShowOnBoardingState(): Boolean
-    suspend fun setNotificationTime(start: String, end: String)
+    suspend fun setNotificationTime(start: Int, end: Int)
     suspend fun setNotificationOnOff(state: Boolean)
 
     // Plan
     suspend fun getPlanList(): List<SimplePlanData>
     suspend fun getPlanDataById(planId: Long): PlanData
-    suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long> = emptyList())
+    suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long> = emptyList()): Long
     suspend fun deletePlanData(planData: PlanData)
     suspend fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
     suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
@@ -42,4 +43,6 @@ interface ContactRepository {
 
     // Password
     suspend fun savePassword(password: String)
+    suspend fun getPassword(): String
+    suspend fun removePassword()
 }

@@ -5,12 +5,14 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.ivyclub.contact.R
@@ -40,6 +42,7 @@ class FriendDetailFragment :
 
     private fun loadFriendDetail(id: Long) {
         viewModel.loadFriendData(id)
+        viewModel.loadProfileImage(id)?.let { binding.ivProfileImage.setImageBitmap(it) }
     }
 
     private fun setObserver() {
@@ -71,6 +74,16 @@ class FriendDetailFragment :
                         args.friendId
                     )
                 )
+            }
+            ivProfileImage.setOnClickListener {
+                val extras = FragmentNavigatorExtras(
+                    ivProfileImage to "secondTransitionName")
+                val bundle = Bundle()
+                bundle.putLong("friendId",args.friendId)
+                findNavController().navigate(R.id.action_friendDetailFragment_to_imageDetailFragment,
+                    bundle, // Bundle of args
+                    null, // NavOptions
+                    extras)
             }
         }
     }

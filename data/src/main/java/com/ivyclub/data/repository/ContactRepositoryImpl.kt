@@ -38,7 +38,7 @@ class ContactRepositoryImpl @Inject constructor(
         myPreference.getShowOnBoardingState()
     }
 
-    override suspend fun setNotificationTime(start: String, end: String) =
+    override suspend fun setNotificationTime(start: Int, end: Int) =
         withContext(ioDispatcher) {
             myPreference.setNotificationTime(NOTIFICATION_START, start)
             myPreference.setNotificationTime(NOTIFICATION_END, end)
@@ -56,7 +56,7 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.getPlanDetailsById(planId)
     }
 
-    override suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long>) =
+    override suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long>): Long =
         withContext(ioDispatcher) {
             val planId = contactDAO.insertPlanData(planData)
 
@@ -73,6 +73,8 @@ class ContactRepositoryImpl @Inject constructor(
                 planSet.add(planId)
                 contactDAO.updateFriendsPlanList(friendId, planSet.toList())
             }
+
+            planId
         }
 
     override suspend fun deletePlanData(planData: PlanData) = withContext(ioDispatcher) {
@@ -89,9 +91,10 @@ class ContactRepositoryImpl @Inject constructor(
             contactDAO.getSimpleFriendDataListByGroup(groupName)
         }
 
-    override suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData = withContext(ioDispatcher) {
-        contactDAO.getSimpleFriendDataById(friendId)
-    }
+    override suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData =
+        withContext(ioDispatcher) {
+            contactDAO.getSimpleFriendDataById(friendId)
+        }
 
     override suspend fun getSimpleFriendData(): List<SimpleFriendData> = withContext(ioDispatcher) {
         contactDAO.getSimpleFriendData()
@@ -113,18 +116,28 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.getFriendDataById(id)
     }
 
-    override suspend fun getPlansByIds(planIds: List<Long>): List<PlanData> = withContext(ioDispatcher) {
-        contactDAO.getPlansByIds(planIds)
-    }
-
-    override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String) = withContext(ioDispatcher) {
-        targetFriend.forEach {
-            contactDAO.updateFriendGroup(it, targetGroup)
+    override suspend fun getPlansByIds(planIds: List<Long>): List<PlanData> =
+        withContext(ioDispatcher) {
+            contactDAO.getPlansByIds(planIds)
         }
-    }
+
+    override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String) =
+        withContext(ioDispatcher) {
+            targetFriend.forEach {
+                contactDAO.updateFriendGroup(it, targetGroup)
+            }
+        }
 
     override suspend fun savePassword(password: String) = withContext(ioDispatcher) {
         myPreference.setPassword(password)
+    }
+
+    override suspend fun getPassword(): String = withContext(ioDispatcher) {
+        myPreference.getPassword()
+    }
+
+    override suspend fun removePassword() {
+        myPreference.removePassword()
     }
 
     override suspend fun updateFriend(
@@ -140,6 +153,10 @@ class ContactRepositoryImpl @Inject constructor(
 
     override fun loadFriendsWithFlow(): Flow<List<FriendData>> {
         return contactDAO.getFriendsWithFlow().flowOn(Dispatchers.IO).conflate()
+    }
+
+    override suspend fun getFavoriteFriends(): List<FriendData>  = withContext(ioDispatcher) {
+        contactDAO.getFavoriteFriend()
     }
 
     companion object {
