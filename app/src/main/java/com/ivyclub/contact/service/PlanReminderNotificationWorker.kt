@@ -136,12 +136,14 @@ class PlanReminderNotificationWorker @AssistedInject constructor(
 
             val nightDelay =
                 getDelayFromNow(planTime.getNewTime(nightHour, 0).time, MINUTE_IN_MILLIS * 10)
-            addAlarmTask(
-                planId.toString(), workManager, nightDelay, workDataOf(
-                    DATA_PARTICIPANTS to participants.toTypedArray(),
-                    NOTI_TYPE to NotificationType.NIGHT.value
+            if (nightDelay > delay) {
+                addAlarmTask(
+                    planId.toString(), workManager, nightDelay, workDataOf(
+                        DATA_PARTICIPANTS to participants.toTypedArray(),
+                        NOTI_TYPE to NotificationType.NIGHT.value
+                    )
                 )
-            )
+            }
         }
 
         fun cancelPlanAlarms(planId: Long, workManager: WorkManager) {
