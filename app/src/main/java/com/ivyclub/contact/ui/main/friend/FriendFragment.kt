@@ -1,11 +1,8 @@
 package com.ivyclub.contact.ui.main.friend
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
@@ -181,7 +178,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             val result = bundle.getString("bundleKey")
             viewModel.updateFriendsGroup(result) // 뷰모델에서 클릭 된 아이템 처리 해제
             friendListAdapter.clearLongClickedItemCount() // 리스트 어댑터에서 클릭 된 아이템 처리 해제
-            binding.rvFriendList.adapter = friendListAdapter
         }
     }
 
