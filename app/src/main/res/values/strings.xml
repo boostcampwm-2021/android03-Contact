@@ -98,4 +98,5 @@
     <string name="biometric_prompt_description">지문으로 인증해 주세요.</string>
     <string name="biometric_prompt_cancel">취소</string>
     <string name="biometric_auth_error">지문 인증이 취소되었습니다.</string>
+    <string name="settings_security">보안</string>
 </resources>
