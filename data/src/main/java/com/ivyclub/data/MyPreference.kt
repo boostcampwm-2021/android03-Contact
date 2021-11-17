@@ -47,6 +47,14 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context) {
         prefs.edit().putString(PASSWORD, password).apply()
     }
 
+    fun getPassword(): String {
+        return prefs.getString(PASSWORD, null) ?: ""
+    }
+
+    fun removePassword() {
+        prefs.edit().remove(PASSWORD).apply()
+    }
+
     companion object {
         const val FIRST_ON_BOARDING = "FIRST_ON_BOARDING"
         const val NOTIFICATION_ON_OFF = "NOTIFICATION_ON_OFF"
