@@ -104,6 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:clickable="false"
+            android:checked="@{viewModel.fingerPrint}"
             android:visibility="@{viewModel.password.isEmpty() ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/btn_finger_print"
             app:layout_constraintEnd_toEndOf="@id/btn_finger_print"

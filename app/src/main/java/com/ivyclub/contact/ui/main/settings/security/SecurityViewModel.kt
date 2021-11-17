@@ -14,7 +14,11 @@ import javax.inject.Inject
 class SecurityViewModel @Inject constructor(private val repository: ContactRepository) : ViewModel() {
 
     private var lock = true
-    val password = MutableLiveData<String>() // 데이터바인딩
+
+    // 데이터바인딩
+    val password = MutableLiveData<String>()
+    val fingerPrint = MutableLiveData<Boolean>()
+
     private val _moveToSetPassword = SingleLiveEvent<Unit>()
     val moveToSetPassword: LiveData<Unit> get() = _moveToSetPassword
     private val _moveToConfirmPassword = SingleLiveEvent<String>()
@@ -23,6 +27,7 @@ class SecurityViewModel @Inject constructor(private val repository: ContactRepos
     fun initSecurityState() {
         viewModelScope.launch {
             password.value = repository.getPassword()
+            fingerPrint.value = repository.getFingerPrintState()
             if ((password.value?.isNotEmpty() == true) && lock) {
                 _moveToConfirmPassword.value = password.value
                 unlock()
@@ -53,5 +58,17 @@ class SecurityViewModel @Inject constructor(private val repository: ContactRepos
 
     private fun unlock() {
         lock = false
+    }
+
+    fun setFingerPrint() {
+        viewModelScope.launch {
+            if (fingerPrint.value == true) {
+                fingerPrint.value = false
+                repository.setFingerPrintState(false)
+            } else {
+                fingerPrint.value = true
+                repository.setFingerPrintState(true)
+            }
+        }
     }
 }

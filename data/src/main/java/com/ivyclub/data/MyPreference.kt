@@ -55,11 +55,20 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context) {
         prefs.edit().remove(PASSWORD).apply()
     }
 
+    fun setFingerPrintState(state: Boolean) {
+        prefs.edit().putBoolean(FINGER_PRINT, state).apply()
+    }
+
+    fun getFingerPrintState(): Boolean {
+        return prefs.getBoolean(FINGER_PRINT, false)
+    }
+
     companion object {
         const val FIRST_ON_BOARDING = "FIRST_ON_BOARDING"
         const val NOTIFICATION_ON_OFF = "NOTIFICATION_ON_OFF"
         const val NOTIFICATION_START = "NOTIFICATION_START"
         const val NOTIFICATION_END = "NOTIFICATION_END"
         const val PASSWORD = "password"
+        const val FINGER_PRINT = "FINGER_PRINT"
     }
 }
