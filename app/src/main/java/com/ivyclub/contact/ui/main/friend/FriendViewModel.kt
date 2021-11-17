@@ -55,7 +55,7 @@ class FriendViewModel @Inject constructor(
                 val undefinedFriendList = loadedPersonData.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
                 sortedFriendList.addAll(loadedFavoriteFriends + definedFriendList + undefinedFriendList)
                 val newFriendList =
-                    sortedFriendList.addGroupView() // 즐겨찾기 구현할 때 사용 -> .addFavoriteGroup()
+                    sortedFriendList.addGroupView()
                 _friendList.postValue(newFriendList)
                 orderedEntireFriendList = newFriendList
                 originEntireFriendList = loadedPersonData + loadedFavoriteFriends
