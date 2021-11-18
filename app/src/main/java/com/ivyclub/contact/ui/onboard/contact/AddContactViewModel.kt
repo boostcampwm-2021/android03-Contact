@@ -18,7 +18,6 @@ class AddContactViewModel @Inject constructor(
     private val contactListManager: ContactListManager
 ) : ViewModel() {
 
-    // one-shot event로 추후 개선이 필요
     private val _isSavingDone = MutableStateFlow(false)
     val isSavingDone = _isSavingDone.asStateFlow()
 
@@ -43,5 +42,10 @@ class AddContactViewModel @Inject constructor(
 
     fun getContactList(): MutableList<PhoneContactData> {
         return contactListManager.getContact()
+    }
+
+    sealed class ContactSavingUiState {
+        data class SavingDone(val isDone: Boolean) : ContactSavingUiState()
+        data class Error(val exception: Throwable) : ContactSavingUiState()
     }
 }

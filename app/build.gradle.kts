@@ -54,6 +54,7 @@ dependencies {
     implementation(Dep.AndroidX.support)
     implementation(Dep.AndroidX.roomRuntime)
     implementation(Dep.AndroidX.liveDataKtx)
+    implementation(Dep.AndroidX.lifecycleRuntimeKtx)
     implementation(Dep.Libs.glide)
     implementation(Dep.Libs.gson)
     implementation(Dep.Libs.flexboxLayout)
