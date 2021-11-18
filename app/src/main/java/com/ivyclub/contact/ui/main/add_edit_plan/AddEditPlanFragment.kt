@@ -98,6 +98,7 @@ class AddEditPlanFragment :
 
     private fun showSavePlanDialog() {
         context?.showAlertDialog(getString(R.string.ask_save_plan), {
+            WidgetProvider.sendRefreshBroadcast(context!!)
             viewModel.savePlan()
         })
     }
