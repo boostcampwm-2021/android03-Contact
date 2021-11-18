@@ -53,17 +53,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onResume() {
         super.onResume()
         viewModel.checkPasswordOnResume()
+        checkFromNotification()
+    }
+
+    private fun checkFromNotification() {
         val fromNotification = intent.getBooleanExtra(NOTIFICATION, false)
         val planId = intent.getLongExtra(NOTI_PLAN_ID, -1L)
         if (fromNotification) {
             when (planId) {
                 -1L -> binding.bnvMain.selectedItemId = R.id.navigation_plan
                 else -> {
-                    navController.navigate(
-                        FriendFragmentDirections.actionNavigationFriendToPlanDetailsFragment(
-                            planId
+                    if (navController.currentDestination?.id == R.id.navigation_friend) {
+                        navController.navigate(
+                            FriendFragmentDirections.actionNavigationFriendToPlanDetailsFragment(
+                                planId
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
@@ -102,6 +108,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
                     viewModel.unlock()
+                    //checkFromNotification()
                 }
             }
     }
