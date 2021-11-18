@@ -49,7 +49,7 @@ class ContactRepositoryImpl @Inject constructor(
     }
 
     override fun loadPlanListWithFlow(): Flow<List<SimplePlanData>> =
-        contactDAO.getPlanListWithFlow().flowOn(Dispatchers.IO).conflate()
+        contactDAO.getPlanListWithFlow().flowOn(ioDispatcher).conflate()
 
     override suspend fun getPlanDataById(planId: Long): PlanData = withContext(ioDispatcher) {
         contactDAO.getPlanDetailsById(planId)
@@ -163,7 +163,7 @@ class ContactRepositoryImpl @Inject constructor(
     }
 
     override fun loadFriendsWithFlow(): Flow<List<FriendData>> {
-        return contactDAO.getFriendsWithFlow().flowOn(Dispatchers.IO).conflate()
+        return contactDAO.getFriendsWithFlow().flowOn(ioDispatcher).conflate()
     }
 
     override suspend fun getFavoriteFriends(): List<FriendData>  = withContext(ioDispatcher) {

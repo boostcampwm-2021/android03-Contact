@@ -7,12 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import com.ivyclub.contact.R
-import com.ivyclub.data.ContactRepository
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import javax.inject.Inject
+import java.sql.Date
 
 
 class WidgetProvider : AppWidgetProvider() {
@@ -27,9 +22,12 @@ class WidgetProvider : AppWidgetProvider() {
             val serviceIntent = Intent(context, MyRemoteViewsService::class.java)
             val widget = RemoteViews(context.packageName, R.layout.widget)
             widget.setRemoteAdapter(R.id.lv_widget_plan_list, serviceIntent)
+
+            val currentMonth = Date(System.currentTimeMillis()).getExactMonth()
+            widget.setTextViewText(R.id.tv_widget, String.format(context.getString(R.string.format_widget_plan), currentMonth))
+
             appWidgetManager.updateAppWidget(it, widget)
         }
-
     }
 
     override fun onReceive(context: Context, intent: Intent) {
