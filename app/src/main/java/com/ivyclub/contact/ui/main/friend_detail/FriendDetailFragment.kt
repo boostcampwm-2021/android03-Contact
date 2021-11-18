@@ -43,6 +43,7 @@ class FriendDetailFragment :
     private fun loadFriendDetail(id: Long) {
         viewModel.loadFriendData(id)
         viewModel.loadProfileImage(id)?.let { binding.ivProfileImage.setImageBitmap(it) }
+        binding.ivProfileImage.clipToOutline = true
     }
 
     private fun setObserver() {
