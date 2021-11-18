@@ -48,9 +48,8 @@ class ContactRepositoryImpl @Inject constructor(
         myPreference.setNotificationOnOff(state)
     }
 
-    override suspend fun getPlanList(): List<SimplePlanData> = withContext(ioDispatcher) {
-        contactDAO.getPlanList()
-    }
+    override fun loadPlanListWithFlow(): Flow<List<SimplePlanData>> =
+        contactDAO.getPlanListWithFlow().flowOn(Dispatchers.IO).conflate()
 
     override suspend fun getPlanDataById(planId: Long): PlanData = withContext(ioDispatcher) {
         contactDAO.getPlanDetailsById(planId)
@@ -121,6 +120,10 @@ class ContactRepositoryImpl @Inject constructor(
             contactDAO.getPlansByIds(planIds)
         }
 
+    override fun getStartAlarmHour() = myPreference.getNotificationTime(NOTIFICATION_START)
+
+    override fun getEndAlarmHour() = myPreference.getNotificationTime(NOTIFICATION_END)
+
     override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String) =
         withContext(ioDispatcher) {
             targetFriend.forEach {
@@ -138,6 +141,14 @@ class ContactRepositoryImpl @Inject constructor(
 
     override suspend fun removePassword() {
         myPreference.removePassword()
+    }
+
+    override suspend fun setFingerPrintState(state: Boolean) = withContext(ioDispatcher) {
+        myPreference.setFingerPrintState(state)
+    }
+
+    override suspend fun getFingerPrintState(): Boolean = withContext(ioDispatcher) {
+        myPreference.getFingerPrintState()
     }
 
     override suspend fun updateFriend(

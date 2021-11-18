@@ -15,18 +15,12 @@ object PlanReminderNotification {
     private const val CHANNEL_NAME = "contact plans"
     const val NOTIFICATION = "notification"
     const val NOTI_PLAN_ID = "noti_plan_id"
-    const val NOTI_REQUEST_CODE = 100
 
     private var notificationManager: NotificationManager? = null
 
-    fun makeNotification(context: Context, planId: Long, text: String) {
+    fun makePlanNotification(context: Context, title: String, text: String, planId: Long = -1L) {
 
-        if (notificationManager == null) {
-            notificationManager = context.getSystemService(
-                Context.NOTIFICATION_SERVICE
-            ) as NotificationManager
-        }
-
+        checkNotificationManager(context)
         createNotificationChannel()
 
         val intent = Intent(context, MainActivity::class.java).apply {
@@ -34,9 +28,10 @@ object PlanReminderNotification {
             putExtra(NOTI_PLAN_ID, planId)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
+
         val pendingIntent = PendingIntent.getActivity(
             context,
-            NOTI_REQUEST_CODE,
+            planId.toInt(),
             intent,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -47,18 +42,29 @@ object PlanReminderNotification {
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.mipmap.ic_launcher_round)
-            .setContentTitle(context.getString(R.string.plan_reminder_notification_title))
+            .setContentTitle(title)
             .setContentText(text)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
             .build()
 
-        notificationManager?.notify(0, notification)
+        notificationManager?.notify(planId.toInt(), notification)
+    }
+
+    private fun checkNotificationManager(context: Context) {
+        if (notificationManager == null) {
+            notificationManager = context.getSystemService(
+                Context.NOTIFICATION_SERVICE
+            ) as NotificationManager
+        }
     }
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            if (notificationManager?.getNotificationChannel(CHANNEL_ID) != null) return
+
             val notiChannel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,

@@ -27,7 +27,7 @@ interface ContactRepository {
     suspend fun setNotificationOnOff(state: Boolean)
 
     // Plan
-    suspend fun getPlanList(): List<SimplePlanData>
+    fun loadPlanListWithFlow(): Flow<List<SimplePlanData>>
     suspend fun getPlanDataById(planId: Long): PlanData
     suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long> = emptyList()): Long
     suspend fun deletePlanData(planData: PlanData)
@@ -35,6 +35,8 @@ interface ContactRepository {
     suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
     suspend fun getSimpleFriendData(): List<SimpleFriendData>
     suspend fun getPlansByIds(planIds: List<Long>): List<PlanData>
+    fun getStartAlarmHour(): Int
+    fun getEndAlarmHour(): Int
 
     // Group
     suspend fun loadGroups(): List<GroupData>
@@ -45,4 +47,8 @@ interface ContactRepository {
     suspend fun savePassword(password: String)
     suspend fun getPassword(): String
     suspend fun removePassword()
+
+    // Finger print
+    suspend fun setFingerPrintState(state: Boolean)
+    suspend fun getFingerPrintState(): Boolean
 }

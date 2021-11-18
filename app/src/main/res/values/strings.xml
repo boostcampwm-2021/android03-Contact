@@ -63,6 +63,10 @@
     <string name="ask_save_plan">해당 일정을 저장하시겠습니까?</string>
     <string name="alert_plan_empty">추가한 일정이 없습니다!\n새로운 일정을 추가하려면 상단의 추가 버튼을 탭해주세요</string>
     <string name="plan_reminder_notification_title">잊지 않으셨죠?</string>
+    <string name="plan_morning_notification_title">좋은 아침입니다!</string>
+    <string name="plan_morning_notification_content">하루를 시작하기에 앞서 오늘 일정들을 확인하세요!</string>
+    <string name="plan_night_notification_title">오늘 하루 고생하셨습니다!</string>
+    <string name="format_after_plan">오늘 %s과 함께한 시간은 어떠셨나요?</string>
     <string name="format_plan_reminder_notification_with_friends">약 1시간 뒤 %s과의 약속이 예정되어있습니다!</string>
     <string name="format_plan_reminder_notification_solo">약 1시간 뒤 %s 일정이 예정되어있습니다!</string>
     <string name="format_friend_title">%s님</string>
@@ -92,4 +96,13 @@
     <string name="group_name_validation_wrong_duplicate">이미 존재하는 그룹 이름입니다.</string>
     <string name="empty_string" />
     <string name="widget_plan">다가오는 약속</string>
+    <string name="password_retry_message">비밀번호가 일치하지 않습니다.\n다시 시도해주세요.</string>
+    <string name="biometric_error_hw_unavailable">지문인식을 지원하지 않는 기기입니다.</string>
+    <string name="biometric_error_none_enrolled">기기에 등록된 지문이 없습니다.\n지문 등록 후 이용해주세요.</string>
+    <string name="biometric_prompt_title">지문 인증</string>
+    <string name="biometric_prompt_description">지문으로 인증해 주세요.</string>
+    <string name="biometric_prompt_cancel">취소</string>
+    <string name="biometric_auth_error">지문 인증이 취소되었습니다.</string>
+    <string name="settings_security">보안</string>
+    <string name="fragment_dialog_get_contacts_loading_please_wait">잠시만 기다려주세요.</string>
 </resources>

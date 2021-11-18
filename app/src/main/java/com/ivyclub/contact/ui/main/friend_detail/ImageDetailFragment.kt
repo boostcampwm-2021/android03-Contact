@@ -5,6 +5,7 @@ import android.transition.ChangeBounds
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentImageDetailBinding
@@ -36,6 +37,9 @@ class ImageDetailFragment :
         }
         sharedElementReturnTransition = ChangeBounds().apply {
             duration = 300
+        }
+        binding.clImage.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 }

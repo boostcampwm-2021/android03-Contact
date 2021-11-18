@@ -16,7 +16,7 @@ interface ContactDAO {
     suspend fun insertFriendData(friendData: FriendData)
 
     @Query("SELECT id, title, date, participant FROM PlanData ORDER BY date ASC")
-    suspend fun getPlanList(): List<SimplePlanData>
+    fun getPlanListWithFlow(): Flow<List<SimplePlanData>>
 
     @Query("SELECT * FROM PlanData WHERE id = :planId")
     suspend fun getPlanDetailsById(planId: Long): PlanData
