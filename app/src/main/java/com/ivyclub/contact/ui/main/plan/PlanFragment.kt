@@ -33,8 +33,6 @@ class PlanFragment : BaseFragment<FragmentPlanBinding>(R.layout.fragment_plan) {
         initToolbarButtons()
         initRecyclerView()
         observePlanListItems()
-
-        viewModel.getMyPlans()
     }
 
     private fun initToolbarButtons() {

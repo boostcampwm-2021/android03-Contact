@@ -44,6 +44,7 @@ object Dep {
         const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
         const val workRuntime = "androidx.work:work-runtime-ktx:${Versions.work}"
         const val hiltWork = "androidx.hilt:hilt-work:${Versions.hiltWork}"
+        const val biometric = "androidx.biometric:biometric:1.0.1"
     }
 
     object Test {

@@ -8,6 +8,8 @@ import com.ivyclub.contact.ui.plan_list.PlanListItemViewModel
 import com.ivyclub.data.ContactRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,32 +24,33 @@ class PlanViewModel @Inject constructor(
     private val friendMap = mutableMapOf<Long, String>()
 
     private val loadFriendsJob: Job = viewModelScope.launch {
-        val myFriends = repository.getSimpleFriendData()
-        myFriends?.forEach {
+        repository.getSimpleFriendData()?.forEach {
             friendMap[it.id] = it.name
         }
     }
 
-    fun getMyPlans() {
+    init { getMyPlans() }
+
+    private fun getMyPlans() {
         viewModelScope.launch {
             loadFriendsJob.join()
 
-            val myPlanList = repository.getPlanList()
-            val planItems = mutableListOf<PlanListItemViewModel>()
-
-            myPlanList?.forEach { planData ->
-                val friends = mutableListOf<String>()
-                planData.participant.forEach { friendId ->
-                    friendMap[friendId]?.let { friendName ->
-                        friends.add(friendName)
+            repository.loadPlanListWithFlow().buffer().collect { newPlanList ->
+                val planItems = mutableListOf<PlanListItemViewModel>()
+                newPlanList.forEach { planData ->
+                    val friends = mutableListOf<String>()
+                    planData.participant.forEach { friendId ->
+                        friendMap[friendId]?.let { friendName ->
+                            friends.add(friendName)
+                        }
                     }
+                    planItems.add(
+                        PlanListItemViewModel(planData, friends)
+                    )
                 }
-                planItems.add(
-                    PlanListItemViewModel(planData, friends)
-                )
-            }
 
-            _planListItems.value = planItems
+                _planListItems.value = planItems
+            }
         }
     }
 }
