@@ -62,7 +62,6 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:drawablePadding="20dp"
-            android:onClick="@{()->viewModel.setAlarmActivation()}"
             android:padding="12dp"
             android:text="@string/fragment_settings_active_notification"
             android:textColor="@color/black"

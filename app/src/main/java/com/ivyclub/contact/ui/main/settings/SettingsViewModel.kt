@@ -1,5 +1,6 @@
 package com.ivyclub.contact.ui.main.settings
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.ivyclub.data.MyPreference
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,11 +15,6 @@ class SettingsViewModel @Inject constructor(
 
     init {
         checkAlarmActivation()
-    }
-
-    fun setAlarmActivation() {
-        isAlarmActive.value = !isAlarmActive.value
-        preference.setNotificationOnOff(isAlarmActive.value)
     }
 
     fun setAlarmActivationOfSwitch() {
