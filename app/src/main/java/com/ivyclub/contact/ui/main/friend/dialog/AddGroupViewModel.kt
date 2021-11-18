@@ -45,6 +45,10 @@ class AddGroupViewModel @Inject constructor(private val repository: ContactRepos
                 _groupNameValidation.value = R.string.group_name_validation_wrong_empty
                 setAddGroupButtonActive(false)
             }
+            10 < text.length -> {
+                _groupNameValidation.value = R.string.group_name_validation_wrong_too_long
+                setAddGroupButtonActive(false)
+            }
             text in groups -> {
                 _groupNameValidation.value = R.string.group_name_validation_wrong_duplicate
                 setAddGroupButtonActive(false)
