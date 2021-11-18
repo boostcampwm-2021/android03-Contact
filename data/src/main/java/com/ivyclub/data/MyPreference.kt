@@ -21,7 +21,7 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context) {
         prefs.getBoolean(NOTIFICATION_ON_OFF, false)
 
     fun setNotificationTime(startOrEnd: String, time: Int) {
-        prefs.edit().putInt(startOrEnd,time).apply()
+        prefs.edit().putInt(startOrEnd, time).apply()
     }
 
     fun getNotificationTime(startOrEnd: String) =
