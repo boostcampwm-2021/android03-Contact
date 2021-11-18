@@ -1,12 +1,14 @@
-package com.ivyclub.contact.util
+package com.ivyclub.contact.service
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.widget.RemoteViews
 import com.ivyclub.contact.R
+import com.ivyclub.contact.util.getExactMonth
 import java.sql.Date
 
 
@@ -19,14 +21,18 @@ class WidgetProvider : AppWidgetProvider() {
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         appWidgetIds?.forEach {
-            val serviceIntent = Intent(context, MyRemoteViewsService::class.java)
+            val serviceIntent = Intent(context, ContactRemoteViewsService::class.java)
             val widget = RemoteViews(context.packageName, R.layout.widget)
             widget.setRemoteAdapter(R.id.lv_widget_plan_list, serviceIntent)
 
             val currentMonth = Date(System.currentTimeMillis()).getExactMonth()
-            widget.setTextViewText(R.id.tv_widget, String.format(context.getString(R.string.format_widget_plan), currentMonth))
+            widget.setTextViewText(
+                R.id.tv_widget,
+                String.format(context.getString(R.string.format_widget_plan), currentMonth)
+            )
 
             appWidgetManager.updateAppWidget(it, widget)
+            println(it)
         }
     }
 

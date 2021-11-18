@@ -1,16 +1,20 @@
-package com.ivyclub.contact.util
+package com.ivyclub.contact.service
 
 import android.content.Context
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.ivyclub.contact.R
+import com.ivyclub.contact.util.getDayOfMonth
+import com.ivyclub.contact.util.getDayOfWeek
+import com.ivyclub.contact.util.getExactMonth
+import com.ivyclub.contact.util.getExactYear
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.SimplePlanData
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import java.sql.Date
 
-class MyRemoteViewsFactory(
+class ContactRemoteViewsFactory(
     private val context: Context,
     private val repository: ContactRepository
 ) : RemoteViewsService.RemoteViewsFactory {

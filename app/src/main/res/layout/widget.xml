@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ffffff">
+    android:background="@drawable/widget_background">
 
     <TextView
         android:id="@+id/tv_widget"
@@ -27,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#ffffff"
+        android:paddingBottom="4dp"
         />
 
 </LinearLayout>
