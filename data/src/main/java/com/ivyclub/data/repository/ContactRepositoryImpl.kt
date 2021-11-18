@@ -30,7 +30,7 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.insertFriendData(friendData)
     }
 
-    override suspend fun setShowOnBoardingState(state: Boolean) = withContext(ioDispatcher) {
+    override fun setShowOnBoardingState(state: Boolean) {
         myPreference.setShowOnBoardingState(state)
     }
 
