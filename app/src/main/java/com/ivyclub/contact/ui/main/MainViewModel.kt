@@ -57,7 +57,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun checkPasswordOnStart() {
+    fun checkPasswordOnResume() {
         if (lock) {
             _moveToConfirmPassword.call()
         }

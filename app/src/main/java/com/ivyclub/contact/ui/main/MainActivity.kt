@@ -14,7 +14,6 @@ import com.ivyclub.contact.databinding.ActivityMainBinding
 import com.ivyclub.contact.service.PlanReminderNotification.NOTIFICATION
 import com.ivyclub.contact.service.PlanReminderNotification.NOTI_PLAN_ID
 import com.ivyclub.contact.ui.main.friend.FriendFragment
-import com.ivyclub.contact.ui.main.settings.security.PasswordFragmentDirections
 import com.ivyclub.contact.ui.main.friend.FriendFragmentDirections
 import com.ivyclub.contact.ui.onboard.OnBoardingActivity
 import com.ivyclub.contact.ui.password.PasswordActivity
@@ -51,7 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onResume() {
         super.onResume()
-        viewModel.checkPasswordOnStart()
+        viewModel.checkPasswordOnResume()
         val fromNotification = intent.getBooleanExtra(NOTIFICATION, false)
         val planId = intent.getLongExtra(NOTI_PLAN_ID, -1L)
         if (fromNotification && planId != -1L) {
