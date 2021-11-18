@@ -6,10 +6,8 @@ import android.widget.RemoteViewsService
 import com.ivyclub.contact.R
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.SimplePlanData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.sql.Date
 
 class MyRemoteViewsFactory(
@@ -19,11 +17,10 @@ class MyRemoteViewsFactory(
 
     private var data = emptyList<SimplePlanData>()
 
-    init {
-        CoroutineScope(Dispatchers.IO).launch {
+    private val refreshingJob: Job =
+        CoroutineScope(Dispatchers.IO).launch(start = CoroutineStart.LAZY) {
             getPlanListForWidget()
         }
-    }
 
     private suspend fun getPlanListForWidget() {
         val current = Date(System.currentTimeMillis())
@@ -44,9 +41,7 @@ class MyRemoteViewsFactory(
     override fun onCreate() {}
 
     override fun onDataSetChanged() {
-        CoroutineScope(Dispatchers.IO).launch {
-            getPlanListForWidget()
-        }
+        if (!refreshingJob.isActive) refreshingJob.start()
     }
 
     override fun onDestroy() {}
