@@ -10,9 +10,9 @@
     <application
         android:name=".MainApplication"
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_contact_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_contact_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Contact">
         <activity
@@ -20,7 +20,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.onboard.OnBoardingActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true">
