@@ -3,12 +3,11 @@ package com.ivyclub.contact.util
 import android.content.Context
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import com.ivyclub.data.model.SimplePlanData
 import com.ivyclub.contact.R
 import com.ivyclub.data.ContactRepository
+import com.ivyclub.data.model.SimplePlanData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.sql.Date
@@ -18,7 +17,7 @@ class MyRemoteViewsFactory(
     private val repository: ContactRepository
 ) : RemoteViewsService.RemoteViewsFactory {
 
-    private val data = mutableListOf<SimplePlanData>()
+    private var data = emptyList<SimplePlanData>()
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
@@ -29,12 +28,16 @@ class MyRemoteViewsFactory(
     private suspend fun getPlanListForWidget() {
         val current = Date(System.currentTimeMillis())
 
-        repository.loadPlanListWithFlow().buffer().collect { newPlanList ->
-            data.clear()
-            data.addAll(newPlanList.filter {
+        repository.loadPlanListWithFlow().collect { newPlanList ->
+            val tmpList = newPlanList.filter {
                 it.date.getExactYear() == current.getExactYear() &&
-                    it.date.getExactMonth() == current.getExactMonth()
-            })
+                        it.date.getExactMonth() == current.getExactMonth()
+            }
+
+            if (data != tmpList) {
+                data = tmpList
+                WidgetProvider.sendRefreshBroadcast(context)
+            }
         }
     }
 

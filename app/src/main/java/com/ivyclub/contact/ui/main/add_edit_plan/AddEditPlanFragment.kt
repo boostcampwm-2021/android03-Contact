@@ -4,7 +4,6 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -98,7 +97,6 @@ class AddEditPlanFragment :
 
     private fun showSavePlanDialog() {
         context?.showAlertDialog(getString(R.string.ask_save_plan), {
-            WidgetProvider.sendRefreshBroadcast(context!!)
             viewModel.savePlan()
         })
     }
