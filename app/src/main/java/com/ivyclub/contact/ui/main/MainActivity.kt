@@ -108,7 +108,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
                     viewModel.unlock()
-                    //checkFromNotification()
                 }
             }
     }
