@@ -1,4 +1,4 @@
-package com.ivyclub.contact.util
+package com.ivyclub.contact.service
 
 import android.content.Intent
 import android.widget.RemoteViewsService
@@ -7,11 +7,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MyRemoteViewsService : RemoteViewsService() {
+class ContactRemoteViewsService : RemoteViewsService() {
     @Inject
     lateinit var repository: ContactRepository
 
     override fun onGetViewFactory(intent: Intent?): RemoteViewsFactory {
-        return MyRemoteViewsFactory(this.applicationContext, repository)
+        return ContactRemoteViewsFactory(this.applicationContext, repository)
     }
 }
