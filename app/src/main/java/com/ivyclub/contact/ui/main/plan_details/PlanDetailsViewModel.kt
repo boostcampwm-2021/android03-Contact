@@ -50,7 +50,7 @@ class PlanDetailsViewModel @Inject constructor(
 
         viewModelScope.launch {
             repository.deletePlanData(planData)
-            PlanReminderNotificationWorker.cancelPlanAlarm(planData.id, workManager)
+            PlanReminderNotificationWorker.cancelPlanAlarms(planData.id, workManager)
             makeSnackbar(R.string.delete_plan_success)
             finish()
         }

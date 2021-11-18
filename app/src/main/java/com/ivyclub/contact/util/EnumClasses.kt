@@ -21,3 +21,7 @@ enum class FriendListViewType {
 enum class PasswordViewType {
     SET_PASSWORD, RECONFIRM_PASSWORD, CONFIRM_PASSWORD
 }
+
+enum class NotificationType(val value: String) {
+    PLAN("PLAN"), MORNING("MORNING"), NIGHT("NIGHT")
+}
