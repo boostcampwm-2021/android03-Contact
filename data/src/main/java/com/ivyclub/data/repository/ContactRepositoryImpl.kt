@@ -144,6 +144,14 @@ class ContactRepositoryImpl @Inject constructor(
         myPreference.removePassword()
     }
 
+    override suspend fun setFingerPrintState(state: Boolean) = withContext(ioDispatcher) {
+        myPreference.setFingerPrintState(state)
+    }
+
+    override suspend fun getFingerPrintState(): Boolean = withContext(ioDispatcher) {
+        myPreference.getFingerPrintState()
+    }
+
     override suspend fun updateFriend(
         phoneNumber: String,
         name: String,

@@ -95,5 +95,13 @@
     <string name="group_name_validation_wrong_empty">한글자 이상 입력해주세요.</string>
     <string name="group_name_validation_wrong_duplicate">이미 존재하는 그룹 이름입니다.</string>
     <string name="empty_string" />
+    <string name="password_retry_message">비밀번호가 일치하지 않습니다.\n다시 시도해주세요.</string>
+    <string name="biometric_error_hw_unavailable">지문인식을 지원하지 않는 기기입니다.</string>
+    <string name="biometric_error_none_enrolled">기기에 등록된 지문이 없습니다.\n지문 등록 후 이용해주세요.</string>
+    <string name="biometric_prompt_title">지문 인증</string>
+    <string name="biometric_prompt_description">지문으로 인증해 주세요.</string>
+    <string name="biometric_prompt_cancel">취소</string>
+    <string name="biometric_auth_error">지문 인증이 취소되었습니다.</string>
+    <string name="settings_security">보안</string>
     <string name="fragment_dialog_get_contacts_loading_please_wait">잠시만 기다려주세요.</string>
 </resources>

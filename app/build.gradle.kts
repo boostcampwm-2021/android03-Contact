@@ -70,6 +70,7 @@ dependencies {
     implementation(Dep.AndroidX.workRuntime)
     implementation(Dep.AndroidX.hiltWork)
     kapt(Dep.Libs.hiltWorkCompiler)
+    implementation(Dep.AndroidX.biometric)
 
     implementation(project(":data"))
 }

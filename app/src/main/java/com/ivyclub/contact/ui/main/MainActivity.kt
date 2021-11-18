@@ -16,6 +16,7 @@ import com.ivyclub.contact.service.PlanReminderNotification.NOTI_PLAN_ID
 import com.ivyclub.contact.ui.main.friend.FriendFragment
 import com.ivyclub.contact.ui.main.friend.FriendFragmentDirections
 import com.ivyclub.contact.ui.onboard.OnBoardingActivity
+import com.ivyclub.contact.ui.password.PasswordActivity
 import com.ivyclub.contact.util.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var getOnBoardingResult: ActivityResultLauncher<Intent>
+    private lateinit var getOnPasswordResult: ActivityResultLauncher<Intent>
 
     private lateinit var navController: NavController
 
@@ -32,6 +34,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         setNavigation()
         viewModel.checkOnBoarding()
         setOnBoardingResult()
+        viewModel.checkPasswordOnCreate()
+        setOnPasswordResult()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.lock()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -41,7 +50,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onResume() {
         super.onResume()
-
+        viewModel.checkPasswordOnResume()
         val fromNotification = intent.getBooleanExtra(NOTIFICATION, false)
         val planId = intent.getLongExtra(NOTI_PLAN_ID, -1L)
         if (fromNotification) {
@@ -80,6 +89,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 getOnBoardingResult.launch(intent)
             }
         })
+        viewModel.moveToConfirmPassword.observe(this) {
+            val intent = Intent(this, PasswordActivity::class.java)
+            getOnPasswordResult.launch(intent)
+        }
+    }
+
+    private fun setOnPasswordResult() {
+        getOnPasswordResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    viewModel.unlock()
+                }
+            }
     }
 
     private fun setNavigation() {
