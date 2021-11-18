@@ -5,7 +5,9 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -110,5 +112,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
         navController = navHostFragment.navController
         navView.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener {_, destination, _ ->
+            when (destination.id) {
+                R.id.settingsFragment, R.id.securityFragment, R.id.passwordFragment -> {
+                    binding.bnvMain.isVisible = false
+                }
+                else -> binding.bnvMain.isVisible = true
+            }
+        }
     }
 }
