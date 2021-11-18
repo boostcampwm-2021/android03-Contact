@@ -52,8 +52,11 @@ class MainViewModel @Inject constructor(
     }
 
     fun lock() {
-        if (password.isNotEmpty()) {
-            lock = true
+        viewModelScope.launch {
+            password = repository.getPassword()
+            if (password.isNotEmpty()) {
+                lock = true
+            }
         }
     }
 
