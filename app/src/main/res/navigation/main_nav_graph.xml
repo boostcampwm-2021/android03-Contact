@@ -82,7 +82,11 @@
         android:id="@+id/settingsFragment"
         android:name="com.ivyclub.contact.ui.main.settings.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_securityFragment"
+            app:destination="@id/securityFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/friendDetailFragment"

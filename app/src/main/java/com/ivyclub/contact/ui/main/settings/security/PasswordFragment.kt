@@ -61,7 +61,7 @@ class PasswordFragment :
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             when (args.passwordViewType) {
                 PasswordViewType.SECURITY_CONFIRM_PASSWORD -> findNavController().popBackStack(
-                    R.id.navigation_friend,
+                    R.id.settingsFragment,
                     false
                 )
                 else -> findNavController().popBackStack()
