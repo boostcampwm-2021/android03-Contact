@@ -3,18 +3,15 @@ package com.ivyclub.contact.service
 import android.content.Context
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import com.ivyclub.data.model.SimplePlanData
 import com.ivyclub.contact.R
 import com.ivyclub.contact.util.getDayOfMonth
 import com.ivyclub.contact.util.getDayOfWeek
 import com.ivyclub.contact.util.getExactMonth
 import com.ivyclub.contact.util.getExactYear
 import com.ivyclub.data.ContactRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.buffer
+import com.ivyclub.data.model.SimplePlanData
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.sql.Date
 
 class ContactRemoteViewsFactory(
@@ -22,32 +19,33 @@ class ContactRemoteViewsFactory(
     private val repository: ContactRepository
 ) : RemoteViewsService.RemoteViewsFactory {
 
-    private val data = mutableListOf<SimplePlanData>()
+    private var data = emptyList<SimplePlanData>()
 
-    init {
-        CoroutineScope(Dispatchers.IO).launch {
+    private val refreshingJob: Job =
+        CoroutineScope(Dispatchers.IO).launch(start = CoroutineStart.LAZY) {
             getPlanListForWidget()
         }
-    }
 
     private suspend fun getPlanListForWidget() {
         val current = Date(System.currentTimeMillis())
 
-        repository.loadPlanListWithFlow().buffer().collect { newPlanList ->
-            data.clear()
-            data.addAll(newPlanList.filter {
+        repository.loadPlanListWithFlow().collect { newPlanList ->
+            val tmpList = newPlanList.filter {
                 it.date.getExactYear() == current.getExactYear() &&
-                    it.date.getExactMonth() == current.getExactMonth()
-            })
+                        it.date.getExactMonth() == current.getExactMonth()
+            }
+
+            if (data != tmpList) {
+                data = tmpList
+                WidgetProvider.sendRefreshBroadcast(context)
+            }
         }
     }
 
     override fun onCreate() {}
 
     override fun onDataSetChanged() {
-        CoroutineScope(Dispatchers.IO).launch {
-            getPlanListForWidget()
-        }
+        if (!refreshingJob.isActive) refreshingJob.start()
     }
 
     override fun onDestroy() {}

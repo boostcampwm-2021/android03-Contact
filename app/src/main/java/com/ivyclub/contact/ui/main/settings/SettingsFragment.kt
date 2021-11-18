@@ -46,7 +46,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
             Toast.makeText(requireContext(), "준비중입니다.", Toast.LENGTH_SHORT).show()
         }
         binding.tvSecurity.setOnClickListener {
-            Toast.makeText(requireContext(), "준비중입니다.", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_settingsFragment_to_securityFragment)
         }
     }
 }
