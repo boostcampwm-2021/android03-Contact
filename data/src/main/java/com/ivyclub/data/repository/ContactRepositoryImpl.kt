@@ -121,6 +121,10 @@ class ContactRepositoryImpl @Inject constructor(
             contactDAO.getPlansByIds(planIds)
         }
 
+    override fun getStartAlarmHour() = myPreference.getNotificationTime(NOTIFICATION_START)
+
+    override fun getEndAlarmHour() = myPreference.getNotificationTime(NOTIFICATION_END)
+
     override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String) =
         withContext(ioDispatcher) {
             targetFriend.forEach {

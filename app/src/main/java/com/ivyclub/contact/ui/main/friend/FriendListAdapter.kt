@@ -13,6 +13,7 @@ import com.ivyclub.contact.databinding.ItemGroupDividerBinding
 import com.ivyclub.contact.databinding.ItemGroupNameBinding
 import com.ivyclub.contact.model.FriendListData
 import com.ivyclub.contact.util.*
+import com.ivyclub.data.ImageManager
 
 class FriendListAdapter(
     private val onGroupClick: (String) -> Unit,
@@ -130,6 +131,10 @@ class FriendListAdapter(
         fun bind(friendItemData: FriendListData) {
             binding.root.setCustomBackgroundColor(if (friendItemData.isColored) R.color.blue_100 else R.color.white) // 배경색 변경
             binding.data = friendItemData
+            ImageManager.loadProfileImage(friendItemData.id)?.let {
+                binding.ivProfileImage.setImageBitmap(it)
+            } ?: binding.ivProfileImage.setImageResource(R.drawable.photo)
+            binding.ivProfileImage.clipToOutline = true
             this.currentItem = friendItemData
         }
 
