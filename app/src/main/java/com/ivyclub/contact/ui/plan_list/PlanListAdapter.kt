@@ -55,6 +55,12 @@ class PlanListAdapter(
         currentList: MutableList<PlanListItemViewModel>
     ) {
         super.onCurrentListChanged(previousList, currentList)
+        if (previousList.isNotEmpty() && currentList.isNotEmpty() &&
+                previousList[0].id != currentList[0].id &&
+                previousList[0].planYear == currentList[0].planYear &&
+                previousList[0].planMonth == currentList[0].planMonth) {
+            notifyItemRangeChanged(0, 2)
+        }
         scrollToRecentDateCallback.invoke()
     }
 
