@@ -21,7 +21,7 @@ interface ContactRepository {
     suspend fun getFavoriteFriends(): List<FriendData>
 
     // OnBoarding
-    suspend fun setShowOnBoardingState(state: Boolean)
+    fun setShowOnBoardingState(state: Boolean)
     suspend fun getShowOnBoardingState(): Boolean
     suspend fun setNotificationTime(start: Int, end: Int)
     suspend fun setNotificationOnOff(state: Boolean)
