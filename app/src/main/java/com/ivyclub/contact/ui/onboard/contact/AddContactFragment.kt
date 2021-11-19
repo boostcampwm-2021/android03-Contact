@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -23,7 +25,8 @@ import com.ivyclub.contact.ui.onboard.contact.dialog.DialogGetContactsLoadingFra
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.SkipDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.fragment_add_contact) {
@@ -33,6 +36,9 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     private val viewModel: AddContactViewModel by viewModels()
     private val navController by lazy { findNavController() }
     private val loadingDialog = DialogGetContactsLoadingFragment()
+    private val ok = DialogInterface.OnClickListener { _, _ ->
+        activity?.finish()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,11 +68,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             requestPermission()
         }
         btnCommit.setOnClickListener {
-            viewModel.saveFriendsData(contactAdapter.addSet.toMutableList())
-            loadingDialog.show(
-                childFragmentManager,
-                DialogGetContactsLoadingFragment.TAG
-            ) // 로딩 다이얼로그 보여주기
+            this@AddContactFragment.viewModel.saveFriendsData(contactAdapter.addSet.toMutableList())
         }
         btnCommit.isClickable = false
     }
@@ -83,7 +85,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             rvContactList.startAnimation(recyclerViewAnimation)
             btnLoad.isClickable = false
             btnLoad.text = "시작하기"
-            contactAdapter.submitList(viewModel.getContactList())
+            contactAdapter.submitList(this@AddContactFragment.viewModel.getContactList())
             btnCommit.isClickable = true
         }
     }
@@ -120,20 +122,29 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
         }
     }
 
-    private val ok = DialogInterface.OnClickListener { _, _ ->
-        activity?.finish()
-    }
-
     private fun observeSavingDone() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.isSavingDone.collectLatest { isDone ->
-                if (isDone) {
-                    loadingDialog.dismiss()
-                    val intent = Intent(context, MainActivity::class.java)
-                    activity?.setResult(RESULT_OK, intent)
-                    activity?.finish()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isSavingDone.collect { newState ->
+                    when (newState) {
+                        AddContactViewModel.ContactSavingUiState.Loading -> {
+                            loadingDialog.show(
+                                childFragmentManager,
+                                DialogGetContactsLoadingFragment.TAG
+                            )
+                        }
+                        AddContactViewModel.ContactSavingUiState.SavingDone -> {
+                            if (loadingDialog.isVisible) loadingDialog.dismiss()
+                            val intent = Intent(context, MainActivity::class.java)
+                            activity?.setResult(RESULT_OK, intent)
+                            activity?.finish()
+                        }
+                        AddContactViewModel.ContactSavingUiState.Empty -> {
+                        }
+                    }
                 }
             }
         }
     }
+
 }

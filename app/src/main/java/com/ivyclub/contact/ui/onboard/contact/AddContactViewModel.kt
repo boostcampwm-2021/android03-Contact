@@ -18,12 +18,15 @@ class AddContactViewModel @Inject constructor(
     private val contactListManager: ContactListManager
 ) : ViewModel() {
 
-    // one-shot event로 추후 개선이 필요
-    private val _isSavingDone = MutableStateFlow(false)
+    private val _isSavingDone = MutableStateFlow<ContactSavingUiState>(ContactSavingUiState.Empty)
     val isSavingDone = _isSavingDone.asStateFlow()
 
     fun saveFriendsData(data: List<PhoneContactData>) {
+        if (data.isEmpty()) {
+            _isSavingDone.value = ContactSavingUiState.SavingDone
+        }
         viewModelScope.launch {
+            _isSavingDone.value = ContactSavingUiState.Loading
             data.forEach {
                 repository.saveFriend(
                     FriendData(
@@ -37,11 +40,17 @@ class AddContactViewModel @Inject constructor(
                     )
                 )
             }
-            _isSavingDone.value = true
+            _isSavingDone.value = ContactSavingUiState.SavingDone
         }
     }
 
     fun getContactList(): MutableList<PhoneContactData> {
         return contactListManager.getContact()
+    }
+
+    sealed class ContactSavingUiState {
+        object Loading : ContactSavingUiState()
+        object SavingDone : ContactSavingUiState()
+        object Empty : ContactSavingUiState()
     }
 }

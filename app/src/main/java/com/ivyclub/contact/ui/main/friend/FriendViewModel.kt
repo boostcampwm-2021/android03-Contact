@@ -20,8 +20,9 @@ class FriendViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var searchInputString = ""
-    private lateinit var originEntireFriendList: List<FriendListData> // 다른 뷰홀더는 없고 친구들만 있는 데이터
-    private lateinit var orderedEntireFriendList: List<FriendListData> // 모든 뷰타입으로 정렬된 전체 친구 데이터
+    private var originEntireFriendList: List<FriendListData> = emptyList()// 다른 뷰홀더는 없고 친구들만 있는 데이터
+    private var orderedEntireFriendList: List<FriendListData> =
+        emptyList()// 모든 뷰타입으로 정렬된 전체 친구 데이터
 
     private val _isSearchViewVisible = MutableLiveData(false)
     val isSearchViewVisible: LiveData<Boolean> get() = _isSearchViewVisible
@@ -44,15 +45,18 @@ class FriendViewModel @Inject constructor(
             repository.loadFriendsWithFlow().buffer().collect { newLoadedPersonData ->
                 val loadedPersonData =
                     newLoadedPersonData.sortedBy { it.name }.toFriendListData()
-                val loadedFavoriteFriends = repository.getFavoriteFriends().toFriendListData().sortedBy { it.name }
-                loadedFavoriteFriends.forEach{
+                val loadedFavoriteFriends =
+                    repository.getFavoriteFriends().toFriendListData().sortedBy { it.name }
+                loadedFavoriteFriends.forEach {
                     it.groupName = "즐겨찾기"
                 }
                 if (loadedPersonData.isEmpty()) return@collect
                 val sortedFriendList = mutableListOf<FriendListData>()
-                val definedFriendList = loadedPersonData.groupBy { it.groupName }.toSortedMap().values.flatten()
+                val definedFriendList =
+                    loadedPersonData.groupBy { it.groupName }.toSortedMap().values.flatten()
                         .filterNot { it.groupName == "친구" }.toMutableList() // 그룹 지정이 된 친구 리스트
-                val undefinedFriendList = loadedPersonData.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
+                val undefinedFriendList =
+                    loadedPersonData.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
                 sortedFriendList.addAll(loadedFavoriteFriends + definedFriendList + undefinedFriendList)
                 val newFriendList =
                     sortedFriendList.addGroupView()
@@ -120,6 +124,10 @@ class FriendViewModel @Inject constructor(
     }
 
     fun getOrderedEntireFriendList() = orderedEntireFriendList
+
+    fun isFriendEmpty(): Boolean {
+        return _friendList.value.isNullOrEmpty()
+    }
 
     private fun initLongClickedId() {
         longClickedId.clear()

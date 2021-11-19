@@ -20,6 +20,7 @@ object Versions {
     const val flexbox = "3.0.0"
     const val work = "2.7.0"
     const val hiltWork = "1.0.0-alpha03"
+    const val lifeCycle = "2.4.0"
 }
 
 object Dep {
@@ -45,6 +46,7 @@ object Dep {
         const val workRuntime = "androidx.work:work-runtime-ktx:${Versions.work}"
         const val hiltWork = "androidx.hilt:hilt-work:${Versions.hiltWork}"
         const val biometric = "androidx.biometric:biometric:1.2.0-alpha04"
+        const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifeCycle}"
     }
 
     object Test {
