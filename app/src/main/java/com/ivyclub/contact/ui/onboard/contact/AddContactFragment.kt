@@ -25,9 +25,7 @@ import com.ivyclub.contact.ui.onboard.contact.dialog.DialogGetContactsLoadingFra
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.SkipDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -132,16 +130,26 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     private fun observeSavingDone() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isSavingDone.first { isDone ->
-                    if (isDone) {
+                viewModel.isSavingDone.first { newState ->
+                    if (newState == AddContactViewModel.ContactSavingUiState.SavingDone) {
                         loadingDialog.dismiss()
                         val intent = Intent(context, MainActivity::class.java)
                         activity?.setResult(RESULT_OK, intent)
                         activity?.finish()
                     }
-                    isDone
+                    true
                 }
             }
+//            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                viewModel.isSavingDone.collect { newState ->
+//                    if (newState == AddContactViewModel.ContactSavingUiState.SavingDone) {
+//                        loadingDialog.dismiss()
+//                        val intent = Intent(context, MainActivity::class.java)
+//                        activity?.setResult(RESULT_OK, intent)
+//                        activity?.finish()
+//                    }
+//                }
+//            }
         }
     }
 }

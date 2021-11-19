@@ -18,11 +18,12 @@ class AddContactViewModel @Inject constructor(
     private val contactListManager: ContactListManager
 ) : ViewModel() {
 
-    private val _isSavingDone = MutableStateFlow(false)
+    private val _isSavingDone = MutableStateFlow<ContactSavingUiState>(ContactSavingUiState.Empty)
     val isSavingDone = _isSavingDone.asStateFlow()
 
     fun saveFriendsData(data: List<PhoneContactData>) {
         viewModelScope.launch {
+            _isSavingDone.value = ContactSavingUiState.Loading
             data.forEach {
                 repository.saveFriend(
                     FriendData(
@@ -36,7 +37,7 @@ class AddContactViewModel @Inject constructor(
                     )
                 )
             }
-            _isSavingDone.value = true
+            _isSavingDone.value = ContactSavingUiState.SavingDone
         }
     }
 
@@ -45,7 +46,11 @@ class AddContactViewModel @Inject constructor(
     }
 
     sealed class ContactSavingUiState {
-        data class SavingDone(val isDone: Boolean) : ContactSavingUiState()
-        data class Error(val exception: Throwable) : ContactSavingUiState()
+        object Loading : ContactSavingUiState()
+        object SavingDone : ContactSavingUiState()
+        object Empty : ContactSavingUiState()
+        object Error : ContactSavingUiState()
+        //data class SavingDone(val isDone: Boolean) : ContactSavingUiState()
+        //data class Error(val exception: Throwable) : ContactSavingUiState()
     }
 }
