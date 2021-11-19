@@ -36,6 +36,9 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     private val viewModel: AddContactViewModel by viewModels()
     private val navController by lazy { findNavController() }
     private val loadingDialog = DialogGetContactsLoadingFragment()
+    private val ok = DialogInterface.OnClickListener { _, _ ->
+        activity?.finish()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -117,10 +120,6 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             }
             true
         }
-    }
-
-    private val ok = DialogInterface.OnClickListener { _, _ ->
-        activity?.finish()
     }
 
     private fun observeSavingDone() {
