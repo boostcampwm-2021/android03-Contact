@@ -22,6 +22,9 @@ class AddContactViewModel @Inject constructor(
     val isSavingDone = _isSavingDone.asStateFlow()
 
     fun saveFriendsData(data: List<PhoneContactData>) {
+        if (data.isEmpty()) {
+            _isSavingDone.value = ContactSavingUiState.SavingDone
+        }
         viewModelScope.launch {
             _isSavingDone.value = ContactSavingUiState.Loading
             data.forEach {
@@ -49,7 +52,5 @@ class AddContactViewModel @Inject constructor(
         object Loading : ContactSavingUiState()
         object SavingDone : ContactSavingUiState()
         object Empty : ContactSavingUiState()
-        //data class SavingDone(val isDone: Boolean) : ContactSavingUiState()
-        //data class Error(val exception: Throwable) : ContactSavingUiState()
     }
 }

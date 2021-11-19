@@ -134,7 +134,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
                             )
                         }
                         AddContactViewModel.ContactSavingUiState.SavingDone -> {
-                            loadingDialog.dismiss()
+                            if (loadingDialog.isVisible) loadingDialog.dismiss()
                             val intent = Intent(context, MainActivity::class.java)
                             activity?.setResult(RESULT_OK, intent)
                             activity?.finish()
@@ -145,25 +145,6 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
                 }
             }
         }
-//            repeatOnLifecycle(Lifecycle.State.STARTED) {
-//                viewModel.isSavingDone.first { newState ->
-//                    if (newState == AddContactViewModel.ContactSavingUiState.SavingDone) {
-//                        loadingDialog.dismiss()
-//                        val intent = Intent(context, MainActivity::class.java)
-//                        activity?.setResult(RESULT_OK, intent)
-//                        activity?.finish()
-//                    }
-//                    true
-//                }
-//                viewModel.isSavingDone.collect { newState ->
-//                    if (newState == AddContactViewModel.ContactSavingUiState.SavingDone) {
-//                        loadingDialog.dismiss()
-//                        val intent = Intent(context, MainActivity::class.java)
-//                        activity?.setResult(RESULT_OK, intent)
-//                        activity?.finish()
-//                    }
-//                }
-//            }
     }
 
 }
