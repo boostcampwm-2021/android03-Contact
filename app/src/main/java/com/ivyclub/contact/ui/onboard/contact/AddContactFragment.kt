@@ -139,7 +139,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
                             activity?.setResult(RESULT_OK, intent)
                             activity?.finish()
                         }
-                        else -> {
+                        AddContactViewModel.ContactSavingUiState.Empty -> {
                         }
                     }
                 }

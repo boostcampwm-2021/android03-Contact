@@ -49,7 +49,6 @@ class AddContactViewModel @Inject constructor(
         object Loading : ContactSavingUiState()
         object SavingDone : ContactSavingUiState()
         object Empty : ContactSavingUiState()
-        object Error : ContactSavingUiState()
         //data class SavingDone(val isDone: Boolean) : ContactSavingUiState()
         //data class Error(val exception: Throwable) : ContactSavingUiState()
     }
