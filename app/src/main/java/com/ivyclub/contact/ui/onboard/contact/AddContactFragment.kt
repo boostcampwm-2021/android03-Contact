@@ -25,7 +25,7 @@ import com.ivyclub.contact.ui.onboard.contact.dialog.DialogGetContactsLoadingFra
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.SkipDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -65,11 +65,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             requestPermission()
         }
         btnCommit.setOnClickListener {
-            viewModel.saveFriendsData(contactAdapter.addSet.toMutableList())
-            loadingDialog.show(
-                childFragmentManager,
-                DialogGetContactsLoadingFragment.TAG
-            ) // 로딩 다이얼로그 보여주기
+            this@AddContactFragment.viewModel.saveFriendsData(contactAdapter.addSet.toMutableList())
         }
         btnCommit.isClickable = false
     }
@@ -86,7 +82,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             rvContactList.startAnimation(recyclerViewAnimation)
             btnLoad.isClickable = false
             btnLoad.text = "시작하기"
-            contactAdapter.submitList(viewModel.getContactList())
+            contactAdapter.submitList(this@AddContactFragment.viewModel.getContactList())
             btnCommit.isClickable = true
         }
     }
@@ -130,17 +126,36 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     private fun observeSavingDone() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isSavingDone.first { newState ->
-                    if (newState == AddContactViewModel.ContactSavingUiState.SavingDone) {
-                        loadingDialog.dismiss()
-                        val intent = Intent(context, MainActivity::class.java)
-                        activity?.setResult(RESULT_OK, intent)
-                        activity?.finish()
+                viewModel.isSavingDone.collect { newState ->
+                    when (newState) {
+                        AddContactViewModel.ContactSavingUiState.Loading -> {
+                            loadingDialog.show(
+                                childFragmentManager,
+                                DialogGetContactsLoadingFragment.TAG
+                            )
+                        }
+                        AddContactViewModel.ContactSavingUiState.SavingDone -> {
+                            loadingDialog.dismiss()
+                            val intent = Intent(context, MainActivity::class.java)
+                            activity?.setResult(RESULT_OK, intent)
+                            activity?.finish()
+                        }
+                        else -> {
+                        }
                     }
-                    true
                 }
             }
+        }
 //            repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                viewModel.isSavingDone.first { newState ->
+//                    if (newState == AddContactViewModel.ContactSavingUiState.SavingDone) {
+//                        loadingDialog.dismiss()
+//                        val intent = Intent(context, MainActivity::class.java)
+//                        activity?.setResult(RESULT_OK, intent)
+//                        activity?.finish()
+//                    }
+//                    true
+//                }
 //                viewModel.isSavingDone.collect { newState ->
 //                    if (newState == AddContactViewModel.ContactSavingUiState.SavingDone) {
 //                        loadingDialog.dismiss()
@@ -150,6 +165,6 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
 //                    }
 //                }
 //            }
-        }
     }
+
 }
