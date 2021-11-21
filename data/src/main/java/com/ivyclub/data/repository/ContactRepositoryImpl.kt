@@ -166,8 +166,8 @@ class ContactRepositoryImpl @Inject constructor(
         return contactDAO.getFriendsWithFlow().flowOn(ioDispatcher).conflate()
     }
 
-    override suspend fun getFavoriteFriends(): List<FriendData>  = withContext(ioDispatcher) {
-        contactDAO.getFavoriteFriend()
+    override fun getFavoriteFriendsWithFlow(): Flow<List<FriendData>> {
+        return contactDAO.getFavoriteFriendsWithFlow()
     }
 
     companion object {

@@ -9,8 +9,7 @@ import com.ivyclub.contact.util.FriendListViewType
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,27 +41,27 @@ class FriendViewModel @Inject constructor(
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendDataWithFlow() {
         viewModelScope.launch {
-            repository.loadFriendsWithFlow().buffer().collect { newLoadedPersonData ->
-                val loadedPersonData = newLoadedPersonData.toFriendListData()
-                val loadedFavoriteFriends =
-                    repository.getFavoriteFriends().toFriendListData().sortedBy { it.name }
-                loadedFavoriteFriends.forEach {
-                    it.groupName = "즐겨찾기"
+            repository.loadFriendsWithFlow()
+                .combine(repository.getFavoriteFriendsWithFlow()) { wholeFriendsList, favoriteFriendsList ->
+                    val favoriteFriendsListData = favoriteFriendsList.toFriendListData()
+                    val wholeFriendsListData = wholeFriendsList.toFriendListData()
+                    val definedFriendList =
+                        wholeFriendsListData.groupBy { it.groupName }.toSortedMap().values.flatten()
+                            .filterNot { it.groupName == "친구" }.toMutableList() // 그룹 지정이 된 친구 리스트
+                    val undefinedFriendList =
+                        wholeFriendsListData.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
+                    val sortedFriendList =
+                        (favoriteFriendsListData + definedFriendList + undefinedFriendList).toMutableList()
+                    originEntireFriendList = sortedFriendList + favoriteFriendsListData
+                    sortedFriendList
                 }
-                if (loadedPersonData.isEmpty()) return@collect
-                val sortedFriendList = mutableListOf<FriendListData>()
-                val definedFriendList =
-                    loadedPersonData.groupBy { it.groupName }.toSortedMap().values.flatten()
-                        .filterNot { it.groupName == "친구" }.toMutableList() // 그룹 지정이 된 친구 리스트
-                val undefinedFriendList =
-                    loadedPersonData.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
-                sortedFriendList.addAll(loadedFavoriteFriends + definedFriendList + undefinedFriendList)
-                val newFriendList =
-                    sortedFriendList.addGroupView()
-                _friendList.postValue(newFriendList)
-                orderedEntireFriendList = newFriendList
-                originEntireFriendList = loadedPersonData + loadedFavoriteFriends
-            }
+                .buffer()
+                .collect { newLoadedFriendData ->
+                    val newFriendList =
+                        newLoadedFriendData.addGroupView()
+                    _friendList.postValue(newFriendList)
+                    orderedEntireFriendList = newFriendList
+                }
         }
     }
 
