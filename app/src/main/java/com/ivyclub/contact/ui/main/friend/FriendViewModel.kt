@@ -123,10 +123,6 @@ class FriendViewModel @Inject constructor(
 
     fun getOrderedEntireFriendList() = orderedEntireFriendList
 
-    fun isFriendEmpty(): Boolean {
-        return _friendList.value.isNullOrEmpty()
-    }
-
     private fun initLongClickedId() {
         longClickedId.clear()
     }
