@@ -43,8 +43,7 @@ class FriendViewModel @Inject constructor(
     fun getFriendDataWithFlow() {
         viewModelScope.launch {
             repository.loadFriendsWithFlow().buffer().collect { newLoadedPersonData ->
-                val loadedPersonData =
-                    newLoadedPersonData.sortedBy { it.name }.toFriendListData()
+                val loadedPersonData = newLoadedPersonData.toFriendListData()
                 val loadedFavoriteFriends =
                     repository.getFavoriteFriends().toFriendListData().sortedBy { it.name }
                 loadedFavoriteFriends.forEach {
