@@ -80,7 +80,9 @@
             android:onCheckedChanged="@{()->viewModel.setAlarmActivationOfSwitch()}"
             app:layout_constraintBottom_toBottomOf="@id/tv_set_notification"
             app:layout_constraintEnd_toEndOf="@id/tv_set_notification"
-            app:layout_constraintTop_toTopOf="@id/tv_set_notification" />
+            app:layout_constraintTop_toTopOf="@id/tv_set_notification"
+            app:track="@drawable/bg_switch"
+            app:useMaterialThemeColors="false" />
 
         <TextView
             android:id="@+id/tv_notification_time"

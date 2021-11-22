@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:background="?attr/selectableItemBackground"
-            android:padding="4dp"
             android:onClick="@{() -> viewModel.moveToPreviousFragment()}"
+            android:padding="4dp"
             android:src="@drawable/ic_baseline_arrow_back_24"
             app:layout_constraintBottom_toBottomOf="@id/tv_security"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,12 +64,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:clickable="false"
             android:checked="@{!viewModel.password.isEmpty()}"
+            android:clickable="false"
+            android:track="@drawable/bg_switch"
             app:layout_constraintBottom_toBottomOf="@id/btn_password"
             app:layout_constraintEnd_toEndOf="@id/btn_password"
             app:layout_constraintTop_toTopOf="@id/btn_password"
-            tools:ignore="UseSwitchCompatOrMaterialXml"/>
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         <View
             android:id="@+id/v_divider"
@@ -103,8 +104,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:clickable="false"
             android:checked="@{viewModel.fingerPrint}"
+            android:clickable="false"
+            android:track="@drawable/bg_switch"
             android:visibility="@{viewModel.password.isEmpty() ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/btn_finger_print"
             app:layout_constraintEnd_toEndOf="@id/btn_finger_print"
