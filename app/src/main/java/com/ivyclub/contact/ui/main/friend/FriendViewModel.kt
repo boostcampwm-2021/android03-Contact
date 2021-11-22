@@ -1,7 +1,5 @@
 package com.ivyclub.contact.ui.main.friend
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.model.FriendListData
@@ -23,14 +21,14 @@ class FriendViewModel @Inject constructor(
     private var orderedEntireFriendList: List<FriendListData> =
         emptyList()// 모든 뷰타입으로 정렬된 전체 친구 데이터
 
-    private val _isSearchViewVisible = MutableLiveData(false)
-    val isSearchViewVisible: LiveData<Boolean> get() = _isSearchViewVisible
-    private val _friendList = MutableLiveData<List<FriendListData>>()
-    val friendList: LiveData<List<FriendListData>> get() = _friendList
-    private val _isClearButtonVisible = MutableLiveData(false)
-    val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
-    private val _isInLongClickedState = MutableLiveData(false)
-    val isInLongClickedState: LiveData<Boolean> get() = _isInLongClickedState
+    private val _isSearchViewVisible = MutableStateFlow(false)
+    val isSearchViewVisible = _isSearchViewVisible.asStateFlow()
+    private val _friendList = MutableStateFlow<List<FriendListData>>(emptyList())
+    val friendList = _friendList.asStateFlow()
+    private val _isClearButtonVisible = MutableStateFlow(false)
+    val isClearButtonVisible = _isClearButtonVisible.asStateFlow()
+    private val _isInLongClickedState = MutableStateFlow(false)
+    val isInLongClickedState = _isInLongClickedState.asStateFlow()
     private val foldedGroupNameList = mutableListOf<String>()
     val longClickedId = mutableListOf<Long>()
 
@@ -58,7 +56,7 @@ class FriendViewModel @Inject constructor(
                     val sortedFriendList =
                         (favoriteFriendsListData + definedFriendList + undefinedFriendList).toMutableList()
                     val newFriendList = sortedFriendList.addGroupView()
-                    _friendList.postValue(newFriendList)
+                    _friendList.value = newFriendList
                     originEntireFriendList = definedFriendList + undefinedFriendList
                     orderedEntireFriendList = newFriendList
                 }
@@ -76,7 +74,7 @@ class FriendViewModel @Inject constructor(
     }
 
     fun setSearchViewVisibility() {
-        _isSearchViewVisible.value = !(_isSearchViewVisible.value ?: true)
+        _isSearchViewVisible.value = !(_isSearchViewVisible.value)
         setClearButtonVisibility(searchInputString)
     }
 
@@ -89,8 +87,7 @@ class FriendViewModel @Inject constructor(
         } else { // 그룹 접기
             foldedGroupNameList.add(groupName)
             val newList =
-                _friendList.value?.filterNot { it.groupName == groupName && it.viewType == FriendListViewType.FRIEND }
-                    ?: emptyList()
+                _friendList.value.filterNot { it.groupName == groupName && it.viewType == FriendListViewType.FRIEND }
             _friendList.value = newList
         }
     }
@@ -196,7 +193,7 @@ class FriendViewModel @Inject constructor(
     }
 
     private fun getGroupIndex(groupName: String): Int? {
-        _friendList.value?.forEachIndexed { index, friendListData ->
+        _friendList.value.forEachIndexed { index, friendListData ->
             if (friendListData.groupName == groupName && friendListData.viewType == FriendListViewType.GROUP_NAME) {
                 return index + 1
             }
@@ -205,11 +202,12 @@ class FriendViewModel @Inject constructor(
     }
 
     private fun generateNewList(groupName: String, groupIndex: Int): List<FriendListData> {
-        val firstPart = _friendList.value?.subList(0, groupIndex) ?: emptyList()
+        if (_friendList.value.isEmpty()) return emptyList()
+        val firstPart = _friendList.value.subList(0, groupIndex)
         val middlePart =
             originEntireFriendList.filter { it.groupName == groupName && it.viewType == FriendListViewType.FRIEND }
         val lastPart =
-            _friendList.value?.subList(groupIndex, _friendList.value?.size ?: 0) ?: emptyList()
+            _friendList.value.subList(groupIndex, _friendList.value.size)
         return firstPart + middlePart + lastPart
     }
 }

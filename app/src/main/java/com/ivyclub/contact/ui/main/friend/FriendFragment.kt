@@ -6,6 +6,9 @@ import android.view.View
 import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
@@ -17,6 +20,8 @@ import com.ivyclub.contact.util.changeVisibilityWithDirection
 import com.ivyclub.contact.util.hideKeyboard
 import com.ivyclub.contact.util.showKeyboard
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_friend) {
@@ -26,7 +31,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 when {
-                    viewModel.isSearchViewVisible.value == true -> {
+                    viewModel.isSearchViewVisible.value -> {
                         viewModel.setSearchViewVisibility()
                         initFriendList()
                     }
@@ -131,25 +136,29 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun observeSearchViewVisibility() {
-        viewModel.isSearchViewVisible.observe(viewLifecycleOwner) { newVisibilityState ->
-            with(binding) {
-                if (newVisibilityState) { // 안보이던 상황에서 -> 보이던 상황으로 될 때
-                    showKeyboard()
-                    etSearch.changeVisibilityWithDirection(
-                        Gravity.TOP,
-                        View.VISIBLE,
-                        ANIMATION_TIME,
-                        this@FriendFragment::requestFocus
-                    )
-                } else { // 보이던 상황에서 -> 안보이던 상황으로 될 때
-                    hideKeyboard()
-                    etSearch.changeVisibilityWithDirection(
-                        Gravity.TOP,
-                        View.GONE,
-                        ANIMATION_TIME
-                    )
-                    etSearch.text.clear()
-                    ivRemoveEt.visibility = View.GONE
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isSearchViewVisible.collect { newVisibilityState ->
+                    with(binding) {
+                        if (newVisibilityState) { // 안보이던 상황에서 -> 보이던 상황으로 될 때
+                            showKeyboard()
+                            etSearch.changeVisibilityWithDirection(
+                                Gravity.TOP,
+                                View.VISIBLE,
+                                ANIMATION_TIME,
+                                this@FriendFragment::requestFocus
+                            )
+                        } else { // 보이던 상황에서 -> 안보이던 상황으로 될 때
+                            hideKeyboard()
+                            etSearch.changeVisibilityWithDirection(
+                                Gravity.TOP,
+                                View.GONE,
+                                ANIMATION_TIME
+                            )
+                            etSearch.text.clear()
+                            ivRemoveEt.visibility = View.GONE
+                        }
+                    }
                 }
             }
         }
@@ -160,10 +169,18 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun observeFriendList() {
-        viewModel.friendList.observe(viewLifecycleOwner) { newFriendList ->
-            // 새로운 리스트로 리사이클러뷰 갱신
-            friendListAdapter.submitList(newFriendList)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.friendList.collect { newFriendList ->
+                    // 새로운 리스트로 리사이클러뷰 갱신
+                    friendListAdapter.submitList(newFriendList)
+                }
+            }
         }
+//        viewModel.friendList.observe(viewLifecycleOwner) { newFriendList ->
+//            // 새로운 리스트로 리사이클러뷰 갱신
+//            friendListAdapter.submitList(newFriendList)
+//        }
     }
 
     private fun navigateToFriendDetailFragment(friendId: Long) {
