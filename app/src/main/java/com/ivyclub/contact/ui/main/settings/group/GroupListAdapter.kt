@@ -1,0 +1,39 @@
+package com.ivyclub.contact.ui.main.settings.group
+
+import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.ivyclub.contact.R
+import com.ivyclub.contact.databinding.ItemGroupListBinding
+import com.ivyclub.contact.util.binding
+import com.ivyclub.data.model.GroupData
+
+class GroupListAdapter : ListAdapter<GroupData, GroupListAdapter.GroupViewHolder>(diffUtil) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
+        return GroupViewHolder(parent.binding(R.layout.item_group_list))
+    }
+
+    override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    class GroupViewHolder(private val binding: ItemGroupListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(groupData: GroupData) {
+            binding.etGroupName.setText(groupData.name)
+        }
+    }
+
+    companion object {
+        private val diffUtil = object : DiffUtil.ItemCallback<GroupData>() {
+            override fun areItemsTheSame(oldItem: GroupData, newItem: GroupData): Boolean =
+                oldItem.name == newItem.name
+
+            override fun areContentsTheSame(oldItem: GroupData, newItem: GroupData): Boolean =
+                oldItem == newItem
+        }
+    }
+}
