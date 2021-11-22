@@ -2,12 +2,14 @@ package com.ivyclub.contact.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -126,5 +128,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 else -> binding.bnvMain.isVisible = true
             }
         }
+    }
+
+    override fun dispatchTouchEvent(motionEvent: MotionEvent?): Boolean {
+        val view = currentFocus
+        motionEvent?.let {
+            if (
+                view != null &&
+                (it.action == MotionEvent.ACTION_UP || it.action == MotionEvent.ACTION_MOVE) &&
+                view is EditText
+            ) {
+                val intArr = IntArray(2)
+                view.getLocationOnScreen(intArr)
+                val x = it.rawX + view.left - intArr[0]
+                val y = it.rawY + view.top - intArr[1]
+                if (x < view.left || x > view.right || y < view.top || y > view.bottom) {
+                    (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
+                        .hideSoftInputFromWindow(window.decorView.applicationWindowToken, 0)
+                    view.clearFocus()
+                }
+            }
+        }
+        return super.dispatchTouchEvent(motionEvent)
     }
 }
