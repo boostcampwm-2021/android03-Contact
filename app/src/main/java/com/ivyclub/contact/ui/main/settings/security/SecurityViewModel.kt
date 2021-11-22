@@ -44,6 +44,7 @@ class SecurityViewModel @Inject constructor(private val repository: ContactRepos
         } else {
             viewModelScope.launch {
                 repository.removePassword()
+                repository.setFingerPrintState(false)
                 initSecurityState()
             }
         }
