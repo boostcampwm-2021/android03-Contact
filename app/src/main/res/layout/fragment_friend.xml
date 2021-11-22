@@ -104,7 +104,7 @@
             android:layout_height="48dp"
             android:contentDescription="@string/fragment_friend_add_friend"
             android:src="@drawable/ic_baseline_person_add_24"
-            android:visibility="@{viewModel.friendList.size() == 0 ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.isFriendDatabaseEmpty ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@id/tv_add_friend"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -114,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/fragment_friend_click_plus_button"
-            android:visibility="@{viewModel.friendList.size() == 0 ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{viewModel.isFriendDatabaseEmpty ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

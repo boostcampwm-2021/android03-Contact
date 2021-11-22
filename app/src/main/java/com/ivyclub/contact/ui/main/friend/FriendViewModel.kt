@@ -17,8 +17,10 @@ class FriendViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var searchInputString = ""
-    private var originEntireFriendList = emptyList<FriendListData>() // 다른 뷰홀더는 없고 친구들만 있는 데이터, 즐겨찾기 때문에 중복이 있음.
-    private var friendListForSearch = emptyList<FriendListData>() // 검색했을 때 보여주기 위한 친구 데이터, 즐겨찾기 중복 없음.
+    private var originEntireFriendList =
+        emptyList<FriendListData>() // 다른 뷰홀더는 없고 친구들만 있는 데이터, 즐겨찾기 때문에 중복이 있음.
+    private var friendListForSearch =
+        emptyList<FriendListData>() // 검색했을 때 보여주기 위한 친구 데이터, 즐겨찾기 중복 없음.
     private var orderedEntireFriendList = emptyList<FriendListData>() // 모든 뷰타입으로 정렬된 전체 친구 데이터
 
     private val _isSearchViewVisible = MutableStateFlow(false)
@@ -29,6 +31,8 @@ class FriendViewModel @Inject constructor(
     val isClearButtonVisible = _isClearButtonVisible.asStateFlow()
     private val _isInLongClickedState = MutableStateFlow(false)
     val isInLongClickedState = _isInLongClickedState.asStateFlow()
+    private val _isFriendDatabaseEmpty = MutableStateFlow(false)
+    val isFriendDatabaseEmpty = _isFriendDatabaseEmpty.asStateFlow()
     private val foldedGroupNameList = mutableListOf<String>()
     val longClickedId = mutableListOf<Long>()
 
@@ -45,6 +49,7 @@ class FriendViewModel @Inject constructor(
                     emit(friendsData.toFriendListData())
                 }
                 .collect { newFriendsData ->
+                    _isFriendDatabaseEmpty.value = newFriendsData.isEmpty()
                     val favoriteFriendsListData =
                         newFriendsData.filter { it.isFavoriteFriend }.map { it.copy() }
                     favoriteFriendsListData.forEach { it.groupName = "즐겨찾기" }
