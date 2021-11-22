@@ -41,21 +41,17 @@ class SecurityViewModel @Inject constructor(private val repository: ContactRepos
         if (password.value?.isEmpty() == true) {
             _moveToSetPassword.call()
             unlock() // 비밀번호 설정 후에 다시 비밀번호 분류 페이지에 돌아왔을 때 다시 비밀번호 확인하는 과정을 없애기 위해
+        } else {
+            viewModelScope.launch {
+                repository.removePassword()
+                initSecurityState()
+            }
         }
     }
 
     fun onResetPasswordButtonClicked() {
         _moveToSetPassword.call()
         unlock()
-    }
-
-    fun onNotSetButtonClicked() {
-        if (password.value?.isNotEmpty() == true) {
-            viewModelScope.launch {
-                repository.removePassword()
-                initSecurityState()
-            }
-        }
     }
 
     private fun unlock() {

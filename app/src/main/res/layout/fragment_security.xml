@@ -60,41 +60,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_back_icon" />
 
-        <CheckBox
-            android:id="@+id/cb_password"
+        <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{viewModel.password.isEmpty() ? false : true}"
+            android:layout_marginEnd="8dp"
             android:clickable="false"
+            android:checked="@{!viewModel.password.isEmpty()}"
             app:layout_constraintBottom_toBottomOf="@id/btn_password"
             app:layout_constraintEnd_toEndOf="@id/btn_password"
-            app:layout_constraintTop_toTopOf="@id/btn_password" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_security_none"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:padding="16dp"
-            android:stateListAnimator="@null"
-            android:text="@string/security_not_set"
-            android:textAlignment="textStart"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:onClick="@{() -> viewModel.onNotSetButtonClicked()}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_password" />
-
-        <CheckBox
-            android:id="@+id/cb_security_none"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{viewModel.password.isEmpty() ? true : false}"
-            android:clickable="false"
-            app:layout_constraintBottom_toBottomOf="@id/btn_security_none"
-            app:layout_constraintEnd_toEndOf="@id/btn_security_none"
-            app:layout_constraintTop_toTopOf="@id/btn_security_none" />
+            app:layout_constraintTop_toTopOf="@id/btn_password"
+            tools:ignore="UseSwitchCompatOrMaterialXml"/>
 
         <View
             android:id="@+id/v_divider"
@@ -105,7 +80,7 @@
             android:background="@color/light_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_security_none" />
+            app:layout_constraintTop_toBottomOf="@id/btn_password" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_finger_print"
