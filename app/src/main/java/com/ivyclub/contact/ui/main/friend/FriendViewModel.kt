@@ -9,7 +9,8 @@ import com.ivyclub.contact.util.FriendListViewType
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,9 +43,12 @@ class FriendViewModel @Inject constructor(
     fun getFriendDataWithFlow() {
         viewModelScope.launch {
             repository.loadFriendsWithFlow()
-                .combine(repository.getFavoriteFriendsWithFlow()) { wholeFriendsList, favoriteFriendsList ->
-                    val favoriteFriendsListData = favoriteFriendsList.toFriendListData()
-                    val wholeFriendsListData = wholeFriendsList.toFriendListData()
+                .buffer()
+                .collect { newFriendsData ->
+                    val wholeFriendsListData = newFriendsData.toFriendListData()
+                    val favoriteFriendsListData =
+                        wholeFriendsListData.filter { it.isFavoriteFriend }.map { it.copy() }
+                    favoriteFriendsListData.forEach { it.groupName = "즐겨찾기" }
                     val definedFriendList =
                         wholeFriendsListData.groupBy { it.groupName }.toSortedMap().values.flatten()
                             .filterNot { it.groupName == "친구" }.toMutableList() // 그룹 지정이 된 친구 리스트
@@ -52,14 +56,9 @@ class FriendViewModel @Inject constructor(
                         wholeFriendsListData.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
                     val sortedFriendList =
                         (favoriteFriendsListData + definedFriendList + undefinedFriendList).toMutableList()
-                    originEntireFriendList = sortedFriendList + favoriteFriendsListData
-                    sortedFriendList
-                }
-                .buffer()
-                .collect { newLoadedFriendData ->
-                    val newFriendList =
-                        newLoadedFriendData.addGroupView()
+                    val newFriendList = sortedFriendList.addGroupView()
                     _friendList.postValue(newFriendList)
+                    originEntireFriendList = sortedFriendList
                     orderedEntireFriendList = newFriendList
                 }
         }

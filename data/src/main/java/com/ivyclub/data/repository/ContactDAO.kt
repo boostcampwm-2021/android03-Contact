@@ -69,7 +69,4 @@ interface ContactDAO {
         extraInfo: Map<String, String>,
         id: Long
     )
-
-    @Query("SELECT * FROM FriendData WHERE isFavorite = :isFavorite ORDER BY name")
-    fun getFavoriteFriendsWithFlow(isFavorite: Boolean = true): Flow<List<FriendData>>
 }

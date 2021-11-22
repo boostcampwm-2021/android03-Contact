@@ -166,10 +166,6 @@ class ContactRepositoryImpl @Inject constructor(
         return contactDAO.getFriendsWithFlow().flowOn(ioDispatcher).conflate()
     }
 
-    override fun getFavoriteFriendsWithFlow(): Flow<List<FriendData>> {
-        return contactDAO.getFavoriteFriendsWithFlow()
-    }
-
     companion object {
         private const val NOTIFICATION_START = "NOTIFICATION_START"
         private const val NOTIFICATION_END = "NOTIFICATION_END"

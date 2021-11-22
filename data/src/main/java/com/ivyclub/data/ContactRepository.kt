@@ -19,7 +19,6 @@ interface ContactRepository {
     )
 
     fun loadFriendsWithFlow(): Flow<List<FriendData>>
-    fun getFavoriteFriendsWithFlow(): Flow<List<FriendData>>
 
     // OnBoarding
     fun setShowOnBoardingState(state: Boolean)
