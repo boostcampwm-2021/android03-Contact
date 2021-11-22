@@ -19,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditFriendBinding
@@ -41,6 +42,7 @@ class AddEditFriendFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         binding.fragment = this
+        binding.ivProfileImage.clipToOutline = true
         observeGroups()
         observeExtraInfos()
         observeRequiredState()
@@ -59,7 +61,11 @@ class AddEditFriendFragment :
             }
             viewModel.addExtraInfoList(friendData.extraInfo)
         }
-        viewModel.loadProfileImage(args.friendId)?.let { binding.ivProfileImage.setImageBitmap(it) }
+        viewModel.loadProfileImage(args.friendId)?.let {
+            Glide.with(this)
+                .load(it)
+                .into(binding.ivProfileImage)
+        }
     }
 
     private fun initClickListener() {
