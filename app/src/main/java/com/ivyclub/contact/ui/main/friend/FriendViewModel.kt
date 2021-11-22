@@ -58,7 +58,7 @@ class FriendViewModel @Inject constructor(
                         (favoriteFriendsListData + definedFriendList + undefinedFriendList).toMutableList()
                     val newFriendList = sortedFriendList.addGroupView()
                     _friendList.postValue(newFriendList)
-                    originEntireFriendList = sortedFriendList
+                    originEntireFriendList = definedFriendList + undefinedFriendList
                     orderedEntireFriendList = newFriendList
                 }
         }
