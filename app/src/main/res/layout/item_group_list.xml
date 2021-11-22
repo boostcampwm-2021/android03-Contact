@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="groupData"
+            type="com.ivyclub.data.model.GroupData" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,6 +41,7 @@
                     android:background="@android:color/transparent"
                     android:focusable="false"
                     android:padding="12dp"
+                    android:text="@{groupData.name}"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -49,6 +56,7 @@
                     android:layout_marginEnd="8dp"
                     android:padding="12dp"
                     android:src="@drawable/ic_edit"
+                    android:visibility='@{groupData.name.equals("친구") ? View.INVISIBLE : View.VISIBLE}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/iv_delete_group"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -60,6 +68,7 @@
                     android:layout_marginEnd="8dp"
                     android:padding="12dp"
                     android:src="@drawable/ic_delete"
+                    android:visibility='@{groupData.name.equals("친구") ? View.INVISIBLE : View.VISIBLE}'
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

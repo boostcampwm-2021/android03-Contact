@@ -1,6 +1,7 @@
 package com.ivyclub.contact.ui.main.settings.group
 
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +32,7 @@ class GroupListAdapter(
         }
 
         fun bind(groupData: GroupData) {
-            binding.etGroupName.setText(groupData.name)
+            binding.groupData = groupData
         }
     }
 
