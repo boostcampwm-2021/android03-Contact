@@ -45,8 +45,8 @@
         tools:layout="@layout/fragment_add_edit_friend">
         <argument
             android:name="friendId"
-            app:argType="long"
-            android:defaultValue="-1L" />
+            android:defaultValue="-1L"
+            app:argType="long" />
     </fragment>
 
     <fragment
@@ -74,18 +74,21 @@
             app:argType="long" />
         <argument
             android:name="friendId"
-            app:argType="long"
-            android:defaultValue="-1L" />
+            android:defaultValue="-1L"
+            app:argType="long" />
     </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.ivyclub.contact.ui.main.settings.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_securityFragment"
             app:destination="@id/securityFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_settingsContactFragment"
+            app:destination="@id/settingsContactFragment" />
     </fragment>
 
     <fragment
@@ -124,8 +127,8 @@
             app:destination="@id/addEditFragment" />
         <argument
             android:name="friendId"
-            app:argType="long"
-            android:defaultValue="-1L" />
+            android:defaultValue="-1L"
+            app:argType="long" />
 
     </fragment>
     <fragment
@@ -143,8 +146,8 @@
             app:argType="com.ivyclub.contact.util.PasswordViewType" />
         <argument
             android:name="password"
-            app:argType="string"
-            android:defaultValue="null" />
+            android:defaultValue="null"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/securityFragment"
@@ -159,6 +162,10 @@
         android:id="@+id/imageDetailFragment"
         android:name="com.ivyclub.contact.ui.main.friend_detail.ImageDetailFragment"
         android:label="ImageDetailFragment"
-        tools:layout="@layout/fragment_image_detail"/>
-
+        tools:layout="@layout/fragment_image_detail" />
+    <fragment
+        android:id="@+id/settingsContactFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.contact.AddContactFromSettingsFragment"
+        android:label="SettingsContactFragment"
+        tools:layout="@layout/fragment_add_contact_from_settings" />
 </navigation>
