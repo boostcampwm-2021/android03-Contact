@@ -185,13 +185,6 @@ class FriendViewModel @Inject constructor(
         return convertedFriendList.toList()
     }
 
-    private fun MutableList<FriendListData>.addFavoriteGroup(): List<FriendListData> {
-        val first = listOf(getGroupData("즐겨찾기"))
-        val favoriteFriendList = this.filter { it.isFavoriteFriend }.sortedBy { it.name }
-        val divider = getGroupDividerData()
-        return first + favoriteFriendList + divider + this
-    }
-
     private fun getGroupIndex(groupName: String): Int? {
         _friendList.value.forEachIndexed { index, friendListData ->
             if (friendListData.groupName == groupName && friendListData.viewType == FriendListViewType.GROUP_NAME) {
