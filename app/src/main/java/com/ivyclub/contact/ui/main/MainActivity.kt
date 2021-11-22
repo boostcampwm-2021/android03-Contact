@@ -3,7 +3,6 @@ package com.ivyclub.contact.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,6 +21,7 @@ import com.ivyclub.contact.ui.main.friend.FriendFragmentDirections
 import com.ivyclub.contact.ui.onboard.OnBoardingActivity
 import com.ivyclub.contact.ui.password.PasswordActivity
 import com.ivyclub.contact.util.BaseActivity
+import com.ivyclub.contact.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -143,8 +143,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 val x = it.rawX + view.left - intArr[0]
                 val y = it.rawY + view.top - intArr[1]
                 if (x < view.left || x > view.right || y < view.top || y > view.bottom) {
-                    (getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager)
-                        .hideSoftInputFromWindow(window.decorView.applicationWindowToken, 0)
+                    binding.hideKeyboard()
                     view.clearFocus()
                 }
             }
