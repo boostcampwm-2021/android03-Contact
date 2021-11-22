@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ManageGroupFragment : BaseFragment<FragmentManageGroupBinding>(R.layout.fragment_manage_group) {
 
     private val viewModel: ManageGroupViewModel by viewModels()
-    private val groupListAdapter = GroupListAdapter()
+    private val groupListAdapter: GroupListAdapter by lazy { GroupListAdapter(viewModel::deleteGroup) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

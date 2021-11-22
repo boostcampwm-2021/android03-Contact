@@ -131,6 +131,10 @@ class ContactRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun deleteGroup(groupData: GroupData) = withContext(ioDispatcher) {
+        contactDAO.deleteGroup(groupData)
+    }
+
     override suspend fun savePassword(password: String) = withContext(ioDispatcher) {
         myPreference.setPassword(password)
     }

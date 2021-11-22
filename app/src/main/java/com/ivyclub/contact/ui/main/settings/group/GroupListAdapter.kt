@@ -9,7 +9,9 @@ import com.ivyclub.contact.databinding.ItemGroupListBinding
 import com.ivyclub.contact.util.binding
 import com.ivyclub.data.model.GroupData
 
-class GroupListAdapter : ListAdapter<GroupData, GroupListAdapter.GroupViewHolder>(diffUtil) {
+class GroupListAdapter(
+    private val onDeleteButtonClick: (GroupData) -> Unit
+) : ListAdapter<GroupData, GroupListAdapter.GroupViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         return GroupViewHolder(parent.binding(R.layout.item_group_list))
@@ -19,8 +21,14 @@ class GroupListAdapter : ListAdapter<GroupData, GroupListAdapter.GroupViewHolder
         holder.bind(getItem(position))
     }
 
-    class GroupViewHolder(private val binding: ItemGroupListBinding) :
+    inner class GroupViewHolder(private val binding: ItemGroupListBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.ivDeleteGroup.setOnClickListener {
+                onDeleteButtonClick(getItem(adapterPosition))
+            }
+        }
 
         fun bind(groupData: GroupData) {
             binding.etGroupName.setText(groupData.name)
