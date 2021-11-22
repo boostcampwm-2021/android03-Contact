@@ -122,4 +122,5 @@
     <string name="fragment_dialog_get_contacts_loading_please_wait">잠시만 기다려주세요.</string>
     <string name="fragment_friend_add_friend">친구 추가 아이콘</string>
     <string name="fragment_friend_click_plus_button">+버튼을 눌러 친구를 추가해보세요</string>
+    <string name="ask_delete_friend">해당 친구 정보를 삭제하시겠습니까?</string>
 </resources>

@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
 import com.ivyclub.contact.util.BaseFragment
+import com.ivyclub.contact.util.showAlertDialog
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -55,6 +56,9 @@ class FriendDetailFragment :
         viewModel.friendData.observe(this, {
             initDetails(it)
         })
+        viewModel.finishEvent.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
+        }
     }
 
     private fun initButtons(id: Long) {
@@ -92,8 +96,7 @@ class FriendDetailFragment :
                     extras)
             }
             ivDelete.setOnClickListener {
-                this@FriendDetailFragment.viewModel.deleteFriend(args.friendId)
-                findNavController().popBackStack()
+                showDeleteFriendDialog()
             }
         }
     }
@@ -155,5 +158,11 @@ class FriendDetailFragment :
 
     private fun bindPlan(planIds: List<Long>) {
         viewModel.loadPlans(planIds)
+    }
+
+    private fun showDeleteFriendDialog() {
+        context?.showAlertDialog(getString(R.string.ask_delete_friend), {
+            viewModel.deleteFriend(args.friendId)
+        })
     }
 }
