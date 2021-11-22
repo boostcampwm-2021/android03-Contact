@@ -120,6 +120,11 @@ class ContactRepositoryImpl @Inject constructor(
             contactDAO.getPlansByIds(planIds)
         }
 
+    override suspend fun getPlanListAfter(current: Long): List<SimplePlanData> =
+        withContext(ioDispatcher) {
+            contactDAO.getPlanListAfter(current)
+        }
+
     override fun getStartAlarmHour() = myPreference.getNotificationTime(NOTIFICATION_START)
 
     override fun getEndAlarmHour() = myPreference.getNotificationTime(NOTIFICATION_END)
@@ -166,7 +171,7 @@ class ContactRepositoryImpl @Inject constructor(
         return contactDAO.getFriendsWithFlow().flowOn(ioDispatcher).conflate()
     }
 
-    override suspend fun getFavoriteFriends(): List<FriendData>  = withContext(ioDispatcher) {
+    override suspend fun getFavoriteFriends(): List<FriendData> = withContext(ioDispatcher) {
         contactDAO.getFavoriteFriend()
     }
 
