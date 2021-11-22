@@ -170,6 +170,10 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.getFavoriteFriend()
     }
 
+    override suspend fun getLastFriendId() = withContext(ioDispatcher) {
+        contactDAO.getLastFriendId()
+    }
+
     companion object {
         private const val NOTIFICATION_START = "NOTIFICATION_START"
         private const val NOTIFICATION_END = "NOTIFICATION_END"
