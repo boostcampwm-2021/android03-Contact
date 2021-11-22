@@ -1,4 +1,4 @@
-package com.ivyclub.contact.service
+package com.ivyclub.contact.service.plan_reminder
 
 import android.content.Context
 import androidx.core.text.isDigitsOnly
