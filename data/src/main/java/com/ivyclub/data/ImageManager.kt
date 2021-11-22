@@ -5,13 +5,12 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import java.io.File
 import java.io.FileOutputStream
-import kotlin.runCatching
 
 object ImageManager {
     fun saveProfileImage(currentBitmap: Bitmap?, friendId: Long) {
         if (currentBitmap == null) return
-        val tempFile = File(IMAGE_FILE_PATH, "$friendId.jpg")
         runCatching {
+            val tempFile = File(IMAGE_FILE_PATH, "$friendId.jpg")
             tempFile.createNewFile()
             val out = FileOutputStream(tempFile)
             currentBitmap.compress(Bitmap.CompressFormat.JPEG, 50, out)
@@ -26,6 +25,8 @@ object ImageManager {
             BitmapFactory.decodeFile("$IMAGE_FILE_PATH$friendId.jpg")
         }.mapCatching { loadedImage ->
             loadedImage
+        }.onFailure { exception ->
+            Log.e("LoadProfileImageFailure", ": $exception")
         }.getOrDefault(null)
     }
 
