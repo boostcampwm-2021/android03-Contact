@@ -101,14 +101,16 @@ class PlanReminderNotificationWorker @AssistedInject constructor(
         private const val DATA_PARTICIPANTS = "participants"
         private const val DATA_PLAN_TITLE = "title"
         private const val NOTI_TYPE = "notitype"
+        private const val TAG_NOTI_START = "start_"
+        private const val TAG_NOTI_END = "end_"
 
         fun setPlanAlarm(
             planId: Long,
             planTitle: String,
             participants: List<String>,
             planTime: Date,
-            morningHour: Int,
-            nightHour: Int,
+            startHour: Int,
+            endHour: Int,
             workManager: WorkManager
         ) {
 
@@ -125,20 +127,40 @@ class PlanReminderNotificationWorker @AssistedInject constructor(
                 )
             )
 
-            val morningDelay = getDelayFromNow(planTime.getNewTime(morningHour, 10).time)
-            if (morningDelay > 0) {
+            setDayStartAlarm(planId, startHour, planTime, delay, workManager)
+            setDayEndAlarm(planId, endHour, planTime, delay, participants, workManager)
+        }
+
+        private fun setDayStartAlarm(
+            planId: Long,
+            startHour: Int,
+            planTime: Date,
+            delay: Long,
+            workManager: WorkManager
+        ) {
+            val morningDelay = getDelayFromNow(planTime.getNewTime(startHour, 10).time)
+            if (morningDelay in 1 until delay) {
                 addAlarmTask(
-                    planId.toString(), workManager, morningDelay, workDataOf(
+                    planId.toString() + TAG_NOTI_START, workManager, morningDelay, workDataOf(
                         NOTI_TYPE to NotificationType.MORNING.value
                     )
                 )
             }
+        }
 
+        private fun setDayEndAlarm(
+            planId: Long,
+            endHour: Int,
+            planTime: Date,
+            delay: Long,
+            participants: List<String>,
+            workManager: WorkManager
+        ) {
             val nightDelay =
-                getDelayFromNow(planTime.getNewTime(nightHour, 0).time, MINUTE_IN_MILLIS * 10)
+                getDelayFromNow(planTime.getNewTime(endHour, 0).time, MINUTE_IN_MILLIS * 10)
             if (nightDelay > delay) {
                 addAlarmTask(
-                    planId.toString(), workManager, nightDelay, workDataOf(
+                    planId.toString() + TAG_NOTI_END, workManager, nightDelay, workDataOf(
                         DATA_PARTICIPANTS to participants.toTypedArray(),
                         NOTI_TYPE to NotificationType.NIGHT.value
                     )
@@ -149,6 +171,33 @@ class PlanReminderNotificationWorker @AssistedInject constructor(
         fun cancelPlanAlarms(planId: Long, workManager: WorkManager) {
             val planTag = planId.toString()
             workManager.cancelAllWorkByTag(planTag)
+
+            cancelDayStartEndAlarms(planId, workManager)
+        }
+
+        private fun cancelDayStartEndAlarms(planId: Long, workManager: WorkManager) {
+            val planTag = planId.toString()
+
+            val notiStartTag = planTag + TAG_NOTI_START
+            workManager.cancelAllWorkByTag(notiStartTag)
+
+            val notiEndTag = planTag + TAG_NOTI_END
+            workManager.cancelAllWorkByTag(notiEndTag)
+        }
+
+        fun resetDayStartEndAlarms(
+            planId: Long,
+            startHour: Int,
+            endHour: Int,
+            planTime: Date,
+            participants: List<String>,
+            workManager: WorkManager
+        ) {
+            cancelDayStartEndAlarms(planId, workManager)
+
+            val delay = getDelayFromNow(planTime.time, HOUR_IN_MILLIS)
+            setDayStartAlarm(planId, startHour, planTime, delay, workManager)
+            setDayEndAlarm(planId, endHour, planTime, delay, participants, workManager)
         }
 
         private fun addAlarmTask(
