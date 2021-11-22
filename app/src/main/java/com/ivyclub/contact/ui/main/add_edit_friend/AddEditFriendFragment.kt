@@ -150,7 +150,10 @@ class AddEditFriendFragment :
                         extraInfoListAdapter.currentList,
                         args.friendId
                     )
-                    this@AddEditFriendFragment.viewModel.saveProfileImage(currentBitmap, args.friendId)
+                    this@AddEditFriendFragment.viewModel.saveProfileImage(
+                        currentBitmap,
+                        args.friendId
+                    )
                     findNavController().popBackStack()
                     Snackbar.make(
                         binding.root,

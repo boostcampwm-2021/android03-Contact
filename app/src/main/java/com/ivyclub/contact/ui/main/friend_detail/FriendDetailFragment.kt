@@ -3,14 +3,11 @@ package com.ivyclub.contact.ui.main.friend_detail
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.transition.TransitionInflater
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -23,8 +20,6 @@ import com.ivyclub.contact.util.showAlertDialog
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class FriendDetailFragment :
@@ -87,13 +82,16 @@ class FriendDetailFragment :
             }
             ivProfileImage.setOnClickListener {
                 val extras = FragmentNavigatorExtras(
-                    ivProfileImage to "secondTransitionName")
+                    ivProfileImage to "secondTransitionName"
+                )
                 val bundle = Bundle()
-                bundle.putLong("friendId",args.friendId)
-                findNavController().navigate(R.id.action_friendDetailFragment_to_imageDetailFragment,
+                bundle.putLong("friendId", args.friendId)
+                findNavController().navigate(
+                    R.id.action_friendDetailFragment_to_imageDetailFragment,
                     bundle, // Bundle of args
                     null, // NavOptions
-                    extras)
+                    extras
+                )
             }
             ivDelete.setOnClickListener {
                 showDeleteFriendDialog()
@@ -106,6 +104,7 @@ class FriendDetailFragment :
             tvName.text = friend.name
             tvGroup.text = friend.groupName
             tvPhoneNum.text = friend.phoneNumber
+            if (friend.phoneNumber == "") btnCall.visibility = View.GONE
             btnFavorite.isChecked = friend.isFavorite
             llExtraInfo.removeAllViews()
             if (friend.birthday == "") {

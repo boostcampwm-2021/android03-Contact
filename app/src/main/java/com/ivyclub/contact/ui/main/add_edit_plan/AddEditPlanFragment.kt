@@ -11,7 +11,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditPlanBinding
-import com.ivyclub.contact.service.WidgetProvider
 import com.ivyclub.contact.ui.main.friend.dialog.SelectGroupFragment
 import com.ivyclub.contact.util.*
 import com.ivyclub.data.model.SimpleFriendData
