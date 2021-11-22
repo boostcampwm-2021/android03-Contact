@@ -48,5 +48,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         binding.tvSecurity.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_securityFragment)
         }
+        binding.tvManageGroup.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_manageGroupFragment)
+        }
     }
 }

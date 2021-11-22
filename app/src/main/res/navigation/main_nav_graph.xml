@@ -86,6 +86,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_securityFragment"
             app:destination="@id/securityFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_manageGroupFragment"
+            app:destination="@id/manageGroupFragment" />
     </fragment>
 
     <fragment
@@ -160,5 +163,10 @@
         android:name="com.ivyclub.contact.ui.main.friend_detail.ImageDetailFragment"
         android:label="ImageDetailFragment"
         tools:layout="@layout/fragment_image_detail"/>
+    <fragment
+        android:id="@+id/manageGroupFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.group.ManageGroupFragment"
+        android:label="ManageGroupFragment"
+        tools:layout="@layout/fragment_manage_group"/>
 
 </navigation>
