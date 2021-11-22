@@ -86,6 +86,10 @@ class FriendDetailFragment :
                     null, // NavOptions
                     extras)
             }
+            ivDelete.setOnClickListener {
+                this@FriendDetailFragment.viewModel.deleteFriend(args.friendId)
+                findNavController().popBackStack()
+            }
         }
     }
 
