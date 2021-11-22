@@ -17,9 +17,9 @@ class FriendViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var searchInputString = ""
-    private var originEntireFriendList: List<FriendListData> = emptyList()// 다른 뷰홀더는 없고 친구들만 있는 데이터
-    private var orderedEntireFriendList: List<FriendListData> =
-        emptyList()// 모든 뷰타입으로 정렬된 전체 친구 데이터
+    private var originEntireFriendList = emptyList<FriendListData>() // 다른 뷰홀더는 없고 친구들만 있는 데이터, 즐겨찾기 때문에 중복이 있음.
+    private var friendListForSearch = emptyList<FriendListData>() // 검색했을 때 보여주기 위한 친구 데이터, 즐겨찾기 중복 없음.
+    private var orderedEntireFriendList = emptyList<FriendListData>() // 모든 뷰타입으로 정렬된 전체 친구 데이터
 
     private val _isSearchViewVisible = MutableStateFlow(false)
     val isSearchViewVisible = _isSearchViewVisible.asStateFlow()
@@ -57,7 +57,9 @@ class FriendViewModel @Inject constructor(
                         (favoriteFriendsListData + definedFriendList + undefinedFriendList).toMutableList()
                     val newFriendList = sortedFriendList.addGroupView()
                     _friendList.value = newFriendList
-                    originEntireFriendList = definedFriendList + undefinedFriendList
+                    originEntireFriendList =
+                        favoriteFriendsListData + definedFriendList + undefinedFriendList
+                    friendListForSearch = definedFriendList + undefinedFriendList
                     orderedEntireFriendList = newFriendList
                 }
         }
@@ -126,9 +128,9 @@ class FriendViewModel @Inject constructor(
 
     private fun sortNameWith(inputString: String) {
         val sortedList =
-            originEntireFriendList.filter { it.name.contains(inputString) }.toMutableList()
+            friendListForSearch.filter { it.name.contains(inputString) }.toMutableList()
         if (inputString.isEmpty()) {
-            _friendList.value = originEntireFriendList
+            _friendList.value = friendListForSearch
         } else {
             _friendList.value = sortedList
         }
