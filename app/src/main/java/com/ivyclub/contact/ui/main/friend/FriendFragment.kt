@@ -177,10 +177,6 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                 }
             }
         }
-//        viewModel.friendList.observe(viewLifecycleOwner) { newFriendList ->
-//            // 새로운 리스트로 리사이클러뷰 갱신
-//            friendListAdapter.submitList(newFriendList)
-//        }
     }
 
     private fun navigateToFriendDetailFragment(friendId: Long) {
