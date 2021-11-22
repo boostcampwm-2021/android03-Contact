@@ -122,4 +122,5 @@
     <string name="fragment_dialog_get_contacts_loading_please_wait">잠시만 기다려주세요.</string>
     <string name="fragment_friend_add_friend">친구 추가 아이콘</string>
     <string name="fragment_friend_click_plus_button">+버튼을 눌러 친구를 추가해보세요</string>
+    <string name="change_noti_time_finish">알림 시간 설정이 완료되었습니다.</string>
 </resources>
