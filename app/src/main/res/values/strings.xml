@@ -126,4 +126,9 @@
     <string name="fragment_add_contact_from_settings_get_contacts">연락처 불러오기</string>
     <string name="fragment_add_contact_from_settings_wait">연락처를 불러오는 중입니다.\n잠시만 기다려주세요</string>
     <string name="on_boarding_select_none">모두해제</string>
+    <string name="fragment_intro_introduce_string_1">안녕하세요\n친구와 지인의 정보를 기록할 수 있는 컨택트입니다.</string>
+    <string name="fragment_intro_introduce_string_2">지인과의 약속을 저장해주시면,\n기억하고 있다가 해당 약속을 알림으로 알려드릴게요.</string>
+    <string name="fragment_intro_introduce_string_3">걱정하지 마세요.\n컨택을 보호하기 위해 비밀번호와\n지문인식 기능을 이용할 수 있어요.</string>
+    <string name="fragment_intro_introduce_string_4">지금 바로 시작해봐요.</string>
+    <string name="item_intro_start">시작하기</string>
 </resources>
