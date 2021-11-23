@@ -45,6 +45,9 @@ class AddContactFromSettingsFragment :
         binding.ivBackIcon.setOnClickListener {
             findNavController().popBackStack()
         }
+        binding.btnLoad.setOnClickListener {
+            viewModel.saveFriends(contactAdapter.addSet.toList())
+        }
     }
 
     private fun initAdapter() {
@@ -55,11 +58,18 @@ class AddContactFromSettingsFragment :
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loadingUIState.collect { newState ->
-                    if (newState == ContactSavingUiState.LoadingDone) {
-                        contactAdapter.submitList(viewModel.contactList)
+                    when (newState) {
+                        ContactSavingUiState.LoadingDone -> {
+                            contactAdapter.submitList(viewModel.contactList)
+                        }
+                        ContactSavingUiState.DialogDone -> {
+                            findNavController().popBackStack()
+                        }
                     }
                 }
             }
         }
     }
+
+
 }

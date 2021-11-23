@@ -1,13 +1,12 @@
 package com.ivyclub.contact.ui.main.settings.contact
 
-import android.provider.ContactsContract
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.model.PhoneContactData
 import com.ivyclub.contact.util.ContactListManager
 import com.ivyclub.contact.util.ContactSavingUiState
 import com.ivyclub.data.ContactRepository
+import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,6 +25,26 @@ class AddContactFromSettingViewModel @Inject constructor(
 
     init {
         getContactList()
+    }
+
+    fun saveFriends(friendData: List<PhoneContactData>) {
+        viewModelScope.launch {
+            _loadingUiState.value = ContactSavingUiState.Dialog
+            friendData.forEach {
+                repository.saveFriend(
+                    FriendData(
+                        it.phoneNumber,
+                        it.name,
+                        "",
+                        1,
+                        listOf(),
+                        false,
+                        mapOf()
+                    )
+                )
+            }
+            _loadingUiState.value = ContactSavingUiState.DialogDone
+        }
     }
 
     private fun getContactList() {
