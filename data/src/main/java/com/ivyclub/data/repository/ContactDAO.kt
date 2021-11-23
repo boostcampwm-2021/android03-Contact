@@ -9,7 +9,7 @@ interface ContactDAO {
     @Query("SELECT * FROM FriendData")
     suspend fun getFriends(): List<FriendData>
 
-    @Query("SELECT * FROM FriendData")
+    @Query("SELECT * FROM FriendData ORDER BY name")
     fun getFriendsWithFlow(): Flow<List<FriendData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -69,7 +69,4 @@ interface ContactDAO {
         extraInfo: Map<String, String>,
         id: Long
     )
-
-    @Query("SELECT * FROM FriendData WHERE isFavorite = :isFavorite")
-    fun getFavoriteFriend(isFavorite: Boolean = true): List<FriendData>
 }
