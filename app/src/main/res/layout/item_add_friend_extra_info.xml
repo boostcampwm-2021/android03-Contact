@@ -19,7 +19,7 @@
             android:background="@drawable/bg_add_edit_friend_info"
             android:hint="@string/add_edit_friend_extra_info_title_hint"
             android:paddingHorizontal="8dp"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/et_extra_info_value"

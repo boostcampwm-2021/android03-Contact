@@ -46,7 +46,7 @@
     <string name="add_edit_friend_group">그룹</string>
     <string name="add_edit_friend_profile_image">add friend profile image</string>
     <string name="add_edit_friend_back_button_description">back</string>
-    <string name="add_edit_friend_phone_number">*전화번호</string>
+    <string name="add_edit_friend_phone_number">전화번호</string>
     <string name="add_edit_friend_birthday">생년월일</string>
     <string name="add_edit_friend_extra_info_title_hint">추가 정보</string>
     <string name="add_edit_friend_required_check">필수 입력 항목입니다.</string>
