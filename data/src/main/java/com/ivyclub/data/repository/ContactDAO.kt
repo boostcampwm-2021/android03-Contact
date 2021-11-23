@@ -86,7 +86,7 @@ interface ContactDAO {
     fun deleteFriend(id: Long)
 
     @Query("SELECT id FROM FRIENDDATA ORDER BY id DESC LIMIT 1")
-    suspend fun getLastFriendId(): Long
+    suspend fun getLastFriendId(): Long?
 
     @Query("SELECT name FROM GroupData WHERE id = :id")
     suspend fun getGroupNameById(id: Long): String
