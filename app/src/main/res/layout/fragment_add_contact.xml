@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,13 +26,12 @@
                     android:id="@+id/cb_select_all"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:layout_gravity="end"
                     android:layout_marginTop="7dp"
                     android:text="@string/menu_select_all"
-                    android:layout_gravity="end"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
+
             </androidx.appcompat.widget.Toolbar>
-
-
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -44,12 +39,12 @@
             android:id="@+id/tv_introduce"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="28dp"
             android:layout_marginTop="200dp"
             android:gravity="center"
             android:text="@string/onboarding_add_contact_message"
             android:textColor="@color/black"
-            android:textSize="30sp"
-            android:layout_marginHorizontal="28dp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -58,10 +53,10 @@
             android:id="@+id/btn_load"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="300dp"
             android:text="@string/onboarding_load_contact"
             android:textSize="16sp"
-            android:layout_marginHorizontal="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
