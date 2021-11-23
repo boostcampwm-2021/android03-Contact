@@ -42,6 +42,29 @@
             app:layout_constraintTop_toBottomOf="@id/tv_get_contacts"
             tools:listitem="@layout/item_contact" />
 
+        <ProgressBar
+            android:id="@+id/pb_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/tv_wait"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_get_contacts"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <TextView
+            android:id="@+id/tv_wait"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/fragment_add_contact_from_settings_wait"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/btn_load"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pb_loading" />
+
         <Button
             android:id="@+id/btn_load"
             android:layout_width="match_parent"

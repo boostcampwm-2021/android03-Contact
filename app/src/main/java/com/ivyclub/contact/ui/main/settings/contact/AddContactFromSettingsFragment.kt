@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddContactFromSettingsBinding
 import com.ivyclub.contact.ui.onboard.contact.ContactAdapter
+import com.ivyclub.contact.ui.onboard.contact.dialog.DialogGetContactsLoadingFragment
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.ContactSavingUiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +25,7 @@ class AddContactFromSettingsFragment :
 
     private val viewModel: AddContactFromSettingViewModel by viewModels()
     private val contactAdapter by lazy { ContactAdapter() }
+    private val loadingDialog = DialogGetContactsLoadingFragment()
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -60,9 +62,18 @@ class AddContactFromSettingsFragment :
                 viewModel.loadingUIState.collect { newState ->
                     when (newState) {
                         ContactSavingUiState.LoadingDone -> {
+                            binding.pbLoading.visibility = View.GONE
+                            binding.tvWait.visibility = View.GONE
                             contactAdapter.submitList(viewModel.contactList)
                         }
+                        ContactSavingUiState.Dialog -> {
+                            loadingDialog.show(
+                                childFragmentManager,
+                                DialogGetContactsLoadingFragment.TAG
+                            )
+                        }
                         ContactSavingUiState.DialogDone -> {
+                            if (loadingDialog.isVisible) loadingDialog.dismiss()
                             findNavController().popBackStack()
                         }
                     }
@@ -70,6 +81,4 @@ class AddContactFromSettingsFragment :
             }
         }
     }
-
-
 }
