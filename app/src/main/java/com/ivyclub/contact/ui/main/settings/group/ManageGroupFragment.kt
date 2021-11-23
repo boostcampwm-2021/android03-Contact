@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentManageGroupBinding
 import com.ivyclub.contact.ui.main.friend.dialog.GroupDialogFragment
@@ -59,6 +60,7 @@ class ManageGroupFragment :
 
     override fun onDismiss(dialog: DialogInterface?) {
         viewModel.loadGroupList()
+        Snackbar.make(binding.root, getString(R.string.manage_group_success_edit_name), Snackbar.LENGTH_SHORT).show()
     }
 
     companion object {

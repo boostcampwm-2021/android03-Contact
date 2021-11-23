@@ -128,4 +128,5 @@
     <string name="group_dialog_edit">변경</string>
     <string name="group_dialog_name_edit">그룹 이름 변경</string>
     <string name="manage_group_delete">그룹 \'%s\'을(를) 삭제하시겠습니까?</string>
+    <string name="manage_group_success_edit_name">그룹 이름이 성공적으로 변경되었습니다.</string>
 </resources>
