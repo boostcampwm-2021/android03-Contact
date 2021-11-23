@@ -3,6 +3,7 @@ package com.ivyclub.contact.ui.plan_list
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ivyclub.contact.R
@@ -18,6 +19,7 @@ class PlanListAdapter(
 ) : ListAdapter<PlanListItemViewModel, PlanListAdapter.PlanViewHolder>(diffUtil) {
 
     private lateinit var scrollToRecentDateCallback: () -> (Unit)
+    private lateinit var refreshVisibleListCallback: () -> (Unit)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         PlanViewHolder(
@@ -48,6 +50,13 @@ class PlanListAdapter(
 
             recyclerView.scrollToPosition(minIdx)
         }
+
+        refreshVisibleListCallback = {
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisiblePosition = layoutManager.findFirstVisibleItemPosition()
+            val itemCount = layoutManager.findLastVisibleItemPosition() - firstVisiblePosition
+            notifyItemRangeChanged(firstVisiblePosition, itemCount)
+        }
     }
 
     override fun onCurrentListChanged(
@@ -55,13 +64,8 @@ class PlanListAdapter(
         currentList: MutableList<PlanListItemViewModel>
     ) {
         super.onCurrentListChanged(previousList, currentList)
-        if (previousList.isNotEmpty() && currentList.isNotEmpty() &&
-                previousList[0].id != currentList[0].id &&
-                previousList[0].planYear == currentList[0].planYear &&
-                previousList[0].planMonth == currentList[0].planMonth) {
-            notifyItemRangeChanged(0, 2)
-        }
         scrollToRecentDateCallback.invoke()
+        refreshVisibleListCallback.invoke()
     }
 
     fun isHeader(position: Int): Boolean {
