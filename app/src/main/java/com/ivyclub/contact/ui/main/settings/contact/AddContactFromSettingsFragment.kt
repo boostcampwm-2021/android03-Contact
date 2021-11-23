@@ -31,22 +31,24 @@ class AddContactFromSettingsFragment :
 
     private val viewModel: AddContactFromSettingViewModel by viewModels()
     private val contactAdapter by lazy { ContactAdapter(this::setCheckbox) }
-    private val loadingDialog = DialogGetContactsLoadingFragment()
+    private val loadingDialog by lazy { DialogGetContactsLoadingFragment() }
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            initView()
+            initGrantedView()
         } else {
             binding.tvContactPermission.visibility = View.VISIBLE
-            //Snackbar.make(binding.root, "권한을 수락해주셔야 합니다.", Snackbar.LENGTH_SHORT).show()
-            //findNavController().popBackStack()
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkPermission()
+        initDefaultButtons()
+    }
+
+    private fun initDefaultButtons() {
         binding.tvContactPermission.setOnClickListener {
             val needPermissionDialog = NeedPermissionDialog()
             needPermissionDialog.show(
@@ -54,9 +56,12 @@ class AddContactFromSettingsFragment :
                 NeedPermissionDialog.TAG
             )
         }
+        binding.ivBackIcon.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
-    private fun initView() {
+    private fun initGrantedView() {
         initButtons()
         initAdapter()
         observeLoadingUiState()
@@ -69,13 +74,12 @@ class AddContactFromSettingsFragment :
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             requestContactPermission()
+        } else {
+            initGrantedView()
         }
     }
 
     private fun initButtons() = with(binding) {
-        ivBackIcon.setOnClickListener {
-            findNavController().popBackStack()
-        }
         btnLoad.setOnClickListener {
             viewModel.saveFriends(contactAdapter.addSet.toList())
         }
@@ -86,7 +90,6 @@ class AddContactFromSettingsFragment :
                 contactAdapter.removeAllItem()
             }
         }
-
     }
 
     private fun initAdapter() {
