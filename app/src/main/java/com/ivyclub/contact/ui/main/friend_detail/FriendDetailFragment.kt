@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -66,13 +67,27 @@ class FriendDetailFragment :
                 btnFavorite.startAnimation(animation)
                 this@FriendDetailFragment.viewModel.setFavorite(id, btnFavorite.isChecked)
             }
-            ivEdit.setOnClickListener {
-                findNavController().navigate(
-                    FriendDetailFragmentDirections.actionFriendDetailFragmentToAddEditFriendFragment(
-                        args.friendId
-                    )
-                )
+            ivMore.setOnClickListener {
+                val popupMenu = PopupMenu(requireContext(), it)
+                popupMenu.menuInflater.inflate(R.menu.menu_friend_detail, popupMenu.menu)
+                popupMenu.show()
+                popupMenu.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.item_edit_friend -> {
+                            findNavController().navigate(
+                                FriendDetailFragmentDirections.actionFriendDetailFragmentToAddEditFriendFragment(
+                                    args.friendId
+                                )
+                            )
+                        }
+                        R.id.item_delete_friend -> {
+                            showDeleteFriendDialog()
+                        }
+                    }
+                    false
+                }
             }
+
             ivBackIcon.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -95,9 +110,6 @@ class FriendDetailFragment :
                     null, // NavOptions
                     extras
                 )
-            }
-            ivDelete.setOnClickListener {
-                showDeleteFriendDialog()
             }
         }
     }
