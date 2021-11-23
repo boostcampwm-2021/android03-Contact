@@ -11,6 +11,7 @@ import com.ivyclub.contact.util.binding
 import com.ivyclub.data.model.GroupData
 
 class GroupListAdapter(
+    private val onEditButtonClick: (GroupData) -> Unit,
     private val onDeleteButtonClick: (GroupData) -> Unit
 ) : ListAdapter<GroupData, GroupListAdapter.GroupViewHolder>(diffUtil) {
 
@@ -28,6 +29,9 @@ class GroupListAdapter(
         init {
             binding.ivDeleteGroup.setOnClickListener {
                 onDeleteButtonClick(getItem(adapterPosition))
+            }
+            binding.ivEditGroupName.setOnClickListener {
+                onEditButtonClick(getItem(adapterPosition))
             }
         }
 

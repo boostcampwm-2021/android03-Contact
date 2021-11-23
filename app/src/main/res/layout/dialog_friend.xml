@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.ivyclub.contact.ui.main.friend.dialog.AddGroupViewModel" />
+            type="com.ivyclub.contact.ui.main.friend.dialog.GroupDialogViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

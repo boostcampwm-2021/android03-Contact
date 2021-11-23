@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddGroupViewModel @Inject constructor(private val repository: ContactRepository) :
+class GroupDialogViewModel @Inject constructor(private val repository: ContactRepository) :
     ViewModel() {
 
     private val groups = mutableListOf<String>()
@@ -64,4 +64,9 @@ class AddGroupViewModel @Inject constructor(private val repository: ContactRepos
         _isAddGroupButtonActive.value = isActive
     }
 
+    fun updateGroupName(id: Long, name: String) {
+        viewModelScope.launch {
+            repository.updateGroupName(id, name)
+        }
+    }
 }

@@ -18,12 +18,14 @@ class ManageGroupViewModel @Inject constructor(private val repository: ContactRe
     val groupList: LiveData<List<GroupData>> get() = _groupList
     private val _showDeleteDialog = SingleLiveEvent<GroupData>()
     val showDeleteDialog: LiveData<GroupData> get() = _showDeleteDialog
+    private val _showEditDialog = SingleLiveEvent<GroupData>()
+    val showEditDialog: LiveData<GroupData> get() = _showEditDialog
 
     init {
         loadGroupList()
     }
 
-    private fun loadGroupList() {
+    fun loadGroupList() {
         viewModelScope.launch {
             val groups = repository.loadGroups()
             _groupList.value = groups
@@ -32,6 +34,10 @@ class ManageGroupViewModel @Inject constructor(private val repository: ContactRe
 
     fun showDeleteDialog(groupData: GroupData) {
         _showDeleteDialog.value = groupData
+    }
+
+    fun showEditDialog(groupData: GroupData) {
+        _showEditDialog.value = groupData
     }
 
     fun deleteGroup(groupData: GroupData) {
