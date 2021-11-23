@@ -67,12 +67,11 @@ dependencies {
     implementation(Dep.Libs.hilt)
     kapt(Dep.Libs.hiltCompiler)
     implementation(Dep.Libs.hiltViewModel)
+    implementation(Dep.Libs.indicator)
     kapt(Dep.Libs.hiltViewModelCompiler)
     implementation(Dep.AndroidX.workRuntime)
     implementation(Dep.AndroidX.hiltWork)
     kapt(Dep.Libs.hiltWorkCompiler)
     implementation(Dep.AndroidX.biometric)
     implementation ("de.svenkubiak", "jBCrypt", "0.4.1")
-
-    implementation(project(":data"))
 }
