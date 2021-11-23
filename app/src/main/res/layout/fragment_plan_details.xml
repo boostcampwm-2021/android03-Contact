@@ -79,6 +79,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="28dp"
+                    android:gravity="center"
+                    android:maxLength="30"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:text="@{viewModel.planDetails.title}"

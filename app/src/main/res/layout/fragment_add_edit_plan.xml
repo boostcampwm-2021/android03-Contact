@@ -68,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="28dp"
                     android:gravity="center"
+                    android:maxLength="30"
                     android:hint="@string/hint_plan_title"
                     android:text="@={viewModel.planTitle}"
                     android:inputType="textShortMessage"
