@@ -189,7 +189,10 @@ class ContactRepositoryImpl @Inject constructor(
 
     override suspend fun getLastFriendId() = withContext(ioDispatcher) {
         contactDAO.getLastFriendId()
+    }
 
+    override fun loadGroupsWithFlow(): Flow<List<GroupData>> {
+        return contactDAO.loadGroupsWithFlow().flowOn(ioDispatcher).conflate()
     }
 
     companion object {

@@ -48,6 +48,7 @@ interface ContactRepository {
     suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: Long)
     suspend fun deleteGroup(groupData: GroupData)
     suspend fun getGroupNameById(id: Long): String
+    fun loadGroupsWithFlow(): Flow<List<GroupData>>
 
     // Password
     suspend fun savePassword(password: String)

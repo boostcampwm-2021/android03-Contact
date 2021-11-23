@@ -189,7 +189,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
 
     private fun getGroupSelectFragmentResult() {
         childFragmentManager.setFragmentResultListener("requestKey", this) { key, bundle ->
-            val result = bundle.getString("bundleKey")
+            val result = bundle.getLong("bundleKey")
             viewModel.updateFriendsGroup(result) // 뷰모델에서 클릭 된 아이템 처리 해제
             friendListAdapter.clearLongClickedItemCount() // 리스트 어댑터에서 클릭 된 아이템 처리 해제
             Snackbar.make(binding.root, "성공적으로 옮겨졌습니다.", Snackbar.LENGTH_SHORT).show()
