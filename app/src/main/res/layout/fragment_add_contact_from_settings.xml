@@ -8,17 +8,28 @@
         android:layout_height="match_parent"
         tools:context=".ui.onboard.contact.AddContactFragment">
 
-        <TextView
-            android:id="@+id/tv_introduce"
+        <ImageView
+            android:id="@+id/iv_back_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="연락처에 있는 지인을 추가해보세요"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:padding="4dp"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            app:layout_constraintBottom_toBottomOf="@id/tv_get_contacts"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_get_contacts" />
+
+        <TextView
+            android:id="@+id/tv_get_contacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/fragment_add_cotnact_from_settings_get_contacts"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/iv_back_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -27,7 +38,7 @@
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/btn_load"
-            app:layout_constraintTop_toBottomOf="@id/tv_introduce"
+            app:layout_constraintTop_toBottomOf="@id/tv_get_contacts"
             tools:listitem="@layout/item_contact" />
 
         <Button

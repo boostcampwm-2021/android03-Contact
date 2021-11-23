@@ -3,13 +3,15 @@ package com.ivyclub.contact.ui.main.settings.group
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentManageGroupBinding
 import com.ivyclub.contact.util.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ManageGroupFragment : BaseFragment<FragmentManageGroupBinding>(R.layout.fragment_manage_group) {
+class ManageGroupFragment :
+    BaseFragment<FragmentManageGroupBinding>(R.layout.fragment_manage_group) {
 
     private val viewModel: ManageGroupViewModel by viewModels()
     private val groupListAdapter: GroupListAdapter by lazy { GroupListAdapter(viewModel::deleteGroup) }
@@ -18,6 +20,13 @@ class ManageGroupFragment : BaseFragment<FragmentManageGroupBinding>(R.layout.fr
         super.onViewCreated(view, savedInstanceState)
         binding.rvGroupList.adapter = groupListAdapter
         observeGroupList()
+        initBackButton()
+    }
+
+    private fun initBackButton() {
+        binding.ivBackIcon.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun observeGroupList() {

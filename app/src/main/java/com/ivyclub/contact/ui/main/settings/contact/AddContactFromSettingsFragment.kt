@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddContactFromSettingsBinding
 import com.ivyclub.contact.util.BaseFragment
@@ -26,6 +27,12 @@ class AddContactFromSettingsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initButtons()
+    }
 
+    private fun initButtons() {
+        binding.ivBackIcon.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 }
