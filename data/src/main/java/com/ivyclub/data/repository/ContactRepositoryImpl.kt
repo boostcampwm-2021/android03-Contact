@@ -195,6 +195,10 @@ class ContactRepositoryImpl @Inject constructor(
         return contactDAO.loadGroupsWithFlow().flowOn(ioDispatcher).conflate()
     }
 
+    override suspend fun updateGroupName(id: Long, name: String) = withContext(ioDispatcher) {
+        contactDAO.updateGroupName(id, name)
+    }
+
     companion object {
         private const val NOTIFICATION_START = "NOTIFICATION_START"
         private const val NOTIFICATION_END = "NOTIFICATION_END"
