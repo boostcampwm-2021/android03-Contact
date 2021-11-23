@@ -110,10 +110,10 @@ class FriendViewModel @Inject constructor(
         _isInLongClickedState.value = longClickedId.isNotEmpty()
     }
 
-    fun updateFriendsGroup(groupName: String?) {
-        if (groupName == null) return
+    fun updateFriendsGroup(groupID: Long?) {
+        if (groupID == null) return
         viewModelScope.launch {
-            // TODO : repository.updateGroupOf(longClickedId, groupName)
+            repository.updateGroupOf(longClickedId, groupID)
             initLongClickedId() // 그룹 이동이 끝나서 저장된 값들 초기화
             getFriendDataWithFlow() // 리스트 업데이트
             clearLongClickedId() // long clicked된 id 값들 처리 해제

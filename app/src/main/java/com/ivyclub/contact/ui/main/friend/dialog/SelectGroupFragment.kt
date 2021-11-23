@@ -49,7 +49,7 @@ class SelectGroupFragment : DialogFragment() {
 
     private fun initMoveButton() {
         binding.tvSelect.setOnClickListener {
-            val result = binding.spnGroup.selectedItem.toString()
+            val result = viewModel.getIDOf(binding.spnGroup.selectedItem.toString())
             setFragmentResult("requestKey", bundleOf("bundleKey" to result))
             dismiss()
         }
