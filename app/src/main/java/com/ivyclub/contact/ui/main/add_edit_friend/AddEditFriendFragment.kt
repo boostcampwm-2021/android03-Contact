@@ -62,7 +62,7 @@ class AddEditFriendFragment :
                     etName.setText(friendData.name)
                     etPhoneNumber.setText(friendData.phoneNumber)
                     tvBirthdayValue.text = friendData.birthday
-                    spnGroup.setSelection(spinnerAdapter.getPosition(friendData.groupName))
+                    // TODO : spnGroup.setSelection(spinnerAdapter.getPosition(friendData.groupName))
                 }
                 viewModel.addExtraInfoList(friendData.extraInfo)
             }
@@ -151,7 +151,7 @@ class AddEditFriendFragment :
                         etPhoneNumber.text.toString(),
                         etName.text.toString(),
                         tvBirthdayValue.text.toString(),
-                        spnGroup.selectedItem.toString(),
+                        0, // TODO
                         extraInfoListAdapter.currentList,
                         args.friendId
                     )

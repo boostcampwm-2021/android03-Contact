@@ -54,6 +54,9 @@ class FriendDetailFragment :
         viewModel.finishEvent.observe(viewLifecycleOwner) {
             findNavController().popBackStack()
         }
+        viewModel.groupName.observe(viewLifecycleOwner) {
+            binding.tvGroup.text = it
+        }
     }
 
     private fun initButtons(id: Long) {
@@ -102,7 +105,6 @@ class FriendDetailFragment :
     private fun initDetails(friend: FriendData) {
         with(binding) {
             tvName.text = friend.name
-            tvGroup.text = friend.groupName
             tvPhoneNum.text = friend.phoneNumber
             if (friend.phoneNumber == "") btnCall.visibility = View.GONE
             btnFavorite.isChecked = friend.isFavorite

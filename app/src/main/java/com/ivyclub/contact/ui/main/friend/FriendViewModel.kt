@@ -113,7 +113,7 @@ class FriendViewModel @Inject constructor(
     fun updateFriendsGroup(groupName: String?) {
         if (groupName == null) return
         viewModelScope.launch {
-            repository.updateGroupOf(longClickedId, groupName)
+            // TODO : repository.updateGroupOf(longClickedId, groupName)
             initLongClickedId() // 그룹 이동이 끝나서 저장된 값들 초기화
             getFriendDataWithFlow() // 리스트 업데이트
             clearLongClickedId() // long clicked된 id 값들 처리 해제
@@ -183,7 +183,7 @@ class FriendViewModel @Inject constructor(
                 id = it.id,
                 phoneNumber = it.phoneNumber,
                 name = it.name,
-                groupName = it.groupName,
+                groupName = "it.groupName", // TODO
                 viewType = FriendListViewType.FRIEND,
                 isFavoriteFriend = it.isFavorite
             )

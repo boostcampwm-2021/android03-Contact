@@ -119,7 +119,7 @@ class AddEditPlanFragment :
         childFragmentManager.setFragmentResultListener("requestKey", this) { _, bundle ->
             val result = bundle.getString("bundleKey")
             result?.let {
-                viewModel.addParticipantsByGroup(it)
+                viewModel.addParticipantsByGroup(0) // TODO
             }
         }
     }

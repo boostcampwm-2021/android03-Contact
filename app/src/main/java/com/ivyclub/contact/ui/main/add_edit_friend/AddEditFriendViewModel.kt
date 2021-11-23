@@ -76,7 +76,7 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
         phoneNumber: String,
         name: String,
         birthday: String,
-        groupName: String,
+        groupId: Long,
         extraInfo: List<FriendExtraInfoData>,
         id: Long
     ) {
@@ -93,7 +93,7 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
                         phoneNumber,
                         name,
                         birthday,
-                        groupName,
+                        groupId,
                         listOf(),
                         false,
                         extraInfoMap
@@ -104,7 +104,7 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
                     phoneNumber,
                     name,
                     birthday,
-                    groupName,
+                    groupId,
                     extraInfoMap,
                     id
                 )

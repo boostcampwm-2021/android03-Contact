@@ -13,7 +13,7 @@ interface ContactRepository {
         phoneNumber: String,
         name: String,
         birthday: String,
-        groupName: String,
+        groupId: Long,
         extraInfo: Map<String, String>,
         id: Long
     )
@@ -34,7 +34,7 @@ interface ContactRepository {
     suspend fun getPlanDataById(planId: Long): PlanData
     suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long> = emptyList()): Long
     suspend fun deletePlanData(planData: PlanData)
-    suspend fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
+    suspend fun getSimpleFriendDataListByGroup(groupId: Long): List<SimpleFriendData>
     suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
     suspend fun getSimpleFriendData(): List<SimpleFriendData>
     suspend fun getPlansByIds(planIds: List<Long>): List<PlanData>
@@ -45,8 +45,9 @@ interface ContactRepository {
     // Group
     suspend fun loadGroups(): List<GroupData>
     suspend fun saveNewGroup(groupData: GroupData)
-    suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String)
+    suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: Long)
     suspend fun deleteGroup(groupData: GroupData)
+    suspend fun getGroupNameById(id: Long): String
 
     // Password
     suspend fun savePassword(password: String)
