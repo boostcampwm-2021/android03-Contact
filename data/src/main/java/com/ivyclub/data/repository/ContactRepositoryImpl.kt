@@ -177,6 +177,7 @@ class ContactRepositoryImpl @Inject constructor(
 
     override suspend fun deleteFriend(id: Long) = withContext(ioDispatcher) {
         contactDAO.deleteFriend(id)
+    }
 
     override suspend fun getLastFriendId() = withContext(ioDispatcher) {
         contactDAO.getLastFriendId()
