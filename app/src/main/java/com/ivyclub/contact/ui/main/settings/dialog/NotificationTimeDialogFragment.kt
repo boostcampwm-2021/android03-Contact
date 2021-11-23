@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentDialogNotificationTimeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +47,14 @@ class NotificationTimeDialogFragment : DialogFragment() {
         initRangeSlider()
         initCancelButton()
         initConfirmButton()
+        observeDismissEvent()
+    }
+
+    private fun observeDismissEvent() {
+        viewModel.changeNotiTimeFinishEvent.observe(viewLifecycleOwner) {
+            Toast.makeText(context, getString(R.string.change_noti_time_finish), Toast.LENGTH_SHORT).show()
+            dismiss()
+        }
     }
 
     private fun initRangeSlider() = with(binding.rsTimeRange) {
@@ -64,7 +74,6 @@ class NotificationTimeDialogFragment : DialogFragment() {
                 binding.rsTimeRange.values[START_TIME_INDEX],
                 binding.rsTimeRange.values[END_TIME_INDEX]
             )
-            dismiss()
         }
     }
 

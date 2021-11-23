@@ -11,13 +11,25 @@
         tools:layout="@layout/fragment_friend">
         <action
             android:id="@+id/action_navigation_friend_to_addFriendFragment"
-            app:destination="@id/addEditFriendFragment" />
+            app:destination="@id/addEditFriendFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
         <action
             android:id="@+id/action_navigation_friend_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
         <action
             android:id="@+id/action_navigation_friend_to_friendDetailFragment"
-            app:destination="@id/friendDetailFragment" />
+            app:destination="@id/friendDetailFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
         <action
             android:id="@+id/action_navigation_friend_to_planDetailsFragment"
             app:destination="@id/planDetailsFragment" />
@@ -32,10 +44,18 @@
             app:destination="@id/settingsFragment" />
         <action
             android:id="@+id/action_navigation_plan_to_planDetailsFragment"
-            app:destination="@id/planDetailsFragment" />
+            app:destination="@id/planDetailsFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
         <action
             android:id="@+id/action_navigation_plan_to_addEditFragment"
-            app:destination="@id/addEditFragment" />
+            app:destination="@id/addEditFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -60,7 +80,11 @@
             app:argType="long" />
         <action
             android:id="@+id/action_planDetailsFragment_to_addEditFragment"
-            app:destination="@id/addEditFragment" />
+            app:destination="@id/addEditFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -85,10 +109,16 @@
         tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/action_settingsFragment_to_securityFragment"
-            app:destination="@id/securityFragment" />
+            app:destination="@id/securityFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"/>
+      
         <action
             android:id="@+id/action_settingsFragment_to_manageGroupFragment"
             app:destination="@id/manageGroupFragment" />
+
     </fragment>
 
     <fragment
@@ -102,13 +132,25 @@
             app:argType="long" />
         <action
             android:id="@+id/action_friendDetailFragment_to_addEditFriendFragment"
-            app:destination="@id/addEditFriendFragment" />
+            app:destination="@id/addEditFriendFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
         <action
             android:id="@+id/action_friendDetailFragment_to_planDetailsFragment"
-            app:destination="@id/planDetailsFragment" />
+            app:destination="@id/planDetailsFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
         <action
             android:id="@+id/action_friendDetailFragment_to_friendAllPlanFragment"
-            app:destination="@id/friendAllPlanFragment" />
+            app:destination="@id/friendAllPlanFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
         <action
             android:id="@+id/action_friendDetailFragment_to_imageDetailFragment"
             app:destination="@id/imageDetailFragment" />
@@ -121,10 +163,18 @@
         tools:layout="@layout/fragment_friend_all_plan">
         <action
             android:id="@+id/action_friendAllPlanFragment_to_planDetailsFragment"
-            app:destination="@id/planDetailsFragment" />
+            app:destination="@id/planDetailsFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
         <action
             android:id="@+id/action_friendAllPlanFragment_to_addEditFragment"
-            app:destination="@id/addEditFragment" />
+            app:destination="@id/addEditFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
         <argument
             android:name="friendId"
             app:argType="long"

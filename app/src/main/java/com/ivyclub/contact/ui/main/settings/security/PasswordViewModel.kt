@@ -10,6 +10,7 @@ import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.mindrot.jbcrypt.BCrypt
 import javax.inject.Inject
 
 @HiltViewModel
@@ -106,7 +107,7 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                 }
            }
             PasswordViewType.APP_CONFIRM_PASSWORD -> {
-                if (password == inputPassword) {
+                if (BCrypt.checkpw(inputPassword, password)) {
                     _finishConfirmPassword.call()
                 } else {
                     _retry.call()
@@ -114,7 +115,7 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                 }
             }
             PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
-                if (password == inputPassword) {
+                if (BCrypt.checkpw(inputPassword, password)) {
                     _moveToPreviousFragment.call()
                 } else {
                     _retry.call()
@@ -133,7 +134,7 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     }
 
     private fun savePassword(password: String) = viewModelScope.launch {
-        repository.savePassword(password)
+        repository.savePassword(BCrypt.hashpw(password, BCrypt.gensalt(10)))
     }
 
     fun checkFingerPrintState() {

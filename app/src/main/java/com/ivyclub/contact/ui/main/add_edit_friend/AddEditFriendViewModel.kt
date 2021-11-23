@@ -1,7 +1,6 @@
 package com.ivyclub.contact.ui.main.add_edit_friend
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,9 +10,6 @@ import com.ivyclub.data.ImageManager
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileOutputStream
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,6 +28,8 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     private val extraInfoList = mutableListOf<FriendExtraInfoData>()
     val phoneNumber = MutableLiveData("")
     val name = MutableLiveData("")
+    private val _newId =  MutableLiveData<Long>()
+    val newId: LiveData<Long> get() = _newId
 
 
     init {
@@ -125,6 +123,12 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
 
     fun loadProfileImage(friendId: Long): Bitmap? {
         return ImageManager.loadProfileImage(friendId)
+    }
+
+    fun createNewId() {
+        viewModelScope.launch {
+            _newId.postValue(repository.getLastFriendId() + 1)
+        }
     }
 
     companion object {

@@ -12,6 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/green_200</item>
         <!-- Customize your theme here. -->
+        <item name="android:datePickerDialogTheme">@style/ContactDateTimePicker</item>
+        <item name="android:timePickerDialogTheme">@style/ContactDateTimePicker</item>
     </style>
 
     <style name="BlueSelectableItemTheme">
@@ -21,5 +23,10 @@
     <style name="FriendListViewSelectableItemBackground">
         <item name="android:theme">@style/BlueSelectableItemTheme</item>
         <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="ContactDateTimePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/green_200</item>
+        <item name="colorOnPrimary">@color/green_200</item>
     </style>
 </resources>

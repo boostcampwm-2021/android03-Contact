@@ -1,7 +1,5 @@
 package com.ivyclub.contact.ui.main.friend
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.model.FriendListData
@@ -9,8 +7,7 @@ import com.ivyclub.contact.util.FriendListViewType
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,18 +17,22 @@ class FriendViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var searchInputString = ""
-    private var originEntireFriendList: List<FriendListData> = emptyList()// 다른 뷰홀더는 없고 친구들만 있는 데이터
-    private var orderedEntireFriendList: List<FriendListData> =
-        emptyList()// 모든 뷰타입으로 정렬된 전체 친구 데이터
+    private var originEntireFriendList =
+        emptyList<FriendListData>() // 다른 뷰홀더는 없고 친구들만 있는 데이터, 즐겨찾기 때문에 중복이 있음.
+    private var friendListForSearch =
+        emptyList<FriendListData>() // 검색했을 때 보여주기 위한 친구 데이터, 즐겨찾기 중복 없음.
+    private var orderedEntireFriendList = emptyList<FriendListData>() // 모든 뷰타입으로 정렬된 전체 친구 데이터
 
-    private val _isSearchViewVisible = MutableLiveData(false)
-    val isSearchViewVisible: LiveData<Boolean> get() = _isSearchViewVisible
-    private val _friendList = MutableLiveData<List<FriendListData>>()
-    val friendList: LiveData<List<FriendListData>> get() = _friendList
-    private val _isClearButtonVisible = MutableLiveData(false)
-    val isClearButtonVisible: LiveData<Boolean> get() = _isClearButtonVisible
-    private val _isInLongClickedState = MutableLiveData(false)
-    val isInLongClickedState: LiveData<Boolean> get() = _isInLongClickedState
+    private val _isSearchViewVisible = MutableStateFlow(false)
+    val isSearchViewVisible = _isSearchViewVisible.asStateFlow()
+    private val _friendList = MutableStateFlow<List<FriendListData>>(emptyList())
+    val friendList = _friendList.asStateFlow()
+    private val _isClearButtonVisible = MutableStateFlow(false)
+    val isClearButtonVisible = _isClearButtonVisible.asStateFlow()
+    private val _isInLongClickedState = MutableStateFlow(false)
+    val isInLongClickedState = _isInLongClickedState.asStateFlow()
+    private val _isFriendDatabaseEmpty = MutableStateFlow(false)
+    val isFriendDatabaseEmpty = _isFriendDatabaseEmpty.asStateFlow()
     private val foldedGroupNameList = mutableListOf<String>()
     val longClickedId = mutableListOf<Long>()
 
@@ -42,28 +43,30 @@ class FriendViewModel @Inject constructor(
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendDataWithFlow() {
         viewModelScope.launch {
-            repository.loadFriendsWithFlow().buffer().collect { newLoadedPersonData ->
-                val loadedPersonData =
-                    newLoadedPersonData.sortedBy { it.name }.toFriendListData()
-                val loadedFavoriteFriends =
-                    repository.getFavoriteFriends().toFriendListData().sortedBy { it.name }
-                loadedFavoriteFriends.forEach {
-                    it.groupName = "즐겨찾기"
+            repository.loadFriendsWithFlow()
+                .buffer()
+                .transform { friendsData ->
+                    emit(friendsData.toFriendListData())
                 }
-                if (loadedPersonData.isEmpty()) return@collect
-                val sortedFriendList = mutableListOf<FriendListData>()
-                val definedFriendList =
-                    loadedPersonData.groupBy { it.groupName }.toSortedMap().values.flatten()
-                        .filterNot { it.groupName == "친구" }.toMutableList() // 그룹 지정이 된 친구 리스트
-                val undefinedFriendList =
-                    loadedPersonData.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
-                sortedFriendList.addAll(loadedFavoriteFriends + definedFriendList + undefinedFriendList)
-                val newFriendList =
-                    sortedFriendList.addGroupView()
-                _friendList.postValue(newFriendList)
-                orderedEntireFriendList = newFriendList
-                originEntireFriendList = loadedPersonData + loadedFavoriteFriends
-            }
+                .collect { newFriendsData ->
+                    _isFriendDatabaseEmpty.value = newFriendsData.isEmpty()
+                    val favoriteFriendsListData =
+                        newFriendsData.filter { it.isFavoriteFriend }.map { it.copy() }
+                    favoriteFriendsListData.forEach { it.groupName = "즐겨찾기" }
+                    val definedFriendList =
+                        newFriendsData.groupBy { it.groupName }.toSortedMap().values.flatten()
+                            .filterNot { it.groupName == "친구" }.toMutableList() // 그룹 지정이 된 친구 리스트
+                    val undefinedFriendList =
+                        newFriendsData.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
+                    val sortedFriendList =
+                        (favoriteFriendsListData + definedFriendList + undefinedFriendList).toMutableList()
+                    val newFriendList = sortedFriendList.addGroupView()
+                    _friendList.value = newFriendList
+                    originEntireFriendList =
+                        favoriteFriendsListData + definedFriendList + undefinedFriendList
+                    friendListForSearch = definedFriendList + undefinedFriendList
+                    orderedEntireFriendList = newFriendList
+                }
         }
     }
 
@@ -78,7 +81,7 @@ class FriendViewModel @Inject constructor(
     }
 
     fun setSearchViewVisibility() {
-        _isSearchViewVisible.value = !(_isSearchViewVisible.value ?: true)
+        _isSearchViewVisible.value = !(_isSearchViewVisible.value)
         setClearButtonVisibility(searchInputString)
     }
 
@@ -91,8 +94,7 @@ class FriendViewModel @Inject constructor(
         } else { // 그룹 접기
             foldedGroupNameList.add(groupName)
             val newList =
-                _friendList.value?.filterNot { it.groupName == groupName && it.viewType == FriendListViewType.FRIEND }
-                    ?: emptyList()
+                _friendList.value.filterNot { it.groupName == groupName && it.viewType == FriendListViewType.FRIEND }
             _friendList.value = newList
         }
     }
@@ -125,19 +127,15 @@ class FriendViewModel @Inject constructor(
 
     fun getOrderedEntireFriendList() = orderedEntireFriendList
 
-    fun isFriendEmpty(): Boolean {
-        return _friendList.value.isNullOrEmpty()
-    }
-
     private fun initLongClickedId() {
         longClickedId.clear()
     }
 
     private fun sortNameWith(inputString: String) {
         val sortedList =
-            originEntireFriendList.filter { it.name.contains(inputString) }.toMutableList()
+            friendListForSearch.filter { it.name.contains(inputString) }.toMutableList()
         if (inputString.isEmpty()) {
-            _friendList.value = originEntireFriendList
+            _friendList.value = friendListForSearch
         } else {
             _friendList.value = sortedList
         }
@@ -194,15 +192,8 @@ class FriendViewModel @Inject constructor(
         return convertedFriendList.toList()
     }
 
-    private fun MutableList<FriendListData>.addFavoriteGroup(): List<FriendListData> {
-        val first = listOf(getGroupData("즐겨찾기"))
-        val favoriteFriendList = this.filter { it.isFavoriteFriend }.sortedBy { it.name }
-        val divider = getGroupDividerData()
-        return first + favoriteFriendList + divider + this
-    }
-
     private fun getGroupIndex(groupName: String): Int? {
-        _friendList.value?.forEachIndexed { index, friendListData ->
+        _friendList.value.forEachIndexed { index, friendListData ->
             if (friendListData.groupName == groupName && friendListData.viewType == FriendListViewType.GROUP_NAME) {
                 return index + 1
             }
@@ -211,11 +202,12 @@ class FriendViewModel @Inject constructor(
     }
 
     private fun generateNewList(groupName: String, groupIndex: Int): List<FriendListData> {
-        val firstPart = _friendList.value?.subList(0, groupIndex) ?: emptyList()
+        if (_friendList.value.isEmpty()) return emptyList()
+        val firstPart = _friendList.value.subList(0, groupIndex)
         val middlePart =
             originEntireFriendList.filter { it.groupName == groupName && it.viewType == FriendListViewType.FRIEND }
         val lastPart =
-            _friendList.value?.subList(groupIndex, _friendList.value?.size ?: 0) ?: emptyList()
+            _friendList.value.subList(groupIndex, _friendList.value.size)
         return firstPart + middlePart + lastPart
     }
 }
