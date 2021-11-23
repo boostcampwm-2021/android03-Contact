@@ -5,13 +5,11 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentManageGroupBinding
 import com.ivyclub.contact.ui.main.friend.dialog.GroupDialogFragment
 import com.ivyclub.contact.util.BaseFragment
-import com.ivyclub.contact.util.showAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,15 +39,17 @@ class ManageGroupFragment :
 
     private fun observeShowDialog() {
         viewModel.showDeleteDialog.observe(viewLifecycleOwner) { group ->
-            AlertDialog.Builder(requireContext())
-                .setMessage(String.format(getString(R.string.manage_group_delete), group.name))
-                .setPositiveButton(R.string.yes) { _, _ ->
-                    viewModel.deleteGroup(group)
-                }
-                .setNegativeButton(R.string.no) { _, _ ->
+            if (context != null) {
+                AlertDialog.Builder(requireContext())
+                    .setMessage(String.format(getString(R.string.manage_group_delete), group.name))
+                    .setPositiveButton(R.string.yes) { _, _ ->
+                        viewModel.deleteGroup(group)
+                    }
+                    .setNegativeButton(R.string.no) { _, _ ->
 
-                }
-                .show()
+                    }
+                    .show()
+            }
         }
 
         viewModel.showEditDialog.observe(viewLifecycleOwner) { group ->
