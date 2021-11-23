@@ -51,7 +51,7 @@ interface ContactDAO {
     @Query("SELECT * FROM GroupData")
     fun loadGroupsWithFlow(): Flow<List<GroupData>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertGroupData(groupData: GroupData)
 
     @Query("UPDATE FriendData SET isFavorite = :state WHERE id = :id")
