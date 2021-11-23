@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="8dp">
+        android:paddingTop="10dp">
 
         <EditText
             android:id="@+id/et_extra_info_title"
@@ -18,10 +18,10 @@
             android:layout_height="20dp"
             android:background="@drawable/bg_add_edit_friend_info"
             android:hint="@string/add_edit_friend_extra_info_title_hint"
+            android:inputType="text"
             android:paddingHorizontal="8dp"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:inputType="text"
             app:layout_constraintBottom_toTopOf="@id/et_extra_info_value"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,20 +30,20 @@
             android:id="@+id/iv_remove_extra_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_remove_24"
             android:padding="8dp"
+            android:src="@drawable/ic_baseline_remove_24"
+            app:layout_constraintBottom_toTopOf="@id/et_extra_info_value"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/et_extra_info_value"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/et_extra_info_value"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/bg_add_edit_friend_info"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="12dp"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/et_extra_info_title"
             app:layout_constraintTop_toBottomOf="@id/et_extra_info_title" />
