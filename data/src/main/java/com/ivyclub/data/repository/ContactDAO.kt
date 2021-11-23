@@ -76,6 +76,9 @@ interface ContactDAO {
     @Query("SELECT * FROM FriendData WHERE isFavorite = :isFavorite")
     fun getFavoriteFriend(isFavorite: Boolean = true): List<FriendData>
 
+    @Delete
+    suspend fun deleteGroup(groupData: GroupData)
+
     @Query("DELETE FROM FriendData WHERE id = :id")
     fun deleteFriend(id: Long)
 

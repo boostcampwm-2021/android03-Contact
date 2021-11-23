@@ -4,8 +4,6 @@
     <string name="onboarding_notification_message">컨택에서 알림을 보낼 수 있는 시간을 정해주세요.</string>
     <string name="onboarding_notification_switch">알림 설정</string>
     <string name="onboarding_btn_next">시간 설정하기</string>
-    <string name="onboarding_time0">0시</string>
-    <string name="onboarding_time24">24시</string>
     <string name="onboarding_notification_title">알림 시간</string>
     <string name="bnv_friend">친구</string>
     <string name="bnv_plan">약속</string>
@@ -106,8 +104,8 @@
     <string name="fragment_settings_security_icon">security icon</string>
     <string name="fragment_settings_security">보안</string>
     <string name="dialog_notification_time_set_time">시간 설정하기</string>
-    <string name="dialog_notification_time_zero_hour">0시</string>
-    <string name="dialog_notification_time_last_hour">24시</string>
+    <string name="notification_time_start_hour">6시</string>
+    <string name="notification_time_last_hour">24시</string>
     <string name="dialog_notification_time_confirm">설정</string>
     <string name="fragment_settings_active_notification">알림 활성화</string>
     <string name="widget_plan">다가오는 약속</string>
@@ -122,6 +120,7 @@
     <string name="fragment_dialog_get_contacts_loading_please_wait">잠시만 기다려주세요.</string>
     <string name="fragment_friend_add_friend">친구 추가 아이콘</string>
     <string name="fragment_friend_click_plus_button">+버튼을 눌러 친구를 추가해보세요</string>
+    <string name="fragment_settings_group_management">그룹 관리</string>
     <string name="ask_delete_friend">해당 친구 정보를 삭제하시겠습니까?</string>
     <string name="change_noti_time_finish">알림 시간 설정이 완료되었습니다.</string>
 </resources>
