@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -23,6 +24,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditFriendBinding
+import com.ivyclub.contact.ui.main.MainViewModel
 import com.ivyclub.contact.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
@@ -33,10 +35,12 @@ class AddEditFriendFragment :
     BaseFragment<FragmentAddEditFriendBinding>(R.layout.fragment_add_edit_friend) {
 
     private val viewModel: AddEditFriendViewModel by viewModels()
+    private val activityViewModel: MainViewModel by activityViewModels()
     val extraInfoListAdapter by lazy { ExtraInfoListAdapter(viewModel::removeExtraInfo) }
     private val args: AddEditFriendFragmentArgs by navArgs()
     lateinit var spinnerAdapter: ArrayAdapter<String>
     private var currentBitmap: Bitmap? = null
+    private var newId: Long = -1L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,20 +55,20 @@ class AddEditFriendFragment :
     }
 
     private fun setFriendData() {
-        viewModel.getFriendData(args.friendId)
-        viewModel.friendData.observe(viewLifecycleOwner) { friendData ->
-            binding.apply {
-                etName.setText(friendData.name)
-                etPhoneNumber.setText(friendData.phoneNumber)
-                tvBirthdayValue.text = friendData.birthday
-                spnGroup.setSelection(spinnerAdapter.getPosition(friendData.groupName))
+        if(args.friendId != -1L) {
+            viewModel.getFriendData(args.friendId)
+            viewModel.friendData.observe(viewLifecycleOwner) { friendData ->
+                binding.apply {
+                    etName.setText(friendData.name)
+                    etPhoneNumber.setText(friendData.phoneNumber)
+                    tvBirthdayValue.text = friendData.birthday
+                    spnGroup.setSelection(spinnerAdapter.getPosition(friendData.groupName))
+                }
+                viewModel.addExtraInfoList(friendData.extraInfo)
             }
-            viewModel.addExtraInfoList(friendData.extraInfo)
-        }
-        viewModel.loadProfileImage(args.friendId)?.let {
-            Glide.with(this)
-                .load(it)
-                .into(binding.ivProfileImage)
+            viewModel.loadProfileImage(args.friendId)?.let { binding.ivProfileImage.setImageBitmap(it) }
+        } else {
+            viewModel.createNewId()
         }
     }
 
@@ -104,6 +108,7 @@ class AddEditFriendFragment :
 
     private val filterActivityLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            activityViewModel.unlock()
             if (activityResult.resultCode == RESULT_OK && activityResult.data != null) {
                 var currentImageUri = activityResult.data?.data
                 try {
@@ -150,10 +155,11 @@ class AddEditFriendFragment :
                         extraInfoListAdapter.currentList,
                         args.friendId
                     )
-                    this@AddEditFriendFragment.viewModel.saveProfileImage(
-                        currentBitmap,
-                        args.friendId
-                    )
+                    if(args.friendId != -1L) {
+                        this@AddEditFriendFragment.viewModel.saveProfileImage(currentBitmap, args.friendId)
+                    } else {
+                        this@AddEditFriendFragment.viewModel.saveProfileImage(currentBitmap, newId)
+                    }
                     findNavController().popBackStack()
                     Snackbar.make(
                         binding.root,
@@ -175,6 +181,9 @@ class AddEditFriendFragment :
     private fun observeExtraInfos() {
         viewModel.extraInfos.observe(viewLifecycleOwner) {
             extraInfoListAdapter.submitList(it.toMutableList())
+        }
+        viewModel.newId.observe(viewLifecycleOwner) {
+            newId = it
         }
     }
 

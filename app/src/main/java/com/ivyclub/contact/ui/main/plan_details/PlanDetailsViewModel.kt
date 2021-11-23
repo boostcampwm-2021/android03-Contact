@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkManager
 import com.ivyclub.contact.R
-import com.ivyclub.contact.service.PlanReminderNotificationWorker
+import com.ivyclub.contact.service.plan_reminder.PlanReminderNotificationWorker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.PlanData

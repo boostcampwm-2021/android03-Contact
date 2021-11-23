@@ -28,6 +28,8 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     private val extraInfoList = mutableListOf<FriendExtraInfoData>()
     val phoneNumber = MutableLiveData("")
     val name = MutableLiveData("")
+    private val _newId =  MutableLiveData<Long>()
+    val newId: LiveData<Long> get() = _newId
 
 
     init {
@@ -121,6 +123,12 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
 
     fun loadProfileImage(friendId: Long): Bitmap? {
         return ImageManager.loadProfileImage(friendId)
+    }
+
+    fun createNewId() {
+        viewModelScope.launch {
+            _newId.postValue(repository.getLastFriendId() + 1)
+        }
     }
 
     companion object {

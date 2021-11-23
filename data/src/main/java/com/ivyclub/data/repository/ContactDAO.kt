@@ -9,7 +9,7 @@ interface ContactDAO {
     @Query("SELECT * FROM FriendData")
     suspend fun getFriends(): List<FriendData>
 
-    @Query("SELECT * FROM FriendData")
+    @Query("SELECT * FROM FriendData ORDER BY name")
     fun getFriendsWithFlow(): Flow<List<FriendData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -17,6 +17,9 @@ interface ContactDAO {
 
     @Query("SELECT id, title, date, participant FROM PlanData ORDER BY date ASC")
     fun getPlanListWithFlow(): Flow<List<SimplePlanData>>
+
+    @Query("SELECT id, title, date, participant FROM PlanData WHERE date > :current")
+    suspend fun getPlanListAfter(current: Long): List<SimplePlanData>
 
     @Query("SELECT * FROM PlanData WHERE id = :planId")
     suspend fun getPlanDetailsById(planId: Long): PlanData
@@ -75,4 +78,8 @@ interface ContactDAO {
 
     @Query("DELETE FROM FriendData WHERE id = :id")
     fun deleteFriend(id: Long)
+
+    @Query("SELECT id FROM FRIENDDATA ORDER BY id DESC LIMIT 1")
+    suspend fun getLastFriendId(): Long
+
 }
