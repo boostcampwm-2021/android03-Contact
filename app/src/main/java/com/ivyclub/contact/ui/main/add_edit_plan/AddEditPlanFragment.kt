@@ -117,10 +117,8 @@ class AddEditPlanFragment :
 
     private fun getGroupSelectFragmentResult() {
         childFragmentManager.setFragmentResultListener("requestKey", this) { _, bundle ->
-            val result = bundle.getString("bundleKey")
-            result?.let {
-                viewModel.addParticipantsByGroup(0) // TODO
-            }
+            val result = bundle.getLong("bundleKey", -1L)
+            viewModel.addParticipantsByGroup(result)
         }
     }
 

@@ -104,6 +104,8 @@ class AddEditPlanViewModel @Inject constructor(
     }
 
     fun addParticipantsByGroup(groupId: Long) {
+        if (groupId == -1L) return
+
         val participantSet = planParticipants.value?.toMutableSet()
         participantSet?.let { set ->
             viewModelScope.launch {
