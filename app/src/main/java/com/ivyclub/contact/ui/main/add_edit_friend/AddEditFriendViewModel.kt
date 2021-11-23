@@ -26,7 +26,6 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     private val _showClearButtonVisible = MutableLiveData<Boolean>()
     val showClearButtonVisible: LiveData<Boolean> get() = _showClearButtonVisible
     private val extraInfoList = mutableListOf<FriendExtraInfoData>()
-    val phoneNumber = MutableLiveData("")
     val name = MutableLiveData("")
     private val _newId =  MutableLiveData<Long>()
     val newId: LiveData<Long> get() = _newId
