@@ -1,7 +1,6 @@
 package com.ivyclub.contact.ui.main.settings.contact
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
@@ -24,7 +23,7 @@ class AddContactFromSettingsFragment :
     BaseFragment<FragmentAddContactFromSettingsBinding>(R.layout.fragment_add_contact_from_settings) {
 
     private val viewModel: AddContactFromSettingViewModel by viewModels()
-    private val contactAdapter by lazy { ContactAdapter() }
+    private val contactAdapter by lazy { ContactAdapter(this::setCheckbox) }
     private val loadingDialog = DialogGetContactsLoadingFragment()
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -43,12 +42,19 @@ class AddContactFromSettingsFragment :
         observeLoadingUiState()
     }
 
-    private fun initButtons() {
-        binding.ivBackIcon.setOnClickListener {
+    private fun initButtons() = with(binding) {
+        ivBackIcon.setOnClickListener {
             findNavController().popBackStack()
         }
-        binding.btnLoad.setOnClickListener {
+        btnLoad.setOnClickListener {
             viewModel.saveFriends(contactAdapter.addSet.toList())
+        }
+        cbSelectAll.setOnClickListener {
+            if (cbSelectAll.isChecked) {
+                contactAdapter.selectAllItem()
+            } else {
+                contactAdapter.removeAllItem()
+            }
         }
     }
 
@@ -80,5 +86,9 @@ class AddContactFromSettingsFragment :
                 }
             }
         }
+    }
+
+    private fun setCheckbox(state: Boolean) {
+        binding.cbSelectAll.isChecked = state
     }
 }

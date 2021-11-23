@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -60,7 +61,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     }
 
     private fun initRecyclerView() {
-        contactAdapter = ContactAdapter()
+        contactAdapter = ContactAdapter(this::setCheckbox)
         binding.rvContactList.adapter = contactAdapter
     }
 
@@ -72,6 +73,17 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             this@AddContactFragment.viewModel.saveFriendsData(contactAdapter.addSet.toMutableList())
         }
         btnCommit.isClickable = false
+        cbSelectAll.setOnClickListener {
+            if (cbSelectAll.isChecked) {
+                contactAdapter.selectAllItem()
+            } else {
+                contactAdapter.removeAllItem()
+            }
+        }
+    }
+
+    private fun setCheckbox(state: Boolean) {
+        binding.cbSelectAll.isChecked = state
     }
 
     private fun loadContact() {
@@ -88,6 +100,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             btnLoad.text = "시작하기"
             contactAdapter.submitList(this@AddContactFragment.viewModel.getContactList())
             btnCommit.isClickable = true
+            binding.cbSelectAll.isVisible = true
         }
     }
 
@@ -114,9 +127,6 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             when (it.itemId) {
                 R.id.skip -> {
                     SkipDialog(ok, context).showDialog()
-                }
-                R.id.select_all -> {
-                    contactAdapter.selectAllItem()
                 }
             }
             true

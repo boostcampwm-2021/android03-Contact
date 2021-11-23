@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ivyclub.contact.databinding.ItemContactBinding
 import com.ivyclub.contact.model.PhoneContactData
 
-class ContactAdapter: ListAdapter<PhoneContactData,ContactAdapter.ViewHolder>(diffUtil) {
+class ContactAdapter(
+    private val setCheckboxState: (Boolean) -> Unit
+): ListAdapter<PhoneContactData,ContactAdapter.ViewHolder>(diffUtil) {
 
     val addSet = mutableSetOf<PhoneContactData>()
 
@@ -29,6 +31,11 @@ class ContactAdapter: ListAdapter<PhoneContactData,ContactAdapter.ViewHolder>(di
         notifyDataSetChanged()
     }
 
+    fun removeAllItem() {
+        addSet.clear()
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(
         private val binding: ItemContactBinding
     ): RecyclerView.ViewHolder(binding.root) {
@@ -42,6 +49,7 @@ class ContactAdapter: ListAdapter<PhoneContactData,ContactAdapter.ViewHolder>(di
                 } else {
                     addSet.remove(getItem(adapterPosition))
                 }
+                setCheckboxState(addSet.size == currentList.size)
             }
         }
 
