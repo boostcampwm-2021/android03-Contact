@@ -16,12 +16,14 @@ import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditFriendBinding
+import com.ivyclub.contact.ui.main.MainViewModel
 import com.ivyclub.contact.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
@@ -32,6 +34,7 @@ class AddEditFriendFragment :
     BaseFragment<FragmentAddEditFriendBinding>(R.layout.fragment_add_edit_friend) {
 
     private val viewModel: AddEditFriendViewModel by viewModels()
+    private val activityViewModel: MainViewModel by activityViewModels()
     val extraInfoListAdapter by lazy { ExtraInfoListAdapter(viewModel::removeExtraInfo) }
     private val args: AddEditFriendFragmentArgs by navArgs()
     lateinit var spinnerAdapter: ArrayAdapter<String>
@@ -103,6 +106,7 @@ class AddEditFriendFragment :
 
     private val filterActivityLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            activityViewModel.unlock()
             if (activityResult.resultCode == RESULT_OK && activityResult.data != null) {
                 var currentImageUri = activityResult.data?.data
                 try {
