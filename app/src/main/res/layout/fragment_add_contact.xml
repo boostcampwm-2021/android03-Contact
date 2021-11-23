@@ -26,8 +26,17 @@
                 android:layout_height="?actionBarSize"
                 app:layout_constraintTop_toTopOf="parent">
 
-
+                <CheckBox
+                    android:id="@+id/cb_select_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="7dp"
+                    android:text="@string/menu_select_all"
+                    android:layout_gravity="end"
+                    android:visibility="gone"/>
             </androidx.appcompat.widget.Toolbar>
+
+
 
         </com.google.android.material.appbar.AppBarLayout>
 
