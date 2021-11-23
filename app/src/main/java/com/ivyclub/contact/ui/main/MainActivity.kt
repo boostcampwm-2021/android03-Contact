@@ -7,14 +7,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ActivityMainBinding
-import com.ivyclub.contact.service.PlanReminderNotification.NOTIFICATION
-import com.ivyclub.contact.service.PlanReminderNotification.NOTI_PLAN_ID
+import com.ivyclub.contact.service.plan_reminder.PlanReminderNotification.NOTIFICATION
+import com.ivyclub.contact.service.plan_reminder.PlanReminderNotification.NOTI_PLAN_ID
 import com.ivyclub.contact.ui.main.friend.FriendFragment
 import com.ivyclub.contact.ui.main.friend.FriendFragmentDirections
 import com.ivyclub.contact.ui.onboard.OnBoardingActivity

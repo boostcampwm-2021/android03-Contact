@@ -37,6 +37,7 @@ interface ContactRepository {
     suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
     suspend fun getSimpleFriendData(): List<SimpleFriendData>
     suspend fun getPlansByIds(planIds: List<Long>): List<PlanData>
+    suspend fun getPlanListAfter(current: Long): List<SimplePlanData>
     fun getStartAlarmHour(): Int
     fun getEndAlarmHour(): Int
 
