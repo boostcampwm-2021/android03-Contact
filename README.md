@@ -1,6 +1,6 @@
 <div align="center">  
    <h1>CONTACT - Friendship Management Application</h1>  
-   <img src="https://user-images.githubusercontent.com/57510192/142858671-c6b0a8e5-3708-4eaf-a158-599e7698f3a3.gif" width="500"/>  
+   <img src="https://user-images.githubusercontent.com/57510192/142957631-6f109945-5090-475c-ab5a-c7db05f13c59.gif" width="500"/>  
    <br>
 </div>
 
