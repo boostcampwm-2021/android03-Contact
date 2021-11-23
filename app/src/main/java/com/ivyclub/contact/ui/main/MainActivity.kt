@@ -68,6 +68,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 -1L -> binding.bnvMain.selectedItemId = R.id.navigation_plan
                 else -> {
                     if (navController.currentDestination?.id == R.id.navigation_friend) {
+                        intent.putExtra(NOTIFICATION, false)
+                        intent.putExtra(NOTI_PLAN_ID, -1L)
                         navController.navigate(
                             FriendFragmentDirections.actionNavigationFriendToPlanDetailsFragment(
                                 planId
@@ -82,6 +84,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private fun checkFromWidget() {
         val widgetPlanId = intent.getLongExtra(WIDGET_PLAN_ID, -1L)
         if (widgetPlanId != -1L && navController.currentDestination?.id == R.id.navigation_friend) {
+            intent.putExtra(WIDGET_PLAN_ID, -1L)
             navController.navigate(
                 FriendFragmentDirections.actionNavigationFriendToPlanDetailsFragment(
                     widgetPlanId
