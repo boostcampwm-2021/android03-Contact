@@ -22,6 +22,8 @@ class FriendDetailViewModel @Inject constructor(
 
     private val _friendData = MutableLiveData<FriendData>()
     val friendData: LiveData<FriendData> get() = _friendData
+    private val _groupName = MutableLiveData<String>()
+    val groupName: LiveData<String> get() = _groupName
 
     private val _plan1 = MutableLiveData<PlanData>()
     val plan1: LiveData<PlanData> get() = _plan1
@@ -42,7 +44,9 @@ class FriendDetailViewModel @Inject constructor(
 
     fun loadFriendData(id: Long) {
         viewModelScope.launch {
-            _friendData.value = repository.getFriendDataById(id)
+            val friend = repository.getFriendDataById(id)
+            _friendData.value = friend
+            _groupName.value = repository.getGroupNameById(friend.groupId)
         }
     }
 

@@ -33,8 +33,8 @@ interface ContactDAO {
     @Query("SELECT planList FROM friendData WHERE id = :friendId")
     suspend fun getFriendsPlanList(friendId: Long): FriendsPlanList
 
-    @Query("SELECT id, name, phoneNumber FROM FriendData WHERE groupName = :groupName")
-    suspend fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
+    @Query("SELECT id, name, phoneNumber FROM FriendData WHERE groupId = :groupId")
+    suspend fun getSimpleFriendDataListByGroup(groupId: Long): List<SimpleFriendData>
 
     @Delete
     suspend fun deletePlanData(planData: PlanData)
@@ -60,15 +60,15 @@ interface ContactDAO {
     @Query("SELECT * FROM PlanData WHERE id IN (:planIds)")
     suspend fun getPlansByIds(planIds: List<Long>): List<PlanData>
 
-    @Query("UPDATE FriendData SET groupName = :groupName WHERE id = :friendId")
-    suspend fun updateFriendGroup(friendId: Long, groupName: String)
+    @Query("UPDATE FriendData SET groupId = :groupId WHERE id = :friendId")
+    suspend fun updateFriendGroup(friendId: Long, groupId: Long)
 
-    @Query("UPDATE FriendData SET phoneNumber = :phoneNumber, name = :name, birthday = :birthday, groupName = :groupName, extraInfo = :extraInfo WHERE id = :id ")
+    @Query("UPDATE FriendData SET phoneNumber = :phoneNumber, name = :name, birthday = :birthday, groupId = :groupId, extraInfo = :extraInfo WHERE id = :id ")
     suspend fun updateFriendData(
         phoneNumber: String,
         name: String,
         birthday: String,
-        groupName: String,
+        groupId: Long,
         extraInfo: Map<String, String>,
         id: Long
     )
@@ -85,4 +85,6 @@ interface ContactDAO {
     @Query("SELECT id FROM FRIENDDATA ORDER BY id DESC LIMIT 1")
     suspend fun getLastFriendId(): Long
 
+    @Query("SELECT name FROM GroupData WHERE id = :id")
+    suspend fun getGroupNameById(id: Long): String
 }

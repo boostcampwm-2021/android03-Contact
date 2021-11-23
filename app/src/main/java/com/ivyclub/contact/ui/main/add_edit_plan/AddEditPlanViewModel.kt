@@ -103,11 +103,11 @@ class AddEditPlanViewModel @Inject constructor(
         }
     }
 
-    fun addParticipantsByGroup(groupName: String) {
+    fun addParticipantsByGroup(groupId: Long) {
         val participantSet = planParticipants.value?.toMutableSet()
         participantSet?.let { set ->
             viewModelScope.launch {
-                val friendsInGroup = repository.getSimpleFriendDataListByGroup(groupName)
+                val friendsInGroup = repository.getSimpleFriendDataListByGroup(groupId)
                 set.addAll(friendsInGroup)
                 _planParticipants.value = set.toList()
             }

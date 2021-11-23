@@ -85,9 +85,9 @@ class ContactRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData> =
+    override suspend fun getSimpleFriendDataListByGroup(groupId: Long): List<SimpleFriendData> =
         withContext(ioDispatcher) {
-            contactDAO.getSimpleFriendDataListByGroup(groupName)
+            contactDAO.getSimpleFriendDataListByGroup(groupId)
         }
 
     override suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData =
@@ -129,7 +129,7 @@ class ContactRepositoryImpl @Inject constructor(
 
     override fun getEndAlarmHour() = myPreference.getNotificationTime(NOTIFICATION_END)
 
-    override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String) =
+    override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: Long) =
         withContext(ioDispatcher) {
             targetFriend.forEach {
                 contactDAO.updateFriendGroup(it, targetGroup)
@@ -138,6 +138,10 @@ class ContactRepositoryImpl @Inject constructor(
 
     override suspend fun deleteGroup(groupData: GroupData) = withContext(ioDispatcher) {
         contactDAO.deleteGroup(groupData)
+    }
+
+    override suspend fun getGroupNameById(id: Long): String = withContext(ioDispatcher) {
+        contactDAO.getGroupNameById(id)
     }
 
     override suspend fun savePassword(password: String) = withContext(ioDispatcher) {
@@ -164,11 +168,11 @@ class ContactRepositoryImpl @Inject constructor(
         phoneNumber: String,
         name: String,
         birthday: String,
-        groupName: String,
+        groupId: Long,
         extraInfo: Map<String, String>,
         id: Long
     ) = withContext(ioDispatcher) {
-        contactDAO.updateFriendData(phoneNumber, name, birthday, groupName, extraInfo, id)
+        contactDAO.updateFriendData(phoneNumber, name, birthday, groupId, extraInfo, id)
     }
 
     override fun loadFriendsWithFlow(): Flow<List<FriendData>> {

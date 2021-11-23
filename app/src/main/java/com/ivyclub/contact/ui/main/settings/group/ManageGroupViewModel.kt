@@ -37,8 +37,9 @@ class ManageGroupViewModel @Inject constructor(private val repository: ContactRe
 
     private fun updateFriendGroup(beforeGroup: String, afterGroup: String) {
         viewModelScope.launch {
-            val friendIdList = repository.getSimpleFriendDataListByGroup(beforeGroup).map { it.id }
-            repository.updateGroupOf(friendIdList, afterGroup)
+            // TODO
+//            val friendIdList = repository.getSimpleFriendDataListByGroup(beforeGroup).map { it.id }
+//            repository.updateGroupOf(friendIdList, afterGroup)
         }
     }
 }
