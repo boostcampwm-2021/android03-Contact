@@ -1,4 +1,4 @@
-package com.ivyclub.contact.ui
+package com.ivyclub.contact.ui.splash
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,8 +10,6 @@ import com.ivyclub.contact.ui.main.MainActivity
 import com.ivyclub.contact.util.BaseActivity
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -20,6 +18,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
             finish()
-        },1500)
+        }, 1500)
     }
 }

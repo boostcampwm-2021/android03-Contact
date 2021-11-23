@@ -20,7 +20,8 @@ class ViewPagerAdapter(
         viewType: Int
     ): PagerViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding: ItemIntroBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_intro, parent, false)
+        val binding: ItemIntroBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.item_intro, parent, false)
         return PagerViewHolder(binding)
     }
 
@@ -44,7 +45,7 @@ class ViewPagerAdapter(
             binding.tvIntro.text = str
         }
 
-        fun setButton(visible: Boolean){
+        fun setButton(visible: Boolean) {
             binding.btnStart.isVisible = visible
         }
     }
