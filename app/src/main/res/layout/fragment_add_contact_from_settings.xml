@@ -54,10 +54,28 @@
             app:layout_constraintTop_toBottomOf="@id/tv_get_contacts"
             tools:listitem="@layout/item_contact" />
 
+        <TextView
+            android:id="@+id/tv_contact_permission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingVertical="8dp"
+            android:text="@string/fragment_add_contact_from_settings_get_contact_permission"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btn_load"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_get_contacts" />
+
         <ProgressBar
             android:id="@+id/pb_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/tv_wait"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +90,7 @@
             android:gravity="center"
             android:text="@string/fragment_add_contact_from_settings_wait"
             android:textColor="@color/black"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/btn_load"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

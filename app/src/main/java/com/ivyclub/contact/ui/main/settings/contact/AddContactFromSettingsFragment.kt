@@ -3,8 +3,10 @@ package com.ivyclub.contact.ui.main.settings.contact
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -14,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddContactFromSettingsBinding
+import com.ivyclub.contact.ui.main.friend.dialog.SelectGroupFragment
 import com.ivyclub.contact.ui.onboard.contact.ContactAdapter
 import com.ivyclub.contact.ui.onboard.contact.dialog.DialogGetContactsLoadingFragment
 import com.ivyclub.contact.util.BaseFragment
@@ -35,14 +38,22 @@ class AddContactFromSettingsFragment :
         if (isGranted) {
             initView()
         } else {
-            Snackbar.make(binding.root, "권한을 수락해주셔야 합니다.", Snackbar.LENGTH_SHORT).show()
-            findNavController().popBackStack()
+            binding.tvContactPermission.visibility = View.VISIBLE
+            //Snackbar.make(binding.root, "권한을 수락해주셔야 합니다.", Snackbar.LENGTH_SHORT).show()
+            //findNavController().popBackStack()
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkPermission()
+        binding.tvContactPermission.setOnClickListener {
+            val needPermissionDialog = NeedPermissionDialog()
+            needPermissionDialog.show(
+                childFragmentManager,
+                NeedPermissionDialog.TAG
+            )
+        }
     }
 
     private fun initView() {
@@ -75,6 +86,7 @@ class AddContactFromSettingsFragment :
                 contactAdapter.removeAllItem()
             }
         }
+
     }
 
     private fun initAdapter() {
@@ -86,6 +98,10 @@ class AddContactFromSettingsFragment :
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loadingUIState.collect { newState ->
                     when (newState) {
+                        ContactSavingUiState.Loading -> {
+                            binding.pbLoading.visibility = View.VISIBLE
+                            binding.tvWait.visibility = View.VISIBLE
+                        }
                         ContactSavingUiState.LoadingDone -> {
                             binding.pbLoading.visibility = View.GONE
                             binding.tvWait.visibility = View.GONE
