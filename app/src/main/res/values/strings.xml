@@ -59,7 +59,7 @@
     <string name="no">아니오</string>
     <string name="ask_back_while_edit">해당 페이지를 나가시면 기존에 작성했던 기록은 사라집니다.\n나가시겠습니까?</string>
     <string name="ask_save_plan">해당 일정을 저장하시겠습니까?</string>
-    <string name="alert_plan_empty">추가한 일정이 없습니다!\n새로운 일정을 추가하려면 상단의 추가 버튼을 탭해주세요</string>
+    <string name="alert_plan_empty">추가한 일정이 없습니다!\n+ 버튼을 눌러 새로운 일정을 추가해보세요</string>
     <string name="plan_reminder_notification_title">잊지 않으셨죠?</string>
     <string name="plan_morning_notification_title">좋은 아침입니다!</string>
     <string name="plan_morning_notification_content">하루를 시작하기에 앞서 오늘 일정들을 확인하세요!</string>
