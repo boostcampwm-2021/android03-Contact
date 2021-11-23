@@ -33,13 +33,14 @@
 
         <TextView
             android:id="@+id/tv_introduce"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="200dp"
             android:gravity="center"
             android:text="@string/onboarding_add_contact_message"
             android:textColor="@color/black"
             android:textSize="30sp"
+            android:layout_marginHorizontal="28dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,9 +48,10 @@
         <Button
             android:id="@+id/btn_load"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="300dp"
             android:text="@string/onboarding_load_contact"
+            android:textSize="16sp"
             android:layout_marginHorizontal="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -59,8 +61,8 @@
             android:id="@+id/rv_contact_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginBottom="65dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_contact" />
 
