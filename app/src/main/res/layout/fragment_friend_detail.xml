@@ -41,39 +41,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/iv_delete"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginEnd="4dp"
-                android:src="@drawable/ic_delete"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_favorite"
-                app:layout_constraintEnd_toStartOf="@id/btn_favorite"
-                app:layout_constraintTop_toTopOf="@+id/btn_favorite" />
-
-
             <ToggleButton
                 android:id="@+id/btn_favorite"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="7dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/button_favorite"
                 android:text=""
                 android:textOff=""
                 android:textOn=""
-                app:layout_constraintEnd_toStartOf="@+id/iv_edit"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toStartOf="@+id/iv_more"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ImageView
-                android:id="@+id/iv_edit"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="7dp"
-                android:background="@drawable/ic_baseline_pen"
+                android:id="@+id/iv_more"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:padding="4dp"
+                android:background="@drawable/ic_baseline_more_vert_24"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
