@@ -23,6 +23,7 @@ import com.ivyclub.contact.model.PhoneContactData
 import com.ivyclub.contact.ui.main.MainActivity
 import com.ivyclub.contact.ui.onboard.contact.dialog.DialogGetContactsLoadingFragment
 import com.ivyclub.contact.util.BaseFragment
+import com.ivyclub.contact.util.ContactSavingUiState
 import com.ivyclub.contact.util.SkipDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -127,19 +128,19 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.isSavingDone.collect { newState ->
                     when (newState) {
-                        AddContactViewModel.ContactSavingUiState.Loading -> {
+                        ContactSavingUiState.Loading -> {
                             loadingDialog.show(
                                 childFragmentManager,
                                 DialogGetContactsLoadingFragment.TAG
                             )
                         }
-                        AddContactViewModel.ContactSavingUiState.SavingDone -> {
+                        ContactSavingUiState.LoadingDone -> {
                             if (loadingDialog.isVisible) loadingDialog.dismiss()
                             val intent = Intent(context, MainActivity::class.java)
                             activity?.setResult(RESULT_OK, intent)
                             activity?.finish()
                         }
-                        AddContactViewModel.ContactSavingUiState.Empty -> {
+                        ContactSavingUiState.Empty -> {
                         }
                     }
                 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.model.PhoneContactData
 import com.ivyclub.contact.util.ContactListManager
+import com.ivyclub.contact.util.ContactSavingUiState
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,7 @@ class AddContactViewModel @Inject constructor(
 
     fun saveFriendsData(data: List<PhoneContactData>) {
         if (data.isEmpty()) {
-            _isSavingDone.value = ContactSavingUiState.SavingDone
+            _isSavingDone.value = ContactSavingUiState.LoadingDone
         }
         viewModelScope.launch {
             _isSavingDone.value = ContactSavingUiState.Loading
@@ -40,7 +41,7 @@ class AddContactViewModel @Inject constructor(
                     )
                 )
             }
-            _isSavingDone.value = ContactSavingUiState.SavingDone
+            _isSavingDone.value = ContactSavingUiState.LoadingDone
         }
     }
 
@@ -48,9 +49,9 @@ class AddContactViewModel @Inject constructor(
         return contactListManager.getContact()
     }
 
-    sealed class ContactSavingUiState {
-        object Loading : ContactSavingUiState()
-        object SavingDone : ContactSavingUiState()
-        object Empty : ContactSavingUiState()
-    }
+//    sealed class ContactSavingUiState {
+//        object Loading : ContactSavingUiState()
+//        object SavingDone : ContactSavingUiState()
+//        object Empty : ContactSavingUiState()
+//    }
 }
