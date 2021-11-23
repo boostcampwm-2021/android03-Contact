@@ -19,6 +19,8 @@ interface ContactRepository {
     )
 
     fun loadFriendsWithFlow(): Flow<List<FriendData>>
+    suspend fun getFavoriteFriends(): List<FriendData>
+    suspend fun getLastFriendId(): Long
 
     // OnBoarding
     fun setShowOnBoardingState(state: Boolean)

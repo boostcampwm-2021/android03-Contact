@@ -166,6 +166,14 @@ class ContactRepositoryImpl @Inject constructor(
         return contactDAO.getFriendsWithFlow().flowOn(ioDispatcher).conflate()
     }
 
+    override suspend fun getFavoriteFriends(): List<FriendData>  = withContext(ioDispatcher) {
+        contactDAO.getFavoriteFriend()
+    }
+
+    override suspend fun getLastFriendId() = withContext(ioDispatcher) {
+        contactDAO.getLastFriendId()
+    }
+
     companion object {
         private const val NOTIFICATION_START = "NOTIFICATION_START"
         private const val NOTIFICATION_END = "NOTIFICATION_END"
