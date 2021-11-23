@@ -122,7 +122,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         navView.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.settingsFragment, R.id.securityFragment, R.id.passwordFragment, R.id.imageDetailFragment, R.id.settingsContactFragment -> {
+                R.id.settingsFragment, R.id.securityFragment, R.id.passwordFragment, R.id.imageDetailFragment, R.id.settingsContactFragment, R.id.manageGroupFragment -> {
                     binding.bnvMain.isVisible = false
                 }
                 else -> binding.bnvMain.isVisible = true
