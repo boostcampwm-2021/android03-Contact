@@ -2,6 +2,7 @@ package com.ivyclub.contact.service
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
+import android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE
 import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
@@ -40,6 +41,13 @@ class WidgetProvider : AppWidgetProvider() {
 
             widget.setPendingIntentTemplate(R.id.lv_widget_plan_list, itemClickPendingIntent)
 
+            val refreshClickIntent = Intent(context, WidgetProvider::class.java).apply {
+                action = ACTION_APPWIDGET_UPDATE
+            }
+            val refreshClickPendingIntent =
+                PendingIntent.getBroadcast(context, 0, refreshClickIntent, 0)
+            widget.setOnClickPendingIntent(R.id.iv_btn_widget_refresh, refreshClickPendingIntent)
+
             appWidgetManager.updateAppWidget(it, widget)
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds)
@@ -48,7 +56,7 @@ class WidgetProvider : AppWidgetProvider() {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         when(intent.action) {
-            AppWidgetManager.ACTION_APPWIDGET_UPDATE -> {
+            ACTION_APPWIDGET_UPDATE -> {
                 val mgr = AppWidgetManager.getInstance(context)
                 val cn = ComponentName(context, WidgetProvider::class.java)
                 mgr.notifyAppWidgetViewDataChanged(mgr.getAppWidgetIds(cn), R.id.lv_widget_plan_list)
