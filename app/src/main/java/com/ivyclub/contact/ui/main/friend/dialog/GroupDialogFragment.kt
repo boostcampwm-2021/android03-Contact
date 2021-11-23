@@ -41,7 +41,9 @@ class GroupDialogFragment(private val groupData: GroupData? = null) : DialogFrag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (groupData != null) {
+            dialogViewModel.setBeforeGroupName(groupData.name)
             with (binding) {
+                tvBeforeGroupName.text = "기존 이름 : ${groupData.name}"
                 tvAddGroupTitle.text = "그룹 이름 변경"
                 btnAddNewGroup.text = "변경"
             }

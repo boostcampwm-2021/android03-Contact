@@ -16,6 +16,7 @@ class GroupDialogViewModel @Inject constructor(private val repository: ContactRe
     ViewModel() {
 
     private val groups = mutableListOf<String>()
+    private var beforeGroupName = ""
     private val _groupNameValidation = MutableLiveData(R.string.group_name_validation_wrong_empty)
     val groupNameValidation: LiveData<Int> get() = _groupNameValidation
     private val _isAddGroupButtonActive = MutableLiveData(false)
@@ -31,6 +32,10 @@ class GroupDialogViewModel @Inject constructor(private val repository: ContactRe
             groups.clear()
             groups.addAll(groupNameList)
         }
+    }
+
+    fun setBeforeGroupName(beforeName: String) {
+        beforeGroupName = beforeName
     }
 
     fun saveGroupData(groupName: String) {
@@ -50,7 +55,11 @@ class GroupDialogViewModel @Inject constructor(private val repository: ContactRe
                 setAddGroupButtonActive(false)
             }
             text in groups -> {
-                _groupNameValidation.value = R.string.group_name_validation_wrong_duplicate
+                if (beforeGroupName.isNotEmpty() && beforeGroupName == text) {
+                    _groupNameValidation.value = R.string.group_name_validation_wrong_same
+                } else {
+                    _groupNameValidation.value = R.string.group_name_validation_wrong_duplicate
+                }
                 setAddGroupButtonActive(false)
             }
             else -> {
