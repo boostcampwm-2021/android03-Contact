@@ -77,7 +77,7 @@ class WidgetProvider : AppWidgetProvider() {
         private const val ACTION_ITEM_CLICK = "item_click"
 
         fun sendRefreshBroadcast(context: Context) {
-            val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+            val intent = Intent(ACTION_APPWIDGET_UPDATE)
             intent.component = ComponentName(context, WidgetProvider::class.java)
             context.sendBroadcast(intent)
         }
