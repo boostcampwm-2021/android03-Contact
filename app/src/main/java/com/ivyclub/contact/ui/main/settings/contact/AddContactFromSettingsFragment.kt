@@ -1,13 +1,17 @@
 package com.ivyclub.contact.ui.main.settings.contact
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddContactFromSettingsBinding
 import com.ivyclub.contact.ui.onboard.contact.ContactAdapter
@@ -29,17 +33,32 @@ class AddContactFromSettingsFragment :
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
-            //loadContact()
+            initView()
         } else {
-            activity?.finish()
+            Snackbar.make(binding.root, "권한을 수락해주셔야 합니다.", Snackbar.LENGTH_SHORT).show()
+            findNavController().popBackStack()
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        checkPermission()
+    }
+
+    private fun initView() {
         initButtons()
         initAdapter()
         observeLoadingUiState()
+    }
+
+    private fun checkPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_CONTACTS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestContactPermission()
+        }
     }
 
     private fun initButtons() = with(binding) {
@@ -90,5 +109,9 @@ class AddContactFromSettingsFragment :
 
     private fun setCheckbox(state: Boolean) {
         binding.cbSelectAll.isChecked = state
+    }
+
+    private fun requestContactPermission() {
+        requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
     }
 }
