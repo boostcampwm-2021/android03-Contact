@@ -123,4 +123,5 @@
     <string name="fragment_settings_group_management">그룹 관리</string>
     <string name="ask_delete_friend">해당 친구 정보를 삭제하시겠습니까?</string>
     <string name="change_noti_time_finish">알림 시간 설정이 완료되었습니다.</string>
+    <string name="on_boarding_select_none">모두해제</string>
 </resources>
