@@ -20,7 +20,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditFriendBinding
@@ -55,14 +54,14 @@ class AddEditFriendFragment :
     }
 
     private fun setFriendData() {
-        if(args.friendId != -1L) {
+        if (args.friendId != -1L) {
             viewModel.getFriendData(args.friendId)
             viewModel.friendData.observe(viewLifecycleOwner) { friendData ->
                 binding.apply {
                     etName.setText(friendData.name)
                     etPhoneNumber.setText(friendData.phoneNumber)
                     tvBirthdayValue.text = friendData.birthday
-                    // TODO : spnGroup.setSelection(spinnerAdapter.getPosition(friendData.groupName))
+                    spnGroup.setSelection(this@AddEditFriendFragment.viewModel.groupIdList.indexOf(friendData.groupId))
                 }
                 viewModel.addExtraInfoList(friendData.extraInfo)
             }
@@ -110,7 +109,7 @@ class AddEditFriendFragment :
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
             activityViewModel.unlock()
             if (activityResult.resultCode == RESULT_OK && activityResult.data != null) {
-                var currentImageUri = activityResult.data?.data
+                val currentImageUri = activityResult.data?.data
                 try {
                     currentImageUri?.let {
                         activity?.let {
@@ -151,7 +150,7 @@ class AddEditFriendFragment :
                         etPhoneNumber.text.toString(),
                         etName.text.toString(),
                         tvBirthdayValue.text.toString(),
-                        0, // TODO
+                        this@AddEditFriendFragment.viewModel.groupIdList[spnGroup.selectedItemPosition],
                         extraInfoListAdapter.currentList,
                         args.friendId
                     )
@@ -172,7 +171,7 @@ class AddEditFriendFragment :
     }
 
     private fun observeGroups() {
-        viewModel.groups.observe(viewLifecycleOwner) {
+        viewModel.groupNameList.observe(viewLifecycleOwner) {
             initSpinnerAdapter(it)
             setFriendData()
         }

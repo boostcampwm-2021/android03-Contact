@@ -29,17 +29,16 @@ class ManageGroupViewModel @Inject constructor(private val repository: ContactRe
 
     fun deleteGroup(groupData: GroupData) {
         viewModelScope.launch {
-            updateFriendGroup(groupData.name, "친구")
+            updateFriendGroup(groupData.id, 1)
             repository.deleteGroup(groupData)
             _groupList.value = repository.loadGroups()
         }
     }
 
-    private fun updateFriendGroup(beforeGroup: String, afterGroup: String) {
+    private fun updateFriendGroup(beforeGroup: Long, afterGroup: Long) {
         viewModelScope.launch {
-            // TODO
-//            val friendIdList = repository.getSimpleFriendDataListByGroup(beforeGroup).map { it.id }
-//            repository.updateGroupOf(friendIdList, afterGroup)
+            val friendIdList = repository.getSimpleFriendDataListByGroup(beforeGroup).map { it.id }
+            repository.updateGroupOf(friendIdList, afterGroup)
         }
     }
 }
