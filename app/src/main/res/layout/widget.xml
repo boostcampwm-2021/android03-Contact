@@ -37,12 +37,12 @@
         android:background="@color/light_gray"/>
 
     <ListView
-        android:layout_marginTop="4dp"
         android:id="@+id/lv_widget_plan_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#ffffff"
-        android:paddingBottom="4dp"
+        android:divider="@android:color/transparent"
+        android:paddingVertical="4dp"
+        android:clipToPadding="false"
         />
 
 </LinearLayout>
