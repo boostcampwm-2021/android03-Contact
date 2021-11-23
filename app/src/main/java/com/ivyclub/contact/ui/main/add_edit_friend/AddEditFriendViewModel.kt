@@ -15,8 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditFriendViewModel @Inject constructor(val repository: ContactRepository) : ViewModel() {
 
-    private val _groups = MutableLiveData<List<String>>()
-    val groups: LiveData<List<String>> get() = _groups
+    private val _groupNameList = MutableLiveData<List<String>>()
+    val groupNameList: LiveData<List<String>> get() = _groupNameList
     private val _extraInfos = MutableLiveData<List<FriendExtraInfoData>>()
     val extraInfos: LiveData<List<FriendExtraInfoData>> get() = _extraInfos
     private val _isSaveButtonClicked = MutableLiveData(false)
@@ -31,10 +31,13 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     private val _newId =  MutableLiveData<Long>()
     val newId: LiveData<Long> get() = _newId
 
+    lateinit var groupIdList: List<Long>
 
     init {
         viewModelScope.launch {
-            _groups.value = repository.loadGroups().map { it.name }
+            val groups = repository.loadGroups()
+            _groupNameList.value = groups.map { it.name }
+            groupIdList = groups.map { it.id }
         }
     }
 
