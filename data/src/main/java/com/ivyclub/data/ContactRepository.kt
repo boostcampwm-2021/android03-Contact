@@ -17,6 +17,7 @@ interface ContactRepository {
         extraInfo: Map<String, String>,
         id: Long
     )
+
     fun loadFriendsWithFlow(): Flow<List<FriendData>>
     suspend fun getFavoriteFriends(): List<FriendData>
     suspend fun getLastFriendId(): Long
