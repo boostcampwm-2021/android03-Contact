@@ -30,5 +30,10 @@ object ImageManager {
         }.getOrDefault(null)
     }
 
+    fun deleteImage(friendId: Long) {
+        val tempFile = File(IMAGE_FILE_PATH,"$friendId.jpg")
+        tempFile.delete()
+    }
+
     private const val IMAGE_FILE_PATH = "/data/user/0/com.ivyclub.contact/cache/"
 }
