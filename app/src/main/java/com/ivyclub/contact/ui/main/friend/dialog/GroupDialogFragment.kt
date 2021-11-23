@@ -42,10 +42,13 @@ class GroupDialogFragment(private val groupData: GroupData? = null) : DialogFrag
         super.onViewCreated(view, savedInstanceState)
         if (groupData != null) {
             dialogViewModel.setBeforeGroupName(groupData.name)
-            with (binding) {
-                tvBeforeGroupName.text = "기존 이름 : ${groupData.name}"
-                tvAddGroupTitle.text = "그룹 이름 변경"
-                btnAddNewGroup.text = "변경"
+            with(binding) {
+                tvBeforeGroupName.text = String.format(
+                    getString(R.string.format_group_dialog_before_group_name),
+                    groupData.name
+                )
+                tvAddGroupTitle.text = getString(R.string.group_dialog_name_edit)
+                btnAddNewGroup.text = getString(R.string.group_dialog_edit)
             }
         }
 

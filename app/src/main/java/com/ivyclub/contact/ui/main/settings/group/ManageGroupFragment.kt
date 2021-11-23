@@ -41,7 +41,7 @@ class ManageGroupFragment :
     private fun observeShowDialog() {
         viewModel.showDeleteDialog.observe(viewLifecycleOwner) { group ->
             AlertDialog.Builder(requireContext())
-                .setMessage("그룹 '${group.name}'을(를) 삭제하시겠습니까?")
+                .setMessage(String.format(getString(R.string.manage_group_delete), group.name))
                 .setPositiveButton(R.string.yes) { _, _ ->
                     viewModel.deleteGroup(group)
                 }

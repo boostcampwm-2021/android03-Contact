@@ -124,4 +124,8 @@
     <string name="fragment_settings_group_management">그룹 관리</string>
     <string name="ask_delete_friend">해당 친구 정보를 삭제하시겠습니까?</string>
     <string name="change_noti_time_finish">알림 시간 설정이 완료되었습니다.</string>
+    <string name="format_group_dialog_before_group_name">기존 이름 : %s</string>
+    <string name="group_dialog_edit">변경</string>
+    <string name="group_dialog_name_edit">그룹 이름 변경</string>
+    <string name="manage_group_delete">그룹 \'%s\'을(를) 삭제하시겠습니까?</string>
 </resources>
