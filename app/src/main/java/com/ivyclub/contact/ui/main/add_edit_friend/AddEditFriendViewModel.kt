@@ -1,7 +1,6 @@
 package com.ivyclub.contact.ui.main.add_edit_friend
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,16 +10,13 @@ import com.ivyclub.data.ImageManager
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileOutputStream
-import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditFriendViewModel @Inject constructor(val repository: ContactRepository) : ViewModel() {
 
-    private val _groups = MutableLiveData<List<String>>()
-    val groups: LiveData<List<String>> get() = _groups
+    private val _groupNameList = MutableLiveData<List<String>>()
+    val groupNameList: LiveData<List<String>> get() = _groupNameList
     private val _extraInfos = MutableLiveData<List<FriendExtraInfoData>>()
     val extraInfos: LiveData<List<FriendExtraInfoData>> get() = _extraInfos
     private val _isSaveButtonClicked = MutableLiveData(false)
@@ -32,11 +28,16 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     private val extraInfoList = mutableListOf<FriendExtraInfoData>()
     val phoneNumber = MutableLiveData("")
     val name = MutableLiveData("")
+    private val _newId =  MutableLiveData<Long>()
+    val newId: LiveData<Long> get() = _newId
 
+    lateinit var groupIdList: List<Long>
 
     init {
         viewModelScope.launch {
-            _groups.value = repository.loadGroups().map { it.name }
+            val groups = repository.loadGroups()
+            _groupNameList.value = groups.map { it.name }
+            groupIdList = groups.map { it.id }
         }
     }
 
@@ -78,7 +79,7 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
         phoneNumber: String,
         name: String,
         birthday: String,
-        groupName: String,
+        groupId: Long,
         extraInfo: List<FriendExtraInfoData>,
         id: Long
     ) {
@@ -95,7 +96,7 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
                         phoneNumber,
                         name,
                         birthday,
-                        groupName,
+                        groupId,
                         listOf(),
                         false,
                         extraInfoMap
@@ -106,7 +107,7 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
                     phoneNumber,
                     name,
                     birthday,
-                    groupName,
+                    groupId,
                     extraInfoMap,
                     id
                 )
@@ -125,6 +126,12 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
 
     fun loadProfileImage(friendId: Long): Bitmap? {
         return ImageManager.loadProfileImage(friendId)
+    }
+
+    fun createNewId() {
+        viewModelScope.launch {
+            _newId.postValue(repository.getLastFriendId() + 1)
+        }
     }
 
     companion object {

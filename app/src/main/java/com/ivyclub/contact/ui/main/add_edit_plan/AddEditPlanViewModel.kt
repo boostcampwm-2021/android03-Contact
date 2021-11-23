@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkManager
 import com.ivyclub.contact.R
-import com.ivyclub.contact.service.PlanReminderNotificationWorker
+import com.ivyclub.contact.service.plan_reminder.PlanReminderNotificationWorker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.PlanData
@@ -103,11 +103,11 @@ class AddEditPlanViewModel @Inject constructor(
         }
     }
 
-    fun addParticipantsByGroup(groupName: String) {
+    fun addParticipantsByGroup(groupId: Long) {
         val participantSet = planParticipants.value?.toMutableSet()
         participantSet?.let { set ->
             viewModelScope.launch {
-                val friendsInGroup = repository.getSimpleFriendDataListByGroup(groupName)
+                val friendsInGroup = repository.getSimpleFriendDataListByGroup(groupId)
                 set.addAll(friendsInGroup)
                 _planParticipants.value = set.toList()
             }

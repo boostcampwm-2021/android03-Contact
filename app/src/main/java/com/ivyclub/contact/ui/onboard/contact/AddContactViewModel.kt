@@ -33,7 +33,7 @@ class AddContactViewModel @Inject constructor(
                         it.phoneNumber,
                         it.name,
                         "",
-                        "친구",
+                        1,
                         listOf(),
                         false,
                         mapOf()

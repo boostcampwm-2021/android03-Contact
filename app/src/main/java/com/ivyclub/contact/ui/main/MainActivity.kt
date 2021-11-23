@@ -2,6 +2,8 @@ package com.ivyclub.contact.ui.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
+import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -12,13 +14,14 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ActivityMainBinding
-import com.ivyclub.contact.service.PlanReminderNotification.NOTIFICATION
-import com.ivyclub.contact.service.PlanReminderNotification.NOTI_PLAN_ID
+import com.ivyclub.contact.service.plan_reminder.PlanReminderNotification.NOTIFICATION
+import com.ivyclub.contact.service.plan_reminder.PlanReminderNotification.NOTI_PLAN_ID
 import com.ivyclub.contact.ui.main.friend.FriendFragment
 import com.ivyclub.contact.ui.main.friend.FriendFragmentDirections
 import com.ivyclub.contact.ui.onboard.OnBoardingActivity
 import com.ivyclub.contact.ui.password.PasswordActivity
 import com.ivyclub.contact.util.BaseActivity
+import com.ivyclub.contact.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -125,5 +128,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 else -> binding.bnvMain.isVisible = true
             }
         }
+    }
+
+    override fun dispatchTouchEvent(motionEvent: MotionEvent?): Boolean {
+        val view = currentFocus
+        motionEvent?.let {
+            if (
+                view != null &&
+                (it.action == MotionEvent.ACTION_UP || it.action == MotionEvent.ACTION_MOVE) &&
+                view is EditText
+            ) {
+                val intArr = IntArray(2)
+                view.getLocationOnScreen(intArr)
+                val x = it.rawX + view.left - intArr[0]
+                val y = it.rawY + view.top - intArr[1]
+                if (x < view.left || x > view.right || y < view.top || y > view.bottom) {
+                    binding.hideKeyboard()
+                    view.clearFocus()
+                }
+            }
+        }
+        return super.dispatchTouchEvent(motionEvent)
     }
 }

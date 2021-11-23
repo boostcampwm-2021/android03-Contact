@@ -3,17 +3,20 @@ package com.ivyclub.contact.ui.main.friend
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ItemFriendProfileBinding
 import com.ivyclub.contact.databinding.ItemGroupDividerBinding
 import com.ivyclub.contact.databinding.ItemGroupNameBinding
 import com.ivyclub.contact.model.FriendListData
-import com.ivyclub.contact.util.*
-import com.ivyclub.data.ImageManager
+import com.ivyclub.contact.util.FriendListViewType
+import com.ivyclub.contact.util.binding
+import com.ivyclub.contact.util.setCustomBackgroundColor
+import com.ivyclub.contact.util.setCustomBackgroundDrawable
+import java.io.File
 
 class FriendListAdapter(
     private val onGroupClick: (String) -> Unit,
@@ -131,10 +134,7 @@ class FriendListAdapter(
         fun bind(friendItemData: FriendListData) {
             binding.root.setCustomBackgroundColor(if (friendItemData.isColored) R.color.blue_100 else R.color.white) // 배경색 변경
             binding.data = friendItemData
-            ImageManager.loadProfileImage(friendItemData.id)?.let {
-                binding.ivProfileImage.setImageBitmap(it)
-            } ?: binding.ivProfileImage.setImageResource(R.drawable.photo)
-            binding.ivProfileImage.clipToOutline = true
+            setProfileImage(friendItemData.id.toString())
             this.currentItem = friendItemData
         }
 
@@ -160,6 +160,19 @@ class FriendListAdapter(
                 transferClickedIdToViewModel(true, currentItem.id)
                 true // true로 반환하면 click이벤트는 무시하고, longClick 이벤트만 적용하는 것
             }
+        }
+
+        private fun setProfileImage(friendId: String) {
+            val imageString = "${binding.root.context.cacheDir}/${friendId}.jpg"
+            val targetFile = File(imageString)
+            if (targetFile.exists()) {
+                Glide.with(binding.ivProfileImage.context)
+                    .load(imageString)
+                    .into(binding.ivProfileImage)
+            } else {
+                binding.ivProfileImage.setImageResource(R.drawable.photo)
+            }
+            binding.ivProfileImage.clipToOutline = true
         }
     }
 

@@ -183,11 +183,6 @@ class PasswordFragment :
     }
 
     private fun getAuthenticationCallback() = object : BiometricPrompt.AuthenticationCallback() {
-        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-            super.onAuthenticationError(errorCode, errString)
-            Snackbar.make(binding.root, getString(R.string.biometric_auth_error), Snackbar.LENGTH_SHORT).show()
-        }
-
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             super.onAuthenticationSucceeded(result)
             viewModel.succeedFingerPrintAuth()

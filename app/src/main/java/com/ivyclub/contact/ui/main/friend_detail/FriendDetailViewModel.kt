@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.ImageManager
 import com.ivyclub.data.model.FriendData
@@ -21,6 +22,8 @@ class FriendDetailViewModel @Inject constructor(
 
     private val _friendData = MutableLiveData<FriendData>()
     val friendData: LiveData<FriendData> get() = _friendData
+    private val _groupName = MutableLiveData<String>()
+    val groupName: LiveData<String> get() = _groupName
 
     private val _plan1 = MutableLiveData<PlanData>()
     val plan1: LiveData<PlanData> get() = _plan1
@@ -36,9 +39,14 @@ class FriendDetailViewModel @Inject constructor(
     private val _plan2Date = MutableLiveData<Date>()
     val plan2Date: LiveData<Date> get() = _plan2Date
 
+    private val _finishEvent = SingleLiveEvent<Unit>()
+    val finishEvent: LiveData<Unit> = _finishEvent
+
     fun loadFriendData(id: Long) {
         viewModelScope.launch {
-            _friendData.value = repository.getFriendDataById(id)
+            val friend = repository.getFriendDataById(id)
+            _friendData.value = friend
+            _groupName.value = repository.getGroupNameById(friend.groupId)
         }
     }
 
@@ -73,5 +81,17 @@ class FriendDetailViewModel @Inject constructor(
 
     fun loadProfileImage(friendId: Long): Bitmap? {
         return ImageManager.loadProfileImage(friendId)
+    }
+
+    fun deleteFriend(friendId: Long) {
+        ImageManager.deleteImage(friendId)
+        viewModelScope.launch {
+            repository.deleteFriend(friendId)
+            finish()
+        }
+    }
+
+    private fun finish() {
+        _finishEvent.call()
     }
 }

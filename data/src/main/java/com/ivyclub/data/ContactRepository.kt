@@ -13,12 +13,15 @@ interface ContactRepository {
         phoneNumber: String,
         name: String,
         birthday: String,
-        groupName: String,
+        groupId: Long,
         extraInfo: Map<String, String>,
         id: Long
     )
+
     fun loadFriendsWithFlow(): Flow<List<FriendData>>
     suspend fun getFavoriteFriends(): List<FriendData>
+    suspend fun deleteFriend(id: Long)
+    suspend fun getLastFriendId(): Long
 
     // OnBoarding
     fun setShowOnBoardingState(state: Boolean)
@@ -31,17 +34,21 @@ interface ContactRepository {
     suspend fun getPlanDataById(planId: Long): PlanData
     suspend fun savePlanData(planData: PlanData, lastParticipants: List<Long> = emptyList()): Long
     suspend fun deletePlanData(planData: PlanData)
-    suspend fun getSimpleFriendDataListByGroup(groupName: String): List<SimpleFriendData>
+    suspend fun getSimpleFriendDataListByGroup(groupId: Long): List<SimpleFriendData>
     suspend fun getSimpleFriendDataById(friendId: Long): SimpleFriendData
     suspend fun getSimpleFriendData(): List<SimpleFriendData>
     suspend fun getPlansByIds(planIds: List<Long>): List<PlanData>
+    suspend fun getPlanListAfter(current: Long): List<SimplePlanData>
     fun getStartAlarmHour(): Int
     fun getEndAlarmHour(): Int
 
     // Group
     suspend fun loadGroups(): List<GroupData>
     suspend fun saveNewGroup(groupData: GroupData)
-    suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: String)
+    suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: Long)
+    suspend fun deleteGroup(groupData: GroupData)
+    suspend fun getGroupNameById(id: Long): String
+    fun loadGroupsWithFlow(): Flow<List<GroupData>>
 
     // Password
     suspend fun savePassword(password: String)

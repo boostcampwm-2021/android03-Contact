@@ -3,26 +3,23 @@ package com.ivyclub.contact.ui.main.friend_detail
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.transition.TransitionInflater
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
 import com.ivyclub.contact.util.BaseFragment
+import com.ivyclub.contact.util.showAlertDialog
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class FriendDetailFragment :
@@ -42,7 +39,11 @@ class FriendDetailFragment :
 
     private fun loadFriendDetail(id: Long) {
         viewModel.loadFriendData(id)
-        viewModel.loadProfileImage(id)?.let { binding.ivProfileImage.setImageBitmap(it) }
+        viewModel.loadProfileImage(id)?.let {
+            Glide.with(this)
+                .load(it)
+                .into(binding.ivProfileImage)
+        }
         binding.ivProfileImage.clipToOutline = true
     }
 
@@ -50,6 +51,12 @@ class FriendDetailFragment :
         viewModel.friendData.observe(this, {
             initDetails(it)
         })
+        viewModel.finishEvent.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
+        }
+        viewModel.groupName.observe(viewLifecycleOwner) {
+            binding.tvGroup.text = it
+        }
     }
 
     private fun initButtons(id: Long) {
@@ -78,13 +85,19 @@ class FriendDetailFragment :
             }
             ivProfileImage.setOnClickListener {
                 val extras = FragmentNavigatorExtras(
-                    ivProfileImage to "secondTransitionName")
+                    ivProfileImage to "secondTransitionName"
+                )
                 val bundle = Bundle()
-                bundle.putLong("friendId",args.friendId)
-                findNavController().navigate(R.id.action_friendDetailFragment_to_imageDetailFragment,
+                bundle.putLong("friendId", args.friendId)
+                findNavController().navigate(
+                    R.id.action_friendDetailFragment_to_imageDetailFragment,
                     bundle, // Bundle of args
                     null, // NavOptions
-                    extras)
+                    extras
+                )
+            }
+            ivDelete.setOnClickListener {
+                showDeleteFriendDialog()
             }
         }
     }
@@ -92,8 +105,8 @@ class FriendDetailFragment :
     private fun initDetails(friend: FriendData) {
         with(binding) {
             tvName.text = friend.name
-            tvGroup.text = friend.groupName
             tvPhoneNum.text = friend.phoneNumber
+            if (friend.phoneNumber == "") btnCall.visibility = View.GONE
             btnFavorite.isChecked = friend.isFavorite
             llExtraInfo.removeAllViews()
             if (friend.birthday == "") {
@@ -146,5 +159,11 @@ class FriendDetailFragment :
 
     private fun bindPlan(planIds: List<Long>) {
         viewModel.loadPlans(planIds)
+    }
+
+    private fun showDeleteFriendDialog() {
+        context?.showAlertDialog(getString(R.string.ask_delete_friend), {
+            viewModel.deleteFriend(args.friendId)
+        })
     }
 }
