@@ -9,6 +9,7 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
@@ -51,6 +52,7 @@ class AddEditFriendFragment :
         observeRequiredState()
         initClickListener()
         initBackPressedListener()
+        addPhoneNumberTextChangedListener()
     }
 
     private fun setFriendData() {
@@ -103,6 +105,10 @@ class AddEditFriendFragment :
                 filterActivityLauncher.launch(intent)
             }
         }
+    }
+
+    private fun addPhoneNumberTextChangedListener() {
+        binding.etPhoneNumber.addTextChangedListener(PhoneNumberFormattingTextWatcher())
     }
 
     private val filterActivityLauncher: ActivityResultLauncher<Intent> =
