@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.ivyclub.contact.ui.main.friend.dialog.AddGroupViewModel" />
+            type="com.ivyclub.contact.ui.main.friend.dialog.GroupDialogViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +25,17 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_before_group_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="2dp"
+            android:textColor="@color/green_300"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_add_group_title"
+            app:layout_constraintStart_toEndOf="@id/tv_add_group_title" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_new_group_name"

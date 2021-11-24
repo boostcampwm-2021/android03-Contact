@@ -17,6 +17,15 @@
         android:theme="@style/Theme.Contact"
         tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity">
         <activity
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.password.PasswordActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -28,29 +37,29 @@
             android:name=".ui.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
+
         <receiver
             android:name=".service.WidgetProvider"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider" />
         </receiver>
+
         <service
             android:name=".service.ContactRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
+
 </manifest>

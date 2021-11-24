@@ -48,6 +48,9 @@ interface ContactDAO {
     @Query("SELECT * FROM GroupData")
     suspend fun getGroups(): List<GroupData>
 
+    @Query("SELECT * FROM GroupData")
+    fun loadGroupsWithFlow(): Flow<List<GroupData>>
+
     @Insert
     suspend fun insertGroupData(groupData: GroupData)
 
@@ -87,4 +90,7 @@ interface ContactDAO {
 
     @Query("SELECT name FROM GroupData WHERE id = :id")
     suspend fun getGroupNameById(id: Long): String
+
+    @Query("UPDATE GroupData SET name = :name WHERE id = :id")
+    suspend fun updateGroupName(id: Long, name: String)
 }

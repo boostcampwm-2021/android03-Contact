@@ -59,7 +59,7 @@
     <string name="no">아니오</string>
     <string name="ask_back_while_edit">해당 페이지를 나가시면 기존에 작성했던 기록은 사라집니다.\n나가시겠습니까?</string>
     <string name="ask_save_plan">해당 일정을 저장하시겠습니까?</string>
-    <string name="alert_plan_empty">추가한 일정이 없습니다!\n새로운 일정을 추가하려면 상단의 추가 버튼을 탭해주세요</string>
+    <string name="alert_plan_empty">추가한 일정이 없습니다!\n+ 버튼을 눌러 새로운 일정을 추가해보세요</string>
     <string name="plan_reminder_notification_title">잊지 않으셨죠?</string>
     <string name="plan_morning_notification_title">좋은 아침입니다!</string>
     <string name="plan_morning_notification_content">하루를 시작하기에 앞서 오늘 일정들을 확인하세요!</string>
@@ -93,6 +93,7 @@
     <string name="group_name_validation_wrong_empty">한글자 이상 입력해주세요.</string>
     <string name="group_name_validation_wrong_duplicate">이미 존재하는 그룹 이름입니다.</string>
     <string name="group_name_validation_wrong_too_long">그룹명은 10자 이내로 입력해주세요.</string>
+    <string name="group_name_validation_wrong_same">기존 이름과 동일한 이름입니다.</string>
     <string name="empty_string" />
     <string name="format_widget_plan">%d월의 약속</string>
     <string name="fragment_settings_go_back">뒤로가기</string>
@@ -125,4 +126,10 @@
     <string name="change_noti_time_finish">알림 시간 설정이 완료되었습니다.</string>
     <string name="menu_edit_friend">친구 수정하기</string>
     <string name="menu_delete_friend">친구 삭제하기</string>
+    <string name="format_group_dialog_before_group_name">기존 이름 : %s</string>
+    <string name="group_dialog_edit">변경</string>
+    <string name="group_dialog_name_edit">그룹 이름 변경</string>
+    <string name="manage_group_delete">그룹 \'%s\'을(를) 삭제하시겠습니까?</string>
+    <string name="manage_group_success_edit_name">그룹 이름이 성공적으로 변경되었습니다.</string>
+    <string name="on_boarding_select_none">모두해제</string>
 </resources>

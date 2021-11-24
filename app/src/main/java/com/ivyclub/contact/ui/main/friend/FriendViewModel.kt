@@ -16,13 +16,6 @@ class FriendViewModel @Inject constructor(
     private val repository: ContactRepository
 ) : ViewModel() {
 
-    private var searchInputString = ""
-    private var originEntireFriendList =
-        emptyList<FriendListData>() // 다른 뷰홀더는 없고 친구들만 있는 데이터, 즐겨찾기 때문에 중복이 있음.
-    private var friendListForSearch =
-        emptyList<FriendListData>() // 검색했을 때 보여주기 위한 친구 데이터, 즐겨찾기 중복 없음.
-    private var orderedEntireFriendList = emptyList<FriendListData>() // 모든 뷰타입으로 정렬된 전체 친구 데이터
-
     private val _isSearchViewVisible = MutableStateFlow(false)
     val isSearchViewVisible = _isSearchViewVisible.asStateFlow()
     private val _friendList = MutableStateFlow<List<FriendListData>>(emptyList())
@@ -33,11 +26,33 @@ class FriendViewModel @Inject constructor(
     val isInLongClickedState = _isInLongClickedState.asStateFlow()
     private val _isFriendDatabaseEmpty = MutableStateFlow(false)
     val isFriendDatabaseEmpty = _isFriendDatabaseEmpty.asStateFlow()
-    private val foldedGroupNameList = mutableListOf<String>()
+
     val longClickedId = mutableListOf<Long>()
+    private var searchInputString = ""
+    private var originEntireFriendList =
+        emptyList<FriendListData>() // 다른 뷰홀더는 없고 친구들만 있는 데이터, 즐겨찾기 때문에 중복이 있음.
+    private var friendListForSearch =
+        emptyList<FriendListData>() // 검색했을 때 보여주기 위한 친구 데이터, 즐겨찾기 중복 없음.
+    private var orderedEntireFriendList = emptyList<FriendListData>() // 모든 뷰타입으로 정렬된 전체 친구 데이터
+    private val foldedGroupNameList = mutableListOf<String>()
+    private val groupData = mutableMapOf<Long, String>() // group id, group name
 
     init {
         getFriendDataWithFlow()
+        getGroupNameData()
+    }
+
+    private fun getGroupNameData() {
+        viewModelScope.launch {
+            repository.loadGroupsWithFlow()
+                .buffer()
+                .collect { newList ->
+                    groupData.clear()
+                    newList.forEach { newGroupData ->
+                        groupData[newGroupData.id] = newGroupData.name
+                    }
+                }
+        }
     }
 
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
@@ -110,10 +125,10 @@ class FriendViewModel @Inject constructor(
         _isInLongClickedState.value = longClickedId.isNotEmpty()
     }
 
-    fun updateFriendsGroup(groupName: String?) {
-        if (groupName == null) return
+    fun updateFriendsGroup(groupID: Long?) {
+        if (groupID == null) return
         viewModelScope.launch {
-            // TODO : repository.updateGroupOf(longClickedId, groupName)
+            repository.updateGroupOf(longClickedId, groupID)
             initLongClickedId() // 그룹 이동이 끝나서 저장된 값들 초기화
             getFriendDataWithFlow() // 리스트 업데이트
             clearLongClickedId() // long clicked된 id 값들 처리 해제
@@ -183,7 +198,7 @@ class FriendViewModel @Inject constructor(
                 id = it.id,
                 phoneNumber = it.phoneNumber,
                 name = it.name,
-                groupName = "it.groupName", // TODO
+                groupName = groupData[it.groupId] ?: "친구", // default로 친구에 저장
                 viewType = FriendListViewType.FRIEND,
                 isFavoriteFriend = it.isFavorite
             )

@@ -21,7 +21,7 @@ class DatabaseModule {
             appContext,
             ContactDatabase::class.java,
             "contact.db"
-        ).build()
+        ).addMigrations(ContactDatabase.MIGRATION_1_2).build()
     }
 
     @Provides
