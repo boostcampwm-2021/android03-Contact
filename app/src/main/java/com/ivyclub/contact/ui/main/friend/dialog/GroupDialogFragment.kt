@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
-import com.ivyclub.contact.databinding.DialogFriendBinding
+import com.ivyclub.contact.databinding.DialogGroupBinding
 import com.ivyclub.contact.ui.main.settings.group.ManageGroupFragment
 import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class GroupDialogFragment(private val groupData: GroupData? = null) : DialogFragment() {
 
-    private var _binding: DialogFriendBinding? = null
+    private var _binding: DialogGroupBinding? = null
     private val binding get() = _binding ?: error("binding이 초기화되지 않았습니다.")
     private val dialogViewModel: GroupDialogViewModel by viewModels()
 
@@ -32,7 +32,7 @@ class GroupDialogFragment(private val groupData: GroupData? = null) : DialogFrag
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.dialog_friend, container, false)
+        _binding = DataBindingUtil.inflate(inflater, R.layout.dialog_group, container, false)
         binding.viewModel = dialogViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
