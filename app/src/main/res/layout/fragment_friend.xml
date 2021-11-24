@@ -125,6 +125,8 @@
             android:id="@+id/rv_friend_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:scrollbars="vertical"
+            android:scrollbarSize="8dp"
             android:paddingVertical="4dp"
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
