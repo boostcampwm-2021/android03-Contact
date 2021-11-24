@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.ivyclub.contact.ui.main.add_edit_plan.AddEditPlanViewModel"/>
         <variable
             name="viewModel"
             type="com.ivyclub.contact.ui.main.add_edit_plan.AddEditPlanViewModel" />
@@ -132,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:maxLines="1"
-                    android:hint="@string/hint_plan_participants"
+                    android:hint="@{String.format(@string/hint_plan_participants, AddEditPlanViewModel.MAX_PARTICIPANTS)}"
                     android:inputType="text|textCapWords"
                     android:textSize="14sp"
                     android:completionThreshold="1"

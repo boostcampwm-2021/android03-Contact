@@ -181,6 +181,6 @@ class AddEditPlanViewModel @Inject constructor(
     }
 
     companion object {
-        private const val MAX_PARTICIPANTS = 30
+        const val MAX_PARTICIPANTS = 30
     }
 }
