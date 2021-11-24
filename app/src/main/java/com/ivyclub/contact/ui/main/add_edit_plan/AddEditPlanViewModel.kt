@@ -91,7 +91,7 @@ class AddEditPlanViewModel @Inject constructor(
         val participants = planParticipants.value?.toMutableSet()
         participants?.let {
             it.add(participantData)
-            _planParticipants.value = it.toList()
+            _planParticipants.value = trimParticipants(it.toList())
         }
     }
 
@@ -111,9 +111,20 @@ class AddEditPlanViewModel @Inject constructor(
             viewModelScope.launch {
                 val friendsInGroup = repository.getSimpleFriendDataListByGroup(groupId)
                 set.addAll(friendsInGroup)
-                _planParticipants.value = set.toList()
+                _planParticipants.value = trimParticipants(set.toList())
             }
         }
+    }
+
+    private fun trimParticipants(beforeTrimmed: List<SimpleFriendData>): List<SimpleFriendData> {
+        var afterTrimmed = beforeTrimmed
+
+        if (beforeTrimmed.size > MAX_PARTICIPANTS) {
+            makeSnackbar(R.string.particpants_overload)
+            afterTrimmed = beforeTrimmed.subList(0, MAX_PARTICIPANTS)
+        }
+
+        return afterTrimmed
     }
 
     fun setNewDate(newDate: Date) {
@@ -167,5 +178,9 @@ class AddEditPlanViewModel @Inject constructor(
             val friend = repository.getSimpleFriendDataById(friendId)
             addParticipant(friend)
         }
+    }
+
+    companion object {
+        const val MAX_PARTICIPANTS = 30
     }
 }

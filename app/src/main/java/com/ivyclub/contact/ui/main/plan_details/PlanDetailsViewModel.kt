@@ -11,6 +11,7 @@ import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.PlanData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,16 +33,34 @@ class PlanDetailsViewModel @Inject constructor(
     private val _finishEvent = SingleLiveEvent<Unit>()
     val finishEvent: LiveData<Unit> = _finishEvent
 
+    private val friendMap = mutableMapOf<Long, String>()
+
+    private val loadFriendsJob: Job = viewModelScope.launch {
+        val myFriends = repository.getSimpleFriendData()
+        myFriends?.forEach {
+            friendMap[it.id] = it.name
+        }
+    }
+
     fun getPlanDetails(planId: Long) {
         viewModelScope.launch {
             val planData = repository.getPlanDataById(planId)
+            val removedFriendsIds = mutableListOf<Long>()
 
+            loadFriendsJob.join()
             val friends = mutableListOf<String>()
-            planData.participant.forEach {
-                friends.add(repository.getSimpleFriendDataById(it).name)
+            planData.participant.forEach { friendId ->
+                val friendName = friendMap[friendId]
+                if (friendName == null) removedFriendsIds.add(friendId)
+                else friends.add(friendName)
             }
+
             _planParticipants.value = friends
             _planDetails.value = planData
+
+            if (removedFriendsIds.isNotEmpty()) {
+                repository.updatePlansParticipants(planData.participant - removedFriendsIds, planId)
+            }
         }
     }
 

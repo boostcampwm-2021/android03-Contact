@@ -131,6 +131,7 @@ fun ViewGroup.addChips(names: List<String>, onCloseIconClick: (Int) -> (Unit)) {
                 setEnsureMinTouchTargetSize(false)
                 chipMinHeight = 8f
 
+                closeIcon = ContextCompat.getDrawable(context, R.drawable.ic_close_black)
                 isCloseIconVisible = true
                 setOnCloseIconClickListener {
                     onCloseIconClick(index)

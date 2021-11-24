@@ -85,7 +85,7 @@ interface ContactDAO {
     @Query("DELETE FROM FriendData WHERE id = :id")
     fun deleteFriend(id: Long)
 
-    @Query("SELECT id FROM FRIENDDATA ORDER BY id DESC LIMIT 1")
+    @Query("SELECT id FROM FriendData ORDER BY id DESC LIMIT 1")
     suspend fun getLastFriendId(): Long?
 
     @Query("SELECT name FROM GroupData WHERE id = :id")
@@ -93,4 +93,7 @@ interface ContactDAO {
 
     @Query("UPDATE GroupData SET name = :name WHERE id = :id")
     suspend fun updateGroupName(id: Long, name: String)
+
+    @Query("UPDATE PlanData SET participant = :newParticipants WHERE id = :planId")
+    suspend fun updatePlansParticipants(newParticipants: List<Long>, planId: Long)
 }

@@ -6,10 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.ui.plan_list.PlanListItemViewModel
 import com.ivyclub.data.ContactRepository
+import com.ivyclub.data.model.SimplePlanData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,38 +25,61 @@ class PlanViewModel @Inject constructor(
     private val _planListItems = MutableLiveData<List<PlanListItemViewModel>>()
     val planListItems: LiveData<List<PlanListItemViewModel>> = _planListItems
 
-    private val friendMap = mutableMapOf<Long, String>()
-
-    private val loadFriendsJob: Job = viewModelScope.launch {
-        repository.getSimpleFriendData()?.forEach {
-            friendMap[it.id] = it.name
-        }
-    }
+    private var planListSnapshot = emptyList<SimplePlanData>()
 
     init { getMyPlans() }
 
     private fun getMyPlans() {
         viewModelScope.launch {
             _loading.value = true
-            loadFriendsJob.join()
 
-            repository.loadPlanListWithFlow().buffer().collect { newPlanList ->
-                val planItems = mutableListOf<PlanListItemViewModel>()
-                newPlanList.forEach { planData ->
-                    val friends = mutableListOf<String>()
-                    planData.participant.forEach { friendId ->
-                        friendMap[friendId]?.let { friendName ->
-                            friends.add(friendName)
-                        }
-                    }
-                    planItems.add(
-                        PlanListItemViewModel(planData, friends)
-                    )
+            repository.loadPlanListWithFlow().buffer()
+                .transform { planList ->
+                    planListSnapshot = planList
+                    emit(planList.mapToPlanItemList(setFriendMap()))
+                }.collect { planItemViewModels ->
+                    _planListItems.value = planItemViewModels
+                    _loading.value = false
                 }
+        }
+    }
 
-                _planListItems.value = planItems
-                _loading.value = false
+    fun refreshPlanItems() {
+        val previousItems = planListItems.value
+        if (previousItems.isNullOrEmpty()) return
+
+        viewModelScope.launch {
+            val newItems = planListSnapshot.mapToPlanItemList(setFriendMap())
+            if (previousItems != newItems) {
+                _planListItems.value = newItems
             }
         }
+    }
+
+    private suspend fun setFriendMap(): Map<Long, String> {
+        val friendMap = mutableMapOf<Long, String>()
+        repository.getSimpleFriendData()?.forEach {
+            friendMap[it.id] = it.name
+        }
+        return friendMap
+    }
+
+    private fun List<SimplePlanData>.mapToPlanItemList(friendMap: Map<Long, String>)
+    : List<PlanListItemViewModel> {
+        val planItems = mutableListOf<PlanListItemViewModel>()
+
+        forEach { planData ->
+            val friends = mutableListOf<String>()
+            planData.participant.forEach { friendId ->
+                friendMap[friendId]?.let { friendName ->
+                    friends.add(friendName)
+                }
+            }
+            planItems.add(
+                PlanListItemViewModel(planData, friends)
+            )
+        }
+
+        return planItems
     }
 }
