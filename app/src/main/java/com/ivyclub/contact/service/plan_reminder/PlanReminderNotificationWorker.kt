@@ -59,7 +59,11 @@ class PlanReminderNotificationWorker @AssistedInject constructor(
         val strFormat: String
         if (notiType == NotificationType.PLAN) {
             notiTitle = context.getString(R.string.plan_reminder_notification_title)
-            strFormat = context.getString(R.string.format_plan_reminder_notification_solo)
+            strFormat =
+                context.getString(
+                    if (participants.isEmpty()) R.string.format_plan_reminder_notification_solo
+                    else R.string.format_plan_reminder_notification_with_friends
+                )
         } else {
             notiTitle = context.getString(R.string.plan_night_notification_title)
             strFormat = context.getString(R.string.format_after_plan)
