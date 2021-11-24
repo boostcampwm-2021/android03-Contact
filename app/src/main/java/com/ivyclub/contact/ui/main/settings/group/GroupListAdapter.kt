@@ -1,7 +1,6 @@
 package com.ivyclub.contact.ui.main.settings.group
 
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +10,7 @@ import com.ivyclub.contact.util.binding
 import com.ivyclub.data.model.GroupData
 
 class GroupListAdapter(
+    private val onEditButtonClick: (GroupData) -> Unit,
     private val onDeleteButtonClick: (GroupData) -> Unit
 ) : ListAdapter<GroupData, GroupListAdapter.GroupViewHolder>(diffUtil) {
 
@@ -28,6 +28,9 @@ class GroupListAdapter(
         init {
             binding.ivDeleteGroup.setOnClickListener {
                 onDeleteButtonClick(getItem(adapterPosition))
+            }
+            binding.ivEditGroupName.setOnClickListener {
+                onEditButtonClick(getItem(adapterPosition))
             }
         }
 

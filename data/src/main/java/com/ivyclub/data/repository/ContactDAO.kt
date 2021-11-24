@@ -51,7 +51,7 @@ interface ContactDAO {
     @Query("SELECT * FROM GroupData")
     fun loadGroupsWithFlow(): Flow<List<GroupData>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertGroupData(groupData: GroupData)
 
     @Query("UPDATE FriendData SET isFavorite = :state WHERE id = :id")
@@ -86,8 +86,11 @@ interface ContactDAO {
     fun deleteFriend(id: Long)
 
     @Query("SELECT id FROM FRIENDDATA ORDER BY id DESC LIMIT 1")
-    suspend fun getLastFriendId(): Long
+    suspend fun getLastFriendId(): Long?
 
     @Query("SELECT name FROM GroupData WHERE id = :id")
     suspend fun getGroupNameById(id: Long): String
+
+    @Query("UPDATE GroupData SET name = :name WHERE id = :id")
+    suspend fun updateGroupName(id: Long, name: String)
 }

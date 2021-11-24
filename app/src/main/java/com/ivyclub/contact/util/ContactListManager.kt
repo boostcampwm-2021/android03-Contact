@@ -30,6 +30,6 @@ class ContactListManager @Inject constructor(
             contactList.add(obj)
         }
         contacts.close()
-        return contactList
+        return contactList.toSet().toMutableList()
     }
 }

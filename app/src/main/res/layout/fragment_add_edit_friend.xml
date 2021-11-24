@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
-                android:clickable="@{!viewModel.name.isEmpty() &amp;&amp; !viewModel.phoneNumber.isEmpty()}"
+                android:clickable="@{!viewModel.name.isEmpty()}"
                 android:contentDescription="@string/fragment_friend_settings"
                 android:onClick="@{() -> viewModel.onSaveButtonClicked()}"
                 android:padding="4dp"
@@ -66,29 +66,30 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="12dp"
-                android:paddingTop="12dp">
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="12dp">
 
                 <ImageView
                     android:id="@+id/iv_profile_image"
                     android:layout_width="128dp"
                     android:layout_height="128dp"
+                    android:background="@drawable/round_image"
                     android:contentDescription="@string/add_edit_friend_profile_image"
                     android:scaleType="centerCrop"
                     android:src="@drawable/photo"
-                    android:background="@drawable/round_image"
+                    app:layout_constraintBottom_toBottomOf="@id/spn_group"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@id/tv_name" />
 
                 <ImageView
                     android:id="@+id/iv_edit_photo"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:background="@drawable/bg_change_image"
-                    android:src="@drawable/ic_baseline_pen"
-                    android:padding="4dp"
                     android:layout_marginEnd="4dp"
                     android:layout_marginBottom="4dp"
+                    android:background="@drawable/bg_change_image"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_baseline_pen"
                     app:layout_constraintBottom_toBottomOf="@id/iv_profile_image"
                     app:layout_constraintEnd_toEndOf="@id/iv_profile_image" />
 
@@ -99,37 +100,38 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/add_edit_friend_name"
                     android:textColor="@color/green_300"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/et_name"
-                    app:layout_constraintStart_toEndOf="@id/iv_profile_image"
-                    app:layout_constraintTop_toTopOf="@+id/iv_profile_image"
-                    app:layout_constraintVertical_chainStyle="packed" />
+                    app:layout_constraintStart_toStartOf="@id/et_name"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/et_name"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/bg_add_edit_friend_info"
                     android:inputType="textPersonName"
-                    android:padding="8dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"
                     android:text="@={viewModel.name}"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@id/tv_name_empty_check"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/tv_name"
+                    app:layout_constraintStart_toEndOf="@id/iv_profile_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_name" />
 
                 <TextView
                     android:id="@+id/tv_name_empty_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
                     android:text="@string/add_edit_friend_required_check"
                     android:textColor="@color/red"
-                    android:textSize="8sp"
-                    android:visibility="@{viewModel.name.isEmpty() ? View.VISIBLE : View.GONE}"
+                    android:textSize="12sp"
+                    android:visibility="@{viewModel.name.isEmpty() ? View.VISIBLE : View.INVISIBLE}"
                     app:layout_constraintBottom_toTopOf="@id/tv_group"
                     app:layout_constraintStart_toStartOf="@id/et_name"
                     app:layout_constraintTop_toBottomOf="@id/et_name" />
@@ -138,10 +140,10 @@
                     android:id="@+id/tv_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="@string/add_edit_friend_group"
                     android:textColor="@color/green_300"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@id/spn_group"
                     app:layout_constraintStart_toStartOf="@id/tv_name"
@@ -157,19 +159,20 @@
                     android:spinnerMode="dropdown"
                     app:layout_constraintBottom_toBottomOf="@id/iv_profile_image"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/tv_name"
+                    app:layout_constraintStart_toStartOf="@id/et_name"
                     app:layout_constraintTop_toBottomOf="@id/tv_group" />
 
                 <TextView
                     android:id="@+id/tv_phone_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/add_edit_friend_phone_number"
                     android:textColor="@color/green_300"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/iv_profile_image"
+                    app:layout_constraintStart_toStartOf="@id/et_phone_number"
                     app:layout_constraintTop_toBottomOf="@id/iv_profile_image" />
 
                 <EditText
@@ -179,36 +182,25 @@
                     android:layout_marginTop="4dp"
                     android:background="@drawable/bg_add_edit_friend_info"
                     android:inputType="phone"
-                    android:padding="8dp"
-                    android:text="@={viewModel.phoneNumber}"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/iv_profile_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_phone_number" />
 
                 <TextView
-                    android:id="@+id/tv_phone_number_empty_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:text="@string/add_edit_friend_required_check"
-                    android:textColor="@color/red"
-                    android:textSize="8sp"
-                    android:visibility="@{viewModel.phoneNumber.isEmpty() ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintStart_toStartOf="@id/et_phone_number"
-                    app:layout_constraintTop_toBottomOf="@id/et_phone_number" />
-
-                <TextView
                     android:id="@+id/tv_birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/add_edit_friend_birthday"
                     android:textColor="@color/green_300"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@id/iv_profile_image"
-                    app:layout_constraintTop_toBottomOf="@id/tv_phone_number_empty_check" />
+                    app:layout_constraintStart_toStartOf="@id/tv_birthday_value"
+                    app:layout_constraintTop_toBottomOf="@id/et_phone_number" />
 
                 <TextView
                     android:id="@+id/tv_birthday_value"

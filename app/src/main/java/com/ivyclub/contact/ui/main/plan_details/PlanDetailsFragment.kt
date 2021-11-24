@@ -35,6 +35,7 @@ class PlanDetailsFragment :
 
     private fun setEditPlanButton() {
         with(binding) {
+            ivBtnBack.setOnClickListener { findNavController().popBackStack() }
             ivBtnEditPlan.setOnClickListener {
                 findNavController().navigate(
                     PlanDetailsFragmentDirections.actionPlanDetailsFragmentToAddEditFragment(
