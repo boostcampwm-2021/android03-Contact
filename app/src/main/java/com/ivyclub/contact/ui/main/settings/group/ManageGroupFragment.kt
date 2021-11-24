@@ -60,7 +60,7 @@ class ManageGroupFragment :
 
     override fun onDismiss(dialog: DialogInterface?) {
         viewModel.loadGroupList()
-        Snackbar.make(binding.root, getString(R.string.manage_group_success_edit_name), Snackbar.LENGTH_SHORT).show()
+        // Snackbar.make(binding.root, getString(R.string.manage_group_success_edit_name), Snackbar.LENGTH_SHORT).show()
     }
 
     companion object {
