@@ -140,7 +140,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                 R.id.settingsFragment, R.id.securityFragment, R.id.passwordFragment, R.id.imageDetailFragment, R.id.settingsContactFragment, R.id.manageGroupFragment -> {
                     binding.bnvMain.isVisible = false
                 }
-                else -> binding.bnvMain.isVisible = false
+                else -> binding.bnvMain.isVisible = true
             }
         }
     }
