@@ -148,7 +148,7 @@ class FriendDetailFragment :
         layoutParams.setMargins(24, 48, 0, 0)
         return TextView(context).apply {
             this.text = text
-            textSize = 12f
+            textSize = 14f
             this.layoutParams = layoutParams
         }
     }
@@ -165,7 +165,7 @@ class FriendDetailFragment :
             textSize = 16f
             this.layoutParams = layoutParams
             setBackgroundResource(R.drawable.bg_details)
-            setPadding(48, 24, 48, 24)
+            setPadding(32, 24, 32, 24)
         }
     }
 

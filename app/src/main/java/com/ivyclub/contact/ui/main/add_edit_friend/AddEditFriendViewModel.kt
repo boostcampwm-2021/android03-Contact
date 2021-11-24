@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivyclub.contact.R
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.ImageManager
 import com.ivyclub.data.model.FriendData
@@ -26,9 +27,12 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     private val _showClearButtonVisible = MutableLiveData<Boolean>()
     val showClearButtonVisible: LiveData<Boolean> get() = _showClearButtonVisible
     private val extraInfoList = mutableListOf<FriendExtraInfoData>()
-    val name = MutableLiveData("")
     private val _newId =  MutableLiveData<Long>()
     val newId: LiveData<Long> get() = _newId
+    private val _nameValidation = MutableLiveData<Int>()
+    val nameValidation: LiveData<Int> get() = _nameValidation
+    val isNameValid = MutableLiveData<Boolean>()
+
 
     lateinit var groupIdList: List<Long>
 
@@ -72,6 +76,19 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
 
     fun onSaveButtonClicked() {
         _isSaveButtonClicked.value = true
+    }
+
+    fun checkNameValid(inputName: String) {
+        if (inputName.isEmpty()) {
+            _nameValidation.value = R.string.add_edit_friend_required_check
+            isNameValid.value = false
+        } else if (15 < inputName.length) {
+            _nameValidation.value = R.string.add_edit_friend_over_length
+            isNameValid.value = false
+        } else {
+            _nameValidation.value = R.string.empty_string
+            isNameValid.value = true
+        }
     }
 
     fun saveFriendData(
