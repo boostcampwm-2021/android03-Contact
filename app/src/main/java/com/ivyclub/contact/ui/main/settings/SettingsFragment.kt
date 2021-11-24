@@ -2,7 +2,6 @@ package com.ivyclub.contact.ui.main.settings
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ivyclub.contact.R
@@ -19,7 +18,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         initViewModel()
         initBackIcon()
         initSettingButton()
-        initOtherButton()
     }
 
     private fun initViewModel() {
@@ -34,16 +32,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
     }
 
     private fun initSettingButton() {
+        binding.tvGetContacts.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_settingsContactFragment)
+        }
         binding.tvNotificationTime.setOnClickListener {
             val notificationTimeDialog = NotificationTimeDialogFragment()
             notificationTimeDialog.show(childFragmentManager, NotificationTimeDialogFragment.TAG)
-        }
-    }
-
-    // todo 추후 개발 후 삭제
-    private fun initOtherButton() {
-        binding.tvGetContacts.setOnClickListener {
-            Toast.makeText(requireContext(), "준비중입니다.", Toast.LENGTH_SHORT).show()
         }
         binding.tvSecurity.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_securityFragment)

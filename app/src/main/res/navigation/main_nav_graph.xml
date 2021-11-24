@@ -65,8 +65,8 @@
         tools:layout="@layout/fragment_add_edit_friend">
         <argument
             android:name="friendId"
-            app:argType="long"
-            android:defaultValue="-1L" />
+            android:defaultValue="-1L"
+            app:argType="long" />
     </fragment>
 
     <fragment
@@ -98,27 +98,36 @@
             app:argType="long" />
         <argument
             android:name="friendId"
-            app:argType="long"
-            android:defaultValue="-1L" />
+            android:defaultValue="-1L"
+            app:argType="long" />
     </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.ivyclub.contact.ui.main.settings.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_securityFragment"
             app:destination="@id/securityFragment"
             app:enterAnim="@anim/enter_anim"
             app:exitAnim="@anim/exit_anim"
             app:popEnterAnim="@anim/pop_enter_anim"
-            app:popExitAnim="@anim/pop_exit_anim"/>
-      
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_settingsFragment_to_settingsContactFragment"
+            app:destination="@id/settingsContactFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
         <action
             android:id="@+id/action_settingsFragment_to_manageGroupFragment"
-            app:destination="@id/manageGroupFragment" />
-
+            app:destination="@id/manageGroupFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -177,10 +186,10 @@
             app:popExitAnim="@anim/pop_exit_anim" />
         <argument
             android:name="friendId"
-            app:argType="long"
-            android:defaultValue="-1L" />
-
+            android:defaultValue="-1L"
+            app:argType="long" />
     </fragment>
+
     <fragment
         android:id="@+id/passwordFragment"
         android:name="com.ivyclub.contact.ui.main.settings.security.PasswordFragment"
@@ -196,9 +205,10 @@
             app:argType="com.ivyclub.contact.util.PasswordViewType" />
         <argument
             android:name="password"
-            app:argType="string"
-            android:defaultValue="null" />
+            android:defaultValue="null"
+            app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/securityFragment"
         android:name="com.ivyclub.contact.ui.main.settings.security.SecurityFragment"
@@ -208,15 +218,22 @@
             android:id="@+id/action_securityFragment_to_passwordFragment"
             app:destination="@id/passwordFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/imageDetailFragment"
         android:name="com.ivyclub.contact.ui.main.friend_detail.ImageDetailFragment"
         android:label="ImageDetailFragment"
-        tools:layout="@layout/fragment_image_detail"/>
+        tools:layout="@layout/fragment_image_detail" />
+    <fragment
+        android:id="@+id/settingsContactFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.contact.AddContactFromSettingsFragment"
+        android:label="SettingsContactFragment"
+        tools:layout="@layout/fragment_add_contact_from_settings" />
+
     <fragment
         android:id="@+id/manageGroupFragment"
         android:name="com.ivyclub.contact.ui.main.settings.group.ManageGroupFragment"
         android:label="ManageGroupFragment"
-        tools:layout="@layout/fragment_manage_group"/>
+        tools:layout="@layout/fragment_manage_group" />
 
 </navigation>

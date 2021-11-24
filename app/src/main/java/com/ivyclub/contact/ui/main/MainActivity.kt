@@ -120,10 +120,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
             supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment
         navController = navHostFragment.navController
         navView.setupWithNavController(navController)
-        navController.addOnDestinationChangedListener {_, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.navigation_friend, R.id.navigation_plan -> {
-                    binding.bnvMain.isVisible = true
+                R.id.settingsFragment, R.id.securityFragment, R.id.passwordFragment, R.id.imageDetailFragment, R.id.settingsContactFragment, R.id.manageGroupFragment -> {
+                    binding.bnvMain.isVisible = false
                 }
                 else -> binding.bnvMain.isVisible = false
             }

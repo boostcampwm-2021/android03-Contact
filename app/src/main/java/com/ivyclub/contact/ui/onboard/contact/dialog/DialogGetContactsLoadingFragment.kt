@@ -11,10 +11,13 @@ import com.ivyclub.contact.databinding.FragmentDialogGetContactsLoadingBinding
 
 class DialogGetContactsLoadingFragment : DialogFragment() {
     private lateinit var binding: FragmentDialogGetContactsLoadingBinding
+    private var isShowing = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isCancelable = false
+        isShowing = true
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,6 +31,13 @@ class DialogGetContactsLoadingFragment : DialogFragment() {
         )
         return binding.root
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        isShowing = false
+    }
+
+    fun getIsShowing() = isShowing
 
     companion object {
         const val TAG = "DIALOG_GET_CONTACTS_LOADING_FRAGMENT"

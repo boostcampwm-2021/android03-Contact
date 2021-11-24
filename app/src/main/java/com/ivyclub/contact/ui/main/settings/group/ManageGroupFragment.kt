@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentManageGroupBinding
@@ -28,7 +29,14 @@ class ManageGroupFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.rvGroupList.adapter = groupListAdapter
         observeGroupList()
+        initBackButton()
         observeShowDialog()
+    }
+
+    private fun initBackButton() {
+        binding.ivBackIcon.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun observeGroupList() {

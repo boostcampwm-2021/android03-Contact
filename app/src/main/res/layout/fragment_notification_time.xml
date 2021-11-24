@@ -26,21 +26,22 @@
                 android:layout_height="?actionBarSize"
                 app:layout_constraintTop_toTopOf="parent">
 
-
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <TextView
             android:id="@+id/tv_notification"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="120dp"
             android:gravity="center"
             android:text="@string/onboarding_notification_message"
             android:textColor="@color/black"
-            android:textSize="25sp"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="40dp" />
 
