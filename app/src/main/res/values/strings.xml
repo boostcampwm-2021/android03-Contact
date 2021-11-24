@@ -46,7 +46,7 @@
     <string name="add_edit_friend_group">그룹</string>
     <string name="add_edit_friend_profile_image">add friend profile image</string>
     <string name="add_edit_friend_back_button_description">back</string>
-    <string name="add_edit_friend_phone_number">*전화번호</string>
+    <string name="add_edit_friend_phone_number">전화번호</string>
     <string name="add_edit_friend_birthday">생년월일</string>
     <string name="add_edit_friend_extra_info_title_hint">추가 정보</string>
     <string name="add_edit_friend_required_check">필수 입력 항목입니다.</string>
@@ -124,6 +124,8 @@
     <string name="fragment_settings_group_management">그룹 관리</string>
     <string name="ask_delete_friend">해당 친구 정보를 삭제하시겠습니까?</string>
     <string name="change_noti_time_finish">알림 시간 설정이 완료되었습니다.</string>
+    <string name="menu_edit_friend">친구 수정하기</string>
+    <string name="menu_delete_friend">친구 삭제하기</string>
     <string name="format_group_dialog_before_group_name">기존 이름 : %s</string>
     <string name="group_dialog_edit">변경</string>
     <string name="group_dialog_name_edit">그룹 이름 변경</string>

@@ -4,10 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.ivyclub.contact.ui.main.friend_detail.FriendDetailViewModel" />
+
         <variable
             name="dateFormat"
             type="java.text.SimpleDateFormat" />
@@ -38,39 +41,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/iv_delete"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_delete"
-                app:layout_constraintBottom_toBottomOf="@+id/btn_favorite"
-                app:layout_constraintEnd_toStartOf="@id/btn_favorite"
-                app:layout_constraintTop_toTopOf="@+id/btn_favorite"
-                android:layout_marginEnd="4dp"/>
-
-
             <ToggleButton
                 android:id="@+id/btn_favorite"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="7dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/button_favorite"
                 android:text=""
                 android:textOff=""
                 android:textOn=""
-                app:layout_constraintEnd_toStartOf="@+id/iv_edit"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toStartOf="@+id/iv_more"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <ImageView
-                android:id="@+id/iv_edit"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="7dp"
-                android:background="@drawable/ic_baseline_pen"
+                android:id="@+id/iv_more"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/ic_baseline_more_vert_24"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -86,33 +78,31 @@
                 android:id="@+id/cl_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp">
-
-
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="12dp">
 
                 <TextView
                     android:id="@+id/tv_name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="8dp"
                     android:text="@string/friend_detail_name"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toEndOf="@id/iv_profile_image"
-                    app:layout_constraintTop_toTopOf="@id/iv_profile_image" />
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_name"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="160dp"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
-                    android:layout_marginEnd="16dp"
                     android:background="@drawable/bg_details"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"
                     android:textColor="@color/black"
                     android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/iv_profile_image"
                     app:layout_constraintTop_toBottomOf="@id/tv_name_text"
                     tools:text="홍길동" />
@@ -124,49 +114,48 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/friend_detail_group"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="@id/tv_name_text"
                     app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
                 <TextView
                     android:id="@+id/tv_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="160dp"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="4dp"
-                    android:layout_marginEnd="16dp"
                     android:background="@drawable/bg_details"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="4dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"
                     android:textColor="@color/black"
                     android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_name"
                     app:layout_constraintTop_toBottomOf="@id/tv_group_title"
                     tools:text="부스트 캠프 1기" />
-
 
                 <TextView
                     android:id="@+id/tv_phone_num_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/friend_detail_phone_number"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toStartOf="@+id/iv_profile_image"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_phone_num"
                     app:layout_constraintTop_toBottomOf="@id/iv_profile_image" />
 
                 <TextView
                     android:id="@+id/tv_phone_num"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/bg_details"
-                    android:paddingHorizontal="16dp"
+                    android:paddingHorizontal="12dp"
                     android:paddingVertical="8dp"
                     android:textColor="@color/black"
                     android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="@+id/iv_profile_image"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_phone_num_text"
                     tools:text="010-1234-5678" />
 
@@ -174,7 +163,7 @@
                     android:id="@+id/btn_call"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginEnd="32dp"
+                    android:layout_marginEnd="16dp"
                     android:background="@drawable/ic_baseline_call_24"
                     app:layout_constraintBottom_toBottomOf="@id/tv_phone_num"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -184,7 +173,6 @@
                     android:id="@+id/ll_birthday"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
                     android:orientation="vertical"
                     app:layout_constraintTop_toBottomOf="@id/tv_phone_num">
@@ -195,15 +183,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/friend_detail_birthday"
-                        android:textSize="12sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/tv_birthday"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
                         android:layout_marginTop="4dp"
                         android:background="@drawable/bg_details"
-                        android:paddingHorizontal="16dp"
+                        android:paddingHorizontal="12dp"
                         android:paddingVertical="8dp"
                         android:textColor="@color/black"
                         android:textSize="16sp"
@@ -216,7 +204,6 @@
                     android:id="@+id/ll_extra_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
                     android:orientation="vertical"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ll_birthday" />
@@ -225,12 +212,12 @@
                     android:id="@+id/tv_plan_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/friend_detail_latest_plan"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    android:layout_marginStart="8dp"
                     app:layout_constraintStart_toStartOf="@id/iv_profile_image"
                     app:layout_constraintTop_toBottomOf="@id/ll_extra_info" />
 
@@ -238,9 +225,9 @@
                     android:id="@+id/tv_see_all_plan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:text="@string/friend_detail_see_all"
                     android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_plan_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_plan_text" />
@@ -249,7 +236,6 @@
                     android:id="@+id/ll_plan1"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_plan"
                     android:orientation="vertical"
@@ -262,10 +248,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="12dp"
-                        android:textColor="@color/black"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
                         android:text="@{viewModel.plan1.title}"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         tools:text="약속1 제목" />
 
                     <TextView
@@ -273,8 +259,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:textSize="16sp"
                         android:text="@{viewModel.plan1Date != null ? dateFormat.format(viewModel.plan1Date) : @string/format_simple_date}"
+                        android:textSize="14sp"
                         tools:text="2021.01.01" />
                 </LinearLayout>
 
@@ -282,7 +268,6 @@
                     android:id="@+id/ll_plan2"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_plan"
                     android:orientation="vertical"
@@ -295,10 +280,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="12dp"
-                        android:textColor="@color/black"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
                         android:text="@{viewModel.plan2.title}"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         tools:text="약속2 제목" />
 
                     <TextView
@@ -306,8 +291,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="8dp"
-                        android:textSize="16sp"
                         android:text="@{viewModel.plan2Date != null ? dateFormat.format(viewModel.plan2Date) : @string/format_simple_date}"
+                        android:textSize="14sp"
                         tools:text="2022.01.01" />
                 </LinearLayout>
 
@@ -315,14 +300,13 @@
                     android:id="@+id/iv_profile_image"
                     android:layout_width="128dp"
                     android:layout_height="128dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="12dp"
-                    android:src="@drawable/photo"
                     android:background="@drawable/round_image"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/photo"
                     android:transitionName="firstTransitionName"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_group"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@id/tv_name_text" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
