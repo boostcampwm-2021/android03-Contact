@@ -42,45 +42,25 @@ class FriendViewModel @Inject constructor(
         getGroupNameData()
     }
 
-    private fun getGroupNameData() {
-        viewModelScope.launch {
-            repository.loadGroupsWithFlow()
-                .buffer()
-                .collect { newList ->
-                    groupData.clear()
-                    newList.forEach { newGroupData ->
-                        groupData[newGroupData.id] = newGroupData.name
-                    }
-                }
-        }
-    }
-
     // DB에서 친구 목록 가져와서 그룹 별로 친구 추가
     fun getFriendDataWithFlow() {
         viewModelScope.launch {
             repository.loadFriendsWithFlow()
-                .buffer()
-                .transform { friendsData ->
-                    emit(friendsData.toFriendListData())
+                .combine(repository.loadGroupsWithFlow()
+                    .onEach { newGroupData ->
+                        groupData.clear()
+                        newGroupData.forEach { newGroupData ->
+                            groupData[newGroupData.id] = newGroupData.name
+                        }
+                    }) { newFriendList, newGroupList ->
+                    Pair(newFriendList, newGroupList)
                 }
-                .collect { newFriendsData ->
-                    _isFriendDatabaseEmpty.value = newFriendsData.isEmpty()
-                    val favoriteFriendsListData =
-                        newFriendsData.filter { it.isFavoriteFriend }.map { it.copy() }
-                    favoriteFriendsListData.forEach { it.groupName = "즐겨찾기" }
-                    val definedFriendList =
-                        newFriendsData.groupBy { it.groupName }.toSortedMap().values.flatten()
-                            .filterNot { it.groupName == "친구" }.toMutableList() // 그룹 지정이 된 친구 리스트
-                    val undefinedFriendList =
-                        newFriendsData.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
-                    val sortedFriendList =
-                        (favoriteFriendsListData + definedFriendList + undefinedFriendList).toMutableList()
-                    val newFriendList = sortedFriendList.addGroupView()
-                    _friendList.value = newFriendList
-                    originEntireFriendList =
-                        favoriteFriendsListData + definedFriendList + undefinedFriendList
-                    friendListForSearch = definedFriendList + undefinedFriendList
-                    orderedEntireFriendList = newFriendList
+                .transform { newData ->
+                    emit(Pair(newData.first.toFriendListData(), newData.second))
+                }
+                .buffer()
+                .collect { newData ->
+                    modifyToListType(newData.first)
                 }
         }
     }
@@ -224,5 +204,38 @@ class FriendViewModel @Inject constructor(
         val lastPart =
             _friendList.value.subList(groupIndex, _friendList.value.size)
         return firstPart + middlePart + lastPart
+    }
+
+    private fun getGroupNameData() {
+        viewModelScope.launch {
+            repository.loadGroupsWithFlow()
+                .buffer()
+                .collect { newList ->
+                    groupData.clear()
+                    newList.forEach { newGroupData ->
+                        groupData[newGroupData.id] = newGroupData.name
+                    }
+                }
+        }
+    }
+
+    private fun modifyToListType(friendList: List<FriendListData>) {
+        _isFriendDatabaseEmpty.value = friendList.isEmpty()
+        val favoriteFriendsListData =
+            friendList.filter { it.isFavoriteFriend }.map { it.copy() }
+        favoriteFriendsListData.forEach { it.groupName = "즐겨찾기" }
+        val definedFriendList =
+            friendList.groupBy { it.groupName }.toSortedMap().values.flatten()
+                .filterNot { it.groupName == "친구" }.toMutableList() // 그룹 지정이 된 친구 리스트
+        val undefinedFriendList =
+            friendList.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
+        val sortedFriendList =
+            (favoriteFriendsListData + definedFriendList + undefinedFriendList).toMutableList()
+        val newFriendList = sortedFriendList.addGroupView()
+        _friendList.value = newFriendList
+        originEntireFriendList =
+            favoriteFriendsListData + definedFriendList + undefinedFriendList
+        friendListForSearch = definedFriendList + undefinedFriendList
+        orderedEntireFriendList = newFriendList
     }
 }
