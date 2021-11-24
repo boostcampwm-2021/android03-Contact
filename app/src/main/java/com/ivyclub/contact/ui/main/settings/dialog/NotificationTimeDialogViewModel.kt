@@ -20,7 +20,7 @@ class NotificationTimeDialogViewModel @Inject constructor(
 
     private val friendMap = mutableMapOf<Long, String>()
     private val loadFriendsJob: Job = viewModelScope.launch {
-        repository.getSimpleFriendData()?.forEach {
+        repository.getSimpleFriendData().forEach {
             friendMap[it.id] = it.name
         }
     }
@@ -39,7 +39,12 @@ class NotificationTimeDialogViewModel @Inject constructor(
         viewModelScope.launch {
             repository.setNotificationTime(startTime.toInt(), endTime.toInt())
             loadFriendsJob.join()
-            repository.getPlanListAfter(System.currentTimeMillis())?.forEach { simplePlanData ->
+            val futurePlanList = repository.getPlanListAfter(System.currentTimeMillis())
+            if (futurePlanList.isNullOrEmpty()) {
+                _changeNotiTimeFinishEvent.call()
+                return@launch
+            }
+            futurePlanList.forEach { simplePlanData ->
                 val friendList = mutableListOf<String>()
                 simplePlanData.participant.forEach { friendId ->
                     friendMap[friendId]?.let { friendList.add(it) }
@@ -54,8 +59,6 @@ class NotificationTimeDialogViewModel @Inject constructor(
                         friendList,
                         workManager
                     )
-
-                _changeNotiTimeFinishEvent.call()
             }
         }
     }
