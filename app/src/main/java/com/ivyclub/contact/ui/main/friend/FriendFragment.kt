@@ -202,6 +202,10 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         }
     }
 
+    fun onAddNewGroup(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
+    }
+
     companion object {
         private const val ANIMATION_TIME = 150L
         private const val ADD_GROUP_DIALOG_TAG = "AddGroupDialog"
