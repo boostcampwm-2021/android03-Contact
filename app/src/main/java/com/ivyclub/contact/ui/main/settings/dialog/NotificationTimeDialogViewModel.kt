@@ -60,6 +60,8 @@ class NotificationTimeDialogViewModel @Inject constructor(
                         workManager
                     )
             }
+
+            _changeNotiTimeFinishEvent.call()
         }
     }
 }
