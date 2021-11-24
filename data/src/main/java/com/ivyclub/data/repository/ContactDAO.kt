@@ -90,4 +90,7 @@ interface ContactDAO {
 
     @Query("SELECT name FROM GroupData WHERE id = :id")
     suspend fun getGroupNameById(id: Long): String
+
+    @Query("UPDATE GroupData SET name = :name WHERE id = :id")
+    suspend fun updateGroupName(id: Long, name: String)
 }

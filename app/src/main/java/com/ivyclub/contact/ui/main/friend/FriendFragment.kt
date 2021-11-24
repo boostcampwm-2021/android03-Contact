@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendBinding
-import com.ivyclub.contact.ui.main.friend.dialog.AddGroupDialogFragment
+import com.ivyclub.contact.ui.main.friend.dialog.GroupDialogFragment
 import com.ivyclub.contact.ui.main.friend.dialog.SelectGroupFragment
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.changeVisibilityWithDirection
@@ -128,7 +128,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun showDialog() {
-        AddGroupDialogFragment().show(childFragmentManager, ADD_GROUP_DIALOG_TAG)
+        GroupDialogFragment().show(childFragmentManager, ADD_GROUP_DIALOG_TAG)
     }
 
     private fun initFriendListAdapter() {

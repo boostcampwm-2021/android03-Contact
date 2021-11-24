@@ -30,11 +30,11 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="20dp"
+                android:paddingVertical="10dp"
                 android:paddingStart="20dp">
 
-                <EditText
-                    android:id="@+id/et_group_name"
+                <TextView
+                    android:id="@+id/tv_group_name"
                     android:layout_width="240dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
@@ -54,6 +54,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="12dp"
                     android:src="@drawable/ic_edit"
                     android:visibility='@{groupData.name.equals("친구") ? View.INVISIBLE : View.VISIBLE}'
@@ -66,6 +67,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="12dp"
                     android:src="@drawable/ic_delete"
                     android:visibility='@{groupData.name.equals("친구") ? View.INVISIBLE : View.VISIBLE}'

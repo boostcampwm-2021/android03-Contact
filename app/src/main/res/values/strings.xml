@@ -93,6 +93,7 @@
     <string name="group_name_validation_wrong_empty">한글자 이상 입력해주세요.</string>
     <string name="group_name_validation_wrong_duplicate">이미 존재하는 그룹 이름입니다.</string>
     <string name="group_name_validation_wrong_too_long">그룹명은 10자 이내로 입력해주세요.</string>
+    <string name="group_name_validation_wrong_same">기존 이름과 동일한 이름입니다.</string>
     <string name="empty_string" />
     <string name="format_widget_plan">%d월의 약속</string>
     <string name="fragment_settings_go_back">뒤로가기</string>
@@ -123,5 +124,10 @@
     <string name="fragment_settings_group_management">그룹 관리</string>
     <string name="ask_delete_friend">해당 친구 정보를 삭제하시겠습니까?</string>
     <string name="change_noti_time_finish">알림 시간 설정이 완료되었습니다.</string>
+    <string name="format_group_dialog_before_group_name">기존 이름 : %s</string>
+    <string name="group_dialog_edit">변경</string>
+    <string name="group_dialog_name_edit">그룹 이름 변경</string>
+    <string name="manage_group_delete">그룹 \'%s\'을(를) 삭제하시겠습니까?</string>
+    <string name="manage_group_success_edit_name">그룹 이름이 성공적으로 변경되었습니다.</string>
     <string name="on_boarding_select_none">모두해제</string>
 </resources>
