@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="com.ivyclub.contact.ui.main.friend_detail.FriendAllPlanViewModel" />
@@ -18,7 +20,7 @@
             android:id="@+id/cl_toolbar"
             android:layout_width="0dp"
             android:layout_height="48dp"
-            android:background="#D9EDDF"
+            android:background="@color/green_100"
             android:elevation="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +37,19 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_with_friend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{String.format(@string/fragment_friend_all_plan_with_friends, viewModel.friendName)}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_back_icon"
+                app:layout_constraintStart_toEndOf="@id/iv_back_icon"
+                app:layout_constraintTop_toTopOf="@id/iv_back_icon"
+                tools:text="길동님과의 약속" />
 
             <ImageView
                 android:id="@+id/iv_add_plan_icon"
@@ -53,27 +68,27 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="@{viewModel.planListItems.empty ? View.VISIBLE : View.GONE}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_toolbar">
 
             <TextView
                 android:id="@+id/tv_plan_empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:layout_centerInParent="true"
+                android:layout_marginTop="4dp"
                 android:gravity="center"
-                android:text="@string/alert_plan_empty"/>
+                android:text="@string/alert_plan_empty" />
 
             <ImageView
                 android:id="@+id/iv_plan_empty"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/ic_calendar"
                 android:layout_above="@+id/tv_plan_empty"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_calendar" />
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -81,8 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@+id/cl_toolbar"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/item_plan_list"/>
+            app:layout_constraintTop_toBottomOf="@+id/cl_toolbar"
+            tools:listitem="@layout/item_plan_list" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
