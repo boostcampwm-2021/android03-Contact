@@ -84,7 +84,8 @@
                     android:id="@+id/tv_plan_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
+                    android:padding="4dp"
                     android:text="@{dateFormat.format(viewModel.planTime)}"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@+id/et_plan_title"
@@ -92,6 +93,14 @@
                     app:layout_constraintStart_toStartOf="@+id/et_plan_title"
                     app:layout_constraintTop_toBottomOf="@+id/et_plan_title"
                     tools:text="2021.10.27 10:00 ~ 2021.10.27 12:00" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_edit"
+                    app:layout_constraintStart_toEndOf="@id/tv_plan_time"
+                    app:layout_constraintTop_toTopOf="@id/tv_plan_time"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_plan_time"/>
 
                 <TextView
                     android:id="@+id/tv_plan_participants"
@@ -110,6 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
+                    android:paddingVertical="4dp"
                     android:text="@string/add_edit_plan_load_group"
                     android:textSize="14sp"
                     android:textColor="@color/green_200"
@@ -161,6 +171,7 @@
                     android:textSize="14sp"
                     android:inputType="textShortMessage"
                     android:lines="1"
+                    android:maxLength="20"
                     app:layout_constraintTop_toBottomOf="@id/tv_plan_where"/>
 
                 <TextView
