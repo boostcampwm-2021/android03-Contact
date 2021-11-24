@@ -18,12 +18,14 @@ class FriendAllPlanViewModel @Inject constructor(
 ) : ViewModel() {
     private val _planListItems = MutableLiveData<List<PlanListItemViewModel>>()
     val planListItems: LiveData<List<PlanListItemViewModel>> = _planListItems
+    private val _friendName = MutableLiveData<String>()
+    val friendName: LiveData<String> = _friendName
 
     private val friendMap = mutableMapOf<Long, String>()
 
     private val loadFriendsJob: Job = viewModelScope.launch {
         val myFriends = repository.getSimpleFriendData()
-        myFriends?.forEach {
+        myFriends.forEach {
             friendMap[it.id] = it.name
         }
     }
@@ -35,8 +37,9 @@ class FriendAllPlanViewModel @Inject constructor(
             val friend = repository.getFriendDataById(friendId)
             val myPlanList = repository.getPlansByIds(friend.planList).sortedBy { it.date }
             val planItems = mutableListOf<PlanListItemViewModel>()
+            _friendName.value = friend.name
 
-            myPlanList?.forEach { planData ->
+            myPlanList.forEach { planData ->
                 val friends = mutableListOf<String>()
                 planData.participant.forEach { friendId ->
                     friendMap[friendId]?.let { friendName ->
