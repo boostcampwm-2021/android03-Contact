@@ -1,7 +1,6 @@
 package com.ivyclub.contact.ui.main.settings.group
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -15,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ManageGroupFragment :
-    BaseFragment<FragmentManageGroupBinding>(R.layout.fragment_manage_group), DialogInterface.OnDismissListener {
+    BaseFragment<FragmentManageGroupBinding>(R.layout.fragment_manage_group) {
 
     private val viewModel: ManageGroupViewModel by viewModels()
     private val groupListAdapter: GroupListAdapter by lazy {
@@ -52,6 +51,14 @@ class ManageGroupFragment :
                     .setMessage(String.format(getString(R.string.manage_group_delete), group.name))
                     .setPositiveButton(R.string.yes) { _, _ ->
                         viewModel.deleteGroup(group)
+                        Snackbar.make(
+                            binding.root,
+                            String.format(
+                                getString(R.string.group_dialog_success_delete_group),
+                                group.name
+                            ),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                     .setNegativeButton(R.string.no) { _, _ ->
 
@@ -66,9 +73,9 @@ class ManageGroupFragment :
         }
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    fun onEditGroupName(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
         viewModel.loadGroupList()
-        // Snackbar.make(binding.root, getString(R.string.manage_group_success_edit_name), Snackbar.LENGTH_SHORT).show()
     }
 
     companion object {

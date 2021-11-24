@@ -1,6 +1,5 @@
 package com.ivyclub.contact.ui.main.friend.dialog
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.DialogGroupBinding
+import com.ivyclub.contact.ui.main.friend.FriendFragment
 import com.ivyclub.contact.ui.main.settings.group.ManageGroupFragment
 import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,16 +69,29 @@ class GroupDialogFragment(private val groupData: GroupData? = null) : DialogFrag
                 } else {
                     dialogViewModel.saveGroupData(groupName)
                 }
+                onPositiveButtonClick(groupName)
                 dismiss()
             }
         }
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
+    private fun onPositiveButtonClick(newGroupName: String) {
         if (groupData != null) {
             val parentFragment = parentFragment as ManageGroupFragment
-            parentFragment.onDismiss(dialog)
+            parentFragment.onEditGroupName(
+                String.format(
+                    getString(R.string.manage_group_success_edit_name),
+                    newGroupName
+                )
+            )
+        } else {
+            val parentFragment = parentFragment as FriendFragment
+            parentFragment.onAddNewGroup(
+                String.format(
+                    getString(R.string.group_dialog_success_add_new_group),
+                    newGroupName
+                )
+            )
         }
     }
 
