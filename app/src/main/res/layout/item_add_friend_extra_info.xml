@@ -19,6 +19,7 @@
             android:background="@drawable/bg_add_edit_friend_info"
             android:hint="@string/add_edit_friend_extra_info_title_hint"
             android:inputType="text"
+            android:maxLength="20"
             android:paddingHorizontal="8dp"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -39,7 +40,7 @@
         <EditText
             android:id="@+id/et_extra_info_value"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:background="@drawable/bg_add_edit_friend_info"
             android:paddingHorizontal="12dp"
