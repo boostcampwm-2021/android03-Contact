@@ -50,6 +50,7 @@ class AddEditFriendFragment :
         observeGroups()
         observeExtraInfos()
         observeRequiredState()
+        observeNameValidation()
         initClickListener()
         initBackPressedListener()
         addPhoneNumberTextChangedListener()
@@ -189,6 +190,12 @@ class AddEditFriendFragment :
         }
         viewModel.newId.observe(viewLifecycleOwner) {
             newId = it
+        }
+    }
+
+    private fun observeNameValidation() {
+        viewModel.nameValidation.observe(viewLifecycleOwner) {
+            binding.tvNameValidCheck.text = getString(it)
         }
     }
 
