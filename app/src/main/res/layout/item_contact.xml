@@ -5,7 +5,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="80dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="26dp"
+                    android:layout_marginTop="18dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/tv_phone_num"
                     app:layout_constraintStart_toEndOf="@+id/cb_add"
                     app:layout_constraintTop_toTopOf="parent"
@@ -42,8 +42,8 @@
                     android:id="@+id/tv_phone_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="24sp"
+                    android:textColor="@color/light_gray"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/cb_add"
                     app:layout_constraintTop_toBottomOf="@+id/tv_name"

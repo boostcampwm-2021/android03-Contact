@@ -18,6 +18,9 @@ class PlanViewModel @Inject constructor(
     private val repository: ContactRepository
 ) : ViewModel() {
 
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean> = _loading
+
     private val _planListItems = MutableLiveData<List<PlanListItemViewModel>>()
     val planListItems: LiveData<List<PlanListItemViewModel>> = _planListItems
 
@@ -33,6 +36,7 @@ class PlanViewModel @Inject constructor(
 
     private fun getMyPlans() {
         viewModelScope.launch {
+            _loading.value = true
             loadFriendsJob.join()
 
             repository.loadPlanListWithFlow().buffer().collect { newPlanList ->
@@ -50,6 +54,7 @@ class PlanViewModel @Inject constructor(
                 }
 
                 _planListItems.value = planItems
+                _loading.value = false
             }
         }
     }

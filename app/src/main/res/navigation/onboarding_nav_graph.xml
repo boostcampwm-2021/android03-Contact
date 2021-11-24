@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/onboarding_nav_graph"
-    app:startDestination="@id/notificationTimeFragment">
+    app:startDestination="@id/introFragment">
 
 
     <fragment
@@ -23,6 +23,20 @@
         android:name="com.ivyclub.contact.ui.onboard.contact.AddContactFragment"
         android:label="AddContactFragment"
         tools:layout="@layout/fragment_add_contact"/>
+    <fragment
+        android:id="@+id/introFragment"
+        android:name="com.ivyclub.contact.ui.onboard.app_intro.IntroFragment"
+        android:label="IntroFragment"
+        tools:layout="@layout/fragment_intro">
+        <action
+            android:id="@+id/action_introFragment_to_notificationTimeFragment"
+            app:destination="@id/notificationTimeFragment"
+            app:enterAnim="@anim/page_fade_in"
+            app:popUpTo="@id/onboarding_nav_graph"
+            app:popUpToInclusive="true"
+            app:exitAnim="@anim/page_fade_out"
+            app:popEnterAnim="@anim/page_fade_in" />
+    </fragment>
 
 
 </navigation>

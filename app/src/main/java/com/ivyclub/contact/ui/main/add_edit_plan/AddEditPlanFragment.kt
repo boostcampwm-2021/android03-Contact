@@ -57,6 +57,7 @@ class AddEditPlanFragment :
 
     private fun setButtonClickListeners() {
         with(binding) {
+            ivBtnBack.setOnClickListener { showBackPressedDialog() }
             ivBtnEditPlanFinish.setOnClickListener {
                 showSavePlanDialog()
             }
@@ -112,7 +113,6 @@ class AddEditPlanFragment :
         if (args.friendId != -1L) {
             viewModel.addFriend(args.friendId)
         }
-
     }
 
     private fun getGroupSelectFragmentResult() {

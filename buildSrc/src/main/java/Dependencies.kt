@@ -65,5 +65,7 @@ object Dep {
         const val hiltViewModelCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltViewModel}"
         const val hiltWorkCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltWork}"
         const val flexboxLayout = "com.google.android.flexbox:flexbox:${Versions.flexbox}"
+        const val indicator = "com.tbuonomo:dotsindicator:4.2"
+        const val lottie = "com.airbnb.android:lottie:4.2.1"
     }
 }
