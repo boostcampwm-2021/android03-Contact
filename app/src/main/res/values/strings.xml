@@ -143,4 +143,5 @@
     <string name="fragment_dialog_request_permission_description"><![CDATA[연락처 권한을 허락하지 않으셨기 때문에 연락처를 불러올 수 없습니다. 설정 > 애플리케이션 > Contact > 권한 > 주소록으로 가셔서 허용을 해주세요.]]></string>
     <string name="fragment_dialog_request_permission_move">이동</string>
     <string name="fragment_friend_all_plan_with_friends">%s님과의 약속</string>
+    <string name="particpants_overload">추가 가능 인원수를 초과하였습니다!</string>
 </resources>
