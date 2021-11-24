@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentDialogNotificationTimeBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,7 +51,8 @@ class NotificationTimeDialogFragment : DialogFragment() {
 
     private fun observeDismissEvent() {
         viewModel.changeNotiTimeFinishEvent.observe(viewLifecycleOwner) {
-            Toast.makeText(context, getString(R.string.change_noti_time_finish), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.change_noti_time_finish), Toast.LENGTH_SHORT)
+                .show()
             dismiss()
         }
     }

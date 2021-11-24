@@ -25,7 +25,11 @@ class MyPreference @Inject constructor(@ApplicationContext context: Context) {
     }
 
     fun getNotificationTime(startOrEnd: String) =
-        prefs.getInt(startOrEnd, 0)
+        if (startOrEnd == NOTIFICATION_START) {
+            prefs.getInt(startOrEnd, 8)
+        } else {
+            prefs.getInt(startOrEnd, 22)
+        }
 
     /*
     true일 경우 앱이 최초로 실행
