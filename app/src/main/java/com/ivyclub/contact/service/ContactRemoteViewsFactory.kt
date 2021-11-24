@@ -1,6 +1,8 @@
 package com.ivyclub.contact.service
 
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.ivyclub.contact.R
@@ -60,11 +62,20 @@ class ContactRemoteViewsFactory(
             planDate.getDayOfMonth(),
             planDate.getDayOfWeek().korean
         )
-        listviewWidget.setTextViewText(
-            R.id.tv_widget_plan_date,
-            dateText
-        )
-        listviewWidget.setTextViewText(R.id.tv_widget_plan_title, data[position].title)
+        with(listviewWidget) {
+            setTextViewText(
+                R.id.tv_widget_plan_date,
+                dateText
+            )
+
+            setTextViewText(R.id.tv_widget_plan_title, data[position].title)
+
+            val intent = Intent().apply {
+                putExtra(WIDGET_PLAN_ID, this@ContactRemoteViewsFactory.data[position].id)
+            }
+
+            setOnClickFillInIntent(R.id.ll_plan, intent)
+        }
         return listviewWidget
     }
 
@@ -82,5 +93,9 @@ class ContactRemoteViewsFactory(
 
     override fun hasStableIds(): Boolean {
         return false
+    }
+
+    companion object {
+        const val WIDGET_PLAN_ID = "widget_plan_id"
     }
 }

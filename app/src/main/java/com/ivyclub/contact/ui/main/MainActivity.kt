@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ActivityMainBinding
+import com.ivyclub.contact.service.ContactRemoteViewsFactory.Companion.WIDGET_PLAN_ID
 import com.ivyclub.contact.service.plan_reminder.PlanReminderNotification.NOTIFICATION
 import com.ivyclub.contact.service.plan_reminder.PlanReminderNotification.NOTI_PLAN_ID
 import com.ivyclub.contact.ui.main.friend.FriendFragment
@@ -55,7 +56,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onResume() {
         super.onResume()
         viewModel.checkPasswordOnResume()
-        checkFromNotification()
+        if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) {
+            checkFromNotification()
+            checkFromWidget()
+        }
     }
 
     private fun checkFromNotification() {
@@ -74,6 +78,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     }
                 }
             }
+        }
+    }
+
+    private fun checkFromWidget() {
+        val widgetPlanId = intent.getLongExtra(WIDGET_PLAN_ID, -1L)
+        if (widgetPlanId != -1L && navController.currentDestination?.id == R.id.navigation_friend) {
+            navController.navigate(
+                FriendFragmentDirections.actionNavigationFriendToPlanDetailsFragment(
+                    widgetPlanId
+                )
+            )
         }
     }
 
