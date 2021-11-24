@@ -18,7 +18,7 @@ class OnBoardingViewModel @Inject constructor(
 
     fun saveDefaultGroup() {
         viewModelScope.launch {
-            repository.saveNewGroup(GroupData("친구"))
+            repository.saveNewGroup(GroupData("친구",1))
         }
     }
 }
