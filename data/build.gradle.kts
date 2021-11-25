@@ -24,6 +24,8 @@ dependencies {
     androidTestImplementation(Dep.Test.ext)
     androidTestImplementation(Dep.Test.espresso)
     testImplementation(Dep.Test.jUnit)
+    androidTestImplementation(Dep.Test.room)
+    androidTestImplementation(Dep.Test.hilt)
     kapt(Dep.AndroidX.roomCompiler)
     kapt(Dep.Libs.hiltCompiler)
     annotationProcessor(Dep.AndroidX.roomCompiler)
