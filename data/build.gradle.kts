@@ -14,7 +14,7 @@ dependencies {
     implementation(Dep.AndroidX.core)
     implementation(Dep.AndroidX.appcompat)
     implementation(Dep.AndroidX.material)
-    implementation(Dep.AndroidX.roomRuntime)
+    api(Dep.AndroidX.roomRuntime)
     implementation(Dep.AndroidX.sharedPreference)
     implementation(Dep.Libs.gson)
     implementation(Dep.Libs.hilt)
