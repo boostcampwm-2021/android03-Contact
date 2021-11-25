@@ -35,7 +35,7 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
                         viewModel.setSearchViewVisibility()
                         initFriendList()
                     }
-                    viewModel.isInLongClickedState.value == true -> {
+                    viewModel.isInLongClickedState.value -> {
                         friendListAdapter.setAllClickedClear(viewModel.longClickedId)
                         viewModel.clearLongClickedId()
                     }
