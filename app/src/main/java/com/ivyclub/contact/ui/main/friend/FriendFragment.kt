@@ -173,7 +173,9 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.friendList.collect { newFriendList ->
                     // 새로운 리스트로 리사이클러뷰 갱신
-                    friendListAdapter.submitList(newFriendList)
+                    friendListAdapter.submitList(newFriendList) {
+                        binding.rvFriendList.scrollToPosition(0)
+                    }
                 }
             }
         }
