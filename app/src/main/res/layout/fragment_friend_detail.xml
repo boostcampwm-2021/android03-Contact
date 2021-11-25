@@ -240,7 +240,8 @@
                     android:background="@drawable/bg_plan"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
-                    android:visibility="@{viewModel.plan1Exist ? View.VISIBLE : View.GONE}"
+                    android:onClick="@{()->viewModel.goPlanDetails(viewModel.plan1.id)}"
+                    android:visibility="@{viewModel.friendData.planList.size >= 1 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toBottomOf="@id/tv_plan_text">
 
                     <TextView
@@ -272,7 +273,8 @@
                     android:background="@drawable/bg_plan"
                     android:orientation="vertical"
                     android:paddingHorizontal="16dp"
-                    android:visibility="@{viewModel.plan2Exist ? View.VISIBLE : View.GONE}"
+                    android:onClick="@{()->viewModel.goPlanDetails(viewModel.plan2.id)}"
+                    android:visibility="@{viewModel.friendData.planList.size == 2 ? View.VISIBLE : View.GONE}"
                     app:layout_constraintTop_toBottomOf="@id/ll_plan1">
 
                     <TextView

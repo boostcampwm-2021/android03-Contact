@@ -27,17 +27,16 @@ class FriendDetailViewModel @Inject constructor(
 
     private val _plan1 = MutableLiveData<PlanData>()
     val plan1: LiveData<PlanData> get() = _plan1
-    private val _plan1Exist = MutableLiveData<Boolean>()
-    val plan1Exist: LiveData<Boolean> get() = _plan1Exist
     private val _plan1Date = MutableLiveData<Date>()
     val plan1Date: LiveData<Date> get() = _plan1Date
 
     private val _plan2 = MutableLiveData<PlanData>()
     val plan2: LiveData<PlanData> get() = _plan2
-    private val _plan2Exist = MutableLiveData<Boolean>()
-    val plan2Exist: LiveData<Boolean> get() = _plan2Exist
     private val _plan2Date = MutableLiveData<Date>()
     val plan2Date: LiveData<Date> get() = _plan2Date
+
+    private val _goPlanDetailsEvent = SingleLiveEvent<Long>()
+    val goPlanDetailsEvent: LiveData<Long> = _goPlanDetailsEvent
 
     private val _finishEvent = SingleLiveEvent<Unit>()
     val finishEvent: LiveData<Unit> = _finishEvent
@@ -47,6 +46,7 @@ class FriendDetailViewModel @Inject constructor(
             val friend = repository.getFriendDataById(id)
             _friendData.value = friend
             _groupName.value = repository.getGroupNameById(friend.groupId)
+            loadPlans(friend.planList)
         }
     }
 
@@ -56,25 +56,20 @@ class FriendDetailViewModel @Inject constructor(
         }
     }
 
-    fun loadPlans(planIds: List<Long>) {
-        viewModelScope.launch {
-            val plans = repository.getPlansByIds(planIds).filter { it.date < Date() }
-                .sortedByDescending { it.date }
-            when {
-                plans.size > 1 -> {
-                    _plan1.value = plans[0]
-                    _plan1Exist.value = true
-                    _plan1Date.value = plans[0].date
+    private suspend fun loadPlans(planIds: List<Long>) {
+        val plans = repository.getPlansByIds(planIds).filter { it.date < Date() }
+            .sortedByDescending { it.date }
+        when {
+            plans.size > 1 -> {
+                _plan1.value = plans[0]
+                _plan1Date.value = plans[0].date
 
-                    _plan2.value = plans[1]
-                    _plan2Exist.value = true
-                    _plan2Date.value = plans[1].date
-                }
-                plans.size == 1 -> {
-                    _plan1.value = plans[0]
-                    _plan1Exist.value = true
-                    _plan1Date.value = plans[0].date
-                }
+                _plan2.value = plans[1]
+                _plan2Date.value = plans[1].date
+            }
+            plans.size == 1 -> {
+                _plan1.value = plans[0]
+                _plan1Date.value = plans[0].date
             }
         }
     }
@@ -89,6 +84,10 @@ class FriendDetailViewModel @Inject constructor(
             repository.deleteFriend(friendId)
             finish()
         }
+    }
+
+    fun goPlanDetails(planId: Long) {
+        _goPlanDetailsEvent.value = planId
     }
 
     private fun finish() {
