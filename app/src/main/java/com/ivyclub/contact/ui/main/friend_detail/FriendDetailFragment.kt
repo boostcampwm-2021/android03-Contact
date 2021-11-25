@@ -58,6 +58,13 @@ class FriendDetailFragment :
         viewModel.groupName.observe(viewLifecycleOwner) {
             binding.tvGroup.text = it
         }
+        viewModel.goPlanDetailsEvent.observe(viewLifecycleOwner) {
+            findNavController().navigate(
+                FriendDetailFragmentDirections.actionFriendDetailFragmentToPlanDetailsFragment(
+                    it
+                )
+            )
+        }
     }
 
     private fun initButtons(id: Long) {
@@ -135,7 +142,7 @@ class FriendDetailFragment :
                 val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${friend.phoneNumber}"))
                 startActivity(intent)
             }
-            bindPlan(friend.planList)
+//            bindPlan(friend.planList)
         }
 
     }
@@ -169,9 +176,9 @@ class FriendDetailFragment :
         }
     }
 
-    private fun bindPlan(planIds: List<Long>) {
-        viewModel.loadPlans(planIds)
-    }
+//    private fun bindPlan(planIds: List<Long>) {
+//        viewModel.loadPlans(planIds)
+//    }
 
     private fun showDeleteFriendDialog() {
         context?.showAlertDialog(getString(R.string.ask_delete_friend), {

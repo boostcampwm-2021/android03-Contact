@@ -56,10 +56,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     override fun onResume() {
         super.onResume()
         viewModel.checkPasswordOnResume()
-        if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) {
-            checkFromNotification()
-            checkFromWidget()
-        }
+        checkFromNotification()
+        checkFromWidget()
     }
 
     private fun checkFromNotification() {
@@ -75,6 +73,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                                 planId
                             )
                         )
+                        resetIntent(NOTIFICATION, NOTI_PLAN_ID)
                     }
                 }
             }
@@ -89,7 +88,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     widgetPlanId
                 )
             )
+            resetIntent(WIDGET_PLAN_ID)
         }
+    }
+
+    private fun resetIntent(vararg keys: String) {
+        val i = intent
+        keys.forEach { key -> i.removeExtra(key) }
+        intent = i
     }
 
     private fun setOnBoardingResult() {
