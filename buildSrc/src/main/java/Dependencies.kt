@@ -53,6 +53,8 @@ object Dep {
         const val jUnit = "junit:junit:${Versions.junit}"
         const val ext = "androidx.test.ext:junit:1.1.3"
         const val espresso = "androidx.test.espresso:espresso-core:3.4.0"
+        const val room = "androidx.room:room-testing:${Versions.room}"
+        const val hilt = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
     }
 
     object Libs {
