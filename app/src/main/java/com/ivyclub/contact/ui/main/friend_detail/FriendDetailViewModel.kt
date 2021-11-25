@@ -25,15 +25,8 @@ class FriendDetailViewModel @Inject constructor(
     private val _groupName = MutableLiveData<String>()
     val groupName: LiveData<String> get() = _groupName
 
-    private val _plan1 = MutableLiveData<PlanData>()
-    val plan1: LiveData<PlanData> get() = _plan1
-    private val _plan1Date = MutableLiveData<Date>()
-    val plan1Date: LiveData<Date> get() = _plan1Date
-
-    private val _plan2 = MutableLiveData<PlanData>()
-    val plan2: LiveData<PlanData> get() = _plan2
-    private val _plan2Date = MutableLiveData<Date>()
-    val plan2Date: LiveData<Date> get() = _plan2Date
+    private val _lastPlans = MutableLiveData<List<PlanData>>()
+    val lastPlans: LiveData<List<PlanData>> = _lastPlans
 
     private val _goPlanDetailsEvent = SingleLiveEvent<Long>()
     val goPlanDetailsEvent: LiveData<Long> = _goPlanDetailsEvent
@@ -59,19 +52,7 @@ class FriendDetailViewModel @Inject constructor(
     private suspend fun loadPlans(planIds: List<Long>) {
         val plans = repository.getPlansByIds(planIds).filter { it.date < Date() }
             .sortedByDescending { it.date }
-        when {
-            plans.size > 1 -> {
-                _plan1.value = plans[0]
-                _plan1Date.value = plans[0].date
-
-                _plan2.value = plans[1]
-                _plan2Date.value = plans[1].date
-            }
-            plans.size == 1 -> {
-                _plan1.value = plans[0]
-                _plan1Date.value = plans[0].date
-            }
-        }
+        _lastPlans.value = plans
     }
 
     fun loadProfileImage(friendId: Long): Bitmap? {
@@ -87,6 +68,7 @@ class FriendDetailViewModel @Inject constructor(
     }
 
     fun goPlanDetails(planId: Long) {
+        if (planId == -1L) return
         _goPlanDetailsEvent.value = planId
     }
 

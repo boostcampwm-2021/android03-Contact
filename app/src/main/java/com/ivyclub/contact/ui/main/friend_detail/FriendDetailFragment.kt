@@ -123,17 +123,7 @@ class FriendDetailFragment :
 
     private fun initDetails(friend: FriendData) {
         with(binding) {
-            tvName.text = friend.name
-            tvPhoneNum.text = friend.phoneNumber
-            if (friend.phoneNumber == "") btnCall.visibility = View.GONE
-            btnFavorite.isChecked = friend.isFavorite
             llExtraInfo.removeAllViews()
-            if (friend.birthday == "") {
-                llBirthday.visibility = View.GONE
-            } else {
-                llBirthday.visibility = View.VISIBLE
-                tvBirthday.text = friend.birthday
-            }
             for (key in friend.extraInfo.keys) {
                 llExtraInfo.addView(getTitle(key))
                 llExtraInfo.addView(getContent(friend.extraInfo[key] ?: ""))
@@ -142,9 +132,7 @@ class FriendDetailFragment :
                 val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${friend.phoneNumber}"))
                 startActivity(intent)
             }
-//            bindPlan(friend.planList)
         }
-
     }
 
     private fun getTitle(text: String): TextView {
@@ -175,10 +163,6 @@ class FriendDetailFragment :
             setPadding(32, 24, 32, 24)
         }
     }
-
-//    private fun bindPlan(planIds: List<Long>) {
-//        viewModel.loadPlans(planIds)
-//    }
 
     private fun showDeleteFriendDialog() {
         context?.showAlertDialog(getString(R.string.ask_delete_friend), {
