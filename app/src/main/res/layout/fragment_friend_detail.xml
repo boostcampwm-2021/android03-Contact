@@ -312,7 +312,8 @@
                     android:transitionName="firstTransitionName"
                     app:layout_constraintBottom_toBottomOf="@id/tv_group"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tv_name_text" />
+                    app:layout_constraintTop_toTopOf="@id/tv_name_text"
+                    bindImage="@{viewModel.friendData.id}"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

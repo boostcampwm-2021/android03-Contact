@@ -25,7 +25,7 @@
             android:layout_marginStart="12dp"
             android:contentDescription="@string/item_friend_profile_profile_image"
             android:src="@drawable/photo"
-
+            bindImage="@{data.id}"
             android:scaleType="centerCrop"
             android:background="@drawable/round_image"
             app:layout_constraintBottom_toBottomOf="parent"
