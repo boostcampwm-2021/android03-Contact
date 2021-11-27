@@ -10,6 +10,7 @@ import com.ivyclub.contact.service.plan_reminder.PlanReminderNotificationWorker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.PlanData
+import com.ivyclub.data.model.SimpleFriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -24,21 +25,24 @@ class PlanDetailsViewModel @Inject constructor(
     private val _planDetails = MutableLiveData<PlanData>()
     val planDetails: LiveData<PlanData> = _planDetails
 
-    private val _planParticipants = MutableLiveData<List<String>>()
-    val planParticipants: LiveData<List<String>> = _planParticipants
+    private val _planParticipants = MutableLiveData<List<SimpleFriendData>>()
+    val planParticipants: LiveData<List<SimpleFriendData>> = _planParticipants
 
     private val _snackbarMessage = SingleLiveEvent<Int>()
     val snackbarMessage: LiveData<Int> = _snackbarMessage
 
+    private val _goFriendDetailsEvent = SingleLiveEvent<Long>()
+    val goFriendDetailsEvent: LiveData<Long> = _goFriendDetailsEvent
+
     private val _finishEvent = SingleLiveEvent<Unit>()
     val finishEvent: LiveData<Unit> = _finishEvent
 
-    private val friendMap = mutableMapOf<Long, String>()
+    private val friendMap = mutableMapOf<Long, SimpleFriendData>()
 
     private val loadFriendsJob: Job = viewModelScope.launch {
         val myFriends = repository.getSimpleFriendData()
         myFriends?.forEach {
-            friendMap[it.id] = it.name
+            friendMap[it.id] = it
         }
     }
 
@@ -48,11 +52,11 @@ class PlanDetailsViewModel @Inject constructor(
             val removedFriendsIds = mutableListOf<Long>()
 
             loadFriendsJob.join()
-            val friends = mutableListOf<String>()
+            val friends = mutableListOf<SimpleFriendData>()
             planData.participant.forEach { friendId ->
-                val friendName = friendMap[friendId]
-                if (friendName == null) removedFriendsIds.add(friendId)
-                else friends.add(friendName)
+                val friendData = friendMap[friendId]
+                if (friendData == null) removedFriendsIds.add(friendId)
+                else friends.add(friendData)
             }
 
             _planParticipants.value = friends
@@ -62,6 +66,11 @@ class PlanDetailsViewModel @Inject constructor(
                 repository.updatePlansParticipants(planData.participant - removedFriendsIds, planId)
             }
         }
+    }
+
+    fun goParticipantsDetails(index: Int) {
+        val participants = _planParticipants.value ?: return
+        _goFriendDetailsEvent.value = participants[index].id
     }
 
     fun deletePlan() {

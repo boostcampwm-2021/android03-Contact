@@ -2,7 +2,6 @@ package com.ivyclub.contact.ui.main.plan_details
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -56,8 +55,14 @@ class PlanDetailsFragment :
     }
 
     private fun setObservers() {
-        viewModel.planParticipants.observe(viewLifecycleOwner) {
-            binding.cgPlanParticipants.setFriendChips(it)
+        viewModel.planParticipants.observe(viewLifecycleOwner) { participants ->
+            binding.cgPlanParticipants.setFriendChips(participants.map { it.name }) { index ->
+                viewModel.goParticipantsDetails(index)
+            }
+        }
+
+        viewModel.goFriendDetailsEvent.observe(viewLifecycleOwner) { friendId ->
+            findNavController().navigate(PlanDetailsFragmentDirections.actionPlanDetailsFragmentToFriendDetailFragment(friendId))
         }
 
         viewModel.snackbarMessage.observe(viewLifecycleOwner) {
