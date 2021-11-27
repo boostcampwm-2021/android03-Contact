@@ -1,4 +1,4 @@
-package com.ivyclub.contact.ui.main.settings.security
+package com.ivyclub.contact.ui.password
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

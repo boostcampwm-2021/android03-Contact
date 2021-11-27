@@ -192,7 +192,7 @@
 
     <fragment
         android:id="@+id/passwordFragment"
-        android:name="com.ivyclub.contact.ui.main.settings.security.PasswordFragment"
+        android:name="com.ivyclub.contact.ui.password.PasswordFragment"
         android:label="SetPasswordFragment"
         tools:layout="@layout/fragment_password">
         <action
