@@ -28,8 +28,11 @@ class FriendViewModelTest {
     }
 
     @Test
-    fun testClearLongClickedIdVariable() {
+    fun invokeClearLongClickedId_returnLongClickedIdEmpty() {
+        // when clearLongClickedId()가 호출되었을 때
         viewModel.clearLongClickedId()
+
+        // then longClickedId 리스트가 클리어 된다
         assertTrue(viewModel.longClickedId.isEmpty())
     }
 }
