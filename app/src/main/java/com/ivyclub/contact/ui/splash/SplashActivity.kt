@@ -11,7 +11,8 @@ import com.ivyclub.contact.util.BaseActivity
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_splash) {
 
-    private var splashHandler: Handler? = null
+    private val splashHandler = Handler(Looper.getMainLooper())
+
     private val moveToMainActivity = Runnable {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
@@ -20,13 +21,16 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(R.layout.activity_spl
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        splashHandler = Handler(Looper.getMainLooper()).also {
-            it.postDelayed(moveToMainActivity, 2000)
-        }
+
+        splashHandler.postDelayed(moveToMainActivity, SPLASH_TIME)
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        splashHandler?.removeCallbacks(moveToMainActivity)
+        splashHandler.removeCallbacks(moveToMainActivity)
+    }
+
+    companion object {
+        private const val SPLASH_TIME = 2000L
     }
 }
