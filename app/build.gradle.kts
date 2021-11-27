@@ -36,6 +36,9 @@ android {
         viewBinding = true
         dataBinding = true
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -60,6 +63,17 @@ dependencies {
     implementation(Dep.Libs.glide)
     implementation(Dep.Libs.gson)
     implementation(Dep.Libs.flexboxLayout)
+    implementation(project(mapOf("path" to ":data")))
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("com.google.android.material:material:1.4.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0-RC")
+    kapt(Dep.AndroidX.roomCompiler)
+    testImplementation(Dep.Test.jUnit)
+    testImplementation("org.mockito:mockito-core:1.10.19")
+    androidTestImplementation(Dep.Test.ext)
+    androidTestImplementation(Dep.Test.espresso)
     implementation(Dep.Libs.hilt)
     implementation(Dep.Libs.hiltViewModel)
     implementation(Dep.Libs.indicator)
