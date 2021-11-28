@@ -58,7 +58,7 @@ class FriendViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun userSearchAtEditText_returnChangedFriendList() {
+    fun invokeOnEditTextClicked_returnChangedFriendList() {
         // given : 먼저 친구 데이터를 데이터베이스로부터 수신하고,
         // 원래 친구 리스트를 originFriendList에 저장해둔다
         runTest {
