@@ -98,6 +98,18 @@ class FriendViewModelTest {
         assertTrue(viewModel.isInLongClickedState.value)
     }
 
+    @ExperimentalCoroutinesApi
+    @Test
+    fun invoke_returnLoadSuccessfully() {
+        // given : 친구 데이터를 수신
+        runTest {
+            viewModel.getFriendDataWithFlow()
+        }
+
+        // then : 친구리스트가 정상적으로 채워졌는지 확인한다
+        assert(viewModel.friendList.value.isNotEmpty())
+    }
+
     private fun insertFriendsInFakeRepository() {
         val friendsToInsert = mutableListOf<FriendData>()
         (0..10).forEach { i ->
