@@ -7,8 +7,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -25,6 +27,12 @@ class FriendViewModelTest {
         fakeRepository = FakeContactRepository()
         viewModel = FriendViewModel(fakeRepository)
         insertFriendsInFakeRepository()
+    }
+
+    @ExperimentalCoroutinesApi
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     @Test
