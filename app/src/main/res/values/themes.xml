@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="android:datePickerDialogTheme">@style/ContactDateTimePicker</item>
         <item name="android:timePickerDialogTheme">@style/ContactDateTimePicker</item>
+        <item name="bottomSheetDialogTheme">@style/RoundBottomSheetDialog</item>
     </style>
 
     <style name="BlueSelectableItemTheme">
@@ -28,5 +29,13 @@
     <style name="ContactDateTimePicker" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/green_200</item>
         <item name="colorOnPrimary">@color/green_200</item>
+    </style>
+
+    <style name="RoundBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_round_bottom_sheet</item>
+    </style>
+
+    <style name="RoundBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundBottomSheet</item>
     </style>
 </resources>

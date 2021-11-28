@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.ivyclub.contact.ui.main.plan_details.ParticipantInfoViewModel" />
+
+        <variable
+            name="dateFormat"
+            type="java.text.SimpleDateFormat" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp">
+
+            <ImageView
+                android:id="@+id/iv_btn_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:layout_marginVertical="4dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_close_black" />
+
+            <TextView
+                android:id="@+id/tv_btn_go_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginHorizontal="16dp"
+                android:padding="2dp"
+                android:text="@string/see_details"
+                android:textSize="14sp"
+                android:textColor="@android:color/holo_blue_dark" />
+        </RelativeLayout>
+
+        <ScrollView
+            android:id="@+id/sv_participant_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_btn_close">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="12dp">
+
+                <TextView
+                    android:id="@+id/tv_name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/friend_detail_name"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_name"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_details"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:text="@{viewModel.participantData.name}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_profile_image"
+                    app:layout_constraintTop_toBottomOf="@id/tv_name_text"
+                    tools:text="홍길동" />
+
+
+                <TextView
+                    android:id="@+id/tv_group_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/friend_detail_group"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_name_text"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+                <TextView
+                    android:id="@+id/tv_group"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_details"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:text="@{viewModel.participantGroup}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_name"
+                    app:layout_constraintTop_toBottomOf="@id/tv_group_title"
+                    tools:text="부스트 캠프 1기" />
+
+                <TextView
+                    android:id="@+id/tv_phone_num_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/friend_detail_phone_number"
+                    android:textSize="14sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_phone_num"
+                    app:layout_constraintTop_toBottomOf="@id/iv_profile_image" />
+
+                <TextView
+                    android:id="@+id/tv_phone_num"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_details"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:text="@{viewModel.participantData.phoneNumber}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_phone_num_text"
+                    tools:text="010-1234-5678" />
+
+                <ImageView
+                    android:id="@+id/iv_btn_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/ic_baseline_call_24"
+                    android:visibility="@{viewModel.participantData.phoneNumber.isEmpty ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_phone_num"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_phone_num" />
+
+                <ImageView
+                    android:id="@+id/iv_profile_image"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:background="@drawable/round_image"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/photo"
+                    android:transitionName="firstTransitionName"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_group"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tv_name_text" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>
