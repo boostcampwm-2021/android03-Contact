@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.ivyclub.contact.ui.main.plan_details.PlanDetailsViewModel" />
@@ -118,6 +119,18 @@
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_plan_time"/>
+
+                    <ImageView
+                        android:id="@+id/iv_btn_share_plan_to_participants"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:visibility="@{viewModel.planParticipants.isEmpty ? View.GONE : View.VISIBLE}"
+                        android:src="@drawable/ic_send_green"
+                        android:padding="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_plan_participants"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_plan_participants"/>
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/cg_plan_participants"
