@@ -1,5 +1,7 @@
 package com.ivyclub.contact.ui.main.plan_details
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -10,10 +12,16 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPlanDetailsBinding
 import com.ivyclub.contact.ui.main.plan_details.ParticipantInfoBottomSheetFragment.Companion.KEY_PARTICIPANT_ID
 import com.ivyclub.contact.ui.main.plan_details.ParticipantInfoBottomSheetFragment.Companion.REQUEST
+import com.ivyclub.contact.ui.main.plan_details.PlanDetailsViewModel.Companion.KEY_PHONE_NUMBERS
+import com.ivyclub.contact.ui.main.plan_details.PlanDetailsViewModel.Companion.KEY_PLAN_CONTENT
+import com.ivyclub.contact.ui.main.plan_details.PlanDetailsViewModel.Companion.KEY_PLAN_PLACE
+import com.ivyclub.contact.ui.main.plan_details.PlanDetailsViewModel.Companion.KEY_PLAN_TIME
+import com.ivyclub.contact.ui.main.plan_details.PlanDetailsViewModel.Companion.KEY_PLAN_TITLE
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.setFriendChips
 import com.ivyclub.contact.util.showAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
+import java.sql.Date
 import java.text.SimpleDateFormat
 
 @AndroidEntryPoint
@@ -38,6 +46,7 @@ class PlanDetailsFragment :
     private fun setEditPlanButton() {
         with(binding) {
             ivBtnBack.setOnClickListener { findNavController().popBackStack() }
+
             ivBtnEditPlan.setOnClickListener {
                 findNavController().navigate(
                     PlanDetailsFragmentDirections.actionPlanDetailsFragmentToAddEditFragment(
@@ -45,8 +54,13 @@ class PlanDetailsFragment :
                     )
                 )
             }
+
             ivBtnDeletePlan.setOnClickListener {
                 showDeletePlanDialog()
+            }
+
+            ivBtnSharePlanToParticipants.setOnClickListener {
+                this@PlanDetailsFragment.viewModel.sendMessagesToPlanParticipants()
             }
         }
     }
@@ -58,23 +72,29 @@ class PlanDetailsFragment :
     }
 
     private fun setObservers() {
-        viewModel.planParticipants.observe(viewLifecycleOwner) { participants ->
-            binding.cgPlanParticipants.setFriendChips(participants.map { it.name }) { index ->
-                viewModel.goParticipantsDetails(index)
+        with(viewModel) {
+            planParticipants.observe(viewLifecycleOwner) { participants ->
+                binding.cgPlanParticipants.setFriendChips(participants.map { it.name }) { index ->
+                    viewModel.goParticipantsDetails(index)
+                }
             }
-        }
 
-        viewModel.goFriendDetailsEvent.observe(viewLifecycleOwner) { friendId ->
-            showParticipantInfoDialog(friendId)
-        }
+            goFriendDetailsEvent.observe(viewLifecycleOwner) { friendId ->
+                showParticipantInfoDialog(friendId)
+            }
 
-        viewModel.snackbarMessage.observe(viewLifecycleOwner) {
-            if (context == null) return@observe
-            Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
-        }
+            sendMessagesToParticipantsEvent.observe(viewLifecycleOwner) { bundle ->
+                sendSharePlanMessages(bundle)
+            }
 
-        viewModel.finishEvent.observe(viewLifecycleOwner) {
-            findNavController().popBackStack()
+            snackbarMessage.observe(viewLifecycleOwner) {
+                if (context == null) return@observe
+                Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
+            }
+
+            finishEvent.observe(viewLifecycleOwner) {
+                findNavController().popBackStack()
+            }
         }
     }
 
@@ -85,7 +105,10 @@ class PlanDetailsFragment :
         ParticipantInfoBottomSheetFragment().apply {
             arguments = bundle
             showsDialog = true
-            show(this@PlanDetailsFragment.childFragmentManager, ParticipantInfoBottomSheetFragment.TAG)
+            show(
+                this@PlanDetailsFragment.childFragmentManager,
+                ParticipantInfoBottomSheetFragment.TAG
+            )
         }
     }
 
@@ -93,9 +116,49 @@ class PlanDetailsFragment :
         childFragmentManager.setFragmentResultListener(REQUEST, viewLifecycleOwner) { _, bundle ->
             findNavController().navigate(
                 PlanDetailsFragmentDirections
-                    .actionPlanDetailsFragmentToFriendDetailFragment(bundle.getLong(KEY_PARTICIPANT_ID))
+                    .actionPlanDetailsFragmentToFriendDetailFragment(
+                        bundle.getLong(
+                            KEY_PARTICIPANT_ID
+                        )
+                    )
             )
         }
+    }
+
+    private fun sendSharePlanMessages(bundle: Bundle) {
+        val strTo = bundle.getString(KEY_PHONE_NUMBERS)
+
+        val planTitle = bundle.getString(KEY_PLAN_TITLE) ?: return
+        val msgPlanTitle = String.format(getString(R.string.format_share_plan_title), planTitle)
+
+        val planTime = bundle.getLong(KEY_PLAN_TIME, -1L)
+        if (planTime == -1L) return
+        val strPlanTime =
+            SimpleDateFormat(getString(R.string.format_simple_date)).format(Date(planTime))
+        val msgPlanTime = String.format(getString(R.string.format_share_plan_time), strPlanTime)
+
+        val planPlace = bundle.getString(KEY_PLAN_PLACE)
+        val msgPlanPlace =
+            if (planPlace == null) ""
+            else String.format(getString(R.string.format_share_plan_place), planPlace)
+
+        val planContent = bundle.getString(KEY_PLAN_CONTENT)
+        val msgPlanContent =
+            if (planContent == null) ""
+            else String.format(getString(R.string.format_share_plan_place), planContent)
+
+        val smsIntent = Intent(Intent.ACTION_SENDTO, Uri.parse(strTo))
+            .apply {
+                putExtra(
+                    "sms_body",
+                    String.format(
+                        getString(R.string.format_share_plan_to_participants),
+                        msgPlanTitle + msgPlanTime + msgPlanPlace + msgPlanContent,
+                        getString(R.string.app_name)
+                    )
+                )
+            }
+        startActivity(smsIntent)
     }
 
     private fun fetchPlanDetails() {
