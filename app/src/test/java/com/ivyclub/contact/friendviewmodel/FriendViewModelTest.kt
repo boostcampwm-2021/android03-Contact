@@ -82,6 +82,22 @@ class FriendViewModelTest {
         } else true)
     }
 
+    // 롱클릭했을 때 isInLongClickedState으로 들어가는지 확인한다
+    @ExperimentalCoroutinesApi
+    @Test
+    fun invokeSetLongClickedId_returnChangedLongClickedState() {
+        // given : 먼저 친구 데이터를 데이터베이스로부터 수신하고,
+        runTest {
+            viewModel.getFriendDataWithFlow()
+        }
+
+        // when : 1번 id를 롱클릭한다
+        viewModel.setLongClickedId(true, 1)
+
+        // then : 정상적으로 롱클릭 상태로 진입했는지 확인한다
+        assertTrue(viewModel.isInLongClickedState.value)
+    }
+
     private fun insertFriendsInFakeRepository() {
         val friendsToInsert = mutableListOf<FriendData>()
         (0..10).forEach { i ->
@@ -93,7 +109,8 @@ class FriendViewModelTest {
                     groupId = 1,
                     planList = emptyList(),
                     isFavorite = false,
-                    extraInfo = emptyMap()
+                    extraInfo = emptyMap(),
+                    id = i.toLong()
                 )
             )
         }
