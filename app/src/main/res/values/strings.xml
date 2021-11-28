@@ -147,4 +147,5 @@
     <string name="group_dialog_success_add_new_group">그룹 \'%s\'이(가) 추가되었습니다.</string>
     <string name="group_dialog_success_delete_group">그룹 \'%s\'이(가) 삭제되었습니다.</string>
     <string name="add_edit_friend_over_length">이름은 15자 이내로 입력해주세요.</string>
+    <string name="see_details">자세히 보기</string>
 </resources>

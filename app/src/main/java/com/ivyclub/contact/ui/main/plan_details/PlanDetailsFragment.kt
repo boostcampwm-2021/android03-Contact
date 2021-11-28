@@ -8,6 +8,8 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPlanDetailsBinding
+import com.ivyclub.contact.ui.main.plan_details.ParticipantInfoBottomSheetFragment.Companion.KEY_PARTICIPANT_ID
+import com.ivyclub.contact.ui.main.plan_details.ParticipantInfoBottomSheetFragment.Companion.REQUEST
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.setFriendChips
 import com.ivyclub.contact.util.showAlertDialog
@@ -30,6 +32,7 @@ class PlanDetailsFragment :
         fetchPlanDetails()
         setObservers()
         setEditPlanButton()
+        setParticipantInfoResultLauncher()
     }
 
     private fun setEditPlanButton() {
@@ -62,7 +65,7 @@ class PlanDetailsFragment :
         }
 
         viewModel.goFriendDetailsEvent.observe(viewLifecycleOwner) { friendId ->
-            findNavController().navigate(PlanDetailsFragmentDirections.actionPlanDetailsFragmentToFriendDetailFragment(friendId))
+            showParticipantInfoDialog(friendId)
         }
 
         viewModel.snackbarMessage.observe(viewLifecycleOwner) {
@@ -72,6 +75,26 @@ class PlanDetailsFragment :
 
         viewModel.finishEvent.observe(viewLifecycleOwner) {
             findNavController().popBackStack()
+        }
+    }
+
+    private fun showParticipantInfoDialog(participantId: Long) {
+        val bundle = Bundle().apply {
+            putLong(KEY_PARTICIPANT_ID, participantId)
+        }
+        ParticipantInfoBottomSheetFragment().apply {
+            arguments = bundle
+            showsDialog = true
+            show(this@PlanDetailsFragment.childFragmentManager, ParticipantInfoBottomSheetFragment.TAG)
+        }
+    }
+
+    private fun setParticipantInfoResultLauncher() {
+        childFragmentManager.setFragmentResultListener(REQUEST, viewLifecycleOwner) { _, bundle ->
+            findNavController().navigate(
+                PlanDetailsFragmentDirections
+                    .actionPlanDetailsFragmentToFriendDetailFragment(bundle.getLong(KEY_PARTICIPANT_ID))
+            )
         }
     }
 
