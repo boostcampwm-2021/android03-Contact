@@ -65,14 +65,21 @@ class FriendViewModelTest {
             viewModel.getFriendDataWithFlow()
         }
         val originFriendList = viewModel.friendList.value
+        val searchText = "mike1"
 
         // when : mike1이라고 검색했을 때(fake repository에는 mike0부터 mike10까지 들어있다)
-        viewModel.onEditTextClicked("mike1")
-
-        // then : changedFriendList에는 mike1과 mike10이 나온다.
-        // filter된 리스트는 기존의 리스트와 달라야 한다.
+        viewModel.onEditTextClicked(searchText)
         val filteredFriendList = viewModel.friendList.value
+
+        // then : filteredFriendList에는 mike1과 mike10이 나온다.
+        // filter된 리스트는 기존의 리스트와 달라야 한다.
+        // 또한 filter된 리스트가 비어있지 않다면 리스트 중 하나 이상의 아이템에는 mike1 string이 포함되어야 한다.
         assertTrue(originFriendList != filteredFriendList)
+        assert(if (filteredFriendList.isNotEmpty()) filteredFriendList.any {
+            it.name.contains(
+                searchText
+            )
+        } else true)
     }
 
     private fun insertFriendsInFakeRepository() {
