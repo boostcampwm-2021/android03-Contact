@@ -27,18 +27,21 @@ class SecurityFragment : BaseFragment<FragmentSecurityBinding>(R.layout.fragment
 
     private fun initFingerPrintButtonClickListener() {
         binding.btnFingerPrint.setOnClickListener {
-            when (BiometricManager.from(requireContext()).canAuthenticate()) {
-                BiometricManager.BIOMETRIC_SUCCESS -> {
-                    viewModel.setFingerPrint()
-                }
-                BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
-                    Snackbar.make(binding.root, getString(R.string.biometric_error_hw_unavailable), Snackbar.LENGTH_SHORT).show()
-                }
-                BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
-                    Snackbar.make(binding.root, getString(R.string.biometric_error_none_enrolled), Snackbar.LENGTH_SHORT).show()
-                }
-                BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
-                    Snackbar.make(binding.root, getString(R.string.biometric_error_hw_unavailable), Snackbar.LENGTH_SHORT).show()
+            if (context != null) {
+                val biometricManager = BiometricManager.from(requireContext())
+                when(biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
+                    BiometricManager.BIOMETRIC_SUCCESS -> {
+                        viewModel.setFingerPrint()
+                    }
+                    BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                        Snackbar.make(binding.root, getString(R.string.biometric_error_hw_unavailable), Snackbar.LENGTH_SHORT).show()
+                    }
+                    BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                        Snackbar.make(binding.root, getString(R.string.biometric_error_none_enrolled), Snackbar.LENGTH_SHORT).show()
+                    }
+                    BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+                        Snackbar.make(binding.root, getString(R.string.biometric_error_hw_unavailable), Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

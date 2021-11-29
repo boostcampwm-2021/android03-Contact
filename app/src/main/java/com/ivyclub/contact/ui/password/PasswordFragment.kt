@@ -1,4 +1,4 @@
-package com.ivyclub.contact.ui.main.settings.security
+package com.ivyclub.contact.ui.password
 
 import android.app.Activity.RESULT_OK
 import android.content.Context
@@ -43,6 +43,7 @@ class PasswordFragment :
         initBackPressedListener()
         observeFocusedEditTextIndex()
         observeShowSnackBar()
+        blockKeyboard()
     }
 
     private fun checkFingerPrintState() {
@@ -165,6 +166,14 @@ class PasswordFragment :
     private fun observeShowSnackBar() {
         viewModel.showSnackBar.observe(viewLifecycleOwner) { id ->
             Snackbar.make(binding.root, getString(id), Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun blockKeyboard() {
+        passwordEditTextList.forEach {
+            it.setTextIsSelectable(true)
+            it.showSoftInputOnFocus = false
+            it.isFocusableInTouchMode = false
         }
     }
 
