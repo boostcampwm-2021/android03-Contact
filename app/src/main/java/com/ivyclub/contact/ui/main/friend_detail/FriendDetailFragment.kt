@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
 import com.ivyclub.contact.util.BaseFragment
@@ -32,7 +31,6 @@ class FriendDetailFragment :
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date))
-
         setObserver()
         loadFriendDetail(args.friendId)
         initButtons(args.friendId)
@@ -40,12 +38,6 @@ class FriendDetailFragment :
 
     private fun loadFriendDetail(id: Long) {
         viewModel.loadFriendData(id)
-        viewModel.loadProfileImage(id)?.let {
-            Glide.with(this)
-                .load(it)
-                .into(binding.ivProfileImage)
-        }
-        binding.ivProfileImage.clipToOutline = true
     }
 
     private fun setObserver() {

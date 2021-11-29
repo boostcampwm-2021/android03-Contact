@@ -134,7 +134,6 @@ class FriendListAdapter(
         fun bind(friendItemData: FriendListData) {
             binding.root.setCustomBackgroundColor(if (friendItemData.isColored) R.color.blue_100 else R.color.white) // 배경색 변경
             binding.data = friendItemData
-            setProfileImage(friendItemData.id.toString())
             this.currentItem = friendItemData
         }
 
@@ -161,19 +160,6 @@ class FriendListAdapter(
                 transferClickedIdToViewModel(true, currentItem.id)
                 true // true로 반환하면 click이벤트는 무시하고, longClick 이벤트만 적용하는 것
             }
-        }
-
-        private fun setProfileImage(friendId: String) {
-            val imageString = "${binding.root.context.cacheDir}/${friendId}.jpg"
-            val targetFile = File(imageString)
-            if (targetFile.exists()) {
-                Glide.with(binding.ivProfileImage.context)
-                    .load(imageString)
-                    .into(binding.ivProfileImage)
-            } else {
-                binding.ivProfileImage.setImageResource(R.drawable.photo)
-            }
-            binding.ivProfileImage.clipToOutline = true
         }
     }
 
