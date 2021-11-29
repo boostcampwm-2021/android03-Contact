@@ -36,6 +36,9 @@ android {
         viewBinding = true
         dataBinding = true
     }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -64,12 +67,15 @@ dependencies {
     implementation(Dep.Libs.hiltViewModel)
     implementation(Dep.Libs.indicator)
     implementation(Dep.Libs.lottie)
+    implementation(Dep.Libs.jBCrypt)
+    implementation(project(mapOf("path" to ":data")))
+    kapt(Dep.AndroidX.roomCompiler)
     kapt(Dep.Libs.hiltCompiler)
     kapt(Dep.Libs.hiltViewModelCompiler)
     kapt(Dep.Libs.hiltWorkCompiler)
     testImplementation(Dep.Test.jUnit)
-    implementation ("de.svenkubiak", "jBCrypt", "0.4.1")
-    implementation(project(mapOf("path" to ":data")))
+    testImplementation(Dep.Test.mockito)
+    testImplementation(Dep.Test.coroutines)
     androidTestImplementation(Dep.Test.ext)
     androidTestImplementation(Dep.Test.espresso)
     androidTestImplementation(Dep.Test.hilt)

@@ -25,10 +25,10 @@ object Versions {
 
 object Dep {
     object AndroidX {
-        const val appcompat = "androidx.appcompat:appcompat:1.3.1"
+        const val appcompat = "androidx.appcompat:appcompat:1.4.0"
         const val core = "androidx.core:core-ktx:1.6.0"
         const val material = "com.google.android.material:material:1.4.0"
-        const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.1"
+        const val constraintLayout = "androidx.constraintlayout:constraintlayout:2.1.2"
         const val navigationUIKtx = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
         const val legacySupport = "androidx.legacy:legacy-support-v4:1.0.0"
         const val navigationFragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
@@ -55,6 +55,8 @@ object Dep {
         const val espresso = "androidx.test.espresso:espresso-core:3.4.0"
         const val room = "androidx.room:room-testing:${Versions.room}"
         const val hilt = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
+        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0-RC"
+        const val mockito = "org.mockito:mockito-core:3.9.0"
     }
 
     object Libs {
@@ -69,5 +71,6 @@ object Dep {
         const val flexboxLayout = "com.google.android.flexbox:flexbox:${Versions.flexbox}"
         const val indicator = "com.tbuonomo:dotsindicator:4.2"
         const val lottie = "com.airbnb.android:lottie:4.2.1"
+        const val jBCrypt = "de.svenkubiak:jBCrypt:0.4.1"
     }
 }
