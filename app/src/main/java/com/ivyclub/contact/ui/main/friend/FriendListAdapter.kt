@@ -154,6 +154,7 @@ class FriendListAdapter(
 
         private fun onFriendLongClick() {
             binding.root.setOnLongClickListener {
+                if(currentItem.isColored) return@setOnLongClickListener true
                 currentItem.isColored = true
                 setLongClicked(true)
                 it.setCustomBackgroundColor(R.color.blue_100)
