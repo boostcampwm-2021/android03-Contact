@@ -68,7 +68,6 @@ class FakeContactRepository : ContactRepository {
 
         friendList.remove(friendData)
         friendList.add(newFriendData)
-        println(friendList)
     }
 
     override fun loadFriendsWithFlow(): Flow<List<FriendData>> {

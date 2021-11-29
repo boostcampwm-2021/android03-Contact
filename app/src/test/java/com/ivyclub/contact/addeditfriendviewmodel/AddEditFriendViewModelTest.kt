@@ -5,13 +5,12 @@ import com.ivyclub.contact.fake.FakeContactRepository
 import com.ivyclub.contact.ui.main.add_edit_friend.AddEditFriendViewModel
 import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.GroupData
-import junit.framework.Assert.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.*
 import org.junit.After
-import org.junit.Assert.assertNotEquals
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
