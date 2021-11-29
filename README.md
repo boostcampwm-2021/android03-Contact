@@ -7,7 +7,6 @@
 </p>  
 
 <p align="center">    
-ReadMe in <a href="www.google.com">English</a><br>
 Contact는 안드로이드 기반의 지인 관리 애플리케이션입니다.
 <br>  
 
@@ -18,15 +17,22 @@ Contact는 안드로이드 기반의 지인 관리 애플리케이션입니다.
 ## Previews
 <img src="https://user-images.githubusercontent.com/57510192/143807697-396a4e55-3175-48e8-86d7-81e01111fab6.gif" width="100%">  
 
+## 제공되는 기능
+-   친구와 지인의 정보를 기록하고 저장할 수 있는  **컨택트**입니다.
+-   여러분들의 소중한 파트너를 기록해보세요. 어떤 정보라도 좋습니다.
+-   지인 정보를 기록함으로써 지인을 기억하고 다음 만남에서 더 자연스럽게 대화를 이어나갈 수 있도록 도와드릴게요.
+-   이뿐만 아니라 지인과의 약속을 저장해주시면 기억하고 있다가 해당 약속을 알림으로 알려드릴게요.
+-   컨택을 보호하기 위해 비밀번호와 지문인식 기능을 이용할 수 있어요. 걱정하지 마세요.
+
 ## 기술 스택
 - Minimum SDK level 21로 98% 이상의 안드로이드 디바이스 지원
 - 100% [Kotlin](https://kotlinlang.org/) 기반 + [Coroutines](https://developer.android.com/kotlin/coroutines) + [Flow](https://developer.android.com/kotlin/flow)
 - [Jetpack](https://developer.android.com/jetpack)
-    - ViewModel
-    - Room Persistence
+  - ViewModel
+  - Room Persistence
 - Architecture
-    - MVVM Architecture ( View - Databinding - ViewModel - Model )
-    - Repository Pattern
+  - MVVM Architecture ( View - Databinding - ViewModel - Model )
+  - Repository Pattern
 - DI를 위한 [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 - 지문인식을 위한 [Biometric](https://developer.android.com/jetpack/androidx/releases/biometric)
 - 알림을 위한 [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager)
