@@ -1,21 +1,21 @@
+<h1 align="center">컨택</h1>
 
-<h1 align="center">컨택</h1>  
-
-<p align="center">  
-  <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>  
+<p align="center">
+  <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
   <a href="https://github.com/boostcampwm-2021/android03-Contact/actions/workflows/develop-branch-review.yml"><img alt="API" src="https://github.com/boostcampwm-2021/android03-Contact/actions/workflows/develop-branch-review.yml/badge.svg"/></a>  
-</p>  
+</p>
 
-<p align="center">    
+<p align="center">
+ReadMe in <a href="https://github.com/boostcampwm-2021/android03-Contact/blob/develop/docs/ReadMeEn.md">English</a><br>
 Contact는 안드로이드 기반의 지인 관리 애플리케이션입니다.
-<br>  
+<br>
 
-<p align="center">  
-<img src="https://user-images.githubusercontent.com/57510192/143352328-dece1dcf-60f6-4726-a161-3d8db1aa8576.png" width="75%" />  
-</p>  
+<p align="center">
+<img src="https://user-images.githubusercontent.com/57510192/143352328-dece1dcf-60f6-4726-a161-3d8db1aa8576.png" width="75%" />
+</p>
 
 ## Previews
-<img src="https://user-images.githubusercontent.com/57510192/143807697-396a4e55-3175-48e8-86d7-81e01111fab6.gif" width="100%">  
+<img src="https://user-images.githubusercontent.com/57510192/143807697-396a4e55-3175-48e8-86d7-81e01111fab6.gif" width="100%">
 
 ## 제공되는 기능
 -   친구와 지인의 정보를 기록하고 저장할 수 있는  **컨택트**입니다.
@@ -46,9 +46,9 @@ Contact는 안드로이드 기반의 지인 관리 애플리케이션입니다.
 이번 겨울 구글 플레이 스토어에서 만나요.
 
 ## MAD Scorecard
-<img src="https://user-images.githubusercontent.com/57510192/143381010-667f6493-b547-46f1-9e24-0d967c4cfd0b.png">  
-<img src="https://user-images.githubusercontent.com/57510192/143814020-43f3aaac-f21a-4b17-a166-e37121d29184.png">  
-<img src="https://user-images.githubusercontent.com/57510192/143814025-e21ff3cb-9eed-4e0c-ae23-87f9ea8d9d98.png">  
+<img src="https://user-images.githubusercontent.com/57510192/143381010-667f6493-b547-46f1-9e24-0d967c4cfd0b.png">
+<img src="https://user-images.githubusercontent.com/57510192/143814020-43f3aaac-f21a-4b17-a166-e37121d29184.png">
+<img src="https://user-images.githubusercontent.com/57510192/143814025-e21ff3cb-9eed-4e0c-ae23-87f9ea8d9d98.png">
 
 ## 연락처
 email : bcivyclub@gmail.com
