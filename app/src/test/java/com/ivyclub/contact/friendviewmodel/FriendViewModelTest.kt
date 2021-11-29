@@ -36,7 +36,7 @@ class FriendViewModelTest {
     }
 
     @Test
-    fun invokeClearLongClickedId_returnLongClickedIdEmpty() {
+    fun invokeClearLongClickedId_ReturnLongClickedIdEmpty() {
         // when : clearLongClickedId()가 호출되었을 때
         viewModel.clearLongClickedId()
 
@@ -45,7 +45,7 @@ class FriendViewModelTest {
     }
 
     @Test
-    fun invokeSetSearchViewVisibility_returnChangedVisibility() {
+    fun invokeSetSearchViewVisibility_ReturnChangedVisibility() {
         // given : 현재 searchViewVisible을 originSearchViewVisibility 저장했을 때
         val originSearchViewVisibility = viewModel.isSearchViewVisible.value
 
@@ -58,7 +58,7 @@ class FriendViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun invokeOnEditTextClicked_returnChangedFriendList() {
+    fun invokeOnEditTextClicked_ReturnChangedFriendList() {
         // given : 먼저 친구 데이터를 데이터베이스로부터 수신하고,
         // 원래 친구 리스트를 originFriendList에 저장해둔다
         runTest {
@@ -85,7 +85,7 @@ class FriendViewModelTest {
     // 롱클릭했을 때 isInLongClickedState으로 들어가는지 확인한다
     @ExperimentalCoroutinesApi
     @Test
-    fun invokeSetLongClickedId_returnChangedLongClickedState() {
+    fun invokeSetLongClickedId_ReturnChangedLongClickedState() {
         // given : 먼저 친구 데이터를 데이터베이스로부터 수신하고,
         runTest {
             viewModel.getFriendDataWithFlow()
@@ -100,7 +100,7 @@ class FriendViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun invoke_returnLoadSuccessfully() {
+    fun invoke_ReturnLoadSuccessfully() {
         // given : 친구 데이터를 수신
         runTest {
             viewModel.getFriendDataWithFlow()
