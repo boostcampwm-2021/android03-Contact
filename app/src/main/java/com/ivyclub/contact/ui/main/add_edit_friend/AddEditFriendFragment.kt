@@ -4,7 +4,6 @@ import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.database.DataSetObserver
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.os.Build
@@ -79,28 +78,29 @@ class AddEditFriendFragment :
         }
 
         viewModel.isSaveButtonClicked.observe(viewLifecycleOwner) {
-            if (it) {
-                with(binding) {
-                    this@AddEditFriendFragment.viewModel.saveFriendData(
-                        etPhoneNumber.text.toString(),
-                        etName.text.toString(),
-                        tvBirthdayValue.text.toString(),
-                        this@AddEditFriendFragment.viewModel.groupIdList[spnGroup.selectedItemPosition],
-                        extraInfoListAdapter.currentList,
+            with(binding) {
+                this@AddEditFriendFragment.viewModel.saveFriendData(
+                    etPhoneNumber.text.toString(),
+                    etName.text.toString(),
+                    tvBirthdayValue.text.toString(),
+                    this@AddEditFriendFragment.viewModel.groupIdList[spnGroup.selectedItemPosition],
+                    extraInfoListAdapter.currentList,
+                    args.friendId
+                )
+                if (args.friendId != -1L) {
+                    this@AddEditFriendFragment.viewModel.saveProfileImage(
+                        currentBitmap,
                         args.friendId
                     )
-                    if(args.friendId != -1L) {
-                        this@AddEditFriendFragment.viewModel.saveProfileImage(currentBitmap, args.friendId)
-                    } else {
-                        this@AddEditFriendFragment.viewModel.saveProfileImage(currentBitmap, newId)
-                    }
-                    findNavController().popBackStack()
-                    Snackbar.make(
-                        binding.root,
-                        getString(R.string.add_edit_success_message),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                } else {
+                    this@AddEditFriendFragment.viewModel.saveProfileImage(currentBitmap, newId)
                 }
+                findNavController().popBackStack()
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.add_edit_success_message),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         }
 

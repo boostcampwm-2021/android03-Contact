@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.R
+import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.ImageManager
 import com.ivyclub.data.model.FriendData
@@ -20,8 +21,8 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     val groupNameList: LiveData<List<String>> get() = _groupNameList
     private val _extraInfos = MutableLiveData<List<FriendExtraInfoData>>()
     val extraInfos: LiveData<List<FriendExtraInfoData>> get() = _extraInfos
-    private val _isSaveButtonClicked = MutableLiveData(false)
-    val isSaveButtonClicked: LiveData<Boolean> get() = _isSaveButtonClicked
+    private val _isSaveButtonClicked = SingleLiveEvent<Unit>()
+    val isSaveButtonClicked: LiveData<Unit> get() = _isSaveButtonClicked
     private val _friendData = MutableLiveData<FriendData>()
     val friendData: LiveData<FriendData> get() = _friendData
     private val _showClearButtonVisible = MutableLiveData<Boolean>()
@@ -74,7 +75,7 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     }
 
     fun onSaveButtonClicked() {
-        _isSaveButtonClicked.value = true
+        _isSaveButtonClicked.call()
     }
 
     fun checkNameValid(inputName: String) {
