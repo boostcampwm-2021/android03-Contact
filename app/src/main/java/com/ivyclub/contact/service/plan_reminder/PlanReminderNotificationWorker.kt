@@ -11,6 +11,8 @@ import com.ivyclub.data.MyPreference.Companion.NOTIFICATION_END
 import com.ivyclub.data.MyPreference.Companion.NOTIFICATION_START
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.sql.Date
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -22,9 +24,9 @@ class PlanReminderNotificationWorker @AssistedInject constructor(
     private val notiPreferences: MyPreference
 ) : CoroutineWorker(context, workerParams) {
 
-    override suspend fun doWork(): Result {
+    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 
-        if (tags.isEmpty()) return Result.failure()
+        if (tags.isEmpty()) return@withContext Result.failure()
 
         val notiStart = notiPreferences.getNotificationTime(NOTIFICATION_START)
         val notiEnd = notiPreferences.getNotificationTime(NOTIFICATION_END)
@@ -32,14 +34,14 @@ class PlanReminderNotificationWorker @AssistedInject constructor(
 
         if (currentHour in (notiStart until notiEnd) && notiPreferences.getNotificationState()) {
             inputData.getString(NOTI_TYPE)?.let { strNotiType ->
-                return when (val notiType = NotificationType.valueOf(strNotiType)) {
+                return@withContext when (val notiType = NotificationType.valueOf(strNotiType)) {
                     NotificationType.MORNING -> doPlanMorningWork()
                     else -> doPlanReminderWork(notiType)
                 }
             }
         }
 
-        return Result.failure()
+        return@withContext Result.failure()
     }
 
     private fun doPlanMorningWork(): Result {
