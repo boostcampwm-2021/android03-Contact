@@ -15,7 +15,14 @@ Contact is friend management application based on modern Android technology stac
 </p>  
 
 ## Previews
-<img src="https://user-images.githubusercontent.com/57510192/143807697-396a4e55-3175-48e8-86d7-81e01111fab6.gif" width="100%">  
+<img src="https://user-images.githubusercontent.com/57510192/143807697-396a4e55-3175-48e8-86d7-81e01111fab6.gif" width="100%">
+
+## Supported Features
+- Write a memo and save your friends' data in **Contact**.
+- Take a note of your valuable partners. Any information is fine.
+- By saving your friends' information, **Contact** will help you remember your friends and make your conversations more naturally in the next meeting.
+- Not only this! Save an appointment with friends, then **Contact** will remember it and notify as a reminder.
+- Don't worry. Use password and fingerprint recognition to protect your data. 
 
 ## Tech Stack
 - Minimum SDK level 21 for more than 98% android mobile device
