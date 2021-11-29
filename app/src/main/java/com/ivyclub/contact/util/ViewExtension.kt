@@ -85,7 +85,11 @@ fun ViewDataBinding.showKeyboard() {
     ViewCompat.getWindowInsetsController(this.root)?.show(WindowInsetsCompat.Type.ime())
 }
 
-fun ChipGroup.setFriendChips(friendList: List<String>, chipCount: Int = friendList.size) {
+fun ChipGroup.setFriendChips(
+    friendList: List<String>,
+    chipCount: Int = friendList.size,
+    onChipClick: ((Int) -> (Unit))? = null
+) {
     if (isNotEmpty()) removeAllViews()
 
     friendList.subList(0, chipCount.coerceAtMost(friendList.size)).forEachIndexed { index, name ->
@@ -100,10 +104,13 @@ fun ChipGroup.setFriendChips(friendList: List<String>, chipCount: Int = friendLi
                 } else {
                     name
                 }
-            isEnabled = false
             setChipBackgroundColorResource(R.color.blue_100)
             setEnsureMinTouchTargetSize(false)
             chipMinHeight = 8f
+
+            onChipClick?.let { onClick ->
+                setOnClickListener { onClick.invoke(index) }
+            }
         }.also {
             addView(it)
         }
