@@ -53,9 +53,8 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
         }
     }
 
-    @JvmOverloads
-    fun addExtraInfo(title: String = EMPTY_STRING, value: String = EMPTY_STRING) {
-        extraInfoList.add(FriendExtraInfoData(title, value))
+    fun addExtraInfo() {
+        extraInfoList.add(FriendExtraInfoData(EMPTY_STRING, EMPTY_STRING))
         _extraInfos.value = extraInfoList
     }
 
