@@ -46,8 +46,8 @@ object PlanReminderNotification {
             .setColor(ContextCompat.getColor(context, R.color.green_200))
             .setContentTitle(title)
             .setContentText(text)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setFullScreenIntent(pendingIntent, true)
             .setAutoCancel(true)
             .build()
 
@@ -70,7 +70,7 @@ object PlanReminderNotification {
             val notiChannel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 enableVibration(true)
             }
