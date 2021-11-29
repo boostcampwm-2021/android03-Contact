@@ -1,5 +1,4 @@
-
-<h1 align="center">컨택</h1>  
+<h1 align="center">Contact</h1>  
 
 <p align="center">  
   <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>  
@@ -7,8 +6,8 @@
 </p>  
 
 <p align="center">    
-ReadMe in <a href="www.google.com">English</a><br>
-Contact는 안드로이드 기반의 지인 관리 애플리케이션입니다.
+ReadMe in <a href="https://github.com/boostcampwm-2021/android03-Contact/blob/develop/README.md">Korean</a><br>
+Contact is friend management application based on modern Android technology stacks.  
 <br>  
 
 <p align="center">  
@@ -18,31 +17,31 @@ Contact는 안드로이드 기반의 지인 관리 애플리케이션입니다.
 ## Previews
 <img src="https://user-images.githubusercontent.com/57510192/143807697-396a4e55-3175-48e8-86d7-81e01111fab6.gif" width="100%">  
 
-## 기술 스택
-- Minimum SDK level 21로 98% 이상의 안드로이드 디바이스 지원
-- 100% [Kotlin](https://kotlinlang.org/) 기반 + [Coroutines](https://developer.android.com/kotlin/coroutines) + [Flow](https://developer.android.com/kotlin/flow)
+## Tech Stack
+- Minimum SDK level 21 for more than 98% android mobile device
+- 100% [Kotlin](https://kotlinlang.org/) based + [Coroutines](https://developer.android.com/kotlin/coroutines) + [Flow](https://developer.android.com/kotlin/flow)
 - [Jetpack](https://developer.android.com/jetpack)
     - ViewModel
     - Room Persistence
 - Architecture
     - MVVM Architecture ( View - Databinding - ViewModel - Model )
     - Repository Pattern
-- DI를 위한 [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
-- 지문인식을 위한 [Biometric](https://developer.android.com/jetpack/androidx/releases/biometric)
-- 알림을 위한 [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager)
-- 이미지 처리를 위한 [Glide](https://github.com/bumptech/glide)
-- 온보딩 애니메이션을 위한 [Lottie](https://airbnb.io/lottie/#/)
-- Unit test를 위한 [JUnit 4](https://github.com/junit-team/junit4)
-- CI를 위한 [Github Actions](https://github.com/boostcampwm-2021/android03-Contact/tree/develop/.github/workflows)
-- 한국어, 영어, 중국어 지원
+- [Hilt](https://developer.android.com/training/dependency-injection/hilt-android) for dependency injection
+- [Biometric](https://developer.android.com/jetpack/androidx/releases/biometric) for fingerprint  recognition
+- [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager) for notification
+- [Glide](https://github.com/bumptech/glide) for loading Images
+- [Lottie](https://airbnb.io/lottie/#/) for onboarding
+- [JUnit 4](https://github.com/junit-team/junit4) for unit testing
+- [Github Actions](https://github.com/boostcampwm-2021/android03-Contact/tree/develop/.github/workflows) for CI
+- Support English, Chinese, Korean
 
-## 릴리즈
-이번 겨울 구글 플레이 스토어에서 만나요.
+## Release
+Meet **Contact this winter** on the Google Play Store.
 
 ## MAD Scorecard
 <img src="https://user-images.githubusercontent.com/57510192/143381010-667f6493-b547-46f1-9e24-0d967c4cfd0b.png">  
 <img src="https://user-images.githubusercontent.com/57510192/143814020-43f3aaac-f21a-4b17-a166-e37121d29184.png">  
 <img src="https://user-images.githubusercontent.com/57510192/143814025-e21ff3cb-9eed-4e0c-ae23-87f9ea8d9d98.png">  
 
-## 연락처
+## Contact
 email : bcivyclub@gmail.com
