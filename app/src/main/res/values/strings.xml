@@ -63,10 +63,11 @@
     <string name="plan_reminder_notification_title">잊지 않으셨죠?</string>
     <string name="plan_morning_notification_title">좋은 아침입니다!</string>
     <string name="plan_morning_notification_content">하루를 시작하기에 앞서 오늘 일정들을 확인하세요!</string>
-    <string name="plan_night_notification_title">오늘 하루 고생하셨습니다!</string>
-    <string name="format_after_plan">오늘 %s과 함께한 시간은 어떠셨나요?</string>
-    <string name="format_plan_reminder_notification_with_friends">약 1시간 뒤 %s과의 약속이 예정되어있습니다!</string>
-    <string name="format_plan_reminder_notification_solo">약 1시간 뒤 %s 일정이 예정되어있습니다!</string>
+    <string name="plan_night_notification_title">오늘 하루 고생하셨어요!</string>
+    <string name="format_after_plan_with_friends">오늘 %s과 함께한 시간은 어떠셨나요?</string>
+    <string name="format_after_plan">오늘 %s 일정은 어떠셨나요?</string>
+    <string name="format_plan_reminder_notification_with_friends">약 1시간 뒤 %s과의 약속이 예정되어있습니다.</string>
+    <string name="format_plan_reminder_notification_solo">약 1시간 뒤 %s 일정이 예정되어있습니다.</string>
     <string name="format_friend_title">%s님</string>
     <string name="add_edit_plan_load_group">그룹 불러오기</string>
     <string name="friend_detail_birthday">생일</string>
