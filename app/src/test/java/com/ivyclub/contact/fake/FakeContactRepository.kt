@@ -20,7 +20,7 @@ class FakeContactRepository : ContactRepository {
     }
 
     override suspend fun setFavorite(id: Long, state: Boolean) {
-        val friend = friendList.filter { it.id == id }[0]
+        val friend = friendList.find { it.id == id }!!
         val changedData = FriendData(friend.phoneNumber,friend.name,friend.birthday,friend.groupId,friend.planList,state,friend.extraInfo,friend.id)
         val index = friendList.indexOf(friend)
         friendList.remove(friend)
@@ -28,7 +28,7 @@ class FakeContactRepository : ContactRepository {
     }
 
     override suspend fun getFriendDataById(id: Long): FriendData {
-        return friendList.filter { it.id == id }[0]
+        return friendList.find { it.id == id }!!
     }
 
     override suspend fun updateFriend(
@@ -53,7 +53,7 @@ class FakeContactRepository : ContactRepository {
     }
 
     override suspend fun deleteFriend(id: Long) {
-        val friend = friendList.filter { it.id == id }[0]
+        val friend = friendList.find { it.id == id }
         friendList.remove(friend)
     }
 
