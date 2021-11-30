@@ -41,7 +41,6 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             password = repository.getPassword()
             if (password.isNotEmpty()) {
-                lock()
                 _moveToConfirmPassword.call()
             }
         }
