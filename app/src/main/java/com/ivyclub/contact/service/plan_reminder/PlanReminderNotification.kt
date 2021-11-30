@@ -1,5 +1,7 @@
 package com.ivyclub.contact.service.plan_reminder
 
+import android.app.Notification.DEFAULT_SOUND
+import android.app.Notification.DEFAULT_VIBRATE
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -46,8 +48,9 @@ object PlanReminderNotification {
             .setColor(ContextCompat.getColor(context, R.color.green_200))
             .setContentTitle(title)
             .setContentText(text)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
+            .setDefaults(DEFAULT_SOUND or DEFAULT_VIBRATE)
             .setAutoCancel(true)
             .build()
 
@@ -70,7 +73,7 @@ object PlanReminderNotification {
             val notiChannel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 enableVibration(true)
             }
