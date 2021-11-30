@@ -11,6 +11,7 @@ class FakeContactRepository : ContactRepository {
     private val friendList = mutableListOf<FriendData>()
     private val planList = mutableListOf<PlanData>()
     private val groupList = mutableListOf<GroupData>()
+    private var onBoardingState = false
 
     override suspend fun loadFriends(): List<FriendData> {
         return friendList
@@ -94,11 +95,11 @@ class FakeContactRepository : ContactRepository {
     }
 
     override fun setShowOnBoardingState(state: Boolean) {
-        // todo
+        onBoardingState = state
     }
 
     override suspend fun getShowOnBoardingState(): Boolean {
-        return true // todo
+        return onBoardingState
     }
 
     override suspend fun setNotificationTime(start: Int, end: Int) {
