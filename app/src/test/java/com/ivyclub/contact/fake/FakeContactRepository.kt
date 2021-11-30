@@ -9,6 +9,7 @@ import java.sql.Date
 class FakeContactRepository : ContactRepository {
 
     private val friendList = mutableListOf<FriendData>()
+    private val planList = mutableListOf<PlanData>()
     private val groupList = mutableListOf<GroupData>()
 
     override suspend fun loadFriends(): List<FriendData> {
@@ -38,12 +39,15 @@ class FakeContactRepository : ContactRepository {
     }
 
     override suspend fun setFavorite(id: Long, state: Boolean) {
-        // todo
+        val friend = friendList.find { it.id == id }!!
+        val changedData = FriendData(friend.phoneNumber,friend.name,friend.birthday,friend.groupId,friend.planList,state,friend.extraInfo,friend.id)
+        val index = friendList.indexOf(friend)
+        friendList.remove(friend)
+        friendList.add(index, changedData)
     }
 
     override suspend fun getFriendDataById(id: Long): FriendData {
-        val friendData = friendList.find { it.id == id }
-        return friendData!!
+        return friendList.find { it.id == id }!!
     }
 
     override suspend fun updateFriend(
@@ -81,7 +85,8 @@ class FakeContactRepository : ContactRepository {
     }
 
     override suspend fun deleteFriend(id: Long) {
-        // todo
+        val friend = friendList.find { it.id == id }
+        friendList.remove(friend)
     }
 
     override suspend fun getLastFriendId(): Long {

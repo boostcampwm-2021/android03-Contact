@@ -55,10 +55,6 @@ class FriendDetailViewModel @Inject constructor(
         _lastPlans.value = plans
     }
 
-    fun loadProfileImage(friendId: Long): Bitmap? {
-        return ImageManager.loadProfileImage(friendId)
-    }
-
     fun deleteFriend(friendId: Long) {
         ImageManager.deleteImage(friendId)
         viewModelScope.launch {
