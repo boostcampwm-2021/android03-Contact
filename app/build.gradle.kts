@@ -76,6 +76,7 @@ dependencies {
     testImplementation(Dep.Test.jUnit)
     testImplementation(Dep.Test.mockito)
     testImplementation(Dep.Test.coroutines)
+    testImplementation(Dep.Test.mockitoInline)
     androidTestImplementation(Dep.Test.ext)
     androidTestImplementation(Dep.Test.espresso)
     androidTestImplementation(Dep.Test.hilt)
