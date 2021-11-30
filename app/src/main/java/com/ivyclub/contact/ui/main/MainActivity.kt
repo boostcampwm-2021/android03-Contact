@@ -17,7 +17,6 @@ import com.ivyclub.contact.databinding.ActivityMainBinding
 import com.ivyclub.contact.service.ContactRemoteViewsFactory.Companion.WIDGET_PLAN_ID
 import com.ivyclub.contact.service.plan_reminder.PlanReminderNotification.NOTIFICATION
 import com.ivyclub.contact.service.plan_reminder.PlanReminderNotification.NOTI_PLAN_ID
-import com.ivyclub.contact.ui.main.friend.FriendFragment
 import com.ivyclub.contact.ui.main.friend.FriendFragmentDirections
 import com.ivyclub.contact.ui.onboard.OnBoardingActivity
 import com.ivyclub.contact.ui.password.PasswordActivity
@@ -28,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var getOnBoardingResult: ActivityResultLauncher<Intent>
     private lateinit var getOnPasswordResult: ActivityResultLauncher<Intent>
 
     private lateinit var navController: NavController
@@ -38,7 +36,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         setObserver()
         setNavigation()
         viewModel.checkOnBoarding()
-        setOnBoardingResult()
         viewModel.checkPasswordOnCreate()
         setOnPasswordResult()
     }
@@ -98,26 +95,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         intent = i
     }
 
-    private fun setOnBoardingResult() {
-        getOnBoardingResult = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == RESULT_OK) {
-                viewModel.setShowOnBoardingState(false)
-                val friendFragment =
-                    supportFragmentManager.fragments[0].childFragmentManager.fragments[0]
-                if (friendFragment is FriendFragment) {
-                    friendFragment.loadFriendList()
-                }
-            }
-        }
-    }
-
     private fun setObserver() {
         viewModel.onBoard.observe(this, {
             if (it) {
                 val intent = Intent(this, OnBoardingActivity::class.java)
-                getOnBoardingResult.launch(intent)
+                startActivity(intent)
             }
         })
         viewModel.moveToConfirmPassword.observe(this) {
