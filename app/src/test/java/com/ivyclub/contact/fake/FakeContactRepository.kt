@@ -9,13 +9,32 @@ import java.sql.Date
 class FakeContactRepository : ContactRepository {
 
     private val friendList = mutableListOf<FriendData>()
+    private val groupList = mutableListOf<GroupData>()
 
     override suspend fun loadFriends(): List<FriendData> {
         return friendList
     }
 
     override suspend fun saveFriend(friendData: FriendData) {
-        friendList.add(friendData)
+        if (friendData.id != 0L) {
+            friendList.add(friendData)
+        } else {
+            // id가 default값으로 넘어올 경우
+            val newFriendId = (friendList.size + 1).toLong()
+            with (friendData) {
+                val newFriendData = FriendData(
+                    phoneNumber,
+                    name,
+                    birthday,
+                    groupId,
+                    planList,
+                    isFavorite,
+                    extraInfo,
+                    newFriendId
+                )
+                friendList.add(newFriendData)
+            }
+        }
     }
 
     override suspend fun setFavorite(id: Long, state: Boolean) {
@@ -23,15 +42,8 @@ class FakeContactRepository : ContactRepository {
     }
 
     override suspend fun getFriendDataById(id: Long): FriendData {
-        return FriendData(
-            "",
-            "",
-            "",
-            -1L,
-            emptyList(),
-            true,
-            emptyMap()
-        ) // todo
+        val friendData = friendList.find { it.id == id }
+        return friendData!!
     }
 
     override suspend fun updateFriend(
@@ -42,7 +54,20 @@ class FakeContactRepository : ContactRepository {
         extraInfo: Map<String, String>,
         id: Long
     ) {
-        // todo
+        val friendData = friendList.find { it.id == id }!!
+        val newFriendData = FriendData(
+            phoneNumber,
+            name,
+            birthday,
+            groupId,
+            friendData.planList,
+            friendData.isFavorite,
+            extraInfo,
+            id
+        )
+
+        friendList.remove(friendData)
+        friendList.add(newFriendData)
     }
 
     override fun loadFriendsWithFlow(): Flow<List<FriendData>> {
@@ -60,7 +85,7 @@ class FakeContactRepository : ContactRepository {
     }
 
     override suspend fun getLastFriendId(): Long {
-        return -1L // todo
+        return friendList.size.toLong()
     }
 
     override fun setShowOnBoardingState(state: Boolean) {
@@ -130,11 +155,11 @@ class FakeContactRepository : ContactRepository {
     }
 
     override suspend fun loadGroups(): List<GroupData> {
-        return emptyList() // todo
+        return groupList
     }
 
     override suspend fun saveNewGroup(groupData: GroupData) {
-        // todo
+        groupList.add(groupData)
     }
 
     override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: Long) {

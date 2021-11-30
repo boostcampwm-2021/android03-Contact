@@ -47,13 +47,10 @@ class AddEditFriendFragment :
         binding.viewModel = viewModel
         binding.fragment = this
         binding.ivProfileImage.clipToOutline = true
-        observeGroups()
-        observeExtraInfos()
-        observeRequiredState()
-        observeNameValidation()
-        initClickListener()
-        initBackPressedListener()
-        addPhoneNumberTextChangedListener()
+        setObserver()
+        setClickListener()
+        setBackPressedListener()
+        setPhoneNumberTextChangedListener()
     }
 
     private fun setFriendData() {
@@ -74,7 +71,53 @@ class AddEditFriendFragment :
         }
     }
 
-    private fun initClickListener() {
+    private fun setObserver() {
+        viewModel.groupNameList.observe(viewLifecycleOwner) {
+            initSpinnerAdapter(it)
+            setFriendData()
+        }
+
+        viewModel.isSaveButtonClicked.observe(viewLifecycleOwner) {
+            with(binding) {
+                this@AddEditFriendFragment.viewModel.saveFriendData(
+                    etPhoneNumber.text.toString(),
+                    etName.text.toString(),
+                    tvBirthdayValue.text.toString(),
+                    this@AddEditFriendFragment.viewModel.groupIdList[spnGroup.selectedItemPosition],
+                    extraInfoListAdapter.currentList,
+                    args.friendId
+                )
+                if (args.friendId != -1L) {
+                    this@AddEditFriendFragment.viewModel.saveProfileImage(
+                        currentBitmap,
+                        args.friendId
+                    )
+                } else {
+                    this@AddEditFriendFragment.viewModel.saveProfileImage(currentBitmap, newId)
+                }
+                findNavController().popBackStack()
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.add_edit_success_message),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+        viewModel.extraInfos.observe(viewLifecycleOwner) {
+            extraInfoListAdapter.submitList(it.toMutableList())
+        }
+
+        viewModel.newId.observe(viewLifecycleOwner) {
+            newId = it
+        }
+
+        viewModel.nameValidation.observe(viewLifecycleOwner) {
+            binding.tvNameValidCheck.text = getString(it)
+        }
+    }
+
+    private fun setClickListener() {
         with(binding) {
             ivBackIcon.setOnClickListener {
                 showBackPressedDialog()
@@ -108,7 +151,7 @@ class AddEditFriendFragment :
         }
     }
 
-    private fun addPhoneNumberTextChangedListener() {
+    private fun setPhoneNumberTextChangedListener() {
         binding.etPhoneNumber.addTextChangedListener(PhoneNumberFormattingTextWatcher())
     }
 
@@ -149,63 +192,14 @@ class AddEditFriendFragment :
             }
         }
 
-    private fun observeRequiredState() {
-        viewModel.isSaveButtonClicked.observe(viewLifecycleOwner) {
-            if (it) {
-                with(binding) {
-                    this@AddEditFriendFragment.viewModel.saveFriendData(
-                        etPhoneNumber.text.toString(),
-                        etName.text.toString(),
-                        tvBirthdayValue.text.toString(),
-                        this@AddEditFriendFragment.viewModel.groupIdList[spnGroup.selectedItemPosition],
-                        extraInfoListAdapter.currentList,
-                        args.friendId
-                    )
-                    if(args.friendId != -1L) {
-                        this@AddEditFriendFragment.viewModel.saveProfileImage(currentBitmap, args.friendId)
-                    } else {
-                        this@AddEditFriendFragment.viewModel.saveProfileImage(currentBitmap, newId)
-                    }
-                    findNavController().popBackStack()
-                    Snackbar.make(
-                        binding.root,
-                        getString(R.string.add_edit_success_message),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
-    }
-
-    private fun observeGroups() {
-        viewModel.groupNameList.observe(viewLifecycleOwner) {
-            initSpinnerAdapter(it)
-            setFriendData()
-        }
-    }
-
-    private fun observeExtraInfos() {
-        viewModel.extraInfos.observe(viewLifecycleOwner) {
-            extraInfoListAdapter.submitList(it.toMutableList())
-        }
-        viewModel.newId.observe(viewLifecycleOwner) {
-            newId = it
-        }
-    }
-
-    private fun observeNameValidation() {
-        viewModel.nameValidation.observe(viewLifecycleOwner) {
-            binding.tvNameValidCheck.text = getString(it)
-        }
-    }
-
     private fun showBackPressedDialog() {
+        if (context == null) return
         requireContext().showAlertDialog(getString(R.string.ask_back_while_edit), {
             findNavController().popBackStack()
         })
     }
 
-    private fun initBackPressedListener() {
+    private fun setBackPressedListener() {
         if (activity == null) return
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             showBackPressedDialog()
