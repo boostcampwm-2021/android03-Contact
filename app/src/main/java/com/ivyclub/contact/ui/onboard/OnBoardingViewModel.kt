@@ -12,9 +12,6 @@ import javax.inject.Inject
 class OnBoardingViewModel @Inject constructor(
     private val repository: ContactRepository
 ) : ViewModel() {
-    fun setShowOnBoardingState(state: Boolean) {
-        repository.setShowOnBoardingState(state)
-    }
 
     fun saveDefaultGroup() {
         viewModelScope.launch {
