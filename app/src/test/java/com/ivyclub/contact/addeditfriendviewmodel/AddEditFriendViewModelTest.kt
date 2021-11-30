@@ -1,5 +1,6 @@
 package com.ivyclub.contact.addeditfriendviewmodel
 
+import com.ivyclub.contact.InstantTaskExecutorRule
 import com.ivyclub.contact.R
 import com.ivyclub.contact.fake.FakeContactRepository
 import com.ivyclub.contact.ui.main.add_edit_friend.AddEditFriendViewModel
