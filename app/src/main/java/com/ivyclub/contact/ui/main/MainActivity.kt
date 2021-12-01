@@ -40,11 +40,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         setOnPasswordResult()
     }
 
-    override fun onPause() {
-        super.onPause()
-        viewModel.lock()
-    }
-
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)
@@ -55,6 +50,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
         viewModel.checkPasswordOnResume()
         checkFromNotification()
         checkFromWidget()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.lock()
     }
 
     private fun checkFromNotification() {
