@@ -1,6 +1,5 @@
 package com.ivyclub.contact.ui.onboard
 
-import com.ivyclub.contact.fake.FakeContactRepository
 import com.ivyclub.contact.ui.onboard.notification.NotificationTimeViewModel
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.MyPreference
@@ -20,8 +19,10 @@ import org.mockito.MockitoAnnotations
 class NotificationTimeViewModelTest {
     @Mock
     private lateinit var viewModel: NotificationTimeViewModel
+
     @Mock
     private lateinit var contactPreference: MyPreference
+
     @Mock
     private lateinit var repository: ContactRepository
 
