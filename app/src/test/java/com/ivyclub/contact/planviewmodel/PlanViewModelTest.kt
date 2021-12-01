@@ -6,8 +6,6 @@ import com.ivyclub.contact.ui.main.plan.PlanViewModel
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.SimpleFriendData
 import com.ivyclub.data.model.SimplePlanData
-import junit.framework.Assert.assertNotNull
-import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
@@ -17,6 +15,8 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
