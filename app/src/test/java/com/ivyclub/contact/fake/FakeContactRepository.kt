@@ -182,13 +182,7 @@ class FakeContactRepository : ContactRepository {
 
     override fun loadGroupsWithFlow(): Flow<List<GroupData>> {
         return flow {
-            emit(
-                listOf(
-                    GroupData(
-                        "friend"
-                    )
-                )
-            )
+            emit(groupList)
         }
     }
 
