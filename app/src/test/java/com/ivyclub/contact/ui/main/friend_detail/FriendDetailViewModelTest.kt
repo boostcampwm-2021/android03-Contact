@@ -25,10 +25,6 @@ class FriendDetailViewModelTest {
     var instanceExecutorRule = InstantTaskExecutorRule()
 
     @ExperimentalCoroutinesApi
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
-
-    @ExperimentalCoroutinesApi
     @Before
     fun setup() {
         Dispatchers.setMain(StandardTestDispatcher())
@@ -75,7 +71,7 @@ class FriendDetailViewModelTest {
             viewModel.loadFriendData(1)
         }
         // then : id가 1인 유저의 이름이 mike1 이기때문에 확인
-        assertEquals("mike1", viewModel.friendData.value?.name)
+        assert("mike1" == viewModel.friendData.value?.name)
     }
 
     @ExperimentalCoroutinesApi
@@ -86,7 +82,7 @@ class FriendDetailViewModelTest {
             viewModel.loadFriendData(1)
         }
         // then : id가 1이 아닌 유저의 이름을 반환하면 오류
-        assertNotEquals("mike5", viewModel.friendData.value?.name)
+        assert("mike5" != viewModel.friendData.value?.name)
     }
 
     @ExperimentalCoroutinesApi
@@ -98,7 +94,7 @@ class FriendDetailViewModelTest {
             viewModel.loadFriendData(1)
         }
         // then : id 가 1인 유저의 isFavorite 값이 변경됨
-        assertEquals(true, viewModel.friendData.value?.isFavorite)
+        assert(true == viewModel.friendData.value?.isFavorite)
 
         // when : id가 1인 유저를 즐겨찾기에서 해제했을 때
         runTest {
@@ -106,23 +102,23 @@ class FriendDetailViewModelTest {
             viewModel.loadFriendData(1)
         }
         // then : id 가 1인 유저의 isFavorite 값이 다시 false 로 변경됨
-        assertEquals(false, viewModel.friendData.value?.isFavorite)
+        assert(false == viewModel.friendData.value?.isFavorite)
     }
 
-//    @ExperimentalCoroutinesApi
-//    @Test
-//    fun removeFriendCorrectly() {
-//        // when : id 가 1인 친구가 삭제 되었다
-//        var friendList = listOf<FriendData>()
-//        runTest {
-//            viewModel.deleteFriend(1)
-//            friendList = fakeRepository.loadFriends()
-//        }
-//        // then : id 가 1인 친구는 삭제되었고 1이 아닌 친구는 삭제되지 않는다
-//        val deletedFriend: FriendData? = friendList.find { it.id == 1L }
-//        assertTrue(deletedFriend == null)
-//
-//        val notDeletedFriend: FriendData? = friendList.find { it.id == 2L }
-//        assertTrue(notDeletedFriend != null)
-//    }
+    @ExperimentalCoroutinesApi
+    @Test
+    fun removeFriendCorrectly() {
+        // when : id 가 1인 친구가 삭제 되었다
+        var friendList = listOf<FriendData>()
+        runTest {
+            viewModel.deleteFriend(1)
+            friendList = fakeRepository.loadFriends()
+        }
+        // then : id 가 1인 친구는 삭제되었고 1이 아닌 친구는 삭제되지 않는다
+        val deletedFriend: FriendData? = friendList.find { it.id == 1L }
+        assert(deletedFriend == null)
+
+        val notDeletedFriend: FriendData? = friendList.find { it.id == 2L }
+        assert(notDeletedFriend != null)
+    }
 }
