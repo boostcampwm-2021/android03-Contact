@@ -57,7 +57,7 @@ object Dep {
         const val hilt = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0-RC"
         const val mockito = "org.mockito:mockito-core:3.9.0"
-        const val mockitoInline = "org.mockito:mockito-inline:4.1.0"
+        const val mockitoInline = "org.mockito:mockito-inline:3.5.13"
     }
 
     object Libs {

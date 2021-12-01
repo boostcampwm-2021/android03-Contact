@@ -11,6 +11,10 @@ class FakeContactRepository : ContactRepository {
     private val friendList = mutableListOf<FriendData>()
     private val planList = mutableListOf<PlanData>()
     private val groupList = mutableListOf<GroupData>()
+    private var onBoardingState = false
+    private var notificationStartTime = -1
+    private var notificationEndTime = -1
+    private var isNotificationOff = false
 
     override suspend fun loadFriends(): List<FriendData> {
         return friendList
@@ -22,7 +26,7 @@ class FakeContactRepository : ContactRepository {
         } else {
             // id가 default값으로 넘어올 경우
             val newFriendId = (friendList.size + 1).toLong()
-            with (friendData) {
+            with(friendData) {
                 val newFriendData = FriendData(
                     phoneNumber,
                     name,
@@ -40,7 +44,16 @@ class FakeContactRepository : ContactRepository {
 
     override suspend fun setFavorite(id: Long, state: Boolean) {
         val friend = friendList.find { it.id == id }!!
-        val changedData = FriendData(friend.phoneNumber,friend.name,friend.birthday,friend.groupId,friend.planList,state,friend.extraInfo,friend.id)
+        val changedData = FriendData(
+            friend.phoneNumber,
+            friend.name,
+            friend.birthday,
+            friend.groupId,
+            friend.planList,
+            state,
+            friend.extraInfo,
+            friend.id
+        )
         val index = friendList.indexOf(friend)
         friendList.remove(friend)
         friendList.add(index, changedData)
@@ -94,19 +107,20 @@ class FakeContactRepository : ContactRepository {
     }
 
     override fun setShowOnBoardingState(state: Boolean) {
-        // todo
+        onBoardingState = state
     }
 
     override suspend fun getShowOnBoardingState(): Boolean {
-        return true // todo
+        return onBoardingState
     }
 
     override suspend fun setNotificationTime(start: Int, end: Int) {
-        // todo
+        notificationStartTime = start
+        notificationEndTime = end
     }
 
     override suspend fun setNotificationOnOff(state: Boolean) {
-        // todo
+        isNotificationOff = state
     }
 
     override fun loadPlanListWithFlow(): Flow<List<SimplePlanData>> {
@@ -152,11 +166,11 @@ class FakeContactRepository : ContactRepository {
     }
 
     override fun getStartAlarmHour(): Int {
-        return 0 // todo
+        return notificationStartTime
     }
 
     override fun getEndAlarmHour(): Int {
-        return 0 // todo
+        return notificationEndTime
     }
 
     override suspend fun loadGroups(): List<GroupData> {
@@ -181,13 +195,7 @@ class FakeContactRepository : ContactRepository {
 
     override fun loadGroupsWithFlow(): Flow<List<GroupData>> {
         return flow {
-            emit(
-                listOf(
-                    GroupData(
-                        "friend"
-                    )
-                )
-            )
+            emit(groupList)
         }
     }
 

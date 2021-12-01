@@ -34,9 +34,4 @@ class OnBoardingActivity : BaseActivity<ActivityOnBoardingBinding>(R.layout.acti
             SkipDialog(ok, this).showDialog()
         }
     }
-
-    override fun onDestroy() {
-        viewModel.setShowOnBoardingState(false)
-        super.onDestroy()
-    }
 }
