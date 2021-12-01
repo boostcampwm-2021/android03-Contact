@@ -23,6 +23,7 @@ class OnBoardingActivity : BaseActivity<ActivityOnBoardingBinding>(R.layout.acti
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.saveDefaultGroup()
+        viewModel.setFirstOnBoardingStateFalse()
     }
 
     override fun onBackPressed() {

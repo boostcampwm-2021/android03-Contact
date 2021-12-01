@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: ContactRepository
-): ViewModel() {
+) : ViewModel() {
 
     private lateinit var password: String
     private var lock = false
@@ -22,18 +22,9 @@ class MainViewModel @Inject constructor(
     private val _moveToConfirmPassword = SingleLiveEvent<Unit>()
     val moveToConfirmPassword: LiveData<Unit> get() = _moveToConfirmPassword
 
-    fun checkOnBoarding(){
+    fun checkOnBoarding() {
         viewModelScope.launch {
             _showOnBoarding.value = repository.getShowOnBoardingState() != false
-        }
-    }
-
-    /*
-    OnBoardingActivity 가 실행되어야 하는 여부를 세팅
-     */
-    fun setShowOnBoardingState(state: Boolean) {
-        viewModelScope.launch {
-            repository.setShowOnBoardingState(state)
         }
     }
 

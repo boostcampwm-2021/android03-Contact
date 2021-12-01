@@ -11,14 +11,21 @@ import javax.inject.Inject
 @HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val repository: ContactRepository
-): ViewModel(){
+) : ViewModel() {
     fun setShowOnBoardingState(state: Boolean) {
         repository.setShowOnBoardingState(state)
     }
 
     fun saveDefaultGroup() {
         viewModelScope.launch {
-            repository.saveNewGroup(GroupData("친구",1))
+            repository.saveNewGroup(GroupData("친구", 1))
+        }
+    }
+
+    // 첫 실행이 아닌 것을 false로 셋팅
+    fun setFirstOnBoardingStateFalse() {
+        viewModelScope.launch {
+            repository.setShowOnBoardingState(false)
         }
     }
 }
