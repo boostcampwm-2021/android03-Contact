@@ -14,6 +14,7 @@ class FakeContactRepository : ContactRepository {
     private var onBoardingState = false
     private var notificationStartTime = -1
     private var notificationEndTime = -1
+    private var isNotificationOff = false
 
     override suspend fun loadFriends(): List<FriendData> {
         return friendList
@@ -119,7 +120,7 @@ class FakeContactRepository : ContactRepository {
     }
 
     override suspend fun setNotificationOnOff(state: Boolean) {
-        // todo
+        isNotificationOff = state
     }
 
     override fun loadPlanListWithFlow(): Flow<List<SimplePlanData>> {
