@@ -1,7 +1,7 @@
 package com.ivyclub.contact.planviewmodel
 
 import android.text.format.DateUtils
-import com.ivyclub.contact.addeditfriendviewmodel.InstantTaskExecutorRule
+import com.ivyclub.contact.InstantTaskExecutorRule
 import com.ivyclub.contact.ui.main.plan.PlanViewModel
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.SimpleFriendData
