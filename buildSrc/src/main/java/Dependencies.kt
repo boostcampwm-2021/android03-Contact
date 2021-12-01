@@ -18,7 +18,7 @@ object Versions {
     const val hilt = "2.38.1"
     const val hiltViewModel = "1.0.0-alpha03"
     const val flexbox = "3.0.0"
-    const val work = "2.7.0"
+    const val work = "2.7.1"
     const val hiltWork = "1.0.0-alpha03"
     const val lifeCycle = "2.4.0"
 }
