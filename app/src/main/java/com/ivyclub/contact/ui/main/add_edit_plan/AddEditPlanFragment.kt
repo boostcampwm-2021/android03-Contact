@@ -17,6 +17,7 @@ import com.ivyclub.data.model.SimpleFriendData
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
 import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class AddEditPlanFragment :
@@ -37,7 +38,7 @@ class AddEditPlanFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewModel = viewModel
-        binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date))
+        binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault())
 
         initBackPressedCallback()
         checkFrom()
