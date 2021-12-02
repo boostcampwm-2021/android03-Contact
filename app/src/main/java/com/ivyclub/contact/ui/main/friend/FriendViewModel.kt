@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.model.FriendListData
 import com.ivyclub.contact.util.FriendListViewType
+import com.ivyclub.contact.util.StringManager
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.GroupData
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FriendViewModel @Inject constructor(
-    private val repository: ContactRepository
+    private val repository: ContactRepository,
 ) : ViewModel() {
 
     private val _isSearchViewVisible = MutableStateFlow(false)
@@ -171,7 +172,7 @@ class FriendViewModel @Inject constructor(
                 id = it.id,
                 phoneNumber = it.phoneNumber,
                 name = it.name,
-                groupName = groupData[it.groupId] ?: "친구", // default로 친구에 저장
+                groupName = groupData[it.groupId] ?: StringManager.getString("친구"), // default로 친구에 저장
                 viewType = FriendListViewType.FRIEND,
                 isFavoriteFriend = it.isFavorite
             )
@@ -217,12 +218,12 @@ class FriendViewModel @Inject constructor(
         _isFriendDatabaseEmpty.value = friendList.isEmpty()
         val favoriteFriendsListData =
             friendList.filter { it.isFavoriteFriend }.map { it.copy() }
-        favoriteFriendsListData.forEach { it.groupName = "즐겨찾기" }
+        favoriteFriendsListData.forEach { it.groupName = StringManager.getString("즐겨찾기") }
         val definedFriendList =
             friendList.groupBy { it.groupName }.toSortedMap().values.flatten()
-                .filterNot { it.groupName == "친구" }.toMutableList() // 그룹 지정이 된 친구 리스트
+                .filterNot { it.groupName == StringManager.getString("친구") }.toMutableList() // 그룹 지정이 된 친구 리스트
         val undefinedFriendList =
-            friendList.filter { it.groupName == "친구" } // 그룹 지정이 되지 않은 친구 리스트
+            friendList.filter { it.groupName == StringManager.getString("친구") } // 그룹 지정이 되지 않은 친구 리스트
         val sortedFriendList =
             (favoriteFriendsListData + definedFriendList + undefinedFriendList).toMutableList()
         val newFriendList = sortedFriendList.addGroupView()
