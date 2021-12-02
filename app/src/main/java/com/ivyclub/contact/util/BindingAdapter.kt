@@ -3,6 +3,7 @@ package com.ivyclub.contact.util
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.signature.ObjectKey
 import com.ivyclub.contact.R
 import java.io.File
 
@@ -16,6 +17,7 @@ fun bindImage(
     if (targetFile.exists()) {
         Glide.with(imageView)
             .load(imageString)
+            .signature(ObjectKey(targetFile.lastModified()))
             .into(imageView)
     } else {
         Glide.with(imageView)
