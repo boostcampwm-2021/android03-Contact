@@ -46,21 +46,16 @@ class FriendViewModel @Inject constructor(
     fun getFriendDataWithFlow() {
         viewModelScope.launch {
             repository.loadFriendsWithFlow()
-                .combine(repository.loadGroupsWithFlow()
-                    .onEach { newGroupDataList ->
-                        groupData.clear()
-                        newGroupDataList.forEach { newGroupData ->
-                            groupData[newGroupData.id] = newGroupData.name
-                        }
-                    }) { newFriendList, newGroupList ->
-                    Pair(newFriendList, newGroupList)
-                }
-                .transform { newData ->
-                    emit(Pair(newData.first.toFriendListData(), newData.second))
+                .combineTransform(repository.loadGroupsWithFlow()) { newFriendList, newGroupList ->
+                    groupData.clear()
+                    newGroupList.forEach { newGroupData ->
+                        groupData[newGroupData.id] = newGroupData.name
+                    }
+                    emit(newFriendList.toFriendListData())
                 }
                 .buffer()
-                .collect { newData ->
-                    modifyToListType(newData.first)
+                .collect { newFriendList ->
+                    modifyToListType(newFriendList)
                 }
         }
     }
