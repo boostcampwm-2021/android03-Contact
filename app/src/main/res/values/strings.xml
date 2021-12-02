@@ -157,4 +157,7 @@
     <string name="add_edit_friend_fragment_birthday_value">%s.%s.%s</string>
     <string name="friend_fragment_moved_successfully">성공적으로 옮겨졌습니다.</string>
     <string name="notification_time_fragment_hour">%s시</string>
+    <string name="skip_dialog_seriously_end_question">정말 초기 설정을 종료하시겠습니까?</string>
+    <string name="skip_dialog_yes">네</string>
+    <string name="skip_dialog_no">아니오</string>
 </resources>

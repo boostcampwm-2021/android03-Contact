@@ -8,14 +8,19 @@ object StringManager {
             "en" -> { // 영어일 때
                 return when (targetString) {
                     "친구" -> "friend"
-                    else -> "favorite"
+                    "즐겨찾기" -> "favorite"
+                    "일" -> "Sunday"
+                    "월" -> "Monday"
+                    "화" -> "Tuesday"
+                    "수" -> "Wednesday"
+                    "목" -> "Thursday"
+                    "금" -> "Friday"
+                    "토" -> "Saturday"
+                    else -> "-"
                 }
             }
             "kr" -> { // 한국어일 때
-                return when (targetString) {
-                    "친구" -> "친구"
-                    else -> "즐겨찾기"
-                }
+                return targetString
             }
             else -> { // 지원되지 않는 언어일 때
                 return "-"
