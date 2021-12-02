@@ -6,6 +6,7 @@ import com.ivyclub.contact.model.FriendListData
 import com.ivyclub.contact.util.FriendListViewType
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
+import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -46,21 +47,13 @@ class FriendViewModel @Inject constructor(
     fun getFriendDataWithFlow() {
         viewModelScope.launch {
             repository.loadFriendsWithFlow()
-                .combine(repository.loadGroupsWithFlow()
-                    .onEach { newGroupDataList ->
-                        groupData.clear()
-                        newGroupDataList.forEach { newGroupData ->
-                            groupData[newGroupData.id] = newGroupData.name
-                        }
-                    }) { newFriendList, newGroupList ->
-                    Pair(newFriendList, newGroupList)
-                }
-                .transform { newData ->
-                    emit(Pair(newData.first.toFriendListData(), newData.second))
+                .combineTransform(repository.loadGroupsWithFlow()) { newFriendList, newGroupList ->
+                    resetGroupData(newGroupList)
+                    emit(newFriendList.toFriendListData())
                 }
                 .buffer()
-                .collect { newData ->
-                    modifyToListType(newData.first)
+                .collect { newFriendList ->
+                    modifyToListType(newFriendList)
                 }
         }
     }
@@ -209,10 +202,14 @@ class FriendViewModel @Inject constructor(
     private fun getGroupNameData() {
         viewModelScope.launch {
             val newList = repository.loadGroupsWithFlow().first()
-            groupData.clear()
-            newList.forEach { newGroupData ->
-                groupData[newGroupData.id] = newGroupData.name
-            }
+            resetGroupData(newList)
+        }
+    }
+
+    private fun resetGroupData(groupList: List<GroupData>) {
+        groupData.clear()
+        groupList.forEach { newGroupData ->
+            groupData[newGroupData.id] = newGroupData.name
         }
     }
 
