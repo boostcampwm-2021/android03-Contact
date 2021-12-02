@@ -61,11 +61,16 @@ class AddEditFriendFragment :
                     etName.setText(friendData.name)
                     etPhoneNumber.setText(friendData.phoneNumber)
                     tvBirthdayValue.text = friendData.birthday
-                    spnGroup.setSelection(this@AddEditFriendFragment.viewModel.groupIdList.indexOf(friendData.groupId))
+                    spnGroup.setSelection(
+                        this@AddEditFriendFragment.viewModel.groupIdList.indexOf(
+                            friendData.groupId
+                        )
+                    )
                 }
                 viewModel.addExtraInfoList(friendData.extraInfo)
             }
-            viewModel.loadProfileImage(args.friendId)?.let { binding.ivProfileImage.setImageBitmap(it) }
+            viewModel.loadProfileImage(args.friendId)
+                ?.let { binding.ivProfileImage.setImageBitmap(it) }
         } else {
             viewModel.createNewId()
         }
@@ -126,7 +131,12 @@ class AddEditFriendFragment :
             tvBirthdayValue.setOnClickListener {
                 val today = Date(System.currentTimeMillis())
                 val listener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                    tvBirthdayValue.text = "${year}.${month + 1}.${day}"
+                    tvBirthdayValue.text = String.format(
+                        getString(R.string.add_edit_friend_fragment_birthday_value),
+                        year,
+                        month + 1,
+                        day
+                    )
                     this@AddEditFriendFragment.viewModel.showClearButtonVisible(true)
                 }
                 DatePickerDialog(
