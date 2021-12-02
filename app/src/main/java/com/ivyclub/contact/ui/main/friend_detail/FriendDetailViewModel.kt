@@ -1,6 +1,5 @@
 package com.ivyclub.contact.ui.main.friend_detail
 
-import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

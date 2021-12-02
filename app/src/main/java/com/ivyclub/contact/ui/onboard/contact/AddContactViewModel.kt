@@ -48,10 +48,4 @@ class AddContactViewModel @Inject constructor(
     fun getContactList(): MutableList<PhoneContactData> {
         return contactListManager.getContact()
     }
-
-//    sealed class ContactSavingUiState {
-//        object Loading : ContactSavingUiState()
-//        object SavingDone : ContactSavingUiState()
-//        object Empty : ContactSavingUiState()
-//    }
 }

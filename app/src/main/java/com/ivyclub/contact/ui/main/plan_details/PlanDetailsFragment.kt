@@ -23,6 +23,7 @@ import com.ivyclub.contact.util.showAlertDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
 import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class PlanDetailsFragment :
@@ -35,7 +36,7 @@ class PlanDetailsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewModel = viewModel
-        binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date))
+        binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault())
 
         fetchPlanDetails()
         setObservers()
@@ -134,7 +135,7 @@ class PlanDetailsFragment :
         val planTime = bundle.getLong(KEY_PLAN_TIME, -1L)
         if (planTime == -1L) return
         val strPlanTime =
-            SimpleDateFormat(getString(R.string.format_simple_date)).format(Date(planTime))
+            SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault()).format(Date(planTime))
         val msgPlanTime = String.format(getString(R.string.format_share_plan_time), strPlanTime)
 
         val planPlace = bundle.getString(KEY_PLAN_PLACE)

@@ -134,8 +134,8 @@
     <string name="group_dialog_name_edit">그룹 이름 변경</string>
     <string name="manage_group_delete">그룹 \'%s\'을(를) 삭제하시겠습니까?</string>
     <string name="manage_group_success_edit_name">그룹 이름이 \'%s\'(으)로 변경되었습니다.</string>
-    <string name="fragment_intro_introduce_string_1">안녕하세요\n친구와 지인의 정보를 기록할 수 있는 컨택트입니다.</string>
-    <string name="fragment_intro_introduce_string_2">지인과의 약속을 저장해주시면,\n기억하고 있다가 해당 약속을 알림으로 알려드릴게요.</string>
+    <string name="fragment_intro_introduce_string_1">안녕하세요\n친구와 지인의 정보를\n기록할 수 있는 컨택트입니다.</string>
+    <string name="fragment_intro_introduce_string_2">지인과의 약속을 저장해주시면,\n기억하고 있다가 알림으로 알려드릴게요.</string>
     <string name="fragment_intro_introduce_string_3">걱정하지 마세요.\n컨택을 보호하기 위해 비밀번호와\n지문인식 기능을 이용할 수 있어요.</string>
     <string name="fragment_intro_introduce_string_4">지금 바로 시작해봐요.</string>
     <string name="item_intro_start">시작하기</string>
@@ -156,4 +156,5 @@
     <string name="format_share_plan_content">내용 : %s\n</string>
     <string name="add_edit_friend_fragment_birthday_value">%s.%s.%s</string>
     <string name="friend_fragment_moved_successfully">성공적으로 옮겨졌습니다.</string>
+    <string name="notification_time_fragment_hour">%s시</string>
 </resources>
