@@ -6,6 +6,7 @@ import com.ivyclub.contact.model.FriendListData
 import com.ivyclub.contact.util.FriendListViewType
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.FriendData
+import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -47,10 +48,7 @@ class FriendViewModel @Inject constructor(
         viewModelScope.launch {
             repository.loadFriendsWithFlow()
                 .combineTransform(repository.loadGroupsWithFlow()) { newFriendList, newGroupList ->
-                    groupData.clear()
-                    newGroupList.forEach { newGroupData ->
-                        groupData[newGroupData.id] = newGroupData.name
-                    }
+                    resetGroupData(newGroupList)
                     emit(newFriendList.toFriendListData())
                 }
                 .buffer()
@@ -204,10 +202,14 @@ class FriendViewModel @Inject constructor(
     private fun getGroupNameData() {
         viewModelScope.launch {
             val newList = repository.loadGroupsWithFlow().first()
-            groupData.clear()
-            newList.forEach { newGroupData ->
-                groupData[newGroupData.id] = newGroupData.name
-            }
+            resetGroupData(newList)
+        }
+    }
+
+    private fun resetGroupData(groupList: List<GroupData>) {
+        groupData.clear()
+        groupList.forEach { newGroupData ->
+            groupData[newGroupData.id] = newGroupData.name
         }
     }
 
