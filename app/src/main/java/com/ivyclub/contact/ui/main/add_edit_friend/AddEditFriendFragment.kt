@@ -61,11 +61,16 @@ class AddEditFriendFragment :
                     etName.setText(friendData.name)
                     etPhoneNumber.setText(friendData.phoneNumber)
                     tvBirthdayValue.text = friendData.birthday
-                    spnGroup.setSelection(this@AddEditFriendFragment.viewModel.groupIdList.indexOf(friendData.groupId))
+                    spnGroup.setSelection(
+                        this@AddEditFriendFragment.viewModel.groupIdList.indexOf(
+                            friendData.groupId
+                        )
+                    )
                 }
                 viewModel.addExtraInfoList(friendData.extraInfo)
             }
-            viewModel.loadProfileImage(args.friendId)?.let { binding.ivProfileImage.setImageBitmap(it) }
+            viewModel.loadProfileImage(args.friendId)
+                ?.let { binding.ivProfileImage.setImageBitmap(it) }
         } else {
             viewModel.createNewId()
         }
@@ -76,7 +81,6 @@ class AddEditFriendFragment :
             initSpinnerAdapter(it)
             setFriendData()
         }
-
         viewModel.isSaveButtonClicked.observe(viewLifecycleOwner) {
             with(binding) {
                 this@AddEditFriendFragment.viewModel.saveFriendData(
@@ -103,15 +107,12 @@ class AddEditFriendFragment :
                 ).show()
             }
         }
-
         viewModel.extraInfos.observe(viewLifecycleOwner) {
             extraInfoListAdapter.submitList(it.toMutableList())
         }
-
         viewModel.newId.observe(viewLifecycleOwner) {
             newId = it
         }
-
         viewModel.nameValidation.observe(viewLifecycleOwner) {
             binding.tvNameValidCheck.text = getString(it)
         }
@@ -122,11 +123,15 @@ class AddEditFriendFragment :
             ivBackIcon.setOnClickListener {
                 showBackPressedDialog()
             }
-
             tvBirthdayValue.setOnClickListener {
                 val today = Date(System.currentTimeMillis())
                 val listener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                    tvBirthdayValue.text = "${year}.${month + 1}.${day}"
+                    tvBirthdayValue.text = String.format(
+                        getString(R.string.add_edit_friend_fragment_birthday_value),
+                        year,
+                        month + 1,
+                        day
+                    )
                     this@AddEditFriendFragment.viewModel.showClearButtonVisible(true)
                 }
                 DatePickerDialog(
@@ -137,15 +142,13 @@ class AddEditFriendFragment :
                     today.getDayOfMonth()
                 ).show()
             }
-
             ivClearBirthday.setOnClickListener {
                 tvBirthdayValue.text = ""
                 this@AddEditFriendFragment.viewModel.showClearButtonVisible(false)
             }
-
             ivProfileImage.setOnClickListener {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
-                intent.setType("image/*")
+                intent.type = "image/*"
                 filterActivityLauncher.launch(intent)
             }
         }
@@ -163,30 +166,27 @@ class AddEditFriendFragment :
                 try {
                     currentImageUri?.let {
                         activity?.let {
-                            if (Build.VERSION.SDK_INT < 28) {
+                            currentBitmap = if (Build.VERSION.SDK_INT < 28) {
                                 val bitmap = MediaStore.Images.Media.getBitmap(
                                     it.contentResolver,
                                     currentImageUri
                                 )
                                 binding.ivProfileImage.setImageBitmap(bitmap)
-                                currentBitmap = bitmap
+                                bitmap
                             } else {
                                 val source =
                                     ImageDecoder.createSource(it.contentResolver, currentImageUri)
                                 val bitmap = ImageDecoder.decodeBitmap(source)
                                 binding.ivProfileImage.setImageBitmap(bitmap)
-                                currentBitmap = bitmap
+                                bitmap
                             }
                         }
-
                     }
-
-
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             } else if (activityResult.resultCode == RESULT_CANCELED) {
-                Toast.makeText(context, "사진 선택 취소", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "사진 선택 취소", Toast.LENGTH_LONG).show()
             } else {
                 Log.d("ActivityResult", "something wrong")
             }

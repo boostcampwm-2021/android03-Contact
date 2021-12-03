@@ -134,8 +134,8 @@
     <string name="group_dialog_name_edit">그룹 이름 변경</string>
     <string name="manage_group_delete">그룹 \'%s\'을(를) 삭제하시겠습니까?</string>
     <string name="manage_group_success_edit_name">그룹 이름이 \'%s\'(으)로 변경되었습니다.</string>
-    <string name="fragment_intro_introduce_string_1">안녕하세요 친구와 지인의 정보를 기록할 수 있는 컨택트입니다.</string>
-    <string name="fragment_intro_introduce_string_2">지인과의 약속을 저장해주시면, 기억하고 있다가 해당 약속을 알림으로 알려드릴게요.</string>
+    <string name="fragment_intro_introduce_string_1">안녕하세요\n친구와 지인의 정보를\n기록할 수 있는 컨택트입니다.</string>
+    <string name="fragment_intro_introduce_string_2">지인과의 약속을 저장해주시면,\n기억하고 있다가 알림으로 알려드릴게요.</string>
     <string name="fragment_intro_introduce_string_3">걱정하지 마세요.\n컨택을 보호하기 위해 비밀번호와\n지문인식 기능을 이용할 수 있어요.</string>
     <string name="fragment_intro_introduce_string_4">지금 바로 시작해봐요.</string>
     <string name="item_intro_start">시작하기</string>
@@ -148,10 +148,16 @@
     <string name="group_dialog_success_delete_group">그룹 \'%s\'이(가) 삭제되었습니다.</string>
     <string name="add_edit_friend_over_length">이름은 15자 이내로 입력해주세요.</string>
     <string name="see_details">자세히 보기</string>
-    <string name="format_share_plan_to_participants">약속을 공유합니다.  %s 그럼, 이때 만나요!  -%s-</string>
-    <string name="format_share_plan_title">"약속 주제 : %s "</string>
-    <string name="format_share_plan_time">"일시 : %s "</string>
-    <string name="format_share_plan_place">"장소 : %s "</string>
     <string name="fragment_dialog_request_permission_cant_get_contacts">현재 연락처를 가져올 수 없습니다.</string>
-    <string name="format_share_plan_content">내용 : %s</string>
+    <string name="format_share_plan_to_participants">약속을 공유합니다.\n\n%s\n그럼, 이때 만나요!\n\n-%s-</string>
+    <string name="format_share_plan_title">약속 주제 : %s\n</string>
+    <string name="format_share_plan_time">일시 : %s\n</string>
+    <string name="format_share_plan_place">장소 : %s\n</string>
+    <string name="format_share_plan_content">내용 : %s\n</string>
+    <string name="add_edit_friend_fragment_birthday_value">%s.%s.%s</string>
+    <string name="friend_fragment_moved_successfully">성공적으로 옮겨졌습니다.</string>
+    <string name="notification_time_fragment_hour">%s시</string>
+    <string name="skip_dialog_seriously_end_question">정말 초기 설정을 종료하시겠습니까?</string>
+    <string name="skip_dialog_yes">네</string>
+    <string name="skip_dialog_no">아니오</string>
 </resources>

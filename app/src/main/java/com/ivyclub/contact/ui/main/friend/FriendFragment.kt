@@ -190,7 +190,11 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
             val result = bundle.getLong("bundleKey")
             viewModel.updateFriendsGroup(result) // 뷰모델에서 클릭 된 아이템 처리 해제
             friendListAdapter.clearLongClickedItemCount() // 리스트 어댑터에서 클릭 된 아이템 처리 해제
-            Snackbar.make(binding.root, "성공적으로 옮겨졌습니다.", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(
+                binding.root,
+                getString(R.string.friend_fragment_moved_successfully),
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
     }
 

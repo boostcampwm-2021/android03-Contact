@@ -2,6 +2,7 @@ package com.ivyclub.contact.ui.onboard
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ivyclub.contact.util.StringManager
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.GroupData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,7 @@ class OnBoardingViewModel @Inject constructor(
 
     fun saveDefaultGroup() {
         viewModelScope.launch {
-            repository.saveNewGroup(GroupData("친구", 1))
+            repository.saveNewGroup(GroupData(StringManager.getString("친구"), 1))
         }
     }
 
