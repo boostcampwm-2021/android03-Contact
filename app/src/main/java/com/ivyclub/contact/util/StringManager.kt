@@ -10,8 +10,8 @@ object StringManager {
             }
             else -> { // 영어이거나 지원되지 않는 언어일 때
                 return when (targetString) {
-                    "친구" -> "friend"
-                    "즐겨찾기" -> "favorite"
+                    "친구" -> "Friend"
+                    "즐겨찾기" -> "Favorite"
                     "일" -> "Sunday"
                     "월" -> "Monday"
                     "화" -> "Tuesday"
