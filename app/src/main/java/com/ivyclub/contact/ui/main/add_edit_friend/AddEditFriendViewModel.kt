@@ -79,15 +79,19 @@ class AddEditFriendViewModel @Inject constructor(val repository: ContactReposito
     }
 
     fun checkNameValid(inputName: String) {
-        if (inputName.isEmpty()) {
-            _nameValidation.value = R.string.add_edit_friend_required_check
-            isNameValid.value = false
-        } else if (15 < inputName.length) {
-            _nameValidation.value = R.string.add_edit_friend_over_length
-            isNameValid.value = false
-        } else {
-            _nameValidation.value = R.string.empty_string
-            isNameValid.value = true
+        when {
+            inputName.isEmpty() -> {
+                _nameValidation.value = R.string.add_edit_friend_required_check
+                isNameValid.value = false
+            }
+            15 < inputName.length -> {
+                _nameValidation.value = R.string.add_edit_friend_over_length
+                isNameValid.value = false
+            }
+            else -> {
+                _nameValidation.value = R.string.empty_string
+                isNameValid.value = true
+            }
         }
     }
 

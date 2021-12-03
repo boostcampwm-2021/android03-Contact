@@ -37,7 +37,7 @@ class NotificationTimeFragment :
         with(binding.rsTimeRange) {
             values = listOf(8f, 22f)
             setLabelFormatter { value: Float ->
-                return@setLabelFormatter "${value.roundToInt()}시"
+                return@setLabelFormatter getString(R.string.notification_time_fragment_hour, value.roundToInt().toString())
             }
         }
     }

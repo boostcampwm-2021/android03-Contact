@@ -1,6 +1,5 @@
 package com.ivyclub.contact.ui.main.settings
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.ivyclub.data.MyPreference
 import dagger.hilt.android.lifecycle.HiltViewModel
