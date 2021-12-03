@@ -45,7 +45,7 @@ class OnBoardingViewModelTest {
         }
         runTest {
             val firstInputGroup = fakeRepository.loadGroupsWithFlow().first()[0]
-            assert(firstInputGroup.name == "-")
+            assert(firstInputGroup.name == "friend")
             assert(firstInputGroup.id == 1L)
         }
     }

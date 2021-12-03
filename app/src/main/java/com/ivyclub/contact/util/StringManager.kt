@@ -5,7 +5,10 @@ import java.util.*
 object StringManager {
     fun getString(targetString: String): String {
         when (Locale.getDefault().language) {
-            "en" -> { // 영어일 때
+            "kr" -> { // 한국어일 때
+                return targetString
+            }
+            else -> { // 영어이거나 지원되지 않는 언어일 때
                 return when (targetString) {
                     "친구" -> "friend"
                     "즐겨찾기" -> "favorite"
@@ -18,12 +21,6 @@ object StringManager {
                     "토" -> "Saturday"
                     else -> "-"
                 }
-            }
-            "kr" -> { // 한국어일 때
-                return targetString
-            }
-            else -> { // 지원되지 않는 언어일 때
-                return "-"
             }
         }
     }
