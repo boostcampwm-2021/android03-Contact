@@ -12,13 +12,13 @@ object StringManager {
                 return when (targetString) {
                     "친구" -> "Friend"
                     "즐겨찾기" -> "Favorite"
-                    "일" -> "Sunday"
-                    "월" -> "Monday"
-                    "화" -> "Tuesday"
-                    "수" -> "Wednesday"
-                    "목" -> "Thursday"
-                    "금" -> "Friday"
-                    "토" -> "Saturday"
+                    "일" -> "Sun"
+                    "월" -> "Mon"
+                    "화" -> "Tue"
+                    "수" -> "Wed"
+                    "목" -> "Thu"
+                    "금" -> "Fri"
+                    "토" -> "Sat"
                     else -> "-"
                 }
             }
