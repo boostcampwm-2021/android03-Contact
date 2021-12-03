@@ -22,7 +22,7 @@
     <string name="format_friend_count_etc">%s and %d others</string>
     <string name="item_group_divider_folder">group folder</string>
     <string name="item_friend_profile_profile_image">Profile Image</string>
-    <string name="format_simple_date">yyyy-MM-dd-HH-mm</string>
+    <string name="format_simple_date">yyyy/MM/dd HH:mm</string>
     <string name="plan_what">Plan content</string>
     <string name="plan_where">Where</string>
     <string name="plan_who">With</string>
