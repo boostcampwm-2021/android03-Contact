@@ -32,4 +32,12 @@ object StringManager {
             "$planDayOfMonth $planDayOfWeek"
         }
     }
+
+    fun getMonthFormatBy(month: Int): String {
+        return if (Locale.getDefault().language == "ko") { // 한글일 때
+            "${month}월"
+        } else { // 영어가 그 외 언어일 때
+            Month.EngMonth.values()[month - 1].name
+        }
+    }
 }
