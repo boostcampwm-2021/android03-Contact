@@ -8,15 +8,10 @@ plugins {
 }
 
 android {
-    compileSdk = Apps.compileSdk
-
     defaultConfig {
         applicationId = "com.ivyclub.contact"
-        minSdk = Apps.minSdk
-        targetSdk = Apps.targetSdk
         versionCode = Apps.versionCode
         versionName = Apps.versionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
