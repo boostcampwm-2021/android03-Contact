@@ -7,7 +7,7 @@ object Apps {
 }
 
 object Versions {
-    const val gradle = "7.0.0"
+    const val gradle = "7.0.3"
     const val kotlin = "1.5.31"
     const val appcompat = "1.3.1"
     const val junit = "4.13.2"
@@ -24,6 +24,7 @@ object Versions {
 }
 
 object Dep {
+    const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.gradle}"
     object AndroidX {
         const val appcompat = "androidx.appcompat:appcompat:1.4.0"
         const val core = "androidx.core:core-ktx:1.6.0"
@@ -34,8 +35,6 @@ object Dep {
         const val navigationFragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
         const val activityKtx = "androidx.activity:activity-ktx:${Versions.activity}"
         const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragment}"
-        const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"
-        const val coroutineCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
         const val viewpager2 = "androidx.viewpager2:viewpager2:1.0.0"
         const val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
         const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
@@ -47,6 +46,14 @@ object Dep {
         const val hiltWork = "androidx.hilt:hilt-work:${Versions.hiltWork}"
         const val biometric = "androidx.biometric:biometric:1.2.0-alpha04"
         const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifeCycle}"
+        const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
+    }
+
+    object Kotlin {
+        const val gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
+        const val coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9"
+        const val coroutineCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+        const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     }
 
     object Test {
@@ -61,7 +68,6 @@ object Dep {
     }
 
     object Libs {
-        const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
         const val glide = "com.github.bumptech.glide:glide:4.12.0"
         const val gson = "com.google.code.gson:gson:2.8.8"
         const val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
@@ -69,6 +75,7 @@ object Dep {
         const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltViewModel}"
         const val hiltViewModelCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltViewModel}"
         const val hiltWorkCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltWork}"
+        const val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
         const val flexboxLayout = "com.google.android.flexbox:flexbox:${Versions.flexbox}"
         const val indicator = "com.tbuonomo:dotsindicator:4.2"
         const val lottie = "com.airbnb.android:lottie:4.2.1"
