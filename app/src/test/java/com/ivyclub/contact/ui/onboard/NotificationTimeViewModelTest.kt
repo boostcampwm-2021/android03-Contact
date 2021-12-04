@@ -2,7 +2,7 @@ package com.ivyclub.contact.ui.onboard
 
 import com.ivyclub.contact.ui.onboard.notification.NotificationTimeViewModel
 import com.ivyclub.data.ContactRepository
-import com.ivyclub.data.MyPreference
+import com.ivyclub.data.ContactPreference
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -21,7 +21,7 @@ class NotificationTimeViewModelTest {
     private lateinit var viewModel: NotificationTimeViewModel
 
     @Mock
-    private lateinit var contactPreference: MyPreference
+    private lateinit var contactPreference: ContactPreference
 
     @Mock
     private lateinit var repository: ContactRepository

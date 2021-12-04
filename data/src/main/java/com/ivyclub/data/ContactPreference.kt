@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MyPreference @Inject constructor(@ApplicationContext context: Context) {
+class ContactPreference @Inject constructor(@ApplicationContext context: Context) {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun setNotificationOnOff(onOff: Boolean) {
