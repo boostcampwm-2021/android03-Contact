@@ -1,15 +1,12 @@
 package com.ivyclub.data
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-@RequiresApi(Build.VERSION_CODES.GINGERBREAD)
 class MyPreference @Inject constructor(@ApplicationContext context: Context) {
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
