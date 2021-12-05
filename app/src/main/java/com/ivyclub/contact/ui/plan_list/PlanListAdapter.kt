@@ -1,5 +1,6 @@
 package com.ivyclub.contact.ui.plan_list
 
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -10,6 +11,8 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ItemPlanListBinding
 import com.ivyclub.contact.databinding.ItemPlanListHeaderBinding
 import com.ivyclub.contact.util.DAY_IN_MILLIS
+import com.ivyclub.contact.util.StringManager.getDateFormatBy
+import com.ivyclub.contact.util.StringManager.getMonthFormatBy
 import com.ivyclub.contact.util.binding
 import com.ivyclub.contact.util.setFriendChips
 import kotlin.math.abs
@@ -78,8 +81,9 @@ class PlanListAdapter(
         return currentItem.planMonth != lastItem.planMonth || currentItem.planYear != lastItem.planYear
     }
 
-    fun getHeaderView(rv: RecyclerView, position: Int): View? {
+    fun getHeaderView(rv: RecyclerView, position: Int): View {
         val binding = rv.binding<ItemPlanListHeaderBinding>(R.layout.item_plan_list_header)
+        binding.tvPlanMonth.text = getMonthFormatBy(getItem(position).planMonth)
         binding.viewModel = getItem(position)
         binding.executePendingBindings()
         return binding.root
@@ -103,6 +107,13 @@ class PlanListAdapter(
             planId = itemViewModel.id
 
             with(binding) {
+                // todo 앱 사용 중간에 언어를 바꾸는 것 감지하고 대응
+                tvPlanDate.text =
+                    getDateFormatBy(
+                        itemViewModel.planDayOfMonth.toString(),
+                        itemViewModel.planDayOfWeek
+                    )
+                tvPlanMonth.text = getMonthFormatBy(itemViewModel.planMonth)
                 viewModel = itemViewModel
                 cgPlanFriends.setFriendChips(itemViewModel.friends, 3) {
                     itemView.performClick()

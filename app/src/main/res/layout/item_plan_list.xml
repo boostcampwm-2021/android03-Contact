@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.ivyclub.contact.ui.plan_list.PlanListItemViewModel" />
@@ -13,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingVertical="8dp"
-        android:paddingHorizontal="16dp">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
         <LinearLayout
             android:id="@+id/ll_month_year"
@@ -23,27 +24,26 @@
             android:layout_marginTop="8dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_plan_month"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#3A4A40"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#3A4A40"
-                tools:text="11월"
-                android:text="@{String.format(@string/format_month, viewModel.planMonth)}"/>
+                tools:text="11월" />
 
             <TextView
                 android:id="@+id/tv_plan_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:text="@{String.valueOf(viewModel.planYear)}"
                 android:textSize="12sp"
-                tools:text="2021"
-                android:text="@{String.valueOf(viewModel.planYear)}"/>
+                tools:text="2021" />
         </LinearLayout>
 
         <LinearLayout
@@ -51,42 +51,41 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:background="@drawable/bg_plan_list_item"
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            android:background="@drawable/bg_plan_list_item"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ll_month_year"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_plan_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                tools:text="10일 수요일"
-                android:text="@{String.format(@string/format_date_day, viewModel.planDayOfMonth, viewModel.planDayOfWeek)}"/>
+                tools:text="10일 수요일" />
 
             <TextView
                 android:id="@+id/tv_plan_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textSize="16sp"
-                android:textColor="#3A4A40"
-                android:textStyle="bold"
-                tools:text="부스트캠프 친구 모임"
-                android:text="@{viewModel.title}"
+                android:ellipsize="end"
                 android:lines="1"
-                android:ellipsize="end" />
+                android:text="@{viewModel.title}"
+                android:textColor="#3A4A40"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                tools:text="부스트캠프 친구 모임" />
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/cg_plan_friends"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:chipSpacingVertical="4dp"
-                android:layout_marginTop="4dp" />
+                android:layout_marginTop="4dp"
+                app:chipSpacingVertical="4dp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

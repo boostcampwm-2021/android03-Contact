@@ -15,6 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import java.util.*
 
 class OnBoardingViewModelTest {
     @Mock
@@ -29,6 +30,7 @@ class OnBoardingViewModelTest {
         Dispatchers.setMain(StandardTestDispatcher())
         fakeRepository = FakeContactRepository()
         viewModel = OnBoardingViewModel(fakeRepository)
+        Locale.setDefault(Locale("en"))
     }
 
     @ExperimentalCoroutinesApi
@@ -45,7 +47,7 @@ class OnBoardingViewModelTest {
         }
         runTest {
             val firstInputGroup = fakeRepository.loadGroupsWithFlow().first()[0]
-            assert(firstInputGroup.name == "friend")
+            assert(firstInputGroup.name == "Friend")
             assert(firstInputGroup.id == 1L)
         }
     }
