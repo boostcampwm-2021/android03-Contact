@@ -203,6 +203,10 @@ class FakeContactRepository : ContactRepository {
         // todo
     }
 
+    override suspend fun updateFriendGroupName(translatedName: String) {
+        // todo
+    }
+
     override suspend fun savePassword(password: String) {
         // todo
     }
