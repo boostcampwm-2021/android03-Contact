@@ -24,8 +24,36 @@ enum class DayOfWeek(val value: Int) : KoreanTranslatable {
     }
 }
 
+//enum class DayOfWeek(val value: Int) : ChineseTranslatable {
+//    SUN(1) {
+//        override val korean = StringManager.getString("일")
+//    },
+//    MON(2) {
+//        override val korean = StringManager.getString("월")
+//    },
+//    TUE(3) {
+//        override val korean = StringManager.getString("화")
+//    },
+//    WED(4) {
+//        override val korean = StringManager.getString("수")
+//    },
+//    THU(5) {
+//        override val korean = StringManager.getString("목")
+//    },
+//    FRI(6) {
+//        override val korean = StringManager.getString("금")
+//    },
+//    SAT(0) {
+//        override val korean = StringManager.getString("토")
+//    }
+//}
+
 interface KoreanTranslatable {
     val korean: String
+}
+
+interface ChineseTranslatable{
+    val chinese: String
 }
 
 enum class FriendListViewType {
