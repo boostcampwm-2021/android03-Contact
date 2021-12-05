@@ -38,6 +38,7 @@
     <string name="hint_plan_content">이 일정에서 할 일이나 준비할 것들을 구체적으로 입력해주세요</string>
     <string name="hint_plan_participants">일정을 함께 할 사람들을 추가해주세요 (최대 %d명)</string>
     <string name="menu_move_friends_to">그룹 이동하기</string>
+    <string name="fragment_select_group_dialog_title">그룹을 선택해주세요</string>
     <string name="fragment_select_group_dialog_select">선택</string>
     <string name="fragment_select_group_dialog_cancel">취소</string>
     <string name="menu_add_friend">친구 추가하기</string>
@@ -59,7 +60,7 @@
     <string name="no">아니오</string>
     <string name="ask_back_while_edit">해당 페이지를 나가시면 기존에 작성했던 기록은 사라집니다. 나가시겠습니까?</string>
     <string name="ask_save_plan">해당 일정을 저장하시겠습니까?</string>
-    <string name="alert_plan_empty">추가한 일정이 없습니다! + 버튼을 눌러 새로운 일정을 추가해보세요</string>
+    <string name="alert_plan_empty">추가한 일정이 없습니다!\n+ 버튼을 눌러 새로운 일정을 추가해보세요</string>
     <string name="plan_reminder_notification_title">잊지 않으셨죠?</string>
     <string name="plan_morning_notification_title">좋은 아침입니다!</string>
     <string name="plan_morning_notification_content">하루를 시작하기에 앞서 오늘 일정들을 확인하세요.</string>
