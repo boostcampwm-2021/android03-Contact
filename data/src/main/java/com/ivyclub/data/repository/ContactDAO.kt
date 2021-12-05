@@ -48,6 +48,12 @@ interface ContactDAO {
     @Query("SELECT * FROM GroupData")
     suspend fun getGroups(): List<GroupData>
 
+    @Query("SELECT COUNT(*) FROM GroupData")
+    suspend fun getGroupsCount(): Int
+
+    @Query("UPDATE GroupData SET name = :translatedName WHERE id = 1")
+    suspend fun updateFriendGroupName(translatedName: String)
+
     @Query("SELECT * FROM GroupData")
     fun loadGroupsWithFlow(): Flow<List<GroupData>>
 
