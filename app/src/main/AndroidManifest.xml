@@ -57,6 +57,14 @@
                 android:resource="@xml/widget_provider" />
         </receiver>
 
+        <receiver
+            android:name=".receivers.LanguageChangedReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".service.ContactRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />

@@ -201,6 +201,12 @@ class ContactRepositoryImpl @Inject constructor(
         contactDAO.updateGroupName(id, name)
     }
 
+    override suspend fun updateFriendGroupName(translatedName: String) = withContext(ioDispatcher) {
+        if (contactDAO.getGroupsCount() > 0) {
+            contactDAO.updateFriendGroupName(translatedName)
+        }
+    }
+
     companion object {
         private const val NOTIFICATION_START = "NOTIFICATION_START"
         private const val NOTIFICATION_END = "NOTIFICATION_END"

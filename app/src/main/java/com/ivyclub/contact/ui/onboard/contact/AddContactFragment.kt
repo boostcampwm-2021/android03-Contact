@@ -97,7 +97,7 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
             rvContactList.visibility = View.VISIBLE
             rvContactList.startAnimation(recyclerViewAnimation)
             btnLoad.isClickable = false
-            btnLoad.text = "시작하기"
+            btnLoad.text = getString(R.string.item_intro_start)
             contactAdapter.submitList(this@AddContactFragment.viewModel.getContactList())
             btnCommit.isClickable = true
             binding.cbSelectAll.isVisible = true
