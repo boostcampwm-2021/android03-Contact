@@ -6,9 +6,9 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.*
 import com.ivyclub.contact.R
 import com.ivyclub.contact.util.*
-import com.ivyclub.data.MyPreference
-import com.ivyclub.data.MyPreference.Companion.NOTIFICATION_END
-import com.ivyclub.data.MyPreference.Companion.NOTIFICATION_START
+import com.ivyclub.data.ContactPreference
+import com.ivyclub.data.ContactPreference.Companion.NOTIFICATION_END
+import com.ivyclub.data.ContactPreference.Companion.NOTIFICATION_START
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit
 class PlanReminderNotificationWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val notiPreferences: MyPreference
+    private val notiPreferences: ContactPreference
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {

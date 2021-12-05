@@ -8,15 +8,10 @@ plugins {
 }
 
 android {
-    compileSdk = Apps.compileSdk
-
     defaultConfig {
         applicationId = "com.ivyclub.contact"
-        minSdk = Apps.minSdk
-        targetSdk = Apps.targetSdk
         versionCode = Apps.versionCode
         versionName = Apps.versionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -51,8 +46,6 @@ dependencies {
     implementation(Dep.AndroidX.navigationFragmentKtx)
     implementation(Dep.AndroidX.activityKtx)
     implementation(Dep.AndroidX.fragmentKtx)
-    implementation(Dep.AndroidX.coroutine)
-    implementation(Dep.AndroidX.coroutineCore)
     implementation(Dep.AndroidX.viewpager2)
     implementation(Dep.AndroidX.support)
     implementation(Dep.AndroidX.liveDataKtx)
@@ -60,6 +53,8 @@ dependencies {
     implementation(Dep.AndroidX.biometric)
     implementation(Dep.AndroidX.workRuntime)
     implementation(Dep.AndroidX.hiltWork)
+    implementation(Dep.Kotlin.coroutine)
+    implementation(Dep.Kotlin.coroutineCore)
     implementation(Dep.Libs.glide)
     implementation(Dep.Libs.gson)
     implementation(Dep.Libs.flexboxLayout)

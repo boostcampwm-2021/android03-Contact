@@ -1,14 +1,14 @@
 package com.ivyclub.contact.ui.main.settings
 
 import androidx.lifecycle.ViewModel
-import com.ivyclub.data.MyPreference
+import com.ivyclub.data.ContactPreference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val preference: MyPreference
+    private val preference: ContactPreference
 ) : ViewModel() {
     val isAlarmActive = MutableStateFlow(false)
 

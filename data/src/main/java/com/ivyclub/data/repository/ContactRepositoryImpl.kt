@@ -1,9 +1,7 @@
 package com.ivyclub.data.repository
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.ivyclub.data.ContactRepository
-import com.ivyclub.data.MyPreference
+import com.ivyclub.data.ContactPreference
 import com.ivyclub.data.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,11 +11,10 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@RequiresApi(Build.VERSION_CODES.GINGERBREAD)
 @Singleton
 class ContactRepositoryImpl @Inject constructor(
     private val contactDAO: ContactDAO,
-    private val myPreference: MyPreference
+    private val contactPreference: ContactPreference
 ) : ContactRepository {
 
     private val ioDispatcher = Dispatchers.IO
@@ -31,21 +28,21 @@ class ContactRepositoryImpl @Inject constructor(
     }
 
     override fun setShowOnBoardingState(state: Boolean) {
-        myPreference.setShowOnBoardingState(state)
+        contactPreference.setShowOnBoardingState(state)
     }
 
     override suspend fun getShowOnBoardingState(): Boolean = withContext(ioDispatcher) {
-        myPreference.getShowOnBoardingState()
+        contactPreference.getShowOnBoardingState()
     }
 
     override suspend fun setNotificationTime(start: Int, end: Int) =
         withContext(ioDispatcher) {
-            myPreference.setNotificationTime(NOTIFICATION_START, start)
-            myPreference.setNotificationTime(NOTIFICATION_END, end)
+            contactPreference.setNotificationTime(NOTIFICATION_START, start)
+            contactPreference.setNotificationTime(NOTIFICATION_END, end)
         }
 
     override suspend fun setNotificationOnOff(state: Boolean) = withContext(ioDispatcher) {
-        myPreference.setNotificationOnOff(state)
+        contactPreference.setNotificationOnOff(state)
     }
 
     override fun loadPlanListWithFlow(): Flow<List<SimplePlanData>> =
@@ -130,9 +127,9 @@ class ContactRepositoryImpl @Inject constructor(
             contactDAO.updatePlansParticipants(newParticipants, planId)
         }
 
-    override fun getStartAlarmHour() = myPreference.getNotificationTime(NOTIFICATION_START)
+    override fun getStartAlarmHour() = contactPreference.getNotificationTime(NOTIFICATION_START)
 
-    override fun getEndAlarmHour() = myPreference.getNotificationTime(NOTIFICATION_END)
+    override fun getEndAlarmHour() = contactPreference.getNotificationTime(NOTIFICATION_END)
 
     override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: Long) =
         withContext(ioDispatcher) {
@@ -150,23 +147,23 @@ class ContactRepositoryImpl @Inject constructor(
     }
 
     override suspend fun savePassword(password: String) = withContext(ioDispatcher) {
-        myPreference.setPassword(password)
+        contactPreference.setPassword(password)
     }
 
     override suspend fun getPassword(): String = withContext(ioDispatcher) {
-        myPreference.getPassword()
+        contactPreference.getPassword()
     }
 
     override suspend fun removePassword() {
-        myPreference.removePassword()
+        contactPreference.removePassword()
     }
 
     override suspend fun setFingerPrintState(state: Boolean) = withContext(ioDispatcher) {
-        myPreference.setFingerPrintState(state)
+        contactPreference.setFingerPrintState(state)
     }
 
     override suspend fun getFingerPrintState(): Boolean = withContext(ioDispatcher) {
-        myPreference.getFingerPrintState()
+        contactPreference.getFingerPrintState()
     }
 
     override suspend fun updateFriend(
