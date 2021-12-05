@@ -11,7 +11,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="그룹을 선택해주세요"
+            android:text="@string/fragment_select_group_dialog_title"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@id/spn_group"
             app:layout_constraintTop_toTopOf="parent" />
