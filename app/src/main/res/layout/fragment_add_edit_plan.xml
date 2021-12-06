@@ -110,24 +110,22 @@
                     android:id="@+id/tv_plan_participants"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="32dp"
                     android:text="@string/plan_who"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/act_plan_participants"
                     app:layout_constraintTop_toBottomOf="@id/tv_plan_time" />
 
                 <TextView
                     android:id="@+id/tv_btn_load_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:paddingVertical="4dp"
                     android:text="@string/add_edit_plan_load_group"
                     android:textColor="@color/green_200"
                     android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/act_plan_participants"
                     app:layout_constraintTop_toTopOf="@id/tv_plan_participants" />
 
                 <AutoCompleteTextView
@@ -140,17 +138,19 @@
                     android:inputType="text|textCapWords"
                     android:maxLines="1"
                     android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tv_plan_participants"
                     app:layout_constraintTop_toBottomOf="@id/tv_plan_participants" />
 
                 <com.google.android.flexbox.FlexboxLayout
                     android:id="@+id/fl_plan_participants"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
                     app:alignContent="stretch"
                     app:flexWrap="wrap"
+                    app:layout_constraintEnd_toEndOf="@id/act_plan_participants"
+                    app:layout_constraintStart_toStartOf="@id/act_plan_participants"
                     app:layout_constraintTop_toBottomOf="@id/act_plan_participants" />
 
                 <TextView
@@ -161,14 +161,13 @@
                     android:text="@string/plan_where"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="@id/fl_plan_participants"
+                    app:layout_constraintStart_toStartOf="@id/act_plan_participants"
                     app:layout_constraintTop_toBottomOf="@id/fl_plan_participants" />
 
                 <EditText
                     android:id="@+id/et_plan_place"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
                     android:hint="@string/hint_plan_place"
                     android:inputType="textShortMessage"
@@ -176,6 +175,8 @@
                     android:maxLength="20"
                     android:text="@={viewModel.planPlace}"
                     android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/act_plan_participants"
+                    app:layout_constraintStart_toStartOf="@id/act_plan_participants"
                     app:layout_constraintTop_toBottomOf="@id/tv_plan_where" />
 
                 <TextView
@@ -186,19 +187,18 @@
                     android:text="@string/fragment_add_edit_plan_photo"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="@id/tv_plan_participants"
+                    app:layout_constraintStart_toStartOf="@id/act_plan_participants"
                     app:layout_constraintTop_toBottomOf="@id/et_plan_place" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_photo"
                     android:layout_width="0dp"
                     android:layout_height="88dp"
-                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/tv_add_image"
+                    app:layout_constraintEnd_toEndOf="@id/act_plan_participants"
+                    app:layout_constraintStart_toStartOf="@id/act_plan_participants"
                     app:layout_constraintTop_toBottomOf="@id/tv_add_image" />
 
                 <TextView
@@ -209,14 +209,13 @@
                     android:text="@string/plan_what"
                     android:textColor="@color/black"
                     android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="@id/et_plan_place"
+                    app:layout_constraintStart_toStartOf="@id/act_plan_participants"
                     app:layout_constraintTop_toBottomOf="@id/rv_photo" />
 
                 <EditText
                     android:id="@+id/et_plan_description"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="32dp"
                     android:gravity="top"
@@ -224,8 +223,14 @@
                     android:minHeight="300dp"
                     android:text="@={viewModel.planContent}"
                     android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@id/act_plan_participants"
+                    app:layout_constraintStart_toStartOf="@id/act_plan_participants"
                     app:layout_constraintTop_toBottomOf="@id/tv_plan_what" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </ScrollView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
