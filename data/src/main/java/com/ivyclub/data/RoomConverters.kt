@@ -14,6 +14,12 @@ class RoomConverters {
     fun jsonToLongList(value: String) = Gson().fromJson(value, Array<Long>::class.java).toList()
 
     @TypeConverter
+    fun stringListToJson(value: List<String>) = Gson().toJson(value)
+
+    @TypeConverter
+    fun jsonToStringList(value: String) = Gson().fromJson(value, Array<String>::class.java).toList()
+
+    @TypeConverter
     fun mapToJson(value: Map<String,String>) = Gson().toJson(value)
 
     @TypeConverter

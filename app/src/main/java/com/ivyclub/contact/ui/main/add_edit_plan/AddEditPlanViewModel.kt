@@ -147,7 +147,7 @@ class AddEditPlanViewModel @Inject constructor(
         val color = ""  // TODO: 랜덤 색 만들기
 
         val newPlan =
-            if (planId != -1L) PlanData(participantIds, planDate, title, place, content, color, planId)
+            if (planId != -1L) PlanData(participantIds, planDate, title, place, content, color, id = planId)
             else PlanData(participantIds, planDate, title, place, content, color)
 
         viewModelScope.launch {
