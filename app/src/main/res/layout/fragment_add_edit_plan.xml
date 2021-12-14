@@ -190,16 +190,54 @@
                     app:layout_constraintStart_toStartOf="@id/act_plan_participants"
                     app:layout_constraintTop_toBottomOf="@id/et_plan_place" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ll_add_image_button"
+                    android:layout_width="78dp"
+                    android:layout_height="88dp"
+                    android:backgroundTint="@color/light_gray"
+                    android:textSize="12sp"
+                    app:cornerRadius="2dp"
+                    app:layout_constraintBottom_toBottomOf="@id/rv_photo"
+                    app:layout_constraintStart_toStartOf="@id/act_plan_participants"
+                    app:layout_constraintTop_toTopOf="@id/rv_photo" />
+
+                <ImageView
+                    android:id="@+id/iv_plus_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="10dp"
+                    android:src="@drawable/ic_baseline_add_24_white"
+                    app:layout_constraintBottom_toTopOf="@id/tv_add_image_btn"
+                    app:layout_constraintEnd_toEndOf="@id/ll_add_image_button"
+                    app:layout_constraintStart_toStartOf="@id/ll_add_image_button"
+                    app:layout_constraintTop_toTopOf="@id/ll_add_image_button"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tv_add_image_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="10dp"
+                    android:text="@string/fragment_add_edit_plan_add_photo"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@id/ll_add_image_button"
+                    app:layout_constraintEnd_toEndOf="@id/iv_plus_btn"
+                    app:layout_constraintStart_toStartOf="@id/iv_plus_btn"
+                    app:layout_constraintTop_toBottomOf="@id/iv_plus_btn" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_photo"
                     android:layout_width="0dp"
                     android:layout_height="88dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="@id/act_plan_participants"
-                    app:layout_constraintStart_toStartOf="@id/act_plan_participants"
-                    app:layout_constraintTop_toBottomOf="@id/tv_add_image" />
+                    app:layout_constraintStart_toEndOf="@id/ll_add_image_button"
+                    app:layout_constraintTop_toBottomOf="@id/tv_add_image"
+                    tools:listitem="@layout/item_image_at_add_page" />
 
                 <TextView
                     android:id="@+id/tv_plan_what"
