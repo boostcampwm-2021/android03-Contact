@@ -35,6 +35,8 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     val showSnackBar: LiveData<Int> get() = _showSnackBar
     private val _retry = SingleLiveEvent<Unit>()
     val retry: LiveData<Unit> get() = _retry
+    private val _showTryCount = MutableLiveData<Boolean>()
+    val showTryCount: LiveData<Boolean> get() = _showTryCount
 
     private val _fingerPrint = SingleLiveEvent<Unit>()
     val fingerPrint: LiveData<Unit> get() = _fingerPrint
@@ -47,12 +49,16 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     fun initPasswordViewType(type: PasswordViewType, password: String = "") {
         passwordViewType = type
         when (passwordViewType) {
-            PasswordViewType.APP_CONFIRM_PASSWORD -> {
+            PasswordViewType.APP_CONFIRM_PASSWORD, PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 viewModelScope.launch {
                     this@PasswordViewModel.password = repository.getPassword()
+                    _showTryCount.value = true
                 }
             }
-            else -> this.password = password
+            else -> {
+                _showTryCount.value = false
+                this.password = password
+            }
         }
     }
 
