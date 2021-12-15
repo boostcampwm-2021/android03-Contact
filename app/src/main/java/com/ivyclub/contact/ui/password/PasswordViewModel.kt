@@ -37,6 +37,12 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     val retry: LiveData<Unit> get() = _retry
     private val _showTryCount = MutableLiveData<Boolean>()
     val showTryCount: LiveData<Boolean> get() = _showTryCount
+    private val _tryCount = MutableLiveData<Int>()
+    val tryCount: LiveData<Int> get() = _tryCount
+    private val _timer = MutableLiveData<Int>()
+    val timer: LiveData<Int> get() = _timer
+    private val _setTimer = SingleLiveEvent<Unit>()
+    val setTimer: LiveData<Unit> get() = _setTimer
 
     private val _fingerPrint = SingleLiveEvent<Unit>()
     val fingerPrint: LiveData<Unit> get() = _fingerPrint
@@ -52,6 +58,7 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
             PasswordViewType.APP_CONFIRM_PASSWORD, PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 viewModelScope.launch {
                     this@PasswordViewModel.password = repository.getPassword()
+                    _tryCount.value = repository.getPasswordTryCount()
                     _showTryCount.value = true
                 }
             }
@@ -96,7 +103,8 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     }
 
     private fun nextStep() {
-        val inputPassword = "${password1.value}${password2.value}${password3.value}${password4.value}"
+        val inputPassword =
+            "${password1.value}${password2.value}${password3.value}${password4.value}"
 
         when (passwordViewType) {
             PasswordViewType.SET_PASSWORD -> {
@@ -111,20 +119,20 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                     _moveToSetPassword.call()
                     _showSnackBar.value = R.string.password_reconfirm_fail
                 }
-           }
-            PasswordViewType.APP_CONFIRM_PASSWORD -> {
+            }
+            PasswordViewType.APP_CONFIRM_PASSWORD, PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 if (BCrypt.checkpw(inputPassword, password)) {
                     _finishConfirmPassword.call()
                 } else {
-                    _retry.call()
-                    reset()
-                }
-            }
-            PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
-                if (BCrypt.checkpw(inputPassword, password)) {
-                    _moveToPreviousFragment.call()
-                } else {
-                    _retry.call()
+                    if (_tryCount.value != null) {
+                        _tryCount.value = _tryCount.value!! + 1
+                        viewModelScope.launch {
+                            repository.savePasswordTryCount(_tryCount.value!!)
+                        }
+                        if (_tryCount.value != 10) {
+                            _retry.call()
+                        }
+                    }
                     reset()
                 }
             }
@@ -141,6 +149,17 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
 
     private fun savePassword(password: String) = viewModelScope.launch {
         repository.savePassword(BCrypt.hashpw(password, BCrypt.gensalt(10)))
+    }
+
+    fun getTimerInfo() {
+        viewModelScope.launch {
+            var savedTimer = repository.getPasswordTimer()
+            if (savedTimer == -1) {
+                savedTimer = 300 - 1
+                _setTimer.call()
+            }
+            _timer.value = savedTimer
+        }
     }
 
     fun checkFingerPrintState() {

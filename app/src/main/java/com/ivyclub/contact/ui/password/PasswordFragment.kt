@@ -12,13 +12,18 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPasswordBinding
+import com.ivyclub.contact.service.password_timer.PasswordTimerWorker
 import com.ivyclub.contact.ui.main.MainActivity
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.PasswordViewType
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class PasswordFragment :
@@ -29,6 +34,11 @@ class PasswordFragment :
     private val passwordEditTextList by lazy {
         with(binding) {
             listOf(etPassword1, etPassword2, etPassword3, etPassword4)
+        }
+    }
+    private val numberButtonList by lazy {
+        with(binding) {
+            listOf(btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9)
         }
     }
 
@@ -99,6 +109,7 @@ class PasswordFragment :
                     binding.tvPassword.text = getString(R.string.password_retry_message)
                     vibrate()
                 }
+                observeTryCount()
             }
             PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 viewModel.initPasswordViewType(args.passwordViewType, args.password)
@@ -106,7 +117,32 @@ class PasswordFragment :
                     binding.tvPassword.text = getString(R.string.password_retry_message)
                     vibrate()
                 }
+                observeTryCount()
             }
+        }
+    }
+
+    private fun observeTryCount() {
+        viewModel.tryCount.observe(viewLifecycleOwner) { tryCount ->
+            if (tryCount == 10) {
+                binding.tvPassword.text = "비밀번호를 10회 잘못 입력하셨습니다."
+                numberButtonList.forEach {
+                    it.isClickable = false
+                }
+                viewModel.getTimerInfo()
+                viewModel.setTimer.observe(viewLifecycleOwner) {
+                    val workRequest: WorkRequest =
+                        OneTimeWorkRequestBuilder<PasswordTimerWorker>().build()
+                    context?.let { context ->
+                        WorkManager.getInstance(context)
+                            .enqueue(workRequest)
+                    }
+                }
+                viewModel.timer.observe(viewLifecycleOwner) {
+                    binding.tvTryCount.text = "${it/60 + 1}분 후에 다시 시도해주세요."
+                }
+            }
+            binding.tvTryCount.text = "시도 횟수 ($tryCount/10)"
         }
     }
 
@@ -127,10 +163,6 @@ class PasswordFragment :
     }
 
     private fun initNumberClickListener() {
-        val numberButtonList = with(binding) {
-            listOf(btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9)
-        }
-
         numberButtonList.forEachIndexed { number, button ->
             button.setOnClickListener {
                 viewModel.moveFocusFront(number.toString())
