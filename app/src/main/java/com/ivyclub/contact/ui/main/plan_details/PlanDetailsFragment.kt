@@ -103,6 +103,7 @@ class PlanDetailsFragment :
                 with(binding) {
                     if(it.photoIdList.isEmpty()) {
                         vpPhoto.isVisible = false
+                        sdicIndicator.isVisible = false
                     } else {
                         vpPhoto.adapter = PhotoAdapter(it.photoIdList)
                         vpPhoto.orientation = ViewPager2.ORIENTATION_HORIZONTAL
