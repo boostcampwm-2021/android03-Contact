@@ -57,6 +57,8 @@ interface ContactRepository {
     suspend fun savePassword(password: String)
     suspend fun getPassword(): String
     suspend fun removePassword()
+    suspend fun savePasswordTryCount(passwordTryCount: Int)
+    suspend fun getPasswordTryCount(): Int
 
     // Finger print
     suspend fun setFingerPrintState(state: Boolean)

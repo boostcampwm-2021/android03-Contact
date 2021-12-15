@@ -64,6 +64,12 @@ class ContactPreference @Inject constructor(@ApplicationContext context: Context
         return prefs.getBoolean(FINGER_PRINT, false)
     }
 
+    fun setPasswordTryCount(passwordTryCount: Int) {
+        prefs.edit().putInt(PASSWORD_TRY_COUNT, passwordTryCount).apply()
+    }
+
+    fun getPasswordTryCount(): Int = prefs.getInt(PASSWORD_TRY_COUNT, 0)
+
     companion object {
         const val FIRST_ON_BOARDING = "FIRST_ON_BOARDING"
         const val NOTIFICATION_ON_OFF = "NOTIFICATION_ON_OFF"
@@ -71,5 +77,6 @@ class ContactPreference @Inject constructor(@ApplicationContext context: Context
         const val NOTIFICATION_END = "NOTIFICATION_END"
         const val PASSWORD = "password"
         const val FINGER_PRINT = "FINGER_PRINT"
+        const val PASSWORD_TRY_COUNT = "PASSWORD_TRY_COUNT"
     }
 }
