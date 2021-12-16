@@ -105,7 +105,7 @@
     <string name="ask_back_while_edit">When you leave this page, the records you made previously are lost.\nDo you want to leave?</string>
     <string name="ask_save_plan">Do you want to save the plan?</string>
     <string name="alert_plan_empty">No plans have been added!\nAdd a new plan by clicking the + button.</string>
-    <string name="plan_reminder_notification_title">Did you remember?</string>
+    <string name="plan_reminder_notification_title">Do you remember?</string>
     <string name="plan_morning_notification_title">Good morning!</string>
     <string name="plan_morning_notification_content">Check out today\'s plan before starting the day.</string>
     <string name="plan_night_notification_title">You worked hard today.</string>
