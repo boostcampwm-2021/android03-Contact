@@ -73,6 +73,13 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".receivers.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".service.ContactRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
