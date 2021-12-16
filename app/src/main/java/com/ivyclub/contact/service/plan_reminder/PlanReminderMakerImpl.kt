@@ -46,6 +46,14 @@ class PlanReminderMakerImpl @Inject constructor(
         cancelEndReminder(planData.id)
     }
 
+    override suspend fun resetStartEndAlarm(planData: SimplePlanData) {
+        val participants = planData.participant.map { participantId ->
+            repository.getSimpleFriendDataById(participantId).name
+        }
+        makeStartReminder(planData)
+        makeEndReminder(planData, participants)
+    }
+
     private fun makeLastPlanReminder(
         planData: SimplePlanData,
         participants: List<String>
