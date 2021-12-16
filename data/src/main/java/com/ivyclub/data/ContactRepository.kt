@@ -42,6 +42,8 @@ interface ContactRepository {
     suspend fun updatePlansParticipants(newParticipants: List<Long>, planId: Long)
     fun getStartAlarmHour(): Int
     fun getEndAlarmHour(): Int
+    fun setNotificationState(onOff: Boolean)
+    fun getNotificationState(): Boolean
 
     // Group
     suspend fun loadGroups(): List<GroupData>

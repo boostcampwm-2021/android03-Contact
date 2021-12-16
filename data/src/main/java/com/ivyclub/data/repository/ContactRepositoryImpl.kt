@@ -130,6 +130,10 @@ class ContactRepositoryImpl @Inject constructor(
     override fun getStartAlarmHour() = contactPreference.getNotificationTime(NOTIFICATION_START)
 
     override fun getEndAlarmHour() = contactPreference.getNotificationTime(NOTIFICATION_END)
+    override fun setNotificationState(onOff: Boolean) {
+        contactPreference.setNotificationOnOff(onOff)
+    }
+    override fun getNotificationState() = contactPreference.getNotificationState()
 
     override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: Long) =
         withContext(ioDispatcher) {
