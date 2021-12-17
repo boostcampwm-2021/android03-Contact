@@ -56,6 +56,11 @@ class PasswordFragment :
         blockKeyboard()
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.initTryCountState()
+    }
+
     private fun checkFingerPrintState() {
         if (args.passwordViewType == PasswordViewType.APP_CONFIRM_PASSWORD || args.passwordViewType == PasswordViewType.SECURITY_CONFIRM_PASSWORD) {
             viewModel.checkFingerPrintState()
@@ -140,6 +145,11 @@ class PasswordFragment :
                 }
                 viewModel.timer.observe(viewLifecycleOwner) {
                     binding.tvTryCount.text = "${it/60 + 1}분 후에 다시 시도해주세요."
+                }
+            } else {
+                binding.tvPassword.text = getString(R.string.password_input_password)
+                numberButtonList.forEach {
+                    it.isClickable = true
                 }
             }
             binding.tvTryCount.text = "시도 횟수 ($tryCount/10)"

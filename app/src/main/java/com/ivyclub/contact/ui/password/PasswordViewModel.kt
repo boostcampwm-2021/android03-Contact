@@ -58,7 +58,6 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
             PasswordViewType.APP_CONFIRM_PASSWORD, PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 viewModelScope.launch {
                     this@PasswordViewModel.password = repository.getPassword()
-                    _tryCount.value = repository.getPasswordTryCount()
                     _showTryCount.value = true
                 }
             }
@@ -67,6 +66,10 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                 this.password = password
             }
         }
+    }
+
+    fun initTryCountState() = viewModelScope.launch {
+        _tryCount.value = repository.getPasswordTryCount()
     }
 
     private fun updatePasswordInput(number: String) {
