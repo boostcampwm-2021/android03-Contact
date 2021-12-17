@@ -125,7 +125,15 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
             }
             PasswordViewType.APP_CONFIRM_PASSWORD, PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 if (BCrypt.checkpw(inputPassword, password)) {
-                    _finishConfirmPassword.call()
+                    if (passwordViewType == PasswordViewType.APP_CONFIRM_PASSWORD) {
+                        _finishConfirmPassword.call()
+                    } else {
+                        _moveToPreviousFragment.call()
+                    }
+
+                    viewModelScope.launch {
+                        repository.savePasswordTryCount(0)
+                    }
                 } else {
                     if (_tryCount.value != null) {
                         _tryCount.value = _tryCount.value!! + 1
