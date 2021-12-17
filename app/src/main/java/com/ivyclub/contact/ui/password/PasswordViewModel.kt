@@ -43,6 +43,8 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     val timer: LiveData<Int> get() = _timer
     private val _setTimer = SingleLiveEvent<Unit>()
     val setTimer: LiveData<Unit> get() = _setTimer
+    private val _stopTimer = SingleLiveEvent<Unit>()
+    val stopTimer: LiveData<Unit> get() = _stopTimer
 
     private val _fingerPrint = SingleLiveEvent<Unit>()
     val fingerPrint: LiveData<Unit> get() = _fingerPrint
@@ -130,9 +132,10 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                     } else {
                         _moveToPreviousFragment.call()
                     }
-
+                    _stopTimer.call()
                     viewModelScope.launch {
                         repository.savePasswordTryCount(0)
+                        repository.savePasswordTimer(-1)
                     }
                 } else {
                     if (_tryCount.value != null) {

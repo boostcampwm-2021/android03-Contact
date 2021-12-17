@@ -178,6 +178,10 @@ class ContactRepositoryImpl @Inject constructor(
         contactPreference.getFingerPrintState()
     }
 
+    override suspend fun savePasswordTimer(seconds: Int) {
+        contactPreference.setPasswordTimer(-1)
+    }
+
     override suspend fun updateFriend(
         phoneNumber: String,
         name: String,

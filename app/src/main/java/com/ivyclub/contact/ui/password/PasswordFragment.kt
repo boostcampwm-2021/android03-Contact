@@ -15,7 +15,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPasswordBinding
@@ -24,7 +23,6 @@ import com.ivyclub.contact.ui.main.MainActivity
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.PasswordViewType
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class PasswordFragment :
@@ -115,7 +113,7 @@ class PasswordFragment :
                     binding.tvPassword.text = getString(R.string.password_retry_message)
                     vibrate()
                 }
-                observeSetTimer()
+                observeTimer()
                 observeTryCount()
             }
             PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
@@ -124,7 +122,7 @@ class PasswordFragment :
                     binding.tvPassword.text = getString(R.string.password_retry_message)
                     vibrate()
                 }
-                observeSetTimer()
+                observeTimer()
                 observeTryCount()
             }
         }
@@ -151,14 +149,19 @@ class PasswordFragment :
         }
     }
 
-    private fun observeSetTimer() {
+    private fun observeTimer() {
+        val workName = "PasswordTimer"
+
         viewModel.setTimer.observe(viewLifecycleOwner) {
-            val workName = "PasswordTimer"
             val workRequest = OneTimeWorkRequestBuilder<PasswordTimerWorker>().build()
             context?.let { context ->
                 WorkManager.getInstance(context)
                     .enqueueUniqueWork(workName, ExistingWorkPolicy.REPLACE, workRequest)
             }
+        }
+
+        viewModel.stopTimer.observe(viewLifecycleOwner) {
+            context?.let { context -> WorkManager.getInstance(context).cancelUniqueWork(workName) }
         }
     }
 
