@@ -141,6 +141,7 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                             repository.savePasswordTryCount(_tryCount.value!!)
                         }
                         if (_tryCount.value != 10) {
+                            _setTimer.call()
                             _retry.call()
                         }
                     }

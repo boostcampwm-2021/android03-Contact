@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkRequest
@@ -114,6 +115,7 @@ class PasswordFragment :
                     binding.tvPassword.text = getString(R.string.password_retry_message)
                     vibrate()
                 }
+                observeSetTimer()
                 observeTryCount()
             }
             PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
@@ -122,6 +124,7 @@ class PasswordFragment :
                     binding.tvPassword.text = getString(R.string.password_retry_message)
                     vibrate()
                 }
+                observeSetTimer()
                 observeTryCount()
             }
         }
@@ -135,14 +138,6 @@ class PasswordFragment :
                     it.isClickable = false
                 }
                 viewModel.getTimerInfo()
-                viewModel.setTimer.observe(viewLifecycleOwner) {
-                    val workRequest: WorkRequest =
-                        OneTimeWorkRequestBuilder<PasswordTimerWorker>().build()
-                    context?.let { context ->
-                        WorkManager.getInstance(context)
-                            .enqueue(workRequest)
-                    }
-                }
                 viewModel.timer.observe(viewLifecycleOwner) {
                     binding.tvTryCount.text = "${it/60 + 1}분 후에 다시 시도해주세요."
                 }
@@ -153,6 +148,17 @@ class PasswordFragment :
                 }
             }
             binding.tvTryCount.text = "시도 횟수 ($tryCount/10)"
+        }
+    }
+
+    private fun observeSetTimer() {
+        viewModel.setTimer.observe(viewLifecycleOwner) {
+            val workName = "PasswordTimer"
+            val workRequest = OneTimeWorkRequestBuilder<PasswordTimerWorker>().build()
+            context?.let { context ->
+                WorkManager.getInstance(context)
+                    .enqueueUniqueWork(workName, ExistingWorkPolicy.REPLACE, workRequest)
+            }
         }
     }
 
