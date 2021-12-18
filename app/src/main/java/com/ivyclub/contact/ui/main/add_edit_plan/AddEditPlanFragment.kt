@@ -38,8 +38,10 @@ class AddEditPlanFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewModel = viewModel
-        binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault())
+        binding.dateFormat =
+            SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault())
 
+        initPhotoAdapter()
         initBackPressedCallback()
         checkFrom()
         setButtonClickListeners()
@@ -50,6 +52,12 @@ class AddEditPlanFragment :
     override fun onDetach() {
         onBackPressedCallback.remove()
         super.onDetach()
+    }
+
+    private fun initPhotoAdapter() {
+        val photoAdapter = PhotoAdapter()
+        photoAdapter.submitList(listOf(PhotoData(""),PhotoData(""),PhotoData(""),PhotoData(""),PhotoData(""),PhotoData(""),))
+        binding.rvPhoto.adapter = photoAdapter
     }
 
     private fun initBackPressedCallback() {
