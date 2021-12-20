@@ -219,11 +219,27 @@ class FakeContactRepository : ContactRepository {
         // todo
     }
 
+    override suspend fun savePasswordTryCount(passwordTryCount: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPasswordTryCount(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPasswordTimer(): Int {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun setFingerPrintState(state: Boolean) {
         // todo
     }
 
     override suspend fun getFingerPrintState(): Boolean {
         return true // todo
+    }
+
+    override suspend fun savePasswordTimer(seconds: Int) {
+        TODO("Not yet implemented")
     }
 }
