@@ -162,12 +162,28 @@ class ContactRepositoryImpl @Inject constructor(
         contactPreference.removePassword()
     }
 
+    override suspend fun savePasswordTryCount(passwordTryCount: Int) {
+        contactPreference.setPasswordTryCount(passwordTryCount)
+    }
+
+    override suspend fun getPasswordTryCount(): Int = withContext(ioDispatcher) {
+        contactPreference.getPasswordTryCount()
+    }
+
+    override suspend fun getPasswordTimer(): Int = withContext(ioDispatcher) {
+        contactPreference.getPasswordTimer()
+    }
+
     override suspend fun setFingerPrintState(state: Boolean) = withContext(ioDispatcher) {
         contactPreference.setFingerPrintState(state)
     }
 
     override suspend fun getFingerPrintState(): Boolean = withContext(ioDispatcher) {
         contactPreference.getFingerPrintState()
+    }
+
+    override suspend fun savePasswordTimer(seconds: Int) {
+        contactPreference.setPasswordTimer(seconds)
     }
 
     override suspend fun updateFriend(

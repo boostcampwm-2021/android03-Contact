@@ -35,6 +35,14 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     val showSnackBar: LiveData<Int> get() = _showSnackBar
     private val _retry = SingleLiveEvent<Unit>()
     val retry: LiveData<Unit> get() = _retry
+    private val _tryCount = MutableLiveData<Int>()
+    val tryCount: LiveData<Int> get() = _tryCount
+    private val _timer = MutableLiveData<Int>()
+    val timer: LiveData<Int> get() = _timer
+    private val _setTimer = SingleLiveEvent<Unit>()
+    val setTimer: LiveData<Unit> get() = _setTimer
+    private val _stopTimer = SingleLiveEvent<Unit>()
+    val stopTimer: LiveData<Unit> get() = _stopTimer
 
     private val _fingerPrint = SingleLiveEvent<Unit>()
     val fingerPrint: LiveData<Unit> get() = _fingerPrint
@@ -47,13 +55,19 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     fun initPasswordViewType(type: PasswordViewType, password: String = "") {
         passwordViewType = type
         when (passwordViewType) {
-            PasswordViewType.APP_CONFIRM_PASSWORD -> {
+            PasswordViewType.APP_CONFIRM_PASSWORD, PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 viewModelScope.launch {
                     this@PasswordViewModel.password = repository.getPassword()
                 }
             }
-            else -> this.password = password
+            else -> {
+                this.password = password
+            }
         }
+    }
+
+    fun initTryCountState() = viewModelScope.launch {
+        _tryCount.value = repository.getPasswordTryCount()
     }
 
     private fun updatePasswordInput(number: String) {
@@ -90,7 +104,8 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     }
 
     private fun nextStep() {
-        val inputPassword = "${password1.value}${password2.value}${password3.value}${password4.value}"
+        val inputPassword =
+            "${password1.value}${password2.value}${password3.value}${password4.value}"
 
         when (passwordViewType) {
             PasswordViewType.SET_PASSWORD -> {
@@ -105,20 +120,30 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                     _moveToSetPassword.call()
                     _showSnackBar.value = R.string.password_reconfirm_fail
                 }
-           }
-            PasswordViewType.APP_CONFIRM_PASSWORD -> {
-                if (BCrypt.checkpw(inputPassword, password)) {
-                    _finishConfirmPassword.call()
-                } else {
-                    _retry.call()
-                    reset()
-                }
             }
-            PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
+            PasswordViewType.APP_CONFIRM_PASSWORD, PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 if (BCrypt.checkpw(inputPassword, password)) {
-                    _moveToPreviousFragment.call()
+                    if (passwordViewType == PasswordViewType.APP_CONFIRM_PASSWORD) {
+                        _finishConfirmPassword.call()
+                    } else {
+                        _moveToPreviousFragment.call()
+                    }
+                    _stopTimer.call()
+                    viewModelScope.launch {
+                        repository.savePasswordTryCount(0)
+                        repository.savePasswordTimer(-1)
+                    }
                 } else {
-                    _retry.call()
+                    if (_tryCount.value != null) {
+                        _tryCount.value = _tryCount.value!! + 1
+                        viewModelScope.launch {
+                            repository.savePasswordTryCount(_tryCount.value!!)
+                        }
+                        if (_tryCount.value != 10) {
+                            _setTimer.call()
+                            _retry.call()
+                        }
+                    }
                     reset()
                 }
             }
@@ -135,6 +160,17 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
 
     private fun savePassword(password: String) = viewModelScope.launch {
         repository.savePassword(BCrypt.hashpw(password, BCrypt.gensalt(10)))
+    }
+
+    fun getTimerInfo() {
+        viewModelScope.launch {
+            var savedTimer = repository.getPasswordTimer()
+            if (savedTimer == -1) {
+                savedTimer = 300 - 1
+                _setTimer.call()
+            }
+            _timer.value = savedTimer
+        }
     }
 
     fun checkFingerPrintState() {
