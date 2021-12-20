@@ -18,6 +18,8 @@ object Versions {
     const val hilt = "2.38.1"
     const val hiltViewModel = "1.0.0-alpha03"
     const val flexbox = "3.0.0"
+    const val work = "2.7.1"
+    const val hiltWork = "1.0.0-alpha03"
     const val lifeCycle = "2.4.0"
 }
 
@@ -40,6 +42,8 @@ object Dep {
         const val sharedPreference = "androidx.preference:preference-ktx:1.1.0"
         const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
         const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+        const val workRuntime = "androidx.work:work-runtime-ktx:${Versions.work}"
+        const val hiltWork = "androidx.hilt:hilt-work:${Versions.hiltWork}"
         const val biometric = "androidx.biometric:biometric:1.2.0-alpha04"
         const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifeCycle}"
         const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.navigation}"
@@ -70,6 +74,7 @@ object Dep {
         const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
         const val hiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hiltViewModel}"
         const val hiltViewModelCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltViewModel}"
+        const val hiltWorkCompiler = "androidx.hilt:hilt-compiler:${Versions.hiltWork}"
         const val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
         const val flexboxLayout = "com.google.android.flexbox:flexbox:${Versions.flexbox}"
         const val indicator = "com.tbuonomo:dotsindicator:4.2"
