@@ -35,8 +35,6 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     val showSnackBar: LiveData<Int> get() = _showSnackBar
     private val _retry = SingleLiveEvent<Unit>()
     val retry: LiveData<Unit> get() = _retry
-    private val _showTryCount = MutableLiveData<Boolean>()
-    val showTryCount: LiveData<Boolean> get() = _showTryCount
     private val _tryCount = MutableLiveData<Int>()
     val tryCount: LiveData<Int> get() = _tryCount
     private val _timer = MutableLiveData<Int>()
@@ -60,11 +58,9 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
             PasswordViewType.APP_CONFIRM_PASSWORD, PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 viewModelScope.launch {
                     this@PasswordViewModel.password = repository.getPassword()
-                    _showTryCount.value = true
                 }
             }
             else -> {
-                _showTryCount.value = false
                 this.password = password
             }
         }

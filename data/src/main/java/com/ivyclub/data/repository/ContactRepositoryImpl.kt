@@ -179,7 +179,7 @@ class ContactRepositoryImpl @Inject constructor(
     }
 
     override suspend fun savePasswordTimer(seconds: Int) {
-        contactPreference.setPasswordTimer(-1)
+        contactPreference.setPasswordTimer(seconds)
     }
 
     override suspend fun updateFriend(

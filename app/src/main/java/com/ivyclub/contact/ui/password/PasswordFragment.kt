@@ -9,6 +9,7 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -137,15 +138,16 @@ class PasswordFragment :
                 }
                 viewModel.getTimerInfo()
                 viewModel.timer.observe(viewLifecycleOwner) {
-                    binding.tvTryCount.text = "${it/60 + 1}분 후에 다시 시도해주세요."
+                    binding.tvTryAfter.isVisible = true
+                    binding.tvTryAfter.text = "${it/60 + 1}분 후에 다시 시도해주세요."
                 }
             } else {
                 binding.tvPassword.text = getString(R.string.password_input_password)
+                binding.tvTryAfter.isVisible = false
                 numberButtonList.forEach {
                     it.isClickable = true
                 }
             }
-            binding.tvTryCount.text = "시도 횟수 ($tryCount/10)"
         }
     }
 
