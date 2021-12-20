@@ -3,19 +3,20 @@ package com.ivyclub.contact.ui.main.settings.dialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.WorkManager
-import com.ivyclub.contact.service.plan_reminder.PlanReminderNotificationWorker
+import com.ivyclub.contact.service.plan_reminder.PlanReminderMaker
 import com.ivyclub.contact.util.SingleLiveEvent
+import com.ivyclub.contact.util.getNewTime
 import com.ivyclub.data.ContactRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.sql.Date
 import javax.inject.Inject
 
 @HiltViewModel
 class NotificationTimeDialogViewModel @Inject constructor(
     private val repository: ContactRepository,
-    private val workManager: WorkManager
+    private val reminderMaker: PlanReminderMaker
 ) : ViewModel() {
 
     private val friendMap = mutableMapOf<Long, String>()
@@ -39,26 +40,14 @@ class NotificationTimeDialogViewModel @Inject constructor(
         viewModelScope.launch {
             repository.setNotificationTime(startTime.toInt(), endTime.toInt())
             loadFriendsJob.join()
-            val futurePlanList = repository.getPlanListAfter(System.currentTimeMillis())
+            val todayStart = Date(System.currentTimeMillis()).getNewTime(0, 0).time
+            val futurePlanList = repository.getPlanListAfter(todayStart)
             if (futurePlanList.isNullOrEmpty()) {
                 _changeNotiTimeFinishEvent.call()
                 return@launch
             }
             futurePlanList.forEach { simplePlanData ->
-                val friendList = mutableListOf<String>()
-                simplePlanData.participant.forEach { friendId ->
-                    friendMap[friendId]?.let { friendList.add(it) }
-                }
-
-                PlanReminderNotificationWorker
-                    .resetDayStartEndAlarms(
-                        simplePlanData.id,
-                        startTime.toInt(),
-                        endTime.toInt(),
-                        simplePlanData.date,
-                        friendList,
-                        workManager
-                    )
+                reminderMaker.resetStartEndAlarm(simplePlanData)
             }
 
             _changeNotiTimeFinishEvent.call()

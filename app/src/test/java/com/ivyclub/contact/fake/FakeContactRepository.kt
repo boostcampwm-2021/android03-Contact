@@ -173,6 +173,15 @@ class FakeContactRepository : ContactRepository {
         return notificationEndTime
     }
 
+    override fun setNotificationState(onOff: Boolean) {
+        // TODO("Not yet implemented")
+    }
+
+    override fun getNotificationState(): Boolean {
+        // TODO("Not yet implemented")
+        return true
+    }
+
     override suspend fun loadGroups(): List<GroupData> {
         return groupList
     }

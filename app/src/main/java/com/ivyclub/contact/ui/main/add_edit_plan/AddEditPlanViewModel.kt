@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.WorkManager
 import com.ivyclub.contact.R
-import com.ivyclub.contact.service.plan_reminder.PlanReminderNotificationWorker
+import com.ivyclub.contact.service.plan_reminder.PlanReminderMaker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.PlanData
 import com.ivyclub.data.model.SimpleFriendData
+import com.ivyclub.data.model.SimplePlanData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ import kotlin.collections.toMutableSet
 @HiltViewModel
 class AddEditPlanViewModel @Inject constructor(
     private val repository: ContactRepository,
-    private val workManager: WorkManager
+    private val reminderMaker: PlanReminderMaker
 ) : ViewModel() {
     private var planId = -1L
     private val lastParticipants = mutableListOf<Long>()
@@ -152,10 +152,8 @@ class AddEditPlanViewModel @Inject constructor(
 
         viewModelScope.launch {
             planId = repository.savePlanData(newPlan, lastParticipants)
-            val alarmStart = repository.getStartAlarmHour()
-            val alarmEnd = repository.getEndAlarmHour()
-            PlanReminderNotificationWorker.setPlanAlarm(
-                planId, title, participantNames, planDate, alarmStart, alarmEnd, workManager
+            reminderMaker.makePlanReminders(
+                SimplePlanData(planId, title, planDate, participantIds)
             )
             makeSnackbar(
                 if (planId == -1L) R.string.add_plan_success

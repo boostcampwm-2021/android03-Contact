@@ -5,13 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.WorkManager
 import com.ivyclub.contact.R
-import com.ivyclub.contact.service.plan_reminder.PlanReminderNotificationWorker
+import com.ivyclub.contact.service.plan_reminder.PlanReminderMaker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.PlanData
 import com.ivyclub.data.model.SimpleFriendData
+import com.ivyclub.data.model.SimplePlanData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PlanDetailsViewModel @Inject constructor(
     private val repository: ContactRepository,
-    private val workManager: WorkManager
+    private val reminderMaker: PlanReminderMaker
 ) : ViewModel() {
 
     private val _planDetails = MutableLiveData<PlanData>()
@@ -104,7 +104,9 @@ class PlanDetailsViewModel @Inject constructor(
 
         viewModelScope.launch {
             repository.deletePlanData(planData)
-            PlanReminderNotificationWorker.cancelPlanAlarms(planData.id, workManager)
+            reminderMaker.cancelPlanReminder(
+                SimplePlanData(planData.id, planData.title, planData.date, planData.participant)
+            )
             makeSnackbar(R.string.delete_plan_success)
             finish()
         }
