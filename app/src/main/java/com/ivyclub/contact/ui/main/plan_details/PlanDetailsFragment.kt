@@ -4,9 +4,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPlanDetailsBinding
@@ -95,6 +97,19 @@ class PlanDetailsFragment :
 
             finishEvent.observe(viewLifecycleOwner) {
                 findNavController().popBackStack()
+            }
+
+            planDetails.observe(viewLifecycleOwner) {
+                with(binding) {
+                    if(it.photoIdList.isEmpty()) {
+                        vpPhoto.isVisible = false
+                        sdicIndicator.isVisible = false
+                    } else {
+                        vpPhoto.adapter = PhotoAdapter(it.photoIdList)
+                        vpPhoto.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                        sdicIndicator.setViewPager2(vpPhoto)
+                    }
+                }
             }
         }
     }
