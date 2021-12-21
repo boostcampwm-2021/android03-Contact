@@ -35,7 +35,7 @@ class ContactRepositoryImpl @Inject constructor(
         contactPreference.getShowOnBoardingState()
     }
 
-    override suspend fun setNotificationTime(start: Int, end: Int) =
+    override suspend fun setNotificationTimeRange(start: Int, end: Int) =
         withContext(ioDispatcher) {
             contactPreference.setNotificationTime(NOTIFICATION_START, start)
             contactPreference.setNotificationTime(NOTIFICATION_END, end)
@@ -134,6 +134,10 @@ class ContactRepositoryImpl @Inject constructor(
         contactPreference.setNotificationOnOff(onOff)
     }
     override fun getNotificationState() = contactPreference.getNotificationState()
+    override fun getPlanNotificationTime() = contactPreference.getPlanNotificationTime()
+    override fun setPlanNotificationTime(time: Long) {
+        contactPreference.setPlanNotificationTime(time)
+    }
 
     override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: Long) =
         withContext(ioDispatcher) {

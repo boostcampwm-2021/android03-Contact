@@ -26,7 +26,7 @@ interface ContactRepository {
     // OnBoarding
     fun setShowOnBoardingState(state: Boolean)
     suspend fun getShowOnBoardingState(): Boolean
-    suspend fun setNotificationTime(start: Int, end: Int)
+    suspend fun setNotificationTimeRange(start: Int, end: Int)
     suspend fun setNotificationOnOff(state: Boolean)
 
     // Plan
@@ -44,6 +44,8 @@ interface ContactRepository {
     fun getEndAlarmHour(): Int
     fun setNotificationState(onOff: Boolean)
     fun getNotificationState(): Boolean
+    fun getPlanNotificationTime(): Long
+    fun setPlanNotificationTime(time: Long)
 
     // Group
     suspend fun loadGroups(): List<GroupData>
