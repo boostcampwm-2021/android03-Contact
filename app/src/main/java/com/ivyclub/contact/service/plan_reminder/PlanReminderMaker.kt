@@ -7,8 +7,6 @@ interface PlanReminderMaker {
 
     suspend fun cancelPlanReminder(planData: SimplePlanData)
 
-    suspend fun resetStartEndAlarm(planData: SimplePlanData)
-
     companion object {
         const val ACTION_ALARM = "com.ivyclub.contact.Alarm"
         const val REMINDER_TITLE = "reminder_title"
