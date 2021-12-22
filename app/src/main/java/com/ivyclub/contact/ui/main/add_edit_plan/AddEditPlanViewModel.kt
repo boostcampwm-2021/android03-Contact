@@ -1,5 +1,6 @@
 package com.ivyclub.contact.ui.main.add_edit_plan
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,6 +38,8 @@ class AddEditPlanViewModel @Inject constructor(
     private val friendMap = mutableMapOf<Long, SimpleFriendData>()
     private val _friendList = MutableLiveData<List<SimpleFriendData>>()
     val friendList: LiveData<List<SimpleFriendData>> = _friendList
+    private val _bitmapUriList = MutableLiveData<List<Uri>>() // 계획 사진 uri 리스트
+    val bitmapUriList: LiveData<List<Uri>> get() = _bitmapUriList
 
     private val loadFriendsJob: Job = viewModelScope.launch {
         val myFriends = repository.getSimpleFriendData()
@@ -116,6 +119,10 @@ class AddEditPlanViewModel @Inject constructor(
         }
     }
 
+    fun setPlanImageUri(newUriList: List<Uri>) {
+        _bitmapUriList.value = newUriList
+    }
+
     private fun trimParticipants(beforeTrimmed: List<SimpleFriendData>): List<SimpleFriendData> {
         var afterTrimmed = beforeTrimmed
 
@@ -147,7 +154,15 @@ class AddEditPlanViewModel @Inject constructor(
         val color = ""  // TODO: 랜덤 색 만들기
 
         val newPlan =
-            if (planId != -1L) PlanData(participantIds, planDate, title, place, content, color, id = planId)
+            if (planId != -1L) PlanData(
+                participantIds,
+                planDate,
+                title,
+                place,
+                content,
+                color,
+                id = planId
+            )
             else PlanData(participantIds, planDate, title, place, content, color)
 
         viewModelScope.launch {

@@ -1,16 +1,29 @@
 package com.ivyclub.contact.ui.main.add_edit_plan
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentAddEditPlanBinding
+import com.ivyclub.contact.ui.main.MainViewModel
 import com.ivyclub.contact.ui.main.friend.dialog.SelectGroupFragment
 import com.ivyclub.contact.util.*
 import com.ivyclub.data.model.SimpleFriendData
@@ -25,6 +38,7 @@ class AddEditPlanFragment :
 
     private val viewModel: AddEditPlanViewModel by viewModels()
     private val args: AddEditPlanFragmentArgs by navArgs()
+    private var currentBitmap: Bitmap? = null
 
     private val onBackPressedCallback by lazy {
         object : OnBackPressedCallback(true) {
@@ -33,6 +47,45 @@ class AddEditPlanFragment :
             }
         }
     }
+    private val activityViewModel: MainViewModel by activityViewModels()
+    private val filterActivityLauncher: ActivityResultLauncher<Intent> = // todo 가져오는 것부터 해야 함
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+            activityViewModel.unlock()
+            if (activityResult.resultCode == Activity.RESULT_OK && activityResult.data != null) {
+                val currentImageUri = activityResult.data?.data
+                val selectedImageCount = activityResult.data?.clipData?.itemCount ?: 0
+                val tempList = mutableListOf<Uri>()
+                for (idx in 0 until selectedImageCount) {
+                    tempList.add(activityResult.data?.clipData?.getItemAt(idx)?.uri ?: continue)
+                }
+                Log.e("temptemp", ".${tempList}")
+                viewModel.setPlanImageUri(tempList)
+                try {
+                    currentImageUri?.let {
+                        activity?.let {
+                            currentBitmap = if (Build.VERSION.SDK_INT < 28) {
+                                val bitmap = MediaStore.Images.Media.getBitmap(
+                                    it.contentResolver,
+                                    currentImageUri
+                                )
+                                bitmap
+                            } else {
+                                val source =
+                                    ImageDecoder.createSource(it.contentResolver, currentImageUri)
+                                val bitmap = ImageDecoder.decodeBitmap(source)
+                                bitmap
+                            }
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            } else if (activityResult.resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(context, "사진 선택 취소", Toast.LENGTH_LONG).show()
+            } else {
+                Log.d("ActivityResult", "something wrong")
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,6 +95,7 @@ class AddEditPlanFragment :
             SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault())
 
         initPhotoAdapter()
+        initAddPhotoBtn()
         initBackPressedCallback()
         checkFrom()
         setButtonClickListeners()
@@ -54,9 +108,27 @@ class AddEditPlanFragment :
         super.onDetach()
     }
 
+    private fun initAddPhotoBtn() {
+        binding.btnAddImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            filterActivityLauncher.launch(intent)
+        }
+    }
+
     private fun initPhotoAdapter() {
         val photoAdapter = PhotoAdapter()
-        photoAdapter.submitList(listOf(PhotoData(""),PhotoData(""),PhotoData(""),PhotoData(""),PhotoData(""),PhotoData(""),))
+        photoAdapter.submitList(
+            listOf(
+                PhotoData(""),
+                PhotoData(""),
+                PhotoData(""),
+                PhotoData(""),
+                PhotoData(""),
+                PhotoData(""),
+            )
+        )
         binding.rvPhoto.adapter = photoAdapter
     }
 
