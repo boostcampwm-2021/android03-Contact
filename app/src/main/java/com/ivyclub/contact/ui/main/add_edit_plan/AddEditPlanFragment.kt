@@ -53,6 +53,10 @@ class AddEditPlanFragment :
                     val selectedImageCount = activityResult.data?.clipData?.itemCount ?: 0
                     val imageUriList = mutableListOf<Uri>()
                     for (idx in 0 until selectedImageCount) {
+                        if (idx > 4) { // 사진은 다섯장까지만 추가 가능하도록 구현
+                            binding.makeShortSnackBar(getString(R.string.add_edit_plan_fragment_over_five_pics))
+                            break
+                        }
                         imageUriList.add(
                             activityResult.data?.clipData?.getItemAt(idx)?.uri ?: continue
                         )
