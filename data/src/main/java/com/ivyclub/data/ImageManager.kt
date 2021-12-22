@@ -2,6 +2,7 @@ package com.ivyclub.data
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import java.io.File
 import java.io.FileOutputStream
@@ -30,8 +31,14 @@ object ImageManager {
         }.getOrDefault(null)
     }
 
+//    fun loadImageWithURI(uri: Uri): Bitmap {
+//        return runCatching {
+//
+//        }
+//    }
+
     fun deleteImage(friendId: Long) {
-        val tempFile = File(IMAGE_FILE_PATH,"$friendId.jpg")
+        val tempFile = File(IMAGE_FILE_PATH, "$friendId.jpg")
         tempFile.delete()
     }
 

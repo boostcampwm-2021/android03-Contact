@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -35,8 +34,6 @@ class AddEditPlanFragment :
 
     private val viewModel: AddEditPlanViewModel by viewModels()
     private val args: AddEditPlanFragmentArgs by navArgs()
-    private var currentBitmap: Bitmap? = null
-
     private val onBackPressedCallback by lazy {
         object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -72,6 +69,7 @@ class AddEditPlanFragment :
                 Log.e(this::class.simpleName, "ActivityResult Went Wrong")
             }
         }
+    private val photoAdapter = PhotoAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -87,6 +85,7 @@ class AddEditPlanFragment :
         setButtonClickListeners()
         getGroupSelectFragmentResult()
         setObservers()
+        observePlanPhotoList()
     }
 
     override fun onDetach() {
@@ -103,18 +102,13 @@ class AddEditPlanFragment :
         }
     }
 
+    private fun observePlanPhotoList() {
+        viewModel.bitmapUriList.observe(viewLifecycleOwner) { newUriList ->
+            photoAdapter.submitList(newUriList)
+        }
+    }
+
     private fun initPhotoAdapter() {
-        val photoAdapter = PhotoAdapter()
-        photoAdapter.submitList(
-            listOf(
-                PhotoData(""),
-                PhotoData(""),
-                PhotoData(""),
-                PhotoData(""),
-                PhotoData(""),
-                PhotoData(""),
-            )
-        )
         binding.rvPhoto.adapter = photoAdapter
     }
 
