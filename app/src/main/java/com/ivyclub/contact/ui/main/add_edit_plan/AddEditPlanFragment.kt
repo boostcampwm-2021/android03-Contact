@@ -5,11 +5,8 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -48,42 +45,27 @@ class AddEditPlanFragment :
         }
     }
     private val activityViewModel: MainViewModel by activityViewModels()
-    private val filterActivityLauncher: ActivityResultLauncher<Intent> = // todo 가져오는 것부터 해야 함
+    private val filterActivityLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
             activityViewModel.unlock()
             if (activityResult.resultCode == Activity.RESULT_OK && activityResult.data != null) {
-                val currentImageUri = activityResult.data?.data
-                val selectedImageCount = activityResult.data?.clipData?.itemCount ?: 0
-                val tempList = mutableListOf<Uri>()
-                for (idx in 0 until selectedImageCount) {
-                    tempList.add(activityResult.data?.clipData?.getItemAt(idx)?.uri ?: continue)
-                }
-                Log.e("temptemp", ".${tempList}")
-                viewModel.setPlanImageUri(tempList)
-                try {
-                    currentImageUri?.let {
-                        activity?.let {
-                            currentBitmap = if (Build.VERSION.SDK_INT < 28) {
-                                val bitmap = MediaStore.Images.Media.getBitmap(
-                                    it.contentResolver,
-                                    currentImageUri
-                                )
-                                bitmap
-                            } else {
-                                val source =
-                                    ImageDecoder.createSource(it.contentResolver, currentImageUri)
-                                val bitmap = ImageDecoder.decodeBitmap(source)
-                                bitmap
-                            }
-                        }
+                if (activityResult.data?.clipData != null) { // 사용자가 이미지 여러 개 선택했을 때
+                    val selectedImageCount = activityResult.data?.clipData?.itemCount ?: 0
+                    val imageUriList = mutableListOf<Uri>()
+                    for (idx in 0 until selectedImageCount) {
+                        imageUriList.add(
+                            activityResult.data?.clipData?.getItemAt(idx)?.uri ?: continue
+                        )
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                    viewModel.setPlanImageUri(imageUriList)
+                } else { // 사용자가 이미지 하나 선택했을 때
+                    val imageUri = activityResult.data?.data
+                    viewModel.setPlanImageUri(listOf(imageUri ?: return@registerForActivityResult))
                 }
             } else if (activityResult.resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(context, "사진 선택 취소", Toast.LENGTH_LONG).show()
             } else {
-                Log.d("ActivityResult", "something wrong")
+                Log.e(this::class.simpleName, "ActivityResult Went Wrong")
             }
         }
 
