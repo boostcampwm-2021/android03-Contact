@@ -59,9 +59,17 @@ class AddEditPlanFragment :
                         )
                     }
                     viewModel.setPlanImageUri(imageUriList)
+                    binding.tvPhotoCount.text = String.format(
+                        requireContext().getString(R.string.add_edit_plan_fragment_image_count),
+                        selectedImageCount
+                    )
                 } else { // 사용자가 이미지 하나 선택했을 때
                     val imageUri = activityResult.data?.data
                     viewModel.setPlanImageUri(listOf(imageUri ?: return@registerForActivityResult))
+                    binding.tvPhotoCount.text = String.format(
+                        requireContext().getString(R.string.add_edit_plan_fragment_image_count),
+                        1
+                    )
                 }
             } else if (activityResult.resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(context, "사진 선택 취소", Toast.LENGTH_LONG).show()

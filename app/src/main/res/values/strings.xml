@@ -164,4 +164,5 @@
     <string name="fragment_add_edit_plan_photo" translatable="false">사진 추가</string>
     <string name="fragment_add_edit_plan_add_photo">사진 추가하기</string>
     <string name="add_edit_plan_fragment_over_five_pics">사진은 다섯 장까지만 추가됩니다.</string>
+    <string name="add_edit_plan_fragment_image_count" translatable="false">(%d/5)</string>
 </resources>
