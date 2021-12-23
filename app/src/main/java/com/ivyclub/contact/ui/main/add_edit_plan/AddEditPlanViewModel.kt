@@ -179,9 +179,10 @@ class AddEditPlanViewModel @Inject constructor(
     }
 
     fun deletePhotoAt(position: Int) {
-        val temp = _bitmapUriList.value?.map { it }?.toMutableList()
-        temp?.removeAt(position)
-        _bitmapUriList.value = temp ?: emptyList()
+        val modifiedPhotoUriList = _bitmapUriList.value?.map { it }?.toMutableList()
+        modifiedPhotoUriList?.removeAt(position)
+        _imageCount.value = modifiedPhotoUriList?.size
+        _bitmapUriList.value = modifiedPhotoUriList ?: emptyList()
     }
 
     companion object {
