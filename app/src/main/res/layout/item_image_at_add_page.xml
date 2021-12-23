@@ -25,6 +25,7 @@
             tools:src="@drawable/ic_launcher_background" />
 
         <com.ivyclub.contact.customview.CircleXImageView
+            android:id="@+id/circle_x_image_view"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:backgroundTint="#808080"

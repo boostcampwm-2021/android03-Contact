@@ -77,7 +77,7 @@ class AddEditPlanFragment :
                 Log.e(this::class.simpleName, "ActivityResult Went Wrong")
             }
         }
-    private val photoAdapter = PhotoAdapter()
+    private lateinit var photoAdapter: PhotoAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -103,6 +103,10 @@ class AddEditPlanFragment :
 
     private fun initAddPhotoBtn() {
         binding.btnAddImage.setOnClickListener {
+            if (binding.tvPhotoCount.text == "(5/5)") {
+                binding.makeShortSnackBar("최대 사진은 다섯장까지 추가할 수 있습니다.")
+                return@setOnClickListener
+            }
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -117,6 +121,7 @@ class AddEditPlanFragment :
     }
 
     private fun initPhotoAdapter() {
+        photoAdapter = PhotoAdapter(viewModel::deletePhotoAt)
         binding.rvPhoto.adapter = photoAdapter
     }
 
@@ -197,18 +202,15 @@ class AddEditPlanFragment :
                 setAutoCompleteAdapter(it)
             }
         }
-
         viewModel.planParticipants.observe(viewLifecycleOwner) {
             binding.flPlanParticipants.addChips(it.map { pair -> pair.name }) { index ->
                 viewModel.removeParticipant(index)
             }
         }
-
         viewModel.snackbarMessage.observe(viewLifecycleOwner) {
             if (context == null) return@observe
             Snackbar.make(binding.root, getString(it), Snackbar.LENGTH_SHORT).show()
         }
-
         viewModel.finishEvent.observe(viewLifecycleOwner) {
             findNavController().popBackStack()
         }
@@ -224,7 +226,6 @@ class AddEditPlanFragment :
                     text = null
                 }
             }
-
             setAdapter(autoCompleteAdapter)
         }
     }

@@ -17,16 +17,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.sql.Date
 import javax.inject.Inject
-import kotlin.collections.List
-import kotlin.collections.emptyList
-import kotlin.collections.forEach
-import kotlin.collections.map
-import kotlin.collections.mutableListOf
-import kotlin.collections.mutableMapOf
 import kotlin.collections.set
-import kotlin.collections.toList
-import kotlin.collections.toMutableList
-import kotlin.collections.toMutableSet
 
 @HiltViewModel
 class AddEditPlanViewModel @Inject constructor(
@@ -38,39 +29,32 @@ class AddEditPlanViewModel @Inject constructor(
     private val friendMap = mutableMapOf<Long, SimpleFriendData>()
     private val _friendList = MutableLiveData<List<SimpleFriendData>>()
     val friendList: LiveData<List<SimpleFriendData>> = _friendList
-    private val _bitmapUriList = MutableLiveData<List<Uri>>() // 계획 사진 uri 리스트
-    val bitmapUriList: LiveData<List<Uri>> get() = _bitmapUriList
-
     private val loadFriendsJob: Job = viewModelScope.launch {
         val myFriends = repository.getSimpleFriendData()
-        myFriends?.forEach {
+        myFriends.forEach {
             friendMap[it.id] = it
         }
         _friendList.value = myFriends
     }
-
     val planTitle = MutableLiveData<String>()
-
     private val _planTime = MutableLiveData(Date(System.currentTimeMillis()))
     val planTime: LiveData<Date> = _planTime
-
     private val _planParticipants = MutableLiveData<List<SimpleFriendData>>(emptyList())
     val planParticipants: LiveData<List<SimpleFriendData>> = _planParticipants
-
     val planPlace = MutableLiveData<String>()
     val planContent = MutableLiveData<String>()
-
     private val _snackbarMessage = SingleLiveEvent<Int>()
     val snackbarMessage: LiveData<Int> = _snackbarMessage
-
     private val _finishEvent = SingleLiveEvent<Unit>()
     val finishEvent: LiveData<Unit> = _finishEvent
+    private val _bitmapUriList = MutableLiveData<List<Uri>>() // 계획 사진 uri 리스트
+    val bitmapUriList: LiveData<List<Uri>> get() = _bitmapUriList
+    private val _imageCount = MutableLiveData(0)
+    val imageCount: LiveData<Int> get() = _imageCount
 
     fun getLastPlan(planId: Long) {
         if (this.planId != -1L) return
-
         this.planId = planId
-
         viewModelScope.launch {
             repository.getPlanDataById(planId)?.let {
                 lastParticipants.addAll(it.participant)
@@ -120,7 +104,10 @@ class AddEditPlanViewModel @Inject constructor(
     }
 
     fun setPlanImageUri(newUriList: List<Uri>) {
-        _bitmapUriList.value = newUriList
+        val originPlusNewUriList = (_bitmapUriList.value ?: emptyList()) + newUriList
+        if (originPlusNewUriList.size > 5) return // 최대 사진 다섯 장
+        _imageCount.value = originPlusNewUriList.size
+        _bitmapUriList.value = originPlusNewUriList
     }
 
     private fun trimParticipants(beforeTrimmed: List<SimpleFriendData>): List<SimpleFriendData> {
@@ -142,17 +129,14 @@ class AddEditPlanViewModel @Inject constructor(
         val participantIds = planParticipants.value?.map { it.id } ?: emptyList()
         val participantNames = planParticipants.value?.map { it.name } ?: emptyList()
         val planDate = planTime.value ?: Date(System.currentTimeMillis())
-
         val title = planTitle.value
         if (title.isNullOrEmpty()) {
             makeSnackbar(R.string.hint_plan_title)
             return
         }
-
         val place = planPlace.value ?: ""
         val content = planContent.value ?: ""
         val color = ""  // TODO: 랜덤 색 만들기
-
         val newPlan =
             if (planId != -1L) PlanData(
                 participantIds,
@@ -164,7 +148,6 @@ class AddEditPlanViewModel @Inject constructor(
                 id = planId
             )
             else PlanData(participantIds, planDate, title, place, content, color)
-
         viewModelScope.launch {
             planId = repository.savePlanData(newPlan, lastParticipants)
             val alarmStart = repository.getStartAlarmHour()
@@ -193,6 +176,12 @@ class AddEditPlanViewModel @Inject constructor(
             val friend = repository.getSimpleFriendDataById(friendId)
             addParticipant(friend)
         }
+    }
+
+    fun deletePhotoAt(position: Int) {
+        val temp = _bitmapUriList.value?.map { it }?.toMutableList()
+        temp?.removeAt(position)
+        _bitmapUriList.value = temp ?: emptyList()
     }
 
     companion object {
