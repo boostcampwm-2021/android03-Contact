@@ -47,15 +47,20 @@ class AddEditPlanFragment :
             activityViewModel.unlock()
             if (activityResult.resultCode == Activity.RESULT_OK && activityResult.data != null) {
                 if (activityResult.data?.clipData != null) { // 사용자가 이미지 여러 개 선택했을 때
+                    val currentImageCountText = binding.tvPhotoCount.text
+                    val originImageCount = currentImageCountText.substring(
+                        currentImageCountText.indexOf("(") + 1,
+                        currentImageCountText.indexOf("/")
+                    ).toInt() // 실제 값이 들어가는 부분이 1
                     val selectedImageCount = activityResult.data?.clipData?.itemCount ?: 0
                     val imageUriList = mutableListOf<Uri>()
-                    for (idx in 0 until selectedImageCount) {
-                        if (idx > 4) { // 사진은 다섯장까지만 추가 가능하도록 구현
+                    for (idx in 1..selectedImageCount) {
+                        if (originImageCount + idx > 5) { // 사진은 다섯장까지만 추가 가능하도록 구현
                             binding.makeShortSnackBar(getString(R.string.add_edit_plan_fragment_over_five_pics))
                             break
                         }
                         imageUriList.add(
-                            activityResult.data?.clipData?.getItemAt(idx)?.uri ?: continue
+                            activityResult.data?.clipData?.getItemAt(idx - 1)?.uri ?: continue
                         )
                     }
                     viewModel.setPlanImageUri(imageUriList)
