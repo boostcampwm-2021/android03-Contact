@@ -1,5 +1,6 @@
 package com.ivyclub.contact.ui.main.add_edit_plan
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -126,7 +127,7 @@ class AddEditPlanViewModel @Inject constructor(
     }
 
     // todo 사진 저장하기
-    fun savePlan(planImageUriList: List<Uri>) {
+    fun savePlan(planImageUriList: List<Bitmap>) {
         val participantIds = planParticipants.value?.map { it.id } ?: emptyList()
         val participantNames = planParticipants.value?.map { it.name } ?: emptyList()
         val planDate = planTime.value ?: Date(System.currentTimeMillis())
@@ -149,9 +150,6 @@ class AddEditPlanViewModel @Inject constructor(
                 id = planId
             )
             else PlanData(participantIds, planDate, title, place, content, color)
-        planImageUriList.forEach { imageUri ->
-
-        }
         viewModelScope.launch {
             planId = repository.savePlanData(newPlan, lastParticipants)
             val alarmStart = repository.getStartAlarmHour()

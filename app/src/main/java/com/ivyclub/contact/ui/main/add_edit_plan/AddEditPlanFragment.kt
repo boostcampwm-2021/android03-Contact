@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -83,6 +84,7 @@ class AddEditPlanFragment :
             }
         }
     private lateinit var photoAdapter: PhotoAdapter
+    private val bitmapList = mutableListOf<Bitmap>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -121,6 +123,9 @@ class AddEditPlanFragment :
 
     private fun observePlanPhotoList() {
         viewModel.bitmapUriList.observe(viewLifecycleOwner) { newUriList ->
+            bitmapList.addAll(newUriList.map { uri ->
+                requireActivity().uriToBitmap(uri)
+            })
             photoAdapter.submitList(newUriList)
         }
     }
@@ -177,7 +182,7 @@ class AddEditPlanFragment :
 
     private fun showSavePlanDialog() {
         context?.showAlertDialog(getString(R.string.ask_save_plan), {
-            viewModel.savePlan(photoAdapter.currentList)
+            viewModel.savePlan(bitmapList)
         })
     }
 
