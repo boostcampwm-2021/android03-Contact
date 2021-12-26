@@ -11,12 +11,15 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.service.plan_reminder.PlanReminderNotificationWorker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
+import com.ivyclub.data.image.ImageManager
 import com.ivyclub.data.model.PlanData
 import com.ivyclub.data.model.SimpleFriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.sql.Date
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.collections.set
 
@@ -126,8 +129,9 @@ class AddEditPlanViewModel @Inject constructor(
         _planTime.value = newDate
     }
 
-    // todo 사진 저장하기
     fun savePlan(planImageUriList: List<Bitmap>) {
+        val currentTime =
+            SimpleDateFormat("yyyyMddhhmmss", Locale.getDefault()).format(java.util.Date())
         val participantIds = planParticipants.value?.map { it.id } ?: emptyList()
         val participantNames = planParticipants.value?.map { it.name } ?: emptyList()
         val planDate = planTime.value ?: Date(System.currentTimeMillis())
@@ -147,10 +151,12 @@ class AddEditPlanViewModel @Inject constructor(
                 place,
                 content,
                 color,
+                currentTime,
                 id = planId
             )
-            else PlanData(participantIds, planDate, title, place, content, color)
+            else PlanData(participantIds, planDate, title, place, content, color, currentTime)
         viewModelScope.launch {
+            ImageManager.savePlanBitmap(planImageUriList, currentTime)
             planId = repository.savePlanData(newPlan, lastParticipants)
             val alarmStart = repository.getStartAlarmHour()
             val alarmEnd = repository.getEndAlarmHour()
