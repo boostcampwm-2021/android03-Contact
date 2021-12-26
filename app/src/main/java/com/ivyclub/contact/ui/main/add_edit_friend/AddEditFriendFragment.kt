@@ -166,20 +166,8 @@ class AddEditFriendFragment :
                 try {
                     currentImageUri?.let {
                         activity?.let {
-                            currentBitmap = if (Build.VERSION.SDK_INT < 28) {
-                                val bitmap = MediaStore.Images.Media.getBitmap(
-                                    it.contentResolver,
-                                    currentImageUri
-                                )
-                                binding.ivProfileImage.setImageBitmap(bitmap)
-                                bitmap
-                            } else {
-                                val source =
-                                    ImageDecoder.createSource(it.contentResolver, currentImageUri)
-                                val bitmap = ImageDecoder.decodeBitmap(source)
-                                binding.ivProfileImage.setImageBitmap(bitmap)
-                                bitmap
-                            }
+                            currentBitmap = requireActivity().uriToBitmap(currentImageUri)
+                            binding.ivProfileImage.setImageBitmap(currentBitmap)
                         }
                     }
                 } catch (e: Exception) {
