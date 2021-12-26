@@ -125,6 +125,7 @@ class AddEditPlanViewModel @Inject constructor(
         _planTime.value = newDate
     }
 
+    // todo 사진 저장하기
     fun savePlan() {
         val participantIds = planParticipants.value?.map { it.id } ?: emptyList()
         val participantNames = planParticipants.value?.map { it.name } ?: emptyList()
