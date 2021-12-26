@@ -8,14 +8,8 @@ import android.os.Build
 import android.provider.MediaStore
 
 fun Activity.uriToBitmap(uri: Uri): Bitmap = if (Build.VERSION.SDK_INT < 28) {
-    val bitmap = MediaStore.Images.Media.getBitmap(
-        this.contentResolver,
-        uri
-    )
-    bitmap
+    MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
 } else {
-    val source =
-        ImageDecoder.createSource(this.contentResolver, uri)
-    val bitmap = ImageDecoder.decodeBitmap(source)
-    bitmap
+    val source = ImageDecoder.createSource(this.contentResolver, uri)
+    ImageDecoder.decodeBitmap(source)
 }
