@@ -177,7 +177,7 @@ class AddEditPlanFragment :
 
     private fun showSavePlanDialog() {
         context?.showAlertDialog(getString(R.string.ask_save_plan), {
-            viewModel.savePlan()
+            viewModel.savePlan(photoAdapter.currentList)
         })
     }
 
