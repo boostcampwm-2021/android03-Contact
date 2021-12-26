@@ -20,13 +20,19 @@ object ImageManager {
         }
     }
 
-    fun saveBitmap(bitmap: Bitmap, fileName: String, imageType: ImageType) {
+    fun savePlanBitmap(bitmapList: List<Bitmap>, currentTime: String) {
         runCatching {
-            val tempFile = File(imageType.filePath, "$fileName.jpg")
-            tempFile.createNewFile()
-            val out = FileOutputStream(tempFile)
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out)
-            out.close()
+            val folderPath = "${ImageType.PLAN_IMAGE.filePath}${currentTime}/"
+            val file = File(folderPath)
+            if (!file.exists()) file.mkdirs()
+            bitmapList.forEachIndexed { index, bitmap ->
+                val tempFile = File(folderPath, "${index}.jpg").apply {
+                    createNewFile()
+                }
+                val out = FileOutputStream(tempFile)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, out)
+                out.close()
+            }
         }.onFailure { exception ->
             Log.e("ImageManagerError", "Exception : $exception")
         }
