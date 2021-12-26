@@ -48,12 +48,6 @@ object ImageManager {
         }.getOrDefault(null)
     }
 
-//    fun loadImageWithURI(uri: Uri): Bitmap {
-//        return runCatching {
-//
-//        }
-//    }
-
     fun deleteImage(friendId: Long) {
         val tempFile = File(ImageType.PROFILE_IMAGE.name, "$friendId.jpg")
         tempFile.delete()
