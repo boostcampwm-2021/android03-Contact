@@ -1,9 +1,12 @@
 package com.ivyclub.contact.ui.main.settings.dialog
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.service.plan_reminder.PlanReminderMaker
+import com.ivyclub.contact.util.HOUR_IN_MILLIS
+import com.ivyclub.contact.util.MINUTE_IN_MILLIS
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.contact.util.getNewTime
 import com.ivyclub.data.ContactRepository
@@ -33,12 +36,37 @@ class NotificationTimeDialogViewModel @Inject constructor(
         repository.getEndAlarmHour().toFloat()
     }
 
+    private val planNotiTimes = arrayOf(15 * MINUTE_IN_MILLIS, 30 * MINUTE_IN_MILLIS, HOUR_IN_MILLIS, 2 * HOUR_IN_MILLIS)
+    private val _planNotiTimeIdx = MutableLiveData<Int>()
+    val planNotiTimeIdx: LiveData<Int> = _planNotiTimeIdx
+
     private val _changeNotiTimeFinishEvent = SingleLiveEvent<Unit>()
     val changeNotiTimeFinishEvent: LiveData<Unit> = _changeNotiTimeFinishEvent
 
+    init {
+        initPlanNotiTime()
+    }
+
+    private fun initPlanNotiTime() {
+        var planNotiTime = repository.getPlanNotificationTime()
+        if (planNotiTime == 0L) {
+            planNotiTime = planNotiTimes[2]
+            repository.setPlanNotificationTime(planNotiTime)
+        }
+        planNotiTimes.forEachIndexed { i, time ->
+            if (time == planNotiTime)
+                _planNotiTimeIdx.value = i
+        }
+    }
+
+    fun updatePlanNotiIdx(idx: Int) {
+        _planNotiTimeIdx.value = idx
+    }
+
     fun updateNotificationTime(startTime: Float, endTime: Float) {
         viewModelScope.launch {
-            repository.setNotificationTime(startTime.toInt(), endTime.toInt())
+            repository.setNotificationTimeRange(startTime.toInt(), endTime.toInt())
+            planNotiTimeIdx.value?.let { repository.setPlanNotificationTime(planNotiTimes[it]) }
             loadFriendsJob.join()
             val todayStart = Date(System.currentTimeMillis()).getNewTime(0, 0).time
             val futurePlanList = repository.getPlanListAfter(todayStart)
@@ -47,7 +75,7 @@ class NotificationTimeDialogViewModel @Inject constructor(
                 return@launch
             }
             futurePlanList.forEach { simplePlanData ->
-                reminderMaker.resetStartEndAlarm(simplePlanData)
+                reminderMaker.makePlanReminders(simplePlanData)
             }
 
             _changeNotiTimeFinishEvent.call()
