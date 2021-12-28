@@ -61,7 +61,7 @@ class AddEditPlanViewModel @Inject constructor(
         if (this.planId != -1L) return
         this.planId = planId
         viewModelScope.launch {
-            repository.getPlanDataById(planId)?.let {
+            repository.getPlanDataById(planId).let {
                 lastParticipants.addAll(it.participant)
 
                 planTitle.value = it.title
@@ -188,6 +188,7 @@ class AddEditPlanViewModel @Inject constructor(
     }
 
     fun deletePhotoAt(position: Int) {
+        if (position == -1) return
         val modifiedPhotoUriList = _bitmapUriList.value?.map { it }?.toMutableList()
         modifiedPhotoUriList?.removeAt(position)
         _imageCount.postValue(modifiedPhotoUriList?.size)
