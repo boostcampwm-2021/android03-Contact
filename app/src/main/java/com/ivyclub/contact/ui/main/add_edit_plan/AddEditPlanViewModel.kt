@@ -55,6 +55,7 @@ class AddEditPlanViewModel @Inject constructor(
     val bitmapUriList: LiveData<List<Uri>> get() = _bitmapUriList
     private val _imageCount = MutableLiveData(0)
     val imageCount: LiveData<Int> get() = _imageCount
+    val maxPhotoCount = MAX_PHOTO_COUNT
 
     fun getLastPlan(planId: Long) {
         if (this.planId != -1L) return

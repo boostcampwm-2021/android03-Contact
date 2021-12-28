@@ -29,6 +29,8 @@ import java.sql.Date
 import java.text.SimpleDateFormat
 import java.util.*
 
+const val MAX_PHOTO_COUNT = 5
+
 @AndroidEntryPoint
 class AddEditPlanFragment :
     BaseFragment<FragmentAddEditPlanBinding>(R.layout.fragment_add_edit_plan) {
@@ -56,7 +58,7 @@ class AddEditPlanFragment :
                     val selectedImageCount = activityResult.data?.clipData?.itemCount ?: 0
                     val imageUriList = mutableListOf<Uri>()
                     for (idx in 1..selectedImageCount) {
-                        if (originImageCount + idx > 5) { // 사진은 다섯장까지만 추가 가능하도록 구현
+                        if (originImageCount + idx > MAX_PHOTO_COUNT) { // 사진은 다섯장까지만 추가 가능하도록 구현
                             binding.makeShortSnackBar(getString(R.string.add_edit_plan_fragment_over_five_pics))
                             break
                         }
@@ -67,14 +69,16 @@ class AddEditPlanFragment :
                     viewModel.setPlanImageUri(imageUriList)
                     binding.tvPhotoCount.text = String.format(
                         requireContext().getString(R.string.add_edit_plan_fragment_image_count),
-                        selectedImageCount
+                        selectedImageCount,
+                        MAX_PHOTO_COUNT
                     )
                 } else { // 사용자가 이미지 하나 선택했을 때
                     val imageUri = activityResult.data?.data
                     viewModel.setPlanImageUri(listOf(imageUri ?: return@registerForActivityResult))
                     binding.tvPhotoCount.text = String.format(
                         requireContext().getString(R.string.add_edit_plan_fragment_image_count),
-                        1
+                        1,
+                        MAX_PHOTO_COUNT
                     )
                 }
             } else if (activityResult.resultCode == Activity.RESULT_CANCELED) {
@@ -110,8 +114,8 @@ class AddEditPlanFragment :
 
     private fun initAddPhotoBtn() {
         binding.btnAddImage.setOnClickListener {
-            if (binding.tvPhotoCount.text == "(5/5)") {
-                binding.makeShortSnackBar("최대 사진은 다섯장까지 추가할 수 있습니다.")
+            if (binding.tvPhotoCount.text == "($MAX_PHOTO_COUNT/$MAX_PHOTO_COUNT)") {
+                binding.makeShortSnackBar(getString(R.string.add_edit_plan_fragment_over_five_pics))
                 return@setOnClickListener
             }
             val intent = Intent(Intent.ACTION_GET_CONTENT)

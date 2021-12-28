@@ -194,7 +194,7 @@
                     android:id="@+id/tv_photo_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.format(@string/add_edit_plan_fragment_image_count, viewModel.imageCount)}"
+                    android:text="@{String.format(@string/add_edit_plan_fragment_image_count, viewModel.imageCount, viewModel.maxPhotoCount)}"
                     app:layout_constraintBottom_toBottomOf="@id/tv_add_image"
                     app:layout_constraintEnd_toEndOf="@id/act_plan_participants"
                     app:layout_constraintTop_toTopOf="@id/tv_add_image"
