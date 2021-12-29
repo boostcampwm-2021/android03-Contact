@@ -9,12 +9,17 @@ import android.view.View
 import androidx.activity.addCallback
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPasswordBinding
+import com.ivyclub.contact.service.password_timer.PasswordTimerWorker
 import com.ivyclub.contact.ui.main.MainActivity
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.PasswordViewType
@@ -31,6 +36,11 @@ class PasswordFragment :
             listOf(etPassword1, etPassword2, etPassword3, etPassword4)
         }
     }
+    private val numberButtonList by lazy {
+        with(binding) {
+            listOf(btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,6 +54,11 @@ class PasswordFragment :
         observeFocusedEditTextIndex()
         observeShowSnackBar()
         blockKeyboard()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.initTryCountState()
     }
 
     private fun checkFingerPrintState() {
@@ -99,6 +114,8 @@ class PasswordFragment :
                     binding.tvPassword.text = getString(R.string.password_retry_message)
                     vibrate()
                 }
+                observeTimer()
+                observeTryCount()
             }
             PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 viewModel.initPasswordViewType(args.passwordViewType, args.password)
@@ -106,7 +123,47 @@ class PasswordFragment :
                     binding.tvPassword.text = getString(R.string.password_retry_message)
                     vibrate()
                 }
+                observeTimer()
+                observeTryCount()
             }
+        }
+    }
+
+    private fun observeTryCount() {
+        viewModel.tryCount.observe(viewLifecycleOwner) { tryCount ->
+            if (tryCount == 10) {
+                binding.tvPassword.text = "비밀번호를 10회 잘못 입력하셨습니다."
+                numberButtonList.forEach {
+                    it.isClickable = false
+                }
+                viewModel.getTimerInfo()
+                viewModel.timer.observe(viewLifecycleOwner) {
+                    binding.tvTryAfter.isVisible = true
+                    binding.tvTryAfter.text = "${it/60 + 1}분 후에 다시 시도해주세요."
+                }
+            } else {
+                binding.tvPassword.text = getString(R.string.password_input_password)
+                binding.tvTryAfter.isVisible = false
+                numberButtonList.forEach {
+                    it.isClickable = true
+                }
+            }
+        }
+    }
+
+    private fun observeTimer() {
+        val workName = "PasswordTimer"
+
+        viewModel.setTimer.observe(viewLifecycleOwner) {
+            val workRequest = OneTimeWorkRequestBuilder<PasswordTimerWorker>().build()
+            context?.let { context ->
+                WorkManager.getInstance(context)
+                    .enqueueUniqueWork(workName, ExistingWorkPolicy.REPLACE, workRequest)
+            }
+        }
+
+        viewModel.stopTimer.observe(viewLifecycleOwner) {
+            context?.let { context -> WorkManager.getInstance(context).cancelUniqueWork(workName) }
         }
     }
 
@@ -127,10 +184,6 @@ class PasswordFragment :
     }
 
     private fun initNumberClickListener() {
-        val numberButtonList = with(binding) {
-            listOf(btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9)
-        }
-
         numberButtonList.forEachIndexed { number, button ->
             button.setOnClickListener {
                 viewModel.moveFocusFront(number.toString())

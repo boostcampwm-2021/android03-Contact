@@ -42,11 +42,19 @@ class NotificationTimeDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         initRangeSlider()
         initCancelButton()
         initConfirmButton()
+        initRadioGroup()
         observeDismissEvent()
+    }
+
+    private fun initRadioGroup() {
+        viewModel.planNotiTimeIdx.value?.let { i ->
+            binding.rgSetPlanNotiTime.check(binding.rgSetPlanNotiTime.getChildAt(i).id)
+        }
     }
 
     private fun observeDismissEvent() {

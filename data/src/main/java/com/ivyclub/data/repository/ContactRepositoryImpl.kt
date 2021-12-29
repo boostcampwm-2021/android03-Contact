@@ -35,7 +35,7 @@ class ContactRepositoryImpl @Inject constructor(
         contactPreference.getShowOnBoardingState()
     }
 
-    override suspend fun setNotificationTime(start: Int, end: Int) =
+    override suspend fun setNotificationTimeRange(start: Int, end: Int) =
         withContext(ioDispatcher) {
             contactPreference.setNotificationTime(NOTIFICATION_START, start)
             contactPreference.setNotificationTime(NOTIFICATION_END, end)
@@ -130,6 +130,14 @@ class ContactRepositoryImpl @Inject constructor(
     override fun getStartAlarmHour() = contactPreference.getNotificationTime(NOTIFICATION_START)
 
     override fun getEndAlarmHour() = contactPreference.getNotificationTime(NOTIFICATION_END)
+    override fun setNotificationState(onOff: Boolean) {
+        contactPreference.setNotificationOnOff(onOff)
+    }
+    override fun getNotificationState() = contactPreference.getNotificationState()
+    override fun getPlanNotificationTime() = contactPreference.getPlanNotificationTime()
+    override fun setPlanNotificationTime(time: Long) {
+        contactPreference.setPlanNotificationTime(time)
+    }
 
     override suspend fun updateGroupOf(targetFriend: List<Long>, targetGroup: Long) =
         withContext(ioDispatcher) {
@@ -158,12 +166,28 @@ class ContactRepositoryImpl @Inject constructor(
         contactPreference.removePassword()
     }
 
+    override suspend fun savePasswordTryCount(passwordTryCount: Int) {
+        contactPreference.setPasswordTryCount(passwordTryCount)
+    }
+
+    override suspend fun getPasswordTryCount(): Int = withContext(ioDispatcher) {
+        contactPreference.getPasswordTryCount()
+    }
+
+    override suspend fun getPasswordTimer(): Int = withContext(ioDispatcher) {
+        contactPreference.getPasswordTimer()
+    }
+
     override suspend fun setFingerPrintState(state: Boolean) = withContext(ioDispatcher) {
         contactPreference.setFingerPrintState(state)
     }
 
     override suspend fun getFingerPrintState(): Boolean = withContext(ioDispatcher) {
         contactPreference.getFingerPrintState()
+    }
+
+    override suspend fun savePasswordTimer(seconds: Int) {
+        contactPreference.setPasswordTimer(seconds)
     }
 
     override suspend fun updateFriend(

@@ -2,8 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ivyclub.contact.ui.main.settings.dialog.NotificationTimeDialogViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="20dp">
 
@@ -12,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="@string/dialog_notification_time_set_time"
+            android:text="@string/dialog_notification_time_set_active_time"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@id/rs_time_range"
             app:layout_constraintTop_toTopOf="parent" />
@@ -54,6 +61,50 @@
             app:layout_constraintTop_toBottomOf="@id/tv_first_hour" />
 
         <TextView
+            android:id="@+id/tv_set_plan_noti_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/dialog_notification_time_set_last_noti_time"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/rs_time_range"
+            app:layout_constraintTop_toBottomOf="@id/rs_time_range" />
+
+        <RadioGroup
+            android:id="@+id/rg_set_plan_noti_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp"
+            android:orientation="vertical"
+            android:onCheckedChanged="@{(rg, id) -> viewModel.updatePlanNotiIdx(rg.indexOfChild(rg.findViewById(id)))}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_set_plan_noti_time">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/plan_noti_time_15m"/>
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/plan_noti_time_30m"/>
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/plan_noti_time_1h"/>
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/plan_noti_time_2h"/>
+        </RadioGroup>
+
+        <TextView
             android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,7 +127,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/rs_time_range"
-            app:layout_constraintTop_toBottomOf="@id/rs_time_range" />
+            app:layout_constraintTop_toBottomOf="@id/rg_set_plan_noti_time" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

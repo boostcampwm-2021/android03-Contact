@@ -114,7 +114,7 @@ class FakeContactRepository : ContactRepository {
         return onBoardingState
     }
 
-    override suspend fun setNotificationTime(start: Int, end: Int) {
+    override suspend fun setNotificationTimeRange(start: Int, end: Int) {
         notificationStartTime = start
         notificationEndTime = end
     }
@@ -173,6 +173,23 @@ class FakeContactRepository : ContactRepository {
         return notificationEndTime
     }
 
+    override fun setNotificationState(onOff: Boolean) {
+        // TODO("Not yet implemented")
+    }
+
+    override fun getNotificationState(): Boolean {
+        // TODO("Not yet implemented")
+        return true
+    }
+
+    override fun getPlanNotificationTime(): Long {
+        return 0L
+    }
+
+    override fun setPlanNotificationTime(time: Long) {
+        // TODO("Not yet implemented")
+    }
+
     override suspend fun loadGroups(): List<GroupData> {
         return groupList
     }
@@ -219,11 +236,27 @@ class FakeContactRepository : ContactRepository {
         // todo
     }
 
+    override suspend fun savePasswordTryCount(passwordTryCount: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPasswordTryCount(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPasswordTimer(): Int {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun setFingerPrintState(state: Boolean) {
         // todo
     }
 
     override suspend fun getFingerPrintState(): Boolean {
         return true // todo
+    }
+
+    override suspend fun savePasswordTimer(seconds: Int) {
+        TODO("Not yet implemented")
     }
 }
