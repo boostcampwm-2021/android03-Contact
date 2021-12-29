@@ -24,6 +24,7 @@
     <string name="item_group_divider_folder">group folder</string>
     <string name="item_friend_profile_profile_image">Profile Image</string>
     <string name="format_simple_date">yyyy年 MM月 dd日 HH时 mm分</string>
+    <string name="format_hour_minute">HH时 mm分</string>
     <string name="plan_what">约定内容</string>
     <string name="plan_where">场所</string>
     <string name="plan_who">参加人员</string>
@@ -73,8 +74,8 @@
     <string name="password_set_success">密码设置成功</string>
     <string name="password_reconfirm_fail">密码不正确. 请重新输入</string>
     <string name="password_reconfirm_message">为了确认密码，请再次输入一遍</string>
-    <string name="format_plan_reminder_notification_with_friends">约在1小时后，和%s有约定</string>
-    <string name="format_plan_reminder_notification_solo">约在1小时后，有%s约定</string>
+    <string name="format_plan_reminder_notification_with_friends">%s，和%s有约定</string>
+    <string name="format_plan_reminder_notification_solo">%s，有%s约定</string>
     <string name="security_finger_print">指纹</string>
     <string name="security_reset_password">重设密码</string>
     <string name="security_not_set">不设置</string>
@@ -92,7 +93,7 @@
     <string name="fragment_settings_notification">设置通知时间</string>
     <string name="fragment_settings_security_icon">security icon</string>
     <string name="fragment_settings_security">保安</string>
-    <string name="dialog_notification_time_set_time">设置时间</string>
+    <string name="dialog_notification_time_set_active_time">设置时间</string>
     <string name="notification_time_start_hour">6点</string>
     <string name="notification_time_last_hour">24点</string>
     <string name="dialog_notification_time_confirm">设置</string>
@@ -147,4 +148,9 @@
     <string name="skip_dialog_yes">是</string>
     <string name="skip_dialog_no">否</string>
     <string name="fragment_dialog_request_permission_description"><![CDATA[无法检索通讯录，因为您没有授予通讯录权限。 转到“设置”>“应用程序”>“Contact”>“权限”>“通讯录”并允许它。]]></string>
+    <string name="dialog_notification_time_set_last_noti_time">约定前的通知时间</string>
+    <string name="plan_noti_time_15m">15分钟前</string>
+    <string name="plan_noti_time_30m">30分钟前</string>
+    <string name="plan_noti_time_1h">一小时前</string>
+    <string name="plan_noti_time_2h">两小时前</string>
 </resources>

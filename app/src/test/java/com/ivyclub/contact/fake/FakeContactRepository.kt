@@ -114,7 +114,7 @@ class FakeContactRepository : ContactRepository {
         return onBoardingState
     }
 
-    override suspend fun setNotificationTime(start: Int, end: Int) {
+    override suspend fun setNotificationTimeRange(start: Int, end: Int) {
         notificationStartTime = start
         notificationEndTime = end
     }
@@ -180,6 +180,14 @@ class FakeContactRepository : ContactRepository {
     override fun getNotificationState(): Boolean {
         // TODO("Not yet implemented")
         return true
+    }
+
+    override fun getPlanNotificationTime(): Long {
+        return 0L
+    }
+
+    override fun setPlanNotificationTime(time: Long) {
+        // TODO("Not yet implemented")
     }
 
     override suspend fun loadGroups(): List<GroupData> {

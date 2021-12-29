@@ -18,6 +18,8 @@ import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.model.SimplePlanData
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.sql.Date
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -46,14 +48,6 @@ class PlanReminderMakerImpl @Inject constructor(
         cancelEndReminder(planData.id)
     }
 
-    override suspend fun resetStartEndAlarm(planData: SimplePlanData) {
-        val participants = planData.participant.map { participantId ->
-            repository.getSimpleFriendDataById(participantId).name
-        }
-        makeStartReminder(planData)
-        makeEndReminder(planData, participants)
-    }
-
     private fun makeLastPlanReminder(
         planData: SimplePlanData,
         participants: List<String>
@@ -64,9 +58,13 @@ class PlanReminderMakerImpl @Inject constructor(
 
         val reminderText: String
         val strFormat: String
+        val hourMinuteFormat = SimpleDateFormat(context.getString(R.string.format_hour_minute), Locale.getDefault())
+        val strHourMinute = hourMinuteFormat.format(planData.date)
         if (participants.isEmpty()) {
             strFormat = context.getString(R.string.format_plan_reminder_notification_solo)
-            reminderText = String.format(strFormat, planData.title)
+            reminderText =
+                if (Locale.getDefault().language == "en") String.format(strFormat, planData.title, strHourMinute)
+                else String.format(strFormat, strHourMinute, planData.title)
         }
         else {
             strFormat = context.getString(R.string.format_plan_reminder_notification_with_friends)
@@ -82,7 +80,9 @@ class PlanReminderMakerImpl @Inject constructor(
                         participants.size - 1
                     )
                 } else firstParticipant
-            reminderText = String.format(strFormat, textParticipants)
+            reminderText =
+                if (Locale.getDefault().language == "en") String.format(strFormat, textParticipants, strHourMinute)
+                else String.format(strFormat, strHourMinute, textParticipants)
         }
 
         val intent =
@@ -93,8 +93,14 @@ class PlanReminderMakerImpl @Inject constructor(
                 action = ACTION_ALARM
             }
 
+        var planNotiTime = repository.getPlanNotificationTime()
+        if (planNotiTime == 0L) {
+            planNotiTime = HOUR_IN_MILLIS
+            repository.setPlanNotificationTime(planNotiTime)
+        }
+
         getReminderPendingIntent(planData.id.toInt(), intent)?.let { pendingIntent ->
-            setAlarm(planData.date.time - HOUR_IN_MILLIS, pendingIntent)
+            setAlarm(planData.date.time - planNotiTime, pendingIntent)
         }
     }
 

@@ -79,11 +79,19 @@ class ContactPreference @Inject constructor(@ApplicationContext context: Context
 
     fun getPasswordTimer(): Int = prefs.getInt(PASSWORD_TIMER, -1)
 
+    fun getPlanNotificationTime() = prefs.getLong(PLAN_NOTIFICATION_TIME, 0L)
+    fun setPlanNotificationTime(time: Long) {
+        prefs.edit {
+            putLong(PLAN_NOTIFICATION_TIME, time)
+        }
+    }
+
     companion object {
         const val FIRST_ON_BOARDING = "FIRST_ON_BOARDING"
         const val NOTIFICATION_ON_OFF = "NOTIFICATION_ON_OFF"
         const val NOTIFICATION_START = "NOTIFICATION_START"
         const val NOTIFICATION_END = "NOTIFICATION_END"
+        const val PLAN_NOTIFICATION_TIME = "PLAN_NOTIFICATION_TIME"
         const val PASSWORD = "password"
         const val FINGER_PRINT = "FINGER_PRINT"
         const val PASSWORD_TRY_COUNT = "PASSWORD_TRY_COUNT"
