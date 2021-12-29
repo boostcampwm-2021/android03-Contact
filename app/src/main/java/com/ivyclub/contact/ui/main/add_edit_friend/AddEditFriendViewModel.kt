@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.R
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
-import com.ivyclub.data.ImageManager
+import com.ivyclub.data.image.ImageManager
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

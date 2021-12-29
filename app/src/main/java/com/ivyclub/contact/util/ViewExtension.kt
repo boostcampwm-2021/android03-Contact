@@ -23,6 +23,10 @@ import androidx.transition.*
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.ivyclub.contact.R
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlin.math.roundToInt
 
 fun <T : ViewDataBinding> ViewGroup.binding(
@@ -175,3 +179,11 @@ fun Context.showAlertDialog(
 fun Context.dpToPx(dp: Int) =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources.displayMetrics)
         .roundToInt()
+
+@ExperimentalCoroutinesApi
+fun View.clicks(): Flow<Unit> = callbackFlow {
+    setOnClickListener {
+        trySend(Unit)
+    }
+    awaitClose { setOnClickListener(null) }
+}

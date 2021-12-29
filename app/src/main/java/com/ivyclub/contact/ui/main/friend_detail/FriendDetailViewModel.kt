@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
-import com.ivyclub.data.ImageManager
+import com.ivyclub.data.image.ImageManager
 import com.ivyclub.data.model.FriendData
 import com.ivyclub.data.model.PlanData
 import dagger.hilt.android.lifecycle.HiltViewModel

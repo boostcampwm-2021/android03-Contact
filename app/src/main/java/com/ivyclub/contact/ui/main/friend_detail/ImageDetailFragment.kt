@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentImageDetailBinding
 import com.ivyclub.contact.util.BaseFragment
-import com.ivyclub.data.ImageManager
+import com.ivyclub.data.image.ImageManager
 
 
 class ImageDetailFragment :

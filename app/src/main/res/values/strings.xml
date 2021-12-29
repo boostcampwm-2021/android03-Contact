@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Contact</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="onboarding_notification_message">컨택에서 알림을 보낼 수 있는 시간을 정해주세요.</string>
     <string name="onboarding_notification_switch">알림 설정</string>
     <string name="onboarding_btn_next">시간 설정하기</string>
@@ -39,7 +39,7 @@
     <string name="hint_plan_content">이 일정에서 할 일이나 준비할 것들을 구체적으로 입력해주세요</string>
     <string name="hint_plan_participants">일정을 함께 할 사람들을 추가해주세요 (최대 %d명)</string>
     <string name="menu_move_friends_to">그룹 이동하기</string>
-    <string name="fragment_select_group_dialog_title">그룹을 선택해주세요</string>
+    <string name="fragment_select_group_dialog_title" translatable="false">그룹을 선택해주세요</string>
     <string name="fragment_select_group_dialog_select">선택</string>
     <string name="fragment_select_group_dialog_cancel">취소</string>
     <string name="menu_add_friend">친구 추가하기</string>
@@ -162,6 +162,10 @@
     <string name="skip_dialog_seriously_end_question">정말 초기 설정을 종료하시겠습니까?</string>
     <string name="skip_dialog_yes">네</string>
     <string name="skip_dialog_no">아니오</string>
+    <string name="fragment_add_edit_plan_photo" translatable="false">사진 추가</string>
+    <string name="fragment_add_edit_plan_add_photo">사진 추가하기</string>
+    <string name="add_edit_plan_fragment_over_five_pics">사진은 다섯 장까지만 추가됩니다.</string>
+    <string name="add_edit_plan_fragment_image_count" translatable="false">(%d/%d)</string>
     <string name="dialog_notification_time_set_last_noti_time">약속 직전 알림 시간</string>
     <string name="plan_noti_time_15m">15분 전</string>
     <string name="plan_noti_time_30m">30분 전</string>

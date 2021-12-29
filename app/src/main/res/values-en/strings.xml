@@ -150,6 +150,8 @@
     <string name="skip_dialog_no">No</string>
     <string name="format_date_day">%d %s</string>
     <string name="fragment_select_group_dialog_title">Please select a group</string>
+    <string name="add_edit_plan_fragment_over_five_pics">Up to five photos are added.</string>
+    <string name="fragment_add_edit_plan_add_photo">Add images</string>
     <string name="dialog_notification_time_set_last_noti_time">Plan Notification Rings Before</string>
     <string name="plan_noti_time_15m">15 min</string>
     <string name="plan_noti_time_30m">30 min</string>

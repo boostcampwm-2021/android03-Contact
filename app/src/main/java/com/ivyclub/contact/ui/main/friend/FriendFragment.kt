@@ -208,6 +208,11 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        onBackPressedCallback.remove()
+    }
+
     companion object {
         private const val ANIMATION_TIME = 150L
         private const val ADD_GROUP_DIALOG_TAG = "AddGroupDialog"
