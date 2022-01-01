@@ -101,14 +101,14 @@ class PlanDetailsFragment :
 
             planDetails.observe(viewLifecycleOwner) {
                 with(binding) {
-                    if(it.photoIdList.isEmpty()) {
-                        vpPhoto.isVisible = false
-                        sdicIndicator.isVisible = false
-                    } else {
-                        vpPhoto.adapter = PhotoAdapter(it.photoIdList)
-                        vpPhoto.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                        sdicIndicator.setViewPager2(vpPhoto)
-                    }
+//                    if(it.photoIdList.isEmpty()) {
+//                        vpPhoto.isVisible = false
+//                        sdicIndicator.isVisible = false
+//                    } else {
+//                        vpPhoto.adapter = PhotoAdapter(it.photoIdList)
+//                        vpPhoto.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+//                        sdicIndicator.setViewPager2(vpPhoto)
+//                    }
                 }
             }
         }
