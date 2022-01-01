@@ -2,7 +2,6 @@ package com.ivyclub.contact.service
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
 import com.ivyclub.contact.R
@@ -60,7 +59,7 @@ class ContactRemoteViewsFactory(
         val dateText = String.format(
             context.getString(R.string.format_date_day),
             planDate.getDayOfMonth(),
-            planDate.getDayOfWeek().korean
+            planDate.getDayOfWeek().translated.invoke()
         )
         with(listviewWidget) {
             setTextViewText(
