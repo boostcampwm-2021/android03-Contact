@@ -56,13 +56,6 @@ class AddEditPlanViewModel @Inject constructor(
     private val _imageCount = MutableLiveData(0)
     val imageCount: LiveData<Int> get() = _imageCount
     val maxPhotoCount = MAX_PHOTO_COUNT
-//    private var lastPlanId = 0L
-
-//    init {
-//        viewModelScope.launch {
-//            lastPlanId = repository.getNextPlanId() ?: 0L
-//        }
-//    }
 
     fun getLastPlan(planId: Long) {
         if (this.planId != -1L) return
