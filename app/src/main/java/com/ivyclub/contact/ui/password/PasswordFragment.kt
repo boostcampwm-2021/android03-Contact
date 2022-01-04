@@ -49,8 +49,8 @@ class PasswordFragment :
         initPasswordViewType()
         initNumberClickListener()
         initCancelButtonClickListener()
-        initMoveFragmentObserver()
         initBackPressedListener()
+        observeMoveFragment()
         observeFocusedEditTextIndex()
         observeShowSnackBar()
         blockKeyboard()
@@ -203,7 +203,7 @@ class PasswordFragment :
         }
     }
 
-    private fun initMoveFragmentObserver() {
+    private fun observeMoveFragment() {
         viewModel.moveToSetPassword.observe(viewLifecycleOwner) {
             findNavController().navigate(
                 PasswordFragmentDirections.actionSetPasswordFragmentSelf(
