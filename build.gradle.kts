@@ -8,6 +8,8 @@ buildscript {
         classpath(Dep.Kotlin.gradle)
         classpath(Dep.Libs.hiltGradlePlugin)
         classpath(Dep.AndroidX.navigationSafeArgs)
+        classpath(Dep.Firebase.googleServices)
+        classpath(Dep.Firebase.crashlyticsGradle)
     }
 }
 
