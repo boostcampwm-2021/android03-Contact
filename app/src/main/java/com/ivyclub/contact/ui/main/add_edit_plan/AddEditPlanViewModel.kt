@@ -162,7 +162,7 @@ class AddEditPlanViewModel @Inject constructor(
             else PlanData(participantIds, planDate, title, place, content, color)
         viewModelScope.launch {
             val lastPlanId = repository.getNextPlanId() ?: 0L
-            ImageManager.savePlanBitmap(planImageUriList, (lastPlanId + 1).toString())
+            if(planImageUriList.isNotEmpty()) ImageManager.savePlanBitmap(planImageUriList, (lastPlanId + 1).toString())
             planId = repository.savePlanData(newPlan, lastParticipants)
             val alarmStart = repository.getStartAlarmHour()
             val alarmEnd = repository.getEndAlarmHour()
