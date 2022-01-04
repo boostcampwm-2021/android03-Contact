@@ -25,7 +25,6 @@ data class PlanData(
     val place: String = "", // 장소
     val content: String = "", // 내용
     val color: String, // 고유색, HexCode,
-    val photoFolderName: String = "", // 약속 사진 폴더명
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0 // 약속 ID, pk
 )

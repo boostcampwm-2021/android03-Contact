@@ -56,6 +56,13 @@ class AddEditPlanViewModel @Inject constructor(
     private val _imageCount = MutableLiveData(0)
     val imageCount: LiveData<Int> get() = _imageCount
     val maxPhotoCount = MAX_PHOTO_COUNT
+    private var lastPlanId = 0L
+
+    init {
+        viewModelScope.launch {
+            lastPlanId = repository.getNextPlanId() ?: 0L
+        }
+    }
 
     fun getLastPlan(planId: Long) {
         if (this.planId != -1L) return
@@ -152,12 +159,11 @@ class AddEditPlanViewModel @Inject constructor(
                 place,
                 content,
                 color,
-                currentTime,
                 id = planId
             )
-            else PlanData(participantIds, planDate, title, place, content, color, currentTime)
+            else PlanData(participantIds, planDate, title, place, content, color)
         viewModelScope.launch {
-            ImageManager.savePlanBitmap(planImageUriList, currentTime)
+            ImageManager.savePlanBitmap(planImageUriList, (lastPlanId + 1).toString())
             planId = repository.savePlanData(newPlan, lastParticipants)
             val alarmStart = repository.getStartAlarmHour()
             val alarmEnd = repository.getEndAlarmHour()

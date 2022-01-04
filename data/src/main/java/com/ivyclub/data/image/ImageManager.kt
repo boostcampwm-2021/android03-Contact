@@ -20,9 +20,9 @@ object ImageManager {
         }
     }
 
-    fun savePlanBitmap(bitmapList: List<Bitmap>, currentTime: String) {
+    fun savePlanBitmap(bitmapList: List<Bitmap>, planId: String) {
         runCatching {
-            val folderPath = "${ImageType.PLAN_IMAGE.filePath}${currentTime}/"
+            val folderPath = "${ImageType.PLAN_IMAGE.filePath}${planId}/"
             val file = File(folderPath)
             if (!file.exists()) file.mkdirs()
             bitmapList.forEachIndexed { index, bitmap ->

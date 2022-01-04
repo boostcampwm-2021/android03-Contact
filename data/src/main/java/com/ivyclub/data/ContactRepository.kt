@@ -40,6 +40,7 @@ interface ContactRepository {
     suspend fun getPlansByIds(planIds: List<Long>): List<PlanData>
     suspend fun getPlanListAfter(current: Long): List<SimplePlanData>
     suspend fun updatePlansParticipants(newParticipants: List<Long>, planId: Long)
+    suspend fun getNextPlanId(): Long?
     fun getStartAlarmHour(): Int
     fun getEndAlarmHour(): Int
 

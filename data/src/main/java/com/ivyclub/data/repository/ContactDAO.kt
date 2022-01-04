@@ -94,6 +94,9 @@ interface ContactDAO {
     @Query("SELECT id FROM FriendData ORDER BY id DESC LIMIT 1")
     suspend fun getLastFriendId(): Long?
 
+    @Query("SELECT seq FROM sqlite_sequence where name=\"PlanData\"")
+    suspend fun getNextPlanId(): Long?
+
     @Query("SELECT name FROM GroupData WHERE id = :id")
     suspend fun getGroupNameById(id: Long): String
 
