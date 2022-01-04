@@ -132,14 +132,14 @@ class PasswordFragment :
     private fun observeTryCount() {
         viewModel.tryCount.observe(viewLifecycleOwner) { tryCount ->
             if (tryCount == 10) {
-                binding.tvPassword.text = "비밀번호를 10회 잘못 입력하셨습니다."
+                binding.tvPassword.text = getString(R.string.password_wrong_ten_times)
                 numberButtonList.forEach {
                     it.isClickable = false
                 }
                 viewModel.getTimerInfo()
                 viewModel.timer.observe(viewLifecycleOwner) {
                     binding.tvTryAfter.isVisible = true
-                    binding.tvTryAfter.text = "${it/60 + 1}분 후에 다시 시도해주세요."
+                    binding.tvTryAfter.text = String.format(getString(R.string.format_password_try_after), it/60 + 1)
                 }
             } else {
                 binding.tvPassword.text = getString(R.string.password_input_password)

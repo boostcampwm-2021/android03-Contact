@@ -171,4 +171,6 @@
     <string name="plan_noti_time_30m">30분 전</string>
     <string name="plan_noti_time_1h">1시간 전</string>
     <string name="plan_noti_time_2h">2시간 전</string>
+    <string name="password_wrong_ten_times">비밀번호를 10회 잘못 입력하셨습니다.</string>
+    <string name="format_password_try_after">%d분 후에 다시 시도해주세요.</string>
 </resources>
