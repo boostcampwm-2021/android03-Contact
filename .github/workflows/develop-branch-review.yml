@@ -20,6 +20,14 @@ jobs:
         distribution: 'adopt'
         cache: gradle
 
+    - name: Decrypt Services
+      run: gpg --quiet --batch --yes --always-trust --decrypt --passphrase="$SECRET_SERVICE_TAR_GPG" --output ./app/services.tar ./app/services.tar.gpg
+      env:
+        SECRET_SERVICE_TAR_GPG: ${{ secrets.SECRET_SERVICE_TAR_GPG }}
+
+    - name: Unzip Services
+      run: tar xvf ./app/services.tar
+
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
