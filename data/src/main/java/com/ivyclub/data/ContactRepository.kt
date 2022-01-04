@@ -26,7 +26,7 @@ interface ContactRepository {
     // OnBoarding
     fun setShowOnBoardingState(state: Boolean)
     suspend fun getShowOnBoardingState(): Boolean
-    suspend fun setNotificationTime(start: Int, end: Int)
+    suspend fun setNotificationTimeRange(start: Int, end: Int)
     suspend fun setNotificationOnOff(state: Boolean)
 
     // Plan
@@ -43,6 +43,10 @@ interface ContactRepository {
     suspend fun getNextPlanId(): Long?
     fun getStartAlarmHour(): Int
     fun getEndAlarmHour(): Int
+    fun setNotificationState(onOff: Boolean)
+    fun getNotificationState(): Boolean
+    fun getPlanNotificationTime(): Long
+    fun setPlanNotificationTime(time: Long)
 
     // Group
     suspend fun loadGroups(): List<GroupData>
@@ -58,8 +62,12 @@ interface ContactRepository {
     suspend fun savePassword(password: String)
     suspend fun getPassword(): String
     suspend fun removePassword()
+    suspend fun savePasswordTryCount(passwordTryCount: Int)
+    suspend fun getPasswordTryCount(): Int
+    suspend fun getPasswordTimer(): Int
 
     // Finger print
     suspend fun setFingerPrintState(state: Boolean)
     suspend fun getFingerPrintState(): Boolean
+    suspend fun savePasswordTimer(seconds: Int)
 }
