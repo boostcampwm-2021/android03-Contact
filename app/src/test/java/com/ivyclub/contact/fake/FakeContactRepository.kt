@@ -15,6 +15,7 @@ class FakeContactRepository : ContactRepository {
     private var notificationStartTime = -1
     private var notificationEndTime = -1
     private var isNotificationOff = false
+    private var nextPlanId = 0L
 
     override suspend fun loadFriends(): List<FriendData> {
         return friendList
@@ -163,6 +164,10 @@ class FakeContactRepository : ContactRepository {
 
     override suspend fun updatePlansParticipants(newParticipants: List<Long>, planId: Long) {
         // todo
+    }
+
+    override suspend fun getNextPlanId(): Long? {
+        return if (nextPlanId == 0L) null else nextPlanId
     }
 
     override fun getStartAlarmHour(): Int {

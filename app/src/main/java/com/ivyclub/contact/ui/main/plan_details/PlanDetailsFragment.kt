@@ -101,6 +101,7 @@ class PlanDetailsFragment :
 
             planDetails.observe(viewLifecycleOwner) {
                 with(binding) {
+                    // TODO
 //                    if(it.photoIdList.isEmpty()) {
 //                        vpPhoto.isVisible = false
 //                        sdicIndicator.isVisible = false

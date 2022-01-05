@@ -131,8 +131,6 @@ class AddEditPlanViewModel @Inject constructor(
     }
 
     fun savePlan(planImageUriList: List<Bitmap>) {
-        val currentTime =
-            SimpleDateFormat("yyyyMddhhmmss", Locale.getDefault()).format(java.util.Date())
         val participantIds = planParticipants.value?.map { it.id } ?: emptyList()
         val participantNames = planParticipants.value?.map { it.name } ?: emptyList()
         val planDate = planTime.value ?: Date(System.currentTimeMillis())
@@ -152,12 +150,12 @@ class AddEditPlanViewModel @Inject constructor(
                 place,
                 content,
                 color,
-                currentTime,
                 id = planId
             )
-            else PlanData(participantIds, planDate, title, place, content, color, currentTime)
+            else PlanData(participantIds, planDate, title, place, content, color)
         viewModelScope.launch {
-            ImageManager.savePlanBitmap(planImageUriList, currentTime)
+            val lastPlanId = repository.getNextPlanId() ?: 0L
+            if(planImageUriList.isNotEmpty()) ImageManager.savePlanBitmap(planImageUriList, (lastPlanId + 1).toString())
             planId = repository.savePlanData(newPlan, lastParticipants)
             reminderMaker.makePlanReminders(
                 SimplePlanData(planId, title, planDate, participantIds)
