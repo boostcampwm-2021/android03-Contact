@@ -5,6 +5,8 @@ plugins {
     id("kotlin-android")
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
+    id("com.google.firebase.crashlytics")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -63,6 +65,9 @@ dependencies {
     implementation(Dep.Libs.indicator)
     implementation(Dep.Libs.lottie)
     implementation(Dep.Libs.jBCrypt)
+    implementation(platform(Dep.Firebase.firebaseBom))
+    implementation(Dep.Firebase.crashlyticsKtx)
+    implementation(Dep.Firebase.analyticsKtx)
     implementation(project(mapOf("path" to ":data")))
     kapt(Dep.AndroidX.roomCompiler)
     kapt(Dep.Libs.hiltCompiler)

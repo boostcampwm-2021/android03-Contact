@@ -1,6 +1,5 @@
 package com.ivyclub.contact.ui.plan_list
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -111,7 +110,7 @@ class PlanListAdapter(
                 tvPlanDate.text =
                     getDateFormatBy(
                         itemViewModel.planDayOfMonth.toString(),
-                        itemViewModel.planDayOfWeek
+                        itemViewModel.planDayOfWeek.translated.invoke()
                     )
                 tvPlanMonth.text = getMonthFormatBy(itemViewModel.planMonth)
                 viewModel = itemViewModel
