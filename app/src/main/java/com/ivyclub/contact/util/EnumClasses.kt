@@ -1,31 +1,31 @@
 package com.ivyclub.contact.util
 
-enum class DayOfWeek(val value: Int) : KoreanTranslatable {
+enum class DayOfWeek(val value: Int) : Translatable {
     SUN(1) {
-        override val korean = StringManager.getString("일")
+        override val translated = { StringManager.getString("일") }
     },
     MON(2) {
-        override val korean = StringManager.getString("월")
+        override val translated = { StringManager.getString("월") }
     },
     TUE(3) {
-        override val korean = StringManager.getString("화")
+        override val translated = { StringManager.getString("화") }
     },
     WED(4) {
-        override val korean = StringManager.getString("수")
+        override val translated = { StringManager.getString("수") }
     },
     THU(5) {
-        override val korean = StringManager.getString("목")
+        override val translated = { StringManager.getString("목") }
     },
     FRI(6) {
-        override val korean = StringManager.getString("금")
+        override val translated = { StringManager.getString("금") }
     },
     SAT(0) {
-        override val korean = StringManager.getString("토")
+        override val translated = { StringManager.getString("토") }
     }
 }
 
-interface KoreanTranslatable {
-    val korean: String
+interface Translatable {
+    val translated: () -> String
 }
 
 enum class FriendListViewType {

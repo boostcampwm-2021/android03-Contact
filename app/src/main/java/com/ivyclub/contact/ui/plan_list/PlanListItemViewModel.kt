@@ -14,6 +14,6 @@ data class PlanListItemViewModel(
     val planMonth = date.getExactMonth()
     val planYear = date.getExactYear()
     val planDayOfMonth = date.getDayOfMonth()
-    val planDayOfWeek = date.getDayOfWeek().korean
+    val planDayOfWeek = date.getDayOfWeek()
     val title: String = planData.title
 }
