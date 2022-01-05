@@ -21,6 +21,9 @@ object Versions {
     const val work = "2.7.1"
     const val hiltWork = "1.0.0-alpha03"
     const val lifeCycle = "2.4.0"
+    const val crashlyticsGradle = "2.7.1"
+    const val firebaseBom = "28.4.0"
+    const val googleServices = "4.3.10"
 }
 
 object Dep {
@@ -80,5 +83,13 @@ object Dep {
         const val indicator = "com.tbuonomo:dotsindicator:4.2"
         const val lottie = "com.airbnb.android:lottie:4.2.1"
         const val jBCrypt = "de.svenkubiak:jBCrypt:0.4.1"
+    }
+
+    object Firebase {
+        const val googleServices = "com.google.gms:google-services:${Versions.googleServices}"
+        const val crashlyticsGradle = "com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlyticsGradle}"
+        const val firebaseBom = "com.google.firebase:firebase-bom:${Versions.firebaseBom}"
+        const val crashlyticsKtx = "com.google.firebase:firebase-crashlytics-ktx"
+        const val analyticsKtx = "com.google.firebase:firebase-analytics-ktx"
     }
 }
