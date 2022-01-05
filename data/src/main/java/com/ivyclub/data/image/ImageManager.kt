@@ -40,7 +40,6 @@ object ImageManager {
 
     fun deletePlanImageFolder(planId: String) {
         runCatching {
-            Log.e("temp0", ".$planId")
             val folderPath = "${ImageType.PLAN_IMAGE.filePath}${planId}/"
             val folder = File(folderPath)
             if (folder.exists()) {
