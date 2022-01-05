@@ -47,10 +47,14 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     private val _fingerPrint = SingleLiveEvent<Unit>()
     val fingerPrint: LiveData<Unit> get() = _fingerPrint
 
-    val password1 = MutableLiveData("")
-    val password2 = MutableLiveData("")
-    val password3 = MutableLiveData("")
-    val password4 = MutableLiveData("")
+    private val _password1 = MutableLiveData("")
+    val password1: LiveData<String> get() = _password1
+    private val _password2 = MutableLiveData("")
+    val password2: LiveData<String> get() = _password2
+    private val _password3 = MutableLiveData("")
+    val password3: LiveData<String> get() = _password3
+    private val _password4 = MutableLiveData("")
+    val password4: LiveData<String> get() = _password4
 
     fun initPasswordViewType(type: PasswordViewType, password: String = "") {
         passwordViewType = type
@@ -73,16 +77,16 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     private fun updatePasswordInput(number: String) {
         when (focusedEditTextIndex.value) {
             1 -> {
-                password1.value = number
+                _password1.value = number
             }
             2 -> {
-                password2.value = number
+                _password2.value = number
             }
             3 -> {
-                password3.value = number
+                _password3.value = number
             }
             4 -> {
-                password4.value = number
+                _password4.value = number
             }
         }
     }
@@ -151,10 +155,10 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     }
 
     private fun reset() {
-        password1.value = ""
-        password2.value = ""
-        password3.value = ""
-        password4.value = ""
+        _password1.value = ""
+        _password2.value = ""
+        _password3.value = ""
+        _password4.value = ""
         _focusedEditTextIndex.value = 1
     }
 
