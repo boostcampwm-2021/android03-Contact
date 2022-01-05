@@ -38,6 +38,22 @@ object ImageManager {
         }
     }
 
+    fun deletePlanImageFolder(planId: String) {
+        runCatching {
+            Log.e("temp0", ".$planId")
+            val folderPath = "${ImageType.PLAN_IMAGE.filePath}${planId}/"
+            val folder = File(folderPath)
+            if (folder.exists()) {
+                folder.listFiles()?.forEach {
+                    it.delete()
+                }
+                folder.delete()
+            }
+        }.onFailure { exception ->
+            Log.e("ImageManagerError", "Exception : $exception")
+        }
+    }
+
     fun loadProfileImage(friendId: Long): Bitmap? {
         return runCatching {
             BitmapFactory.decodeFile("${ImageType.PROFILE_IMAGE.filePath}$friendId.jpg")

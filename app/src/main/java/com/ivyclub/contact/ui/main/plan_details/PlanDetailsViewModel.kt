@@ -9,6 +9,7 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.service.plan_reminder.PlanReminderMaker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
+import com.ivyclub.data.image.ImageManager
 import com.ivyclub.data.model.PlanData
 import com.ivyclub.data.model.SimpleFriendData
 import com.ivyclub.data.model.SimplePlanData
@@ -45,7 +46,7 @@ class PlanDetailsViewModel @Inject constructor(
 
     private val loadFriendsJob: Job = viewModelScope.launch {
         val myFriends = repository.getSimpleFriendData()
-        myFriends?.forEach {
+        myFriends.forEach {
             friendMap[it.id] = it
         }
     }
@@ -101,8 +102,8 @@ class PlanDetailsViewModel @Inject constructor(
 
     fun deletePlan() {
         val planData = planDetails.value ?: return
-
         viewModelScope.launch {
+            ImageManager.deletePlanImageFolder(planData.id.toString())
             repository.deletePlanData(planData)
             reminderMaker.cancelPlanReminder(
                 SimplePlanData(planData.id, planData.title, planData.date, planData.participant)
