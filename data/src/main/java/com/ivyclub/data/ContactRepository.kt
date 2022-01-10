@@ -65,7 +65,7 @@ interface ContactRepository {
     suspend fun savePasswordTryCount(passwordTryCount: Int)
     suspend fun getPasswordTryCount(): Int
     suspend fun getPasswordTimer(): Int
-    suspend fun observePasswordTimer(activateButton: () -> Unit)
+    suspend fun observePasswordTimer(activateButton: () -> Unit, updateTimer: () -> Unit)
     fun stopObservePasswordTimer()
 
     // Finger print

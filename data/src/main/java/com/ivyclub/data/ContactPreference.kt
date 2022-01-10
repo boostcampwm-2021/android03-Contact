@@ -89,12 +89,14 @@ class ContactPreference @Inject constructor(@ApplicationContext context: Context
 
     private lateinit var sharedPreferenceChangeListener:  SharedPreferences.OnSharedPreferenceChangeListener
 
-    fun observePasswordTimer(activateButton: () -> Unit) {
+    fun observePasswordTimer(activateButton: () -> Unit, updateTimer: () -> Unit) {
         sharedPreferenceChangeListener =  SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
             val timer = prefs.getInt(PASSWORD_TIMER, -1)
 
             if (timer == -1) {
                 activateButton.invoke()
+            } else {
+                updateTimer.invoke()
             }
         }
 

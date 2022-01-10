@@ -182,8 +182,8 @@ class ContactRepositoryImpl @Inject constructor(
         contactPreference.getPasswordTimer()
     }
 
-    override suspend fun observePasswordTimer(activateButton: () -> Unit) = withContext(ioDispatcher) {
-        contactPreference.observePasswordTimer(activateButton)
+    override suspend fun observePasswordTimer(activateButton: () -> Unit, updateTimer: () -> Unit) = withContext(ioDispatcher) {
+        contactPreference.observePasswordTimer(activateButton, updateTimer)
     }
 
     override fun stopObservePasswordTimer() {

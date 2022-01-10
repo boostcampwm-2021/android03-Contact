@@ -141,19 +141,21 @@ class PasswordFragment :
                 numberButtonList.forEach {
                     it.isClickable = false
                 }
-                viewModel.getTimerInfo()
+                updateTimer()
                 viewModel.timer.observe(viewLifecycleOwner) {
                     binding.tvTryAfter.isVisible = true
                     binding.tvTryAfter.text = String.format(getString(R.string.format_password_try_after), it/60 + 1)
                 }
-                viewModel.observePasswordTimer(activationPasswordButton)
+                viewModel.observePasswordTimer(activationPasswordButton, updateTimer)
             } else {
                 activationPasswordButton()
             }
         }
     }
 
-
+    private val updateTimer = {
+        viewModel.getTimerInfo()
+    }
 
     private val activationPasswordButton = {
         binding.tvPassword.text = getString(R.string.password_input_password)
