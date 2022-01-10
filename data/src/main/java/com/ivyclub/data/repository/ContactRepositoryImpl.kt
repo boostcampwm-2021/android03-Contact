@@ -182,6 +182,14 @@ class ContactRepositoryImpl @Inject constructor(
         contactPreference.getPasswordTimer()
     }
 
+    override suspend fun observePasswordTimer(activateButton: () -> Unit) = withContext(ioDispatcher) {
+        contactPreference.observePasswordTimer(activateButton)
+    }
+
+    override fun stopObservePasswordTimer() {
+        contactPreference.stopObservePasswordTimer()
+    }
+
     override suspend fun setFingerPrintState(state: Boolean) = withContext(ioDispatcher) {
         contactPreference.setFingerPrintState(state)
     }
