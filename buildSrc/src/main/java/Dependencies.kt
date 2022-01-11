@@ -83,6 +83,8 @@ object Dep {
         const val indicator = "com.tbuonomo:dotsindicator:4.2"
         const val lottie = "com.airbnb.android:lottie:4.2.1"
         const val jBCrypt = "de.svenkubiak:jBCrypt:0.4.1"
+        const val ossLicensesProject = "com.google.android.gms:oss-licenses-plugin:0.10.4"
+        const val ossLicensesLibrary = "com.google.android.gms:play-services-oss-licenses:17.0.0"
         const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
     }
 
