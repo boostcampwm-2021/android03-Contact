@@ -253,6 +253,14 @@ class FakeContactRepository : ContactRepository {
         TODO("Not yet implemented")
     }
 
+    override suspend fun observePasswordTimer(activateButton: () -> Unit, updateTimer: () -> Unit) {
+        TODO("Not yet implemented")
+    }
+
+    override fun stopObservePasswordTimer() {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun setFingerPrintState(state: Boolean) {
         // todo
     }
