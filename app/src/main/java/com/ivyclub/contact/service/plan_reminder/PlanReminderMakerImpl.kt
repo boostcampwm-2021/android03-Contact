@@ -40,6 +40,7 @@ class PlanReminderMakerImpl @Inject constructor(
         makeStartReminder(planData)
         makeLastPlanReminder(planData, participants)
         makeEndReminder(planData, participants)
+
     }
 
     override suspend fun cancelPlanReminder(planData: SimplePlanData) {
