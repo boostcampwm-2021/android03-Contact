@@ -153,4 +153,7 @@
     <string name="plan_noti_time_30m">30分钟前</string>
     <string name="plan_noti_time_1h">一小时前</string>
     <string name="plan_noti_time_2h">两小时前</string>
+    <string name="fragment_add_edit_plan_photo" translatable="false">添加照片</string>
+    <string name="fragment_add_edit_plan_add_photo">添加照片</string>
+    <string name="open_source_license">Open Source License</string>
 </resources>

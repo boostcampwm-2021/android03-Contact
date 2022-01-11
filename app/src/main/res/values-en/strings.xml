@@ -141,7 +141,6 @@
     <string name="fragment_settings_security_icon">security icon</string>
     <string name="fragment_settings_security">Security</string>
     <string name="dialog_notification_time_set_active_time">Set Active time</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_edit_friend_fragment_birthday_value">%s.%s.%s</string>
     <string name="friend_fragment_moved_successfully">Moved Successfully</string>
     <string name="notification_time_fragment_hour">%s o\'clock</string>
@@ -159,4 +158,6 @@
     <string name="plan_noti_time_2h">2 hours</string>
     <string name="password_wrong_ten_times">You entered incorrect password ten times</string>
     <string name="format_password_try_after">Please try again after %d minutes</string>
+    <string name="fragment_add_edit_plan_photo" translatable="false">Add photo</string>
+    <string name="open_source_license">Open Source License</string>
 </resources>
