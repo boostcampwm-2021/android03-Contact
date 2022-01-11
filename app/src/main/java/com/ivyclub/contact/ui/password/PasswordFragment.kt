@@ -58,7 +58,10 @@ class PasswordFragment :
 
     override fun onStart() {
         super.onStart()
-        viewModel.initTryCountState()
+        if (args.passwordViewType == PasswordViewType.APP_CONFIRM_PASSWORD || args.passwordViewType == PasswordViewType.SECURITY_CONFIRM_PASSWORD) {
+            viewModel.initTryCountState()
+            observePasswordTimer()
+        }
     }
 
     override fun onStop() {
@@ -134,6 +137,10 @@ class PasswordFragment :
         }
     }
 
+    private fun observePasswordTimer() {
+        viewModel.observePasswordTimer(activationPasswordButton, updateTimer)
+    }
+
     private fun observeTryCount() {
         viewModel.tryCount.observe(viewLifecycleOwner) { tryCount ->
             if (tryCount == 10) {
@@ -146,7 +153,6 @@ class PasswordFragment :
                     binding.tvTryAfter.isVisible = true
                     binding.tvTryAfter.text = String.format(getString(R.string.format_password_try_after), it/60 + 1)
                 }
-                viewModel.observePasswordTimer(activationPasswordButton, updateTimer)
             } else {
                 activationPasswordButton()
             }
