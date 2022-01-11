@@ -104,10 +104,10 @@ class ContactPreference @Inject constructor(@ApplicationContext context: Context
     }
 
     fun stopObservePasswordTimer() {
-        prefs.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
+        if (::sharedPreferenceChangeListener.isInitialized) {
+            prefs.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
+        }
     }
-
-
 
     companion object {
         const val FIRST_ON_BOARDING = "FIRST_ON_BOARDING"
