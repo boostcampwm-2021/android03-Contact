@@ -54,7 +54,7 @@ class PlanDetailsViewModel @Inject constructor(
 
     private val loadFriendsJob: Job = viewModelScope.launch {
         val myFriends = repository.getSimpleFriendData()
-        myFriends?.forEach {
+        myFriends.forEach {
             friendMap[it.id] = it
         }
     }
@@ -128,8 +128,8 @@ class PlanDetailsViewModel @Inject constructor(
 
     fun deletePlan() {
         val planData = planDetails.value ?: return
-
         viewModelScope.launch {
+            ImageManager.deletePlanImageFolder(planData.id.toString())
             repository.deletePlanData(planData)
             reminderMaker.cancelPlanReminder(
                 SimplePlanData(planData.id, planData.title, planData.date, planData.participant)
