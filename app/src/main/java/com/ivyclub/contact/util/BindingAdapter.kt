@@ -26,3 +26,15 @@ fun bindImage(
     }
     imageView.clipToOutline = true
 }
+
+@BindingAdapter("bindPlanImage")
+fun bindPlanImage(
+    imageView: ImageView,
+    imageString: String
+) {
+    println(imageString)
+    Glide.with(imageView)
+        .load(imageString)
+        .into(imageView)
+    imageView.clipToOutline = true
+}

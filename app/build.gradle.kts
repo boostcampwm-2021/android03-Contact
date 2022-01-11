@@ -79,6 +79,7 @@ dependencies {
     testImplementation(Dep.Test.mockito)
     testImplementation(Dep.Test.coroutines)
     testImplementation(Dep.Test.mockitoInline)
+    debugImplementation(Dep.Libs.leakCanary)
     androidTestImplementation(Dep.Test.ext)
     androidTestImplementation(Dep.Test.espresso)
     androidTestImplementation(Dep.Test.hilt)

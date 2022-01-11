@@ -1,6 +1,7 @@
 package com.ivyclub.data
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -85,6 +86,28 @@ class ContactPreference @Inject constructor(@ApplicationContext context: Context
             putLong(PLAN_NOTIFICATION_TIME, time)
         }
     }
+
+    private lateinit var sharedPreferenceChangeListener:  SharedPreferences.OnSharedPreferenceChangeListener
+
+    fun observePasswordTimer(activateButton: () -> Unit, updateTimer: () -> Unit) {
+        sharedPreferenceChangeListener =  SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
+            val timer = prefs.getInt(PASSWORD_TIMER, -1)
+
+            if (timer == -1) {
+                activateButton.invoke()
+            } else {
+                updateTimer.invoke()
+            }
+        }
+
+        prefs.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
+    }
+
+    fun stopObservePasswordTimer() {
+        prefs.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
+    }
+
+
 
     companion object {
         const val FIRST_ON_BOARDING = "FIRST_ON_BOARDING"

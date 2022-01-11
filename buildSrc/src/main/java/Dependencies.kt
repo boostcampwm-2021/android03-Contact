@@ -85,6 +85,7 @@ object Dep {
         const val jBCrypt = "de.svenkubiak:jBCrypt:0.4.1"
         const val ossLicensesProject = "com.google.android.gms:oss-licenses-plugin:0.10.4"
         const val ossLicensesLibrary = "com.google.android.gms:play-services-oss-licenses:17.0.0"
+        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
     }
 
     object Firebase {
