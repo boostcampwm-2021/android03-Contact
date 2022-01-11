@@ -10,6 +10,7 @@ buildscript {
         classpath(Dep.AndroidX.navigationSafeArgs)
         classpath(Dep.Firebase.googleServices)
         classpath(Dep.Firebase.crashlyticsGradle)
+        classpath(Dep.Libs.ossLicensesProject)
     }
 }
 
