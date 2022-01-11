@@ -66,7 +66,9 @@ class PasswordFragment :
 
     override fun onStop() {
         super.onStop()
-        viewModel.stopObservePasswordTimer()
+        if (args.passwordViewType == PasswordViewType.APP_CONFIRM_PASSWORD || args.passwordViewType == PasswordViewType.SECURITY_CONFIRM_PASSWORD) {
+            viewModel.stopObservePasswordTimer()
+        }
     }
 
     private fun checkFingerPrintState() {
