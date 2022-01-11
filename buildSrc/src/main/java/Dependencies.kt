@@ -83,6 +83,7 @@ object Dep {
         const val indicator = "com.tbuonomo:dotsindicator:4.2"
         const val lottie = "com.airbnb.android:lottie:4.2.1"
         const val jBCrypt = "de.svenkubiak:jBCrypt:0.4.1"
+        const val leakCanary = "com.squareup.leakcanary:leakcanary-android:2.7"
     }
 
     object Firebase {
