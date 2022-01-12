@@ -18,8 +18,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.sql.Date
-import java.text.SimpleDateFormat
-import java.util.Locale
 import javax.inject.Inject
 import kotlin.collections.set
 
@@ -155,7 +153,10 @@ class AddEditPlanViewModel @Inject constructor(
             else PlanData(participantIds, planDate, title, place, content, color)
         viewModelScope.launch {
             val lastPlanId = repository.getNextPlanId() ?: 0L
-            if(planImageUriList.isNotEmpty()) ImageManager.savePlanBitmap(planImageUriList, (lastPlanId + 1).toString())
+            if (planImageUriList.isNotEmpty()) ImageManager.savePlanBitmap(
+                planImageUriList,
+                (lastPlanId + 1).toString()
+            )
             planId = repository.savePlanData(newPlan, lastParticipants)
             reminderMaker.makePlanReminders(
                 SimplePlanData(planId, title, planDate, participantIds)
