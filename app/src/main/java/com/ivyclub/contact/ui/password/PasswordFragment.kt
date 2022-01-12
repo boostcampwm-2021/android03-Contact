@@ -126,6 +126,7 @@ class PasswordFragment :
                 }
                 observeTimer()
                 observeTryCount()
+                observeNumberButtonClickable()
             }
             PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 viewModel.initPasswordViewType(args.passwordViewType, args.password)
@@ -135,6 +136,7 @@ class PasswordFragment :
                 }
                 observeTimer()
                 observeTryCount()
+                observeNumberButtonClickable()
             }
         }
     }
@@ -158,6 +160,16 @@ class PasswordFragment :
                 observePasswordTimer()
             } else {
                 activationPasswordButton()
+            }
+        }
+    }
+
+    private fun observeNumberButtonClickable() {
+        viewModel.isNumberButtonClickable.observe(viewLifecycleOwner) { isClickable ->
+            if (!isClickable) {
+                numberButtonList.forEach {
+                    it.isClickable = false
+                }
             }
         }
     }

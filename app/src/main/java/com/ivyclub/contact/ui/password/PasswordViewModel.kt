@@ -43,6 +43,9 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     val setTimer: LiveData<Unit> get() = _setTimer
     private val _stopTimer = SingleLiveEvent<Unit>()
     val stopTimer: LiveData<Unit> get() = _stopTimer
+    private val _isNumberButtonClickable = SingleLiveEvent<Boolean>()
+    val isNumberButtonClickable: LiveData<Boolean> get() = _isNumberButtonClickable
+
 
     private val _fingerPrint = SingleLiveEvent<Unit>()
     val fingerPrint: LiveData<Unit> get() = _fingerPrint
@@ -145,6 +148,7 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
             }
             PasswordViewType.APP_CONFIRM_PASSWORD, PasswordViewType.SECURITY_CONFIRM_PASSWORD -> {
                 if (BCrypt.checkpw(inputPassword, password)) {
+                    _isNumberButtonClickable.value = false
                     if (passwordViewType == PasswordViewType.APP_CONFIRM_PASSWORD) {
                         _finishConfirmPassword.call()
                     } else {
