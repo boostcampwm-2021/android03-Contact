@@ -155,6 +155,7 @@ class PasswordFragment :
                     binding.tvTryAfter.isVisible = true
                     binding.tvTryAfter.text = String.format(getString(R.string.format_password_try_after), it/60 + 1)
                 }
+                observePasswordTimer()
             } else {
                 activationPasswordButton()
             }

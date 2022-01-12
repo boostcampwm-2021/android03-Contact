@@ -77,7 +77,7 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     fun observePasswordTimer(activateButton: () -> Unit, updateTimer: () -> Unit) {
         val tryCount = tryCount.value
 
-        if (tryCount != 0) {
+        if (tryCount == 10) {
             viewModelScope.launch {
                 repository.observePasswordTimer(activateButton, updateTimer)
             }
@@ -87,7 +87,7 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
     fun stopObservePasswordTimer() {
         val tryCount = tryCount.value
 
-        if (tryCount != 0) {
+        if (tryCount == 10) {
             repository.stopObservePasswordTimer()
         }
     }
