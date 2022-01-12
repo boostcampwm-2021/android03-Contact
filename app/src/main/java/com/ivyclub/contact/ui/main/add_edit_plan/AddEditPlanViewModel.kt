@@ -130,7 +130,6 @@ class AddEditPlanViewModel @Inject constructor(
 
     fun savePlan(planImageUriList: List<Bitmap>) {
         val participantIds = planParticipants.value?.map { it.id } ?: emptyList()
-        val participantNames = planParticipants.value?.map { it.name } ?: emptyList()
         val planDate = planTime.value ?: Date(System.currentTimeMillis())
         val title = planTitle.value
         if (title.isNullOrEmpty()) {
