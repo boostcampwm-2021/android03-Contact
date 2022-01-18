@@ -161,7 +161,11 @@ class PasswordViewModel @Inject constructor(private val repository: ContactRepos
                     }
                 } else {
                     if (_tryCount.value != null) {
-                        _tryCount.value = _tryCount.value!! + 1
+                        if (_tryCount.value == 10) {
+                            _tryCount.value = 1
+                        } else {
+                            _tryCount.value = _tryCount.value!! + 1
+                        }
                         viewModelScope.launch {
                             repository.savePasswordTryCount(_tryCount.value!!)
                         }
