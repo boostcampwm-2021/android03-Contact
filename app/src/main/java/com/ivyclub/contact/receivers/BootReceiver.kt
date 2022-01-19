@@ -3,6 +3,7 @@ package com.ivyclub.contact.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.ivyclub.contact.service.WidgetProvider
 import com.ivyclub.contact.service.plan_reminder.PlanReminderMaker
 import com.ivyclub.contact.util.getNewTime
 import com.ivyclub.data.ContactRepository
@@ -31,6 +32,8 @@ class BootReceiver : BroadcastReceiver() {
                     reminderMaker.makePlanReminders(planData)
                 }
             }
+
+            context?.let { WidgetProvider.sendRefreshBroadcast(it) }
         }
     }
 }
