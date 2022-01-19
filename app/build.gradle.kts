@@ -7,6 +7,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("com.google.firebase.crashlytics")
     id("com.google.gms.google-services")
+    id("com.google.android.gms.oss-licenses-plugin")
 }
 
 android {
@@ -65,6 +66,7 @@ dependencies {
     implementation(Dep.Libs.indicator)
     implementation(Dep.Libs.lottie)
     implementation(Dep.Libs.jBCrypt)
+    implementation(Dep.Libs.ossLicensesLibrary)
     implementation(platform(Dep.Firebase.firebaseBom))
     implementation(Dep.Firebase.crashlyticsKtx)
     implementation(Dep.Firebase.analyticsKtx)
@@ -77,6 +79,7 @@ dependencies {
     testImplementation(Dep.Test.mockito)
     testImplementation(Dep.Test.coroutines)
     testImplementation(Dep.Test.mockitoInline)
+    debugImplementation(Dep.Libs.leakCanary)
     androidTestImplementation(Dep.Test.ext)
     androidTestImplementation(Dep.Test.espresso)
     androidTestImplementation(Dep.Test.hilt)

@@ -9,12 +9,15 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.service.plan_reminder.PlanReminderMaker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
+import com.ivyclub.data.image.ImageManager
+import com.ivyclub.data.image.ImageType
 import com.ivyclub.data.model.PlanData
 import com.ivyclub.data.model.SimpleFriendData
 import com.ivyclub.data.model.SimplePlanData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,11 +44,17 @@ class PlanDetailsViewModel @Inject constructor(
     private val _finishEvent = SingleLiveEvent<Unit>()
     val finishEvent: LiveData<Unit> = _finishEvent
 
+    private val _folderExists = MutableLiveData<Boolean>()
+    val folderExists: LiveData<Boolean> get() = _folderExists
+
+    private val _photoIds = MutableLiveData<List<String>>()
+    val photoIds: LiveData<List<String>> get() = _photoIds
+
     private val friendMap = mutableMapOf<Long, SimpleFriendData>()
 
     private val loadFriendsJob: Job = viewModelScope.launch {
         val myFriends = repository.getSimpleFriendData()
-        myFriends?.forEach {
+        myFriends.forEach {
             friendMap[it.id] = it
         }
     }
@@ -66,10 +75,28 @@ class PlanDetailsViewModel @Inject constructor(
             _planParticipants.value = friends
             _planDetails.value = planData
 
+            checkFolderExists(planData.id)
+
             if (removedFriendsIds.isNotEmpty()) {
                 repository.updatePlansParticipants(planData.participant - removedFriendsIds, planId)
             }
         }
+    }
+
+    private fun checkFolderExists(planId: Long) {
+        val folderPath = "${ImageType.PLAN_IMAGE.filePath}${planId}/"
+        val file = File(folderPath)
+        _folderExists.value = file.exists()
+    }
+
+    fun getPhotos(planId: Long) {
+        val folderPath = "${ImageType.PLAN_IMAGE.filePath}${planId}/"
+        val file = File(folderPath)
+        val photos = mutableListOf<String>()
+        file.walk().forEach {
+            if(it.name.endsWith("jpg")) photos.add(it.name)
+        }
+        _photoIds.value = photos
     }
 
     fun goParticipantsDetails(index: Int) {
@@ -101,8 +128,8 @@ class PlanDetailsViewModel @Inject constructor(
 
     fun deletePlan() {
         val planData = planDetails.value ?: return
-
         viewModelScope.launch {
+            ImageManager.deletePlanImageFolder(planData.id.toString())
             repository.deletePlanData(planData)
             reminderMaker.cancelPlanReminder(
                 SimplePlanData(planData.id, planData.title, planData.date, planData.participant)

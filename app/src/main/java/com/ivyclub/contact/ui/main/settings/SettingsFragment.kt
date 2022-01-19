@@ -1,9 +1,11 @@
 package com.ivyclub.contact.ui.main.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentSettingsBinding
 import com.ivyclub.contact.ui.main.settings.dialog.NotificationTimeDialogFragment
@@ -44,6 +46,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
         }
         binding.tvManageGroup.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_manageGroupFragment)
+        }
+        binding.tvOssLicense.setOnClickListener {
+            startActivity(Intent(requireActivity(), OssLicensesMenuActivity::class.java))
         }
     }
 }

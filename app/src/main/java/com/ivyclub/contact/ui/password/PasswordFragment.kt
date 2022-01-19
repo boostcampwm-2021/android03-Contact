@@ -61,6 +61,11 @@ class PasswordFragment :
         viewModel.initTryCountState()
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.stopObservePasswordTimer()
+    }
+
     private fun checkFingerPrintState() {
         if (args.passwordViewType == PasswordViewType.APP_CONFIRM_PASSWORD || args.passwordViewType == PasswordViewType.SECURITY_CONFIRM_PASSWORD) {
             viewModel.checkFingerPrintState()
@@ -136,18 +141,27 @@ class PasswordFragment :
                 numberButtonList.forEach {
                     it.isClickable = false
                 }
-                viewModel.getTimerInfo()
+                updateTimer()
                 viewModel.timer.observe(viewLifecycleOwner) {
                     binding.tvTryAfter.isVisible = true
                     binding.tvTryAfter.text = String.format(getString(R.string.format_password_try_after), it/60 + 1)
                 }
+                viewModel.observePasswordTimer(activationPasswordButton, updateTimer)
             } else {
-                binding.tvPassword.text = getString(R.string.password_input_password)
-                binding.tvTryAfter.isVisible = false
-                numberButtonList.forEach {
-                    it.isClickable = true
-                }
+                activationPasswordButton()
             }
+        }
+    }
+
+    private val updateTimer = {
+        viewModel.getTimerInfo()
+    }
+
+    private val activationPasswordButton = {
+        binding.tvPassword.text = getString(R.string.password_input_password)
+        binding.tvTryAfter.isVisible = false
+        numberButtonList.forEach {
+            it.isClickable = true
         }
     }
 

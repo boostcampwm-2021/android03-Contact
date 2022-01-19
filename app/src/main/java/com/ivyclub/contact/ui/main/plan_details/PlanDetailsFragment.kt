@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPlanDetailsBinding
+import com.ivyclub.contact.ui.main.plan.PlanFragmentDirections
 import com.ivyclub.contact.ui.main.plan_details.ParticipantInfoBottomSheetFragment.Companion.KEY_PARTICIPANT_ID
 import com.ivyclub.contact.ui.main.plan_details.ParticipantInfoBottomSheetFragment.Companion.REQUEST
 import com.ivyclub.contact.ui.main.plan_details.PlanDetailsViewModel.Companion.KEY_PHONE_NUMBERS
@@ -99,17 +100,22 @@ class PlanDetailsFragment :
                 findNavController().popBackStack()
             }
 
-            planDetails.observe(viewLifecycleOwner) {
+            folderExists.observe(viewLifecycleOwner) {
                 with(binding) {
-                    // TODO
-//                    if(it.photoIdList.isEmpty()) {
-//                        vpPhoto.isVisible = false
-//                        sdicIndicator.isVisible = false
-//                    } else {
-//                        vpPhoto.adapter = PhotoAdapter(it.photoIdList)
-//                        vpPhoto.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-//                        sdicIndicator.setViewPager2(vpPhoto)
-//                    }
+                    vpPhoto.isVisible = it
+                    sdicIndicator.isVisible = it
+                }
+                if(it) {
+                   viewModel.getPhotos(args.planId)
+                }
+            }
+
+            photoIds.observe(viewLifecycleOwner) {
+                with(binding) {
+                    println(it)
+                    vpPhoto.adapter = PhotoAdapter(it, args.planId)
+                    vpPhoto.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                    sdicIndicator.setViewPager2(vpPhoto)
                 }
             }
         }
