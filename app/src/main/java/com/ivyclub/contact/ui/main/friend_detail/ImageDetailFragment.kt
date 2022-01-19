@@ -36,8 +36,5 @@ class ImageDetailFragment :
         sharedElementReturnTransition = ChangeBounds().apply {
             duration = 300
         }
-        binding.clImage.setOnClickListener {
-            findNavController().popBackStack()
-        }
     }
 }
