@@ -70,10 +70,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                                 planId
                             )
                         )
-                        resetIntent(NOTIFICATION, NOTI_PLAN_ID)
                     }
                 }
             }
+            resetIntent(NOTIFICATION, NOTI_PLAN_ID)
         }
     }
 
