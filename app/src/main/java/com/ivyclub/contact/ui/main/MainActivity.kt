@@ -58,6 +58,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     private fun checkFromNotification() {
+        if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) return
+
         val fromNotification = intent.getBooleanExtra(NOTIFICATION, false)
         val planId = intent.getLongExtra(NOTI_PLAN_ID, -1L)
         if (fromNotification) {
@@ -73,11 +75,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     }
                 }
             }
-            resetIntent(NOTIFICATION, NOTI_PLAN_ID)
+            intent.resetIntent(NOTIFICATION, NOTI_PLAN_ID)
         }
     }
 
     private fun checkFromWidget() {
+        if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) return
+
         val widgetPlanId = intent.getLongExtra(WIDGET_PLAN_ID, -1L)
         if (widgetPlanId != -1L && navController.currentDestination?.id == R.id.navigation_friend) {
             navController.navigate(
@@ -85,14 +89,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
                     widgetPlanId
                 )
             )
-            resetIntent(WIDGET_PLAN_ID)
+            intent.resetIntent(WIDGET_PLAN_ID)
         }
     }
 
-    private fun resetIntent(vararg keys: String) {
-        val i = intent
-        keys.forEach { key -> i.removeExtra(key) }
-        intent = i
+    private fun Intent.resetIntent(vararg keys: String) {
+        keys.forEach { key -> removeExtra(key) }
     }
 
     private fun setObserver() {
