@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes val layoutRes: Int) : Fragment() {
 
@@ -25,7 +27,10 @@ abstract class BaseFragment<T : ViewDataBinding>(@LayoutRes val layoutRes: Int) 
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        (binding.root as ViewGroup).children
+            .filter { it is RecyclerView }
+            .forEach { (it as RecyclerView).adapter = null }
         _binding = null
+        super.onDestroyView()
     }
 }

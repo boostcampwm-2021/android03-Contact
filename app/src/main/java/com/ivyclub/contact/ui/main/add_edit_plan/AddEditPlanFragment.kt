@@ -127,6 +127,7 @@ class AddEditPlanFragment :
 
     private fun observePlanPhotoList() {
         viewModel.bitmapUriList.observe(viewLifecycleOwner) { newUriList ->
+            bitmapList.clear()
             bitmapList.addAll(newUriList.map { uri ->
                 requireActivity().uriToBitmap(uri)
             })
