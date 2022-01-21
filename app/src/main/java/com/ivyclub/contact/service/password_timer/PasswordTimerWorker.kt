@@ -25,6 +25,7 @@ class PasswordTimerWorker @AssistedInject constructor(
 
         preferences.setPasswordTimer(-1)
         preferences.setPasswordTryCount(0)
+        preferences.stopObservePasswordTimer()
 
         Result.success()
     }
