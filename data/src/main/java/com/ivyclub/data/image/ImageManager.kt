@@ -24,7 +24,12 @@ object ImageManager {
         runCatching {
             val folderPath = "${ImageType.PLAN_IMAGE.filePath}${planId}/"
             val file = File(folderPath)
-            if (!file.exists()) file.mkdirs()
+            if (file.exists()) {
+                file.deleteRecursively()
+                file.mkdirs()
+            } else {
+                file.mkdirs()
+            }
             bitmapList.forEachIndexed { index, bitmap ->
                 val tempFile = File(folderPath, "${index}.jpg").apply {
                     createNewFile()

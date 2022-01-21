@@ -186,10 +186,7 @@ class AddEditPlanViewModel @Inject constructor(
         } else {
             planId.toString()
         }
-        if (planImageUriList.isNotEmpty()) ImageManager.savePlanBitmap(
-            planImageUriList,
-            currentPlanId
-        )
+        ImageManager.savePlanBitmap(planImageUriList, currentPlanId)
     }
 
     private fun makeSnackbar(strId: Int) {
