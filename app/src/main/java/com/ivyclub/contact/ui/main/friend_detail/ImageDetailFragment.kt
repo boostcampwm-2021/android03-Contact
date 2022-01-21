@@ -19,6 +19,7 @@ class ImageDetailFragment :
         arguments?.getLong("friendId")?.let {
             initPage(it)
         }
+        initCloseButton()
     }
 
     private fun initPage(friendId: Long) {
@@ -35,6 +36,12 @@ class ImageDetailFragment :
         }
         sharedElementReturnTransition = ChangeBounds().apply {
             duration = 300
+        }
+    }
+
+    private fun initCloseButton() {
+        binding.ivBtnClose.setOnClickListener {
+            findNavController().popBackStack()
         }
     }
 }
