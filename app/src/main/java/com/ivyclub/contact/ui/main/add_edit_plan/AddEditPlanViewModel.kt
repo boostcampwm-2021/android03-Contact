@@ -11,12 +11,14 @@ import com.ivyclub.contact.service.plan_reminder.PlanReminderMaker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.image.ImageManager
+import com.ivyclub.data.image.ImageType
 import com.ivyclub.data.model.PlanData
 import com.ivyclub.data.model.SimpleFriendData
 import com.ivyclub.data.model.SimplePlanData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.io.File
 import java.sql.Date
 import javax.inject.Inject
 import kotlin.collections.set
@@ -73,8 +75,22 @@ class AddEditPlanViewModel @Inject constructor(
                     friendMap[phoneNumber]?.let { friendInfo -> friendsOnPlan.add(friendInfo) }
                 }
                 _planParticipants.value = friendsOnPlan
+
+                _bitmapUriList.value = getPhotoUri(planId)
             }
         }
+    }
+
+    private fun getPhotoUri(planId: Long): List<Uri> {
+        val folderPath = "${ImageType.PLAN_IMAGE.filePath}${planId}/"
+        val file = File(folderPath)
+        val photoUri = mutableListOf<Uri>()
+        file.walk().forEach {
+            if (it.name.endsWith("jpg")) {
+                photoUri.add(Uri.fromFile(it))
+            }
+        }
+        return photoUri
     }
 
     fun addParticipant(participantData: SimpleFriendData) {
@@ -151,11 +167,7 @@ class AddEditPlanViewModel @Inject constructor(
             )
             else PlanData(participantIds, planDate, title, place, content, color)
         viewModelScope.launch {
-            val lastPlanId = repository.getNextPlanId() ?: 0L
-            if (planImageUriList.isNotEmpty()) ImageManager.savePlanBitmap(
-                planImageUriList,
-                (lastPlanId + 1).toString()
-            )
+            saveImage(planImageUriList, repository.getNextPlanId() ?: 0L)
             planId = repository.savePlanData(newPlan, lastParticipants)
             reminderMaker.makePlanReminders(
                 SimplePlanData(planId, title, planDate, participantIds)
@@ -166,6 +178,18 @@ class AddEditPlanViewModel @Inject constructor(
             )
             finish()
         }
+    }
+
+    private fun saveImage(planImageUriList: List<Bitmap>, lastPlanId: Long) {
+        val currentPlanId = if (planId == -1L) { // 기존 사진 수정 시
+            (lastPlanId + 1).toString()
+        } else {
+            planId.toString()
+        }
+        if (planImageUriList.isNotEmpty()) ImageManager.savePlanBitmap(
+            planImageUriList,
+            currentPlanId
+        )
     }
 
     private fun makeSnackbar(strId: Int) {
