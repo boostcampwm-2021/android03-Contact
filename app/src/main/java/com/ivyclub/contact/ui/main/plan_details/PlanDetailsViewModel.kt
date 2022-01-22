@@ -47,7 +47,7 @@ class PlanDetailsViewModel @Inject constructor(
     private val _folderExists = MutableLiveData<Boolean>()
     val folderExists: LiveData<Boolean> get() = _folderExists
 
-    private val _photoIds = MutableLiveData<List<String>>()
+    private val _photoIds = MutableLiveData<List<String>>(emptyList())
     val photoIds: LiveData<List<String>> get() = _photoIds
 
     private val friendMap = mutableMapOf<Long, SimpleFriendData>()
@@ -94,7 +94,7 @@ class PlanDetailsViewModel @Inject constructor(
         val file = File(folderPath)
         val photos = mutableListOf<String>()
         file.walk().forEach {
-            if(it.name.endsWith("jpg")) photos.add(it.name)
+            if (it.name.endsWith("jpg")) photos.add(it.name)
         }
         _photoIds.value = photos
     }
