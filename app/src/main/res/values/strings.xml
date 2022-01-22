@@ -26,9 +26,9 @@
     <string name="item_friend_profile_profile_image">Profile Image</string>
     <string name="format_simple_date">yyyy년 MM월 dd일 HH시 mm분</string>
     <string name="format_hour_minute">HH시 mm분</string>
-    <string name="plan_what">약속 내용</string>
-    <string name="plan_where">어디서</string>
-    <string name="plan_who">누구랑</string>
+    <string name="plan_content">약속 내용</string>
+    <string name="plan_place">장소</string>
+    <string name="plan_participants">참여자</string>
     <string name="friend_detail_name">이름</string>
     <string name="friend_detail_group">그룹</string>
     <string name="friend_detail_phone_number">전화번호</string>
