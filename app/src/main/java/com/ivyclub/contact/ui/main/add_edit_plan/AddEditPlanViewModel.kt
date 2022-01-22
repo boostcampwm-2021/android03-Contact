@@ -154,7 +154,7 @@ class AddEditPlanViewModel @Inject constructor(
             val lastPlanId = repository.getNextPlanId() ?: 0L
             if (planImageUriList.isNotEmpty()) ImageManager.savePlanBitmap(
                 planImageUriList,
-                (lastPlanId + 1).toString()
+                (if (planId == -1L) lastPlanId + 1 else planId).toString()
             )
             planId = repository.savePlanData(newPlan, lastParticipants)
             reminderMaker.makePlanReminders(
