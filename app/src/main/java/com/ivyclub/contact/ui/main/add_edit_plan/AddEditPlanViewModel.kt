@@ -167,7 +167,7 @@ class AddEditPlanViewModel @Inject constructor(
             )
             else PlanData(participantIds, planDate, title, place, content, color)
         viewModelScope.launch {
-            saveImage(planImageUriList, repository.getNextPlanId() ?: 0L)
+            if(planImageUriList.isNotEmpty()) saveImage(planImageUriList, repository.getNextPlanId() ?: 0L)
             planId = repository.savePlanData(newPlan, lastParticipants)
             reminderMaker.makePlanReminders(
                 SimplePlanData(planId, title, planDate, participantIds)
