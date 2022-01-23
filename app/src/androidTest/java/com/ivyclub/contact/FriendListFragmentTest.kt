@@ -3,8 +3,7 @@ package com.ivyclub.contact
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
-import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -40,6 +39,17 @@ class FriendListFragmentTest {
         val friend2Name = "contact"
         addFriendLogic(friend1Name)
         addFriendLogic(friend2Name)
+    }
+
+    // gildong이라는 친구 추가하고,
+    // 검색했을 때 gildong이라는 친구가 나오는지 확인
+    @Test
+    fun addFriendAndSearchFriend() {
+        val friend1Name = "gildong"
+        addFriendLogic(friend1Name)
+        onView(withId(R.id.iv_search)).perform(click())
+        onView(withId(R.id.et_search)).perform(typeText(friend1Name))
+        onView(withId(R.id.rv_friend_list)).check(matches(hasDescendant(withText(friend1Name))))
     }
 
     private fun addFriendLogic(friendName: String) {
