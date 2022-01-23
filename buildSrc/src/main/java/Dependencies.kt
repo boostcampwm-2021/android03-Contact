@@ -68,6 +68,7 @@ object Dep {
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0-RC"
         const val mockito = "org.mockito:mockito-core:3.9.0"
         const val mockitoInline = "org.mockito:mockito-inline:3.5.13"
+        const val core = "androidx.test:core-ktx:1.4.0"
     }
 
     object Libs {
