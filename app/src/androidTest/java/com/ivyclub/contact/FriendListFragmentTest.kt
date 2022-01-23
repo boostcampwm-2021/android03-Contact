@@ -22,6 +22,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FriendListFragmentTest {
     private lateinit var scenario: ActivityScenario<MainActivity>
+    private val friend1Name = "john"
 
     @Before
     fun setup() {
@@ -38,17 +39,13 @@ class FriendListFragmentTest {
     // contact와 gildong이라는 이름을 넣어 친구가 추가되는지 확인
     @Test
     fun addFriend() {
-        val friend1Name = "gildong"
-        val friend2Name = "contact"
         addFriendLogic(friend1Name)
-        addFriendLogic(friend2Name)
     }
 
     // gildong이라는 친구 추가하고,
     // 검색했을 때 gildong이라는 친구가 나오는지 확인
     @Test
     fun addFriendAndSearchFriend() {
-        val friend1Name = "gildong"
         addFriendLogic(friend1Name)
         onView(withId(R.id.iv_search)).perform(click())
         onView(withId(R.id.et_search)).perform(typeText(friend1Name))
