@@ -1,12 +1,15 @@
 package com.ivyclub.contact
 
 import androidx.lifecycle.Lifecycle
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
-import androidx.test.espresso.Espresso.*
+import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -50,6 +53,14 @@ class FriendListFragmentTest {
         onView(withId(R.id.iv_search)).perform(click())
         onView(withId(R.id.et_search)).perform(typeText(friend1Name))
         onView(withId(R.id.rv_friend_list)).check(matches(hasDescendant(withText(friend1Name))))
+    }
+
+    // 친구 리스트 중 첫 친구 클릭하는 이벤트
+    @Test
+    fun clickFirstFriendInRecyclerView() {
+        onView(withId(R.id.rv_friend_list)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click())
+        )
     }
 
     private fun addFriendLogic(friendName: String) {
