@@ -3,14 +3,16 @@ package com.ivyclub.contact
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.launchActivity
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.ivyclub.contact.ui.main.MainActivity
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,5 +32,23 @@ class MainActivityTest {
     fun launchSettingsFragment() {
         onView(withId(R.id.iv_settings_icon)).perform(click())
         onView(withId(R.id.tv_get_contacts)).check(matches(withText(R.string.fragment_settings_get_contacts)))
+    }
+
+    // contact와 gildong이라는 이름을 넣어 친구가 추가되는지 확인
+    @Test
+    fun addFriend() {
+        val friend1Name = "contact"
+        val friend2Name = "gildong"
+        addFriendLogic(friend1Name)
+        addFriendLogic(friend2Name)
+    }
+
+    private fun addFriendLogic(friendName: String) {
+        onView(withId(R.id.iv_add_friend_icon)).perform(click()) // plus 버튼 클릭
+        onView(withText(R.string.menu_add_friend)).perform(click()) // 친구 추가하기 버튼 클릭
+        onView(withId(R.id.et_name)).perform(typeText(friendName))
+        closeSoftKeyboard()
+        onView(withId(R.id.iv_save_icon)).perform(click()) // 체크 버튼 클릭
+        onView(withText(friendName)).check(matches(isDisplayed()))
     }
 }
