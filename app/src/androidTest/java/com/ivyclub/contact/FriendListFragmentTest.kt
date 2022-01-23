@@ -12,14 +12,13 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.ivyclub.contact.ui.main.MainActivity
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class MainActivityTest {
+class FriendListFragmentTest {
     private lateinit var scenario: ActivityScenario<MainActivity>
 
     @Before
@@ -37,8 +36,8 @@ class MainActivityTest {
     // contact와 gildong이라는 이름을 넣어 친구가 추가되는지 확인
     @Test
     fun addFriend() {
-        val friend1Name = "contact"
-        val friend2Name = "gildong"
+        val friend1Name = "gildong"
+        val friend2Name = "contact"
         addFriendLogic(friend1Name)
         addFriendLogic(friend2Name)
     }

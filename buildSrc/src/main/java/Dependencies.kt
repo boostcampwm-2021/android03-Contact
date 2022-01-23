@@ -69,6 +69,7 @@ object Dep {
         const val mockito = "org.mockito:mockito-core:3.9.0"
         const val mockitoInline = "org.mockito:mockito-inline:3.5.13"
         const val core = "androidx.test:core-ktx:1.4.0"
+        const val contrib = "androidx.test.espresso:espresso-contrib:3.1.0"
     }
 
     object Libs {
