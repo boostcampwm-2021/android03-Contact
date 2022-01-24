@@ -83,4 +83,6 @@ dependencies {
     androidTestImplementation(Dep.Test.ext)
     androidTestImplementation(Dep.Test.espresso)
     androidTestImplementation(Dep.Test.hilt)
+    androidTestImplementation(Dep.Test.core)
+    androidTestImplementation(Dep.Test.contrib)
 }
