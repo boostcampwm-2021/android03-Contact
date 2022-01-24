@@ -1,5 +1,7 @@
 package com.ivyclub.contact.util
 
+import androidx.annotation.Keep
+
 enum class DayOfWeek(val value: Int) : Translatable {
     SUN(1) {
         override val translated = { StringManager.getString("일") }
@@ -32,6 +34,7 @@ enum class FriendListViewType {
     GROUP_NAME, FRIEND, GROUP_DIVIDER
 }
 
+@Keep
 enum class PasswordViewType {
     SET_PASSWORD, RECONFIRM_PASSWORD, APP_CONFIRM_PASSWORD, SECURITY_CONFIRM_PASSWORD
 }
