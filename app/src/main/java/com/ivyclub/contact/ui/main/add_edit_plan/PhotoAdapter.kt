@@ -9,6 +9,7 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ItemImageAtAddPageBinding
 import com.ivyclub.contact.util.binding
 import com.ivyclub.contact.util.clicks
+import com.ivyclub.contact.util.throttleFist
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -41,7 +42,7 @@ class PhotoAdapter(
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.circleXImageView.clicks()
-                .debounce(700)
+                .throttleFist(700)
                 .onEach {
                     xButtonClickListener.invoke(adapterPosition)
                 }.launchIn(CoroutineScope(Dispatchers.IO))
