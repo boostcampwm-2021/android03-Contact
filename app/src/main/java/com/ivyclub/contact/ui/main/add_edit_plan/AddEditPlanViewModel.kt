@@ -53,8 +53,6 @@ class AddEditPlanViewModel @Inject constructor(
     val finishEvent: LiveData<Unit> = _finishEvent
     private val _bitmapUriList = MutableLiveData<List<Uri>>() // 계획 사진 uri 리스트
     val bitmapUriList: LiveData<List<Uri>> get() = _bitmapUriList
-    private val _imageCount = MutableLiveData(0)
-    val imageCount: LiveData<Int> get() = _imageCount
     val maxPhotoCount = MAX_PHOTO_COUNT
 
     fun getLastPlan(planId: Long) {
@@ -125,7 +123,6 @@ class AddEditPlanViewModel @Inject constructor(
     fun setPlanImageUri(newUriList: List<Uri>) {
         val originPlusNewUriList = (_bitmapUriList.value ?: emptyList()) + newUriList
         if (originPlusNewUriList.size > 5) return // 최대 사진 다섯 장
-        _imageCount.value = originPlusNewUriList.size
         _bitmapUriList.value = originPlusNewUriList
     }
 
@@ -208,7 +205,6 @@ class AddEditPlanViewModel @Inject constructor(
         if (position == -1) return
         val modifiedPhotoUriList = _bitmapUriList.value?.map { it }?.toMutableList()
         modifiedPhotoUriList?.removeAt(position)
-        _imageCount.postValue(modifiedPhotoUriList?.size)
         _bitmapUriList.postValue(modifiedPhotoUriList ?: emptyList())
     }
 
