@@ -204,12 +204,12 @@
                     android:id="@+id/btn_add_image"
                     android:layout_width="78dp"
                     android:layout_height="88dp"
+                    android:layout_marginStart="16dp"
                     android:backgroundTint="@color/light_gray"
                     android:textSize="12sp"
                     app:cornerRadius="2dp"
-                    app:layout_constraintBottom_toBottomOf="@id/rv_photo"
-                    app:layout_constraintStart_toStartOf="@id/act_plan_participants"
-                    app:layout_constraintTop_toTopOf="@id/rv_photo" />
+                    app:layout_constraintTop_toBottomOf="@id/tv_add_image"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <ImageView
                     android:id="@+id/iv_plus_btn"
@@ -239,15 +239,15 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_photo"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_height="0dp"
                     android:paddingEnd="12dp"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/btn_add_image"
-                    app:layout_constraintTop_toBottomOf="@id/tv_add_image"
+                    app:layout_constraintTop_toTopOf="@id/btn_add_image"
+                    app:layout_constraintBottom_toBottomOf="@id/btn_add_image"
                     tools:listitem="@layout/item_image_at_add_page"
                     tools:ignore="RtlSymmetry" />
 
