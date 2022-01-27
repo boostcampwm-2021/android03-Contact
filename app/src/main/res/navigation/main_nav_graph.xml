@@ -135,7 +135,39 @@
             app:exitAnim="@anim/exit_anim"
             app:popEnterAnim="@anim/pop_enter_anim"
             app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_settingsFragment_to_licenseFragment"
+            app:destination="@id/licenseFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"/>
+
+
     </fragment>
+
+    <fragment
+        android:id="@+id/licenseFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.license.LicenseFragment"
+        android:label="LicenseFragment"
+        tools:layout="@layout/fragment_license">
+
+        <action
+            android:id="@+id/action_licenseFragment_to_imageLicenseFragment"
+            app:destination="@id/imageLicenseFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"/>
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/imageLicenseFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.license.image_license.ImageLicenseFragment"
+        android:label="ImageLicenseFragment"
+        tools:layout="@layout/fragment_image_license"/>
+
 
     <fragment
         android:id="@+id/friendDetailFragment"
