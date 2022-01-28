@@ -174,4 +174,6 @@
     <string name="password_wrong_ten_times">비밀번호를 10회 잘못 입력하셨습니다.</string>
     <string name="format_password_try_after">%d분 후에 다시 시도해주세요.</string>
     <string name="open_source_license">오픈소스 라이선스</string>
+    <string name="image_license" translatable="false">이미지 라이선스</string>
+    <string name="image_license_detail" translatable="false">Icon made by Freepik from www.flaticon.com/authors/freepik</string>
 </resources>
