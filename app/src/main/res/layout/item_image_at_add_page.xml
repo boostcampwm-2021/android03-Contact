@@ -18,6 +18,7 @@
             android:id="@+id/iv_image"
             android:layout_width="76dp"
             android:layout_height="76dp"
+            android:layout_margin="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,10 +29,10 @@
             android:id="@+id/circle_x_image_view"
             android:layout_width="16dp"
             android:layout_height="16dp"
+            android:padding="2dp"
+            android:alpha="0.7"
             android:backgroundTint="#808080"
-            app:layout_constraintBottom_toTopOf="@id/iv_image"
             app:layout_constraintEnd_toEndOf="@id/iv_image"
-            app:layout_constraintStart_toEndOf="@id/iv_image"
             app:layout_constraintTop_toTopOf="@id/iv_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
