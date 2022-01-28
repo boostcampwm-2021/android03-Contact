@@ -106,6 +106,7 @@ class PlanDetailsFragment :
                 with(binding) {
                     vpPhoto.adapter = PhotoAdapter(it, args.planId)
                     vpPhoto.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                    if (it.isNotEmpty()) vpPhoto.currentItem = 0
                     sdicIndicator.setViewPager2(vpPhoto)
                 }
             }
