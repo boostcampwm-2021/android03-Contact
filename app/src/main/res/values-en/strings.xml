@@ -160,4 +160,5 @@
     <string name="format_password_try_after">Please try again after %d minutes</string>
     <string name="fragment_add_edit_plan_photo" translatable="false">Add photo</string>
     <string name="open_source_license">Open Source License</string>
+    <string name="image_license">Image License</string>
 </resources>
