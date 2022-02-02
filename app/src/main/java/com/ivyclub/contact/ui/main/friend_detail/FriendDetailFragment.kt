@@ -32,7 +32,8 @@ class FriendDetailFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault())
+        binding.dateFormat =
+            SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault())
         setObserver()
         loadFriendDetail(args.friendId)
         initButtons(args.friendId)
@@ -43,9 +44,9 @@ class FriendDetailFragment :
     }
 
     private fun setObserver() {
-        viewModel.friendData.observe(this, {
+        viewModel.friendData.observe(viewLifecycleOwner) {
             initDetails(it)
-        })
+        }
         viewModel.finishEvent.observe(viewLifecycleOwner) {
             findNavController().popBackStack()
         }
