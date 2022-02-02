@@ -21,6 +21,7 @@ import com.ivyclub.contact.util.showAlertDialog
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class FriendDetailFragment :
@@ -31,7 +32,7 @@ class FriendDetailFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date))
+        binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault())
         setObserver()
         loadFriendDetail(args.friendId)
         initButtons(args.friendId)
