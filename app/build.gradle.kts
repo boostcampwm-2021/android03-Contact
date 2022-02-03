@@ -72,6 +72,7 @@ dependencies {
     implementation(Dep.Firebase.crashlyticsKtx)
     implementation(Dep.Firebase.analyticsKtx)
     implementation(project(mapOf("path" to ":data")))
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
     kapt(Dep.AndroidX.roomCompiler)
     kapt(Dep.Libs.hiltCompiler)
     kapt(Dep.Libs.hiltViewModelCompiler)
