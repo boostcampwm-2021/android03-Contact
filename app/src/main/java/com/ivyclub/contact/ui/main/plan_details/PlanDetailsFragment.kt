@@ -21,6 +21,7 @@ import com.ivyclub.contact.ui.main.plan_details.PlanDetailsViewModel.Companion.K
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.setFriendChips
 import com.ivyclub.contact.util.showAlertDialog
+import com.ivyclub.data.image.ImageType
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
 import java.text.SimpleDateFormat
@@ -120,12 +121,13 @@ class PlanDetailsFragment :
         }
     }
 
-    private fun moveToImageDetailFragment() {
-        val bundle = Bundle()
-        bundle.putLong("friendId", -1L) // todo -1L 변경해야 함.
-        findNavController().navigate(
-            R.id.action_planDetailsFragment_to_imageDetailFragment
-        )
+    private fun moveToImageDetailFragment(imageId: Int) {
+        val bundle = Bundle().apply {
+            putLong("id", args.planId)
+            putInt("imageType", ImageType.PLAN_IMAGE.ordinal)
+            putInt("imageId", imageId)
+        }
+        findNavController().navigate(R.id.action_planDetailsFragment_to_imageDetailFragment, bundle)
     }
 
     private fun showParticipantInfoDialog(participantId: Long) {

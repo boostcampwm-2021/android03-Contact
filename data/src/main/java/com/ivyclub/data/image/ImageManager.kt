@@ -65,6 +65,17 @@ object ImageManager {
         }.getOrDefault(null)
     }
 
+    fun loadPlanBitmap(planId: Long, imageId: Int): Bitmap? {
+        Log.e("this", ".${"${ImageType.PLAN_IMAGE.filePath}$planId/$imageId.jpg"}")
+        return runCatching {
+            BitmapFactory.decodeFile("${ImageType.PLAN_IMAGE.filePath}$planId/$imageId.jpg")
+        }.mapCatching { loadedImage ->
+            loadedImage
+        }.onFailure { exception ->
+            Log.e("LoadPlanBitmapFailure", ": $exception")
+        }.getOrDefault(null)
+    }
+
     fun deleteImage(friendId: Long) {
         val tempFile = File(ImageType.PROFILE_IMAGE.name, "$friendId.jpg")
         tempFile.delete()

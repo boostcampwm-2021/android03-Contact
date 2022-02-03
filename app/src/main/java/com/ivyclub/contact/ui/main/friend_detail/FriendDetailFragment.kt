@@ -17,6 +17,7 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.showAlertDialog
+import com.ivyclub.data.image.ImageType
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -101,8 +102,10 @@ class FriendDetailFragment :
                 val extras = FragmentNavigatorExtras(
                     ivProfileImage to "secondTransitionName"
                 )
-                val bundle = Bundle()
-                bundle.putLong("friendId", args.friendId)
+                val bundle = Bundle().apply {
+                    putLong("id", args.friendId)
+                    putInt("imageType", ImageType.PROFILE_IMAGE.ordinal)
+                }
                 findNavController().navigate(
                     R.id.action_friendDetailFragment_to_imageDetailFragment,
                     bundle, // Bundle of args

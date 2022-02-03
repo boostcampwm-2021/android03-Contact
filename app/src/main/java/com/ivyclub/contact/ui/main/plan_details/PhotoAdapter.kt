@@ -11,7 +11,7 @@ import com.ivyclub.data.image.ImageType
 class PhotoAdapter(
     private val photoList: List<String>,
     private val planId: Long,
-    private val invokeMoveToImageDetailFragment: () -> Unit
+    private val invokeMoveToImageDetailFragment: (Int) -> Unit
 ) :
     RecyclerView.Adapter<PhotoAdapter.PagerViewHolder>() {
     override fun onCreateViewHolder(
@@ -43,7 +43,7 @@ class PhotoAdapter(
 
         private fun moveToImageDetailFragment() {
             binding.ivPhoto.setOnClickListener {
-                invokeMoveToImageDetailFragment()
+                invokeMoveToImageDetailFragment(adapterPosition)
             }
         }
     }
