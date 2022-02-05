@@ -36,7 +36,7 @@ Contact는 안드로이드 기반의 지인 관리 애플리케이션입니다.
   - Repository Pattern
 - DI를 위한 [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
 - 지문인식을 위한 [Biometric](https://developer.android.com/jetpack/androidx/releases/biometric)
-- 알림을 위한 [WorkManager](https://developer.android.com/topic/libraries/architecture/workmanager)
+- 알림을 위한 AlarmManager
 - 이미지 처리를 위한 [Glide](https://github.com/bumptech/glide)
 - 온보딩 애니메이션을 위한 [Lottie](https://airbnb.io/lottie/#/)
 - Unit test를 위한 [JUnit 4](https://github.com/junit-team/junit4)
