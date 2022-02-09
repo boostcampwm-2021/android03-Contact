@@ -99,8 +99,10 @@
                     tools:text="2021.10.27 10:00 ~ 2021.10.27 12:00" />
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:id="@+id/iv_edit_plan_time_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="0dp"
+                    android:paddingHorizontal="4dp"
                     android:src="@drawable/ic_edit"
                     app:layout_constraintBottom_toBottomOf="@id/tv_plan_time"
                     app:layout_constraintStart_toEndOf="@id/tv_plan_time"
@@ -204,13 +206,13 @@
                     android:id="@+id/btn_add_image"
                     android:layout_width="78dp"
                     android:layout_height="88dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:backgroundTint="@color/light_gray"
                     android:textSize="12sp"
                     app:cornerRadius="2dp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_add_image"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_add_image" />
 
                 <ImageView
                     android:id="@+id/iv_plus_btn"
@@ -241,16 +243,16 @@
                     android:id="@+id/rv_photo"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:paddingEnd="12dp"
                     android:clipToPadding="false"
                     android:orientation="horizontal"
+                    android:paddingEnd="12dp"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="@id/btn_add_image"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/btn_add_image"
                     app:layout_constraintTop_toTopOf="@id/btn_add_image"
-                    app:layout_constraintBottom_toBottomOf="@id/btn_add_image"
-                    tools:listitem="@layout/item_image_at_add_page"
-                    tools:ignore="RtlSymmetry" />
+                    tools:ignore="RtlSymmetry"
+                    tools:listitem="@layout/item_image_at_add_page" />
 
                 <TextView
                     android:id="@+id/tv_plan_what"
