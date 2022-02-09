@@ -8,7 +8,11 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.ItemPlanPhotoBinding
 import com.ivyclub.data.image.ImageType
 
-class PhotoAdapter(private val photoList: List<String>, private val planId: Long) :
+class PhotoAdapter(
+    private val photoList: List<String>,
+    private val planId: Long,
+    private val invokeMoveToImageDetailFragment: (Int) -> Unit
+) :
     RecyclerView.Adapter<PhotoAdapter.PagerViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,8 +33,18 @@ class PhotoAdapter(private val photoList: List<String>, private val planId: Long
     inner class PagerViewHolder(private val binding: ItemPlanPhotoBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        init {
+            moveToImageDetailFragment()
+        }
+
         fun bind(imageName: String, planId: Long) {
             binding.imageString = "${ImageType.PLAN_IMAGE.filePath}$planId/$imageName"
+        }
+
+        private fun moveToImageDetailFragment() {
+            binding.ivPhoto.setOnClickListener {
+                invokeMoveToImageDetailFragment(adapterPosition)
+            }
         }
     }
 }
