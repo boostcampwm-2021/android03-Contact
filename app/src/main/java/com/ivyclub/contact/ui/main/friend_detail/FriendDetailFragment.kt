@@ -18,9 +18,11 @@ import com.ivyclub.contact.databinding.FragmentFriendDetailBinding
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.showAlertDialog
 import com.ivyclub.data.image.ImageType
+import com.ivyclub.contact.util.toDp
 import com.ivyclub.data.model.FriendData
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class FriendDetailFragment :
@@ -31,7 +33,8 @@ class FriendDetailFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date))
+        binding.dateFormat =
+            SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault())
         setObserver()
         loadFriendDetail(args.friendId)
         initButtons(args.friendId)
@@ -42,9 +45,9 @@ class FriendDetailFragment :
     }
 
     private fun setObserver() {
-        viewModel.friendData.observe(this, {
+        viewModel.friendData.observe(viewLifecycleOwner) {
             initDetails(it)
-        })
+        }
         viewModel.finishEvent.observe(viewLifecycleOwner) {
             findNavController().popBackStack()
         }
@@ -135,7 +138,7 @@ class FriendDetailFragment :
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        layoutParams.setMargins(24, 48, 0, 0)
+        layoutParams.setMargins(8.toDp(), 8.toDp(), 0, 0)
         return TextView(context).apply {
             this.text = text
             textSize = 14f
@@ -148,7 +151,7 @@ class FriendDetailFragment :
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-        layoutParams.setMargins(0, 24, 0, 0)
+        layoutParams.setMargins(0, 4.toDp(), 0, 0)
         return TextView(context).apply {
             this.text = text
             setTextColor(Color.BLACK)
