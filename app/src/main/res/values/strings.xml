@@ -1,0 +1,179 @@
+<resources>
+    <string name="app_name">Contact</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="onboarding_notification_message">컨택에서 알림을 보낼 수 있는 시간을 정해주세요.</string>
+    <string name="onboarding_notification_switch">알림 설정</string>
+    <string name="onboarding_btn_next">시간 설정하기</string>
+    <string name="onboarding_notification_title">알림 시간</string>
+    <string name="bnv_friend">친구</string>
+    <string name="bnv_plan">약속</string>
+    <string name="fragment_friend_settings">settings</string>
+    <string name="fragment_friend_add_friends_or_group">Add friends or group</string>
+    <string name="fragment_friend_search">search</string>
+    <string name="fragment_friend_find_friend">친구를 검색해보세요</string>
+    <string name="fragment_friend_remove_input_text">Remove Input Text</string>
+    <string name="onboarding_add_contact_message">컨택을 시작하기 전에\n연락처에 있는 지인을 추가해보세요.</string>
+    <string name="onboarding_load_contact">불러오기</string>
+    <string name="menu_skip">건너뛰기</string>
+    <string name="friend_dialog_new_group_name_hint">새 그룹 이름</string>
+    <string name="friend_dialog_add_group">그룹 추가</string>
+    <string name="friend_dialog_cancel">취소</string>
+    <string name="friend_dialog_add">추가</string>
+    <string name="format_month" translatable="false">%d월</string>
+    <string name="format_date_day">%d일 %s요일</string>
+    <string name="format_friend_count_etc">%s 외 %d명</string>
+    <string name="item_group_divider_folder">group folder</string>
+    <string name="item_friend_profile_profile_image">Profile Image</string>
+    <string name="format_simple_date">yyyy년 MM월 dd일 HH시 mm분</string>
+    <string name="format_hour_minute">HH시 mm분</string>
+    <string name="plan_content">약속 내용</string>
+    <string name="plan_place">장소</string>
+    <string name="plan_participants">참여자</string>
+    <string name="friend_detail_name">이름</string>
+    <string name="friend_detail_group">그룹</string>
+    <string name="friend_detail_phone_number">전화번호</string>
+    <string name="friend_detail_see_all">전체 보기</string>
+    <string name="friend_detail_latest_plan">지난 약속</string>
+    <string name="hint_plan_title">일정 제목을 입력하세요</string>
+    <string name="hint_plan_place">일정 장소를 입력해주세요</string>
+    <string name="hint_plan_content">이 일정에서 할 일이나 준비할 것들을 구체적으로 입력해주세요</string>
+    <string name="hint_plan_participants">일정을 함께 할 사람들을 추가해주세요 (최대 %d명)</string>
+    <string name="menu_move_friends_to">그룹 이동하기</string>
+    <string name="fragment_select_group_dialog_title">그룹을 선택해주세요</string>
+    <string name="fragment_select_group_dialog_select">선택</string>
+    <string name="fragment_select_group_dialog_cancel">취소</string>
+    <string name="menu_add_friend">친구 추가하기</string>
+    <string name="menu_add_group">그룹 추가하기</string>
+    <string name="add_edit_friend_name">*이름</string>
+    <string name="add_edit_friend_group">그룹</string>
+    <string name="add_edit_friend_profile_image">add friend profile image</string>
+    <string name="add_edit_friend_back_button_description">back</string>
+    <string name="add_edit_friend_phone_number">전화번호</string>
+    <string name="add_edit_friend_birthday">생년월일</string>
+    <string name="add_edit_friend_extra_info_title_hint">추가 정보</string>
+    <string name="add_edit_friend_required_check">필수 입력 항목입니다.</string>
+    <string name="menu_select_all">모두선택</string>
+    <string name="add_plan_success">새로운 일정이 저장되었습니다.</string>
+    <string name="update_plan_success">일정 정보가 갱신되었습니다.</string>
+    <string name="delete_plan_success">해당 일정이 삭제되었습니다.</string>
+    <string name="ask_delete_plan">해당 일정 정보를 삭제하시겠습니까?</string>
+    <string name="yes">예</string>
+    <string name="no">아니오</string>
+    <string name="ask_back_while_edit">해당 페이지를 나가시면 기존에 작성했던 기록은 사라집니다. 나가시겠습니까?</string>
+    <string name="ask_save_plan">해당 일정을 저장하시겠습니까?</string>
+    <string name="alert_plan_empty">추가한 일정이 없습니다!\n+ 버튼을 눌러 새로운 일정을 추가해보세요</string>
+    <string name="plan_reminder_notification_title">잊지 않으셨죠?</string>
+    <string name="plan_morning_notification_title">좋은 아침입니다!</string>
+    <string name="plan_morning_notification_content">하루를 시작하기에 앞서 오늘 일정들을 확인하세요.</string>
+    <string name="plan_night_notification_title">오늘 하루 고생하셨어요.</string>
+    <string name="format_after_plan_with_friends">오늘 %s과 함께한 시간은 어떠셨나요?</string>
+    <string name="format_after_plan">오늘 %s 일정은 어떠셨나요?</string>
+    <string name="format_plan_reminder_notification_with_friends">%s에 %s과의 약속이 예정되어있습니다.</string>
+    <string name="format_plan_reminder_notification_solo">%s에 %s 일정이 예정되어있습니다.</string>
+    <string name="format_friend_title">%s님</string>
+    <string name="add_edit_plan_load_group">그룹 불러오기</string>
+    <string name="friend_detail_birthday">생일</string>
+    <string name="add_edit_success_message">저장되었습니다.</string>
+    <string name="password_reconfirm_message">확인을 위해 한번 더 입력해 주세요.</string>
+    <string name="password_reconfirm_fail">비밀번호가 일치하지 않습니다. 처음부터 다시 시도해주세요.</string>
+    <string name="password_set_success">비밀번호가 설정되었습니다.</string>
+    <string name="password_input_password">암호를 입력해주세요</string>
+    <string name="password_button_1" translatable="false">1</string>
+    <string name="password_button_2" translatable="false">2</string>
+    <string name="password_button_3" translatable="false">3</string>
+    <string name="password_button_4" translatable="false">4</string>
+    <string name="password_button_5" translatable="false">5</string>
+    <string name="password_button_6" translatable="false">6</string>
+    <string name="password_button_7" translatable="false">7</string>
+    <string name="password_button_8" translatable="false">8</string>
+    <string name="password_button_9" translatable="false">9</string>
+    <string name="password_button_0" translatable="false">0</string>
+    <string name="password_button_cancel" translatable="false">←</string>
+    <string name="security_finger_print">지문</string>
+    <string name="security_reset_password">비밀번호 재설정</string>
+    <string name="security_not_set">설정 안 함</string>
+    <string name="security_password">비밀번호</string>
+    <string name="group_name_validation_wrong_empty">한 글자 이상 입력해주세요.</string>
+    <string name="group_name_validation_wrong_duplicate">이미 존재하는 그룹 이름입니다.</string>
+    <string name="group_name_validation_wrong_too_long">그룹명은 10자 이내로 입력해주세요.</string>
+    <string name="group_name_validation_wrong_same">기존 이름과 동일한 이름입니다.</string>
+    <string name="empty_string" translatable="false" />
+    <string name="format_widget_plan">%d월의 약속</string>
+    <string name="fragment_settings_go_back">뒤로가기</string>
+    <string name="fragment_settings_settings">설정</string>
+    <string name="fragment_settings_get_contacts">연락처 불러오기</string>
+    <string name="fragments_settings_contacts_icon">연락처 아이콘</string>
+    <string name="fragments_settings_notification_icon">알림 설정 아이콘</string>
+    <string name="fragment_settings_notification">알림 시간 설정</string>
+    <string name="fragment_settings_security_icon">security icon</string>
+    <string name="fragment_settings_security">보안</string>
+    <string name="dialog_notification_time_set_active_time">알림 활성시간</string>
+    <string name="notification_time_start_hour">6시</string>
+    <string name="notification_time_last_hour">24시</string>
+    <string name="dialog_notification_time_confirm">설정</string>
+    <string name="fragment_settings_active_notification">알림 활성화</string>
+    <string name="widget_plan">다가오는 약속</string>
+    <string name="password_retry_message">비밀번호가 일치하지 않습니다.\n다시 시도해주세요.</string>
+    <string name="biometric_error_hw_unavailable">지문인식을 지원하지 않는 기기입니다.</string>
+    <string name="biometric_error_none_enrolled">기기에 등록된 지문이 없습니다. 지문 등록 후 이용해주세요.</string>
+    <string name="biometric_prompt_title">지문 인증</string>
+    <string name="biometric_prompt_description">지문으로 인증해 주세요.</string>
+    <string name="biometric_prompt_cancel">취소</string>
+    <string name="biometric_auth_error">지문 인증이 취소되었습니다.</string>
+    <string name="settings_security">보안</string>
+    <string name="fragment_dialog_get_contacts_loading_please_wait">잠시만 기다려주세요.</string>
+    <string name="fragment_friend_add_friend">친구 추가 아이콘</string>
+    <string name="fragment_friend_click_plus_button">+버튼을 눌러 친구를 추가해보세요</string>
+    <string name="fragment_settings_group_management">그룹 관리</string>
+    <string name="ask_delete_friend">해당 친구 정보를 삭제하시겠습니까?</string>
+    <string name="change_noti_time_finish">알림 시간 설정이 완료되었습니다.</string>
+    <string name="fragment_add_contact_from_settings_get_contacts">연락처 불러오기</string>
+    <string name="fragment_add_contact_from_settings_wait">연락처를 불러오는 중입니다. 잠시만 기다려주세요</string>
+    <string name="menu_edit_friend">친구 수정하기</string>
+    <string name="menu_delete_friend">친구 삭제하기</string>
+    <string name="format_group_dialog_before_group_name">기존 이름 : %s</string>
+    <string name="group_dialog_edit">변경</string>
+    <string name="group_dialog_name_edit">그룹 이름 변경</string>
+    <string name="manage_group_delete">그룹 \'%s\'을(를) 삭제하시겠습니까?</string>
+    <string name="manage_group_success_edit_name">그룹 이름이 \'%s\'(으)로 변경되었습니다.</string>
+    <string name="fragment_intro_introduce_string_1">안녕하세요\n친구와 지인의 정보를\n기록할 수 있는 컨택트입니다.</string>
+    <string name="fragment_intro_introduce_string_2">지인과의 약속을 저장해주시면,\n기억하고 있다가 알림으로 알려드릴게요.</string>
+    <string name="fragment_intro_introduce_string_3">걱정하지 마세요.\n컨택을 보호하기 위해 비밀번호와\n지문인식 기능을 이용할 수 있어요.</string>
+    <string name="fragment_intro_introduce_string_4">지금 바로 시작해봐요.</string>
+    <string name="item_intro_start">시작하기</string>
+    <string name="fragment_add_contact_from_settings_get_contact_permission">연락처를 불러오기 위해서는 연락처 권한이 필요합니다. 여기를 탭하여 연락처 권한 설정하기</string>
+    <string name="fragment_dialog_request_permission_description"><![CDATA[연락처 권한을 허락하지 않으셨기 때문에 연락처를 불러올 수 없습니다. 설정 > 애플리케이션 > Contact > 권한 > 주소록으로 가셔서 허용을 해주세요.]]></string>
+    <string name="fragment_dialog_request_permission_move">이동</string>
+    <string name="fragment_friend_all_plan_with_friends">%s님과의 약속</string>
+    <string name="particpants_overload">추가 가능 인원수를 초과하였습니다!</string>
+    <string name="group_dialog_success_add_new_group">그룹 \'%s\'이(가) 추가되었습니다.</string>
+    <string name="group_dialog_success_delete_group">그룹 \'%s\'이(가) 삭제되었습니다.</string>
+    <string name="add_edit_friend_over_length">이름은 15자 이내로 입력해주세요.</string>
+    <string name="see_details">자세히 보기</string>
+    <string name="fragment_dialog_request_permission_cant_get_contacts">현재 연락처를 가져올 수 없습니다.</string>
+    <string name="format_share_plan_to_participants">약속을 공유합니다.\n\n%s\n그럼, 이때 만나요!\n\n-%s-</string>
+    <string name="format_share_plan_title">약속 주제 : %s\n</string>
+    <string name="format_share_plan_time">일시 : %s\n</string>
+    <string name="format_share_plan_place">장소 : %s\n</string>
+    <string name="format_share_plan_content">내용 : %s\n</string>
+    <string name="add_edit_friend_fragment_birthday_value">%s.%s.%s</string>
+    <string name="friend_fragment_moved_successfully">성공적으로 옮겨졌습니다.</string>
+    <string name="notification_time_fragment_hour">%s시</string>
+    <string name="skip_dialog_seriously_end_question">정말 초기 설정을 종료하시겠습니까?</string>
+    <string name="skip_dialog_yes">네</string>
+    <string name="skip_dialog_no">아니오</string>
+    <string name="fragment_add_edit_plan_photo">사진 추가</string>
+    <string name="fragment_add_edit_plan_add_photo">사진 추가하기</string>
+    <string name="add_edit_plan_fragment_over_five_pics">사진은 다섯 장까지만 추가됩니다.</string>
+    <string name="add_edit_plan_fragment_image_count" translatable="false">(%d/%d)</string>
+    <string name="dialog_notification_time_set_last_noti_time">약속 직전 알림 시간</string>
+    <string name="plan_noti_time_15m">15분 전</string>
+    <string name="plan_noti_time_30m">30분 전</string>
+    <string name="plan_noti_time_1h">1시간 전</string>
+    <string name="plan_noti_time_2h">2시간 전</string>
+    <string name="password_wrong_ten_times">비밀번호를 10회 잘못 입력하셨습니다.</string>
+    <string name="format_password_try_after">%d분 후에 다시 시도해주세요.</string>
+    <string name="open_source_license">오픈소스 라이선스</string>
+    <string name="image_license">이미지 라이선스</string>
+    <string name="image_license_detail" translatable="false">Icon made by Freepik from www.flaticon.com/authors/freepik</string>
+</resources>

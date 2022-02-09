@@ -1,0 +1,41 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Contact" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/green_200</item>
+        <item name="colorPrimaryVariant">@color/green_200</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/green_100</item>
+        <item name="colorSecondaryVariant">@color/green_100</item>
+        <item name="colorOnSecondary">@color/green_100</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/green_200</item>
+        <!-- Customize your theme here. -->
+        <item name="android:datePickerDialogTheme">@style/ContactDateTimePicker</item>
+        <item name="android:timePickerDialogTheme">@style/ContactDateTimePicker</item>
+        <item name="bottomSheetDialogTheme">@style/RoundBottomSheetDialog</item>
+    </style>
+
+    <style name="BlueSelectableItemTheme">
+        <item name="colorControlHighlight">@color/blue_100</item>
+    </style>
+
+    <style name="FriendListViewSelectableItemBackground">
+        <item name="android:theme">@style/BlueSelectableItemTheme</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="ContactDateTimePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/green_200</item>
+        <item name="colorOnPrimary">@color/green_200</item>
+    </style>
+
+    <style name="RoundBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_round_bottom_sheet</item>
+    </style>
+
+    <style name="RoundBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundBottomSheet</item>
+    </style>
+</resources>

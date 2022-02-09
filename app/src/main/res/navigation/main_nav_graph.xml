@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@+id/navigation_friend">
+
+    <fragment
+        android:id="@+id/navigation_friend"
+        android:name="com.ivyclub.contact.ui.main.friend.FriendFragment"
+        tools:layout="@layout/fragment_friend">
+        <action
+            android:id="@+id/action_navigation_friend_to_addFriendFragment"
+            app:destination="@id/addEditFriendFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_navigation_friend_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_navigation_friend_to_friendDetailFragment"
+            app:destination="@id/friendDetailFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_navigation_friend_to_planDetailsFragment"
+            app:destination="@id/planDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_plan"
+        android:name="com.ivyclub.contact.ui.main.plan.PlanFragment"
+        tools:layout="@layout/fragment_plan">
+        <action
+            android:id="@+id/action_navigation_plan_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_navigation_plan_to_planDetailsFragment"
+            app:destination="@id/planDetailsFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_navigation_plan_to_addEditFragment"
+            app:destination="@id/addEditFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditFriendFragment"
+        android:name="com.ivyclub.contact.ui.main.add_edit_friend.AddEditFriendFragment"
+        android:label="AddEditFriendFragment"
+        tools:layout="@layout/fragment_add_edit_friend">
+        <argument
+            android:name="friendId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/planDetailsFragment"
+        android:name="com.ivyclub.contact.ui.main.plan_details.PlanDetailsFragment"
+        android:label="PlanDetailsFragment"
+        tools:layout="@layout/fragment_plan_details">
+        <argument
+            android:name="planId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_planDetailsFragment_to_addEditFragment"
+            app:destination="@id/addEditFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_planDetailsFragment_to_friendDetailFragment"
+            app:destination="@id/friendDetailFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditFragment"
+        android:name="com.ivyclub.contact.ui.main.add_edit_plan.AddEditPlanFragment"
+        android:label="AddEditFragment"
+        tools:layout="@layout/fragment_add_edit_plan">
+        <argument
+            android:name="planId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <argument
+            android:name="friendId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_securityFragment"
+            app:destination="@id/securityFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_settingsFragment_to_settingsContactFragment"
+            app:destination="@id/settingsContactFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_settingsFragment_to_manageGroupFragment"
+            app:destination="@id/manageGroupFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_settingsFragment_to_licenseFragment"
+            app:destination="@id/licenseFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"/>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/licenseFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.license.LicenseFragment"
+        android:label="LicenseFragment"
+        tools:layout="@layout/fragment_license">
+
+        <action
+            android:id="@+id/action_licenseFragment_to_imageLicenseFragment"
+            app:destination="@id/imageLicenseFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"/>
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/imageLicenseFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.license.image_license.ImageLicenseFragment"
+        android:label="ImageLicenseFragment"
+        tools:layout="@layout/fragment_image_license"/>
+
+
+    <fragment
+        android:id="@+id/friendDetailFragment"
+        android:name="com.ivyclub.contact.ui.main.friend_detail.FriendDetailFragment"
+        android:label="FriendDetailFragment"
+        tools:layout="@layout/fragment_friend_detail">
+        <argument
+            android:name="friendId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_friendDetailFragment_to_addEditFriendFragment"
+            app:destination="@id/addEditFriendFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_friendDetailFragment_to_planDetailsFragment"
+            app:destination="@id/planDetailsFragment"
+            app:popUpTo="@id/planDetailsFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_friendDetailFragment_to_friendAllPlanFragment"
+            app:destination="@id/friendAllPlanFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <action
+            android:id="@+id/action_friendDetailFragment_to_imageDetailFragment"
+            app:destination="@id/imageDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/friendAllPlanFragment"
+        android:name="com.ivyclub.contact.ui.main.friend_detail.FriendAllPlanFragment"
+        android:label="FriendAllPlanFragment"
+        tools:layout="@layout/fragment_friend_all_plan">
+        <action
+            android:id="@+id/action_friendAllPlanFragment_to_planDetailsFragment"
+            app:destination="@id/planDetailsFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"
+            app:popUpTo="@id/planDetailsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_friendAllPlanFragment_to_addEditFragment"
+            app:destination="@id/addEditFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim" />
+        <argument
+            android:name="friendId"
+            android:defaultValue="-1L"
+            app:argType="long" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/passwordFragment"
+        android:name="com.ivyclub.contact.ui.password.PasswordFragment"
+        android:label="SetPasswordFragment"
+        tools:layout="@layout/fragment_password">
+        <action
+            android:id="@+id/action_setPasswordFragment_self"
+            app:destination="@id/passwordFragment"
+            app:popUpTo="@id/securityFragment"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="passwordViewType"
+            app:argType="com.ivyclub.contact.util.PasswordViewType" />
+        <argument
+            android:name="password"
+            android:defaultValue="null"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/securityFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.security.SecurityFragment"
+        android:label="SecurityFragment"
+        tools:layout="@layout/fragment_security">
+        <action
+            android:id="@+id/action_securityFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/imageDetailFragment"
+        android:name="com.ivyclub.contact.ui.main.friend_detail.ImageDetailFragment"
+        android:label="ImageDetailFragment"
+        tools:layout="@layout/fragment_image_detail" />
+    <fragment
+        android:id="@+id/settingsContactFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.contact.AddContactFromSettingsFragment"
+        android:label="SettingsContactFragment"
+        tools:layout="@layout/fragment_add_contact_from_settings" />
+
+    <fragment
+        android:id="@+id/manageGroupFragment"
+        android:name="com.ivyclub.contact.ui.main.settings.group.ManageGroupFragment"
+        android:label="ManageGroupFragment"
+        tools:layout="@layout/fragment_manage_group" />
+
+</navigation>

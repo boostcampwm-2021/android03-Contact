@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.ivyclub.contact.ui.plan_list.PlanListItemViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_month_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:id="@+id/tv_plan_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#3A4A40"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="11월" />
+
+        <TextView
+            android:id="@+id/tv_plan_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@{String.valueOf(viewModel.planYear)}"
+            android:textSize="12sp"
+            tools:text="2021" />
+    </LinearLayout>
+</layout>
