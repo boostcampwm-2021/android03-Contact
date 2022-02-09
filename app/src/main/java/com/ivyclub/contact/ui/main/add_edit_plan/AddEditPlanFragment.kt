@@ -146,6 +146,11 @@ class AddEditPlanFragment :
                     showDatePickerDialog(it)
                 }
             }
+            ivEditPlanTimeIcon.setOnClickListener {
+                this@AddEditPlanFragment.viewModel.planTime.value?.let {
+                    showDatePickerDialog(it)
+                }
+            }
             tvBtnLoadGroup.setOnClickListener {
                 SelectGroupFragment().show(
                     childFragmentManager,
