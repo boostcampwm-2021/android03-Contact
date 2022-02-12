@@ -161,4 +161,5 @@
     <string name="format_password_try_after">请在 %d 分钟后重试</string>
     <string name="fragment_select_group_dialog_title">请选择组</string>
     <string name="image_license">图像许可</string>
+    <string name="no_participants_numbers">参加者没有自己的电话号码！</string>
 </resources>
