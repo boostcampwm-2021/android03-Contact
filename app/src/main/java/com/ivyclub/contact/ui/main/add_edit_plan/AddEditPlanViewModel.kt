@@ -11,12 +11,14 @@ import com.ivyclub.contact.service.plan_reminder.PlanReminderMaker
 import com.ivyclub.contact.util.SingleLiveEvent
 import com.ivyclub.data.ContactRepository
 import com.ivyclub.data.image.ImageManager
+import com.ivyclub.data.image.ImageType
 import com.ivyclub.data.model.PlanData
 import com.ivyclub.data.model.SimpleFriendData
 import com.ivyclub.data.model.SimplePlanData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.io.File
 import java.sql.Date
 import javax.inject.Inject
 import kotlin.collections.set
@@ -51,8 +53,6 @@ class AddEditPlanViewModel @Inject constructor(
     val finishEvent: LiveData<Unit> = _finishEvent
     private val _bitmapUriList = MutableLiveData<List<Uri>>() // 계획 사진 uri 리스트
     val bitmapUriList: LiveData<List<Uri>> get() = _bitmapUriList
-    private val _imageCount = MutableLiveData(0)
-    val imageCount: LiveData<Int> get() = _imageCount
     val maxPhotoCount = MAX_PHOTO_COUNT
 
     fun getLastPlan(planId: Long) {
@@ -73,8 +73,22 @@ class AddEditPlanViewModel @Inject constructor(
                     friendMap[phoneNumber]?.let { friendInfo -> friendsOnPlan.add(friendInfo) }
                 }
                 _planParticipants.value = friendsOnPlan
+
+                _bitmapUriList.value = getPhotoUri(planId)
             }
         }
+    }
+
+    private fun getPhotoUri(planId: Long): List<Uri> {
+        val folderPath = "${ImageType.PLAN_IMAGE.filePath}${planId}/"
+        val file = File(folderPath)
+        val photoUri = mutableListOf<Uri>()
+        file.walk().forEach {
+            if (it.name.endsWith("jpg")) {
+                photoUri.add(Uri.fromFile(it))
+            }
+        }
+        return photoUri
     }
 
     fun addParticipant(participantData: SimpleFriendData) {
@@ -109,7 +123,6 @@ class AddEditPlanViewModel @Inject constructor(
     fun setPlanImageUri(newUriList: List<Uri>) {
         val originPlusNewUriList = (_bitmapUriList.value ?: emptyList()) + newUriList
         if (originPlusNewUriList.size > 5) return // 최대 사진 다섯 장
-        _imageCount.value = originPlusNewUriList.size
         _bitmapUriList.value = originPlusNewUriList
     }
 
@@ -151,11 +164,7 @@ class AddEditPlanViewModel @Inject constructor(
             )
             else PlanData(participantIds, planDate, title, place, content, color)
         viewModelScope.launch {
-            val lastPlanId = repository.getNextPlanId() ?: 0L
-            if (planImageUriList.isNotEmpty()) ImageManager.savePlanBitmap(
-                planImageUriList,
-                (lastPlanId + 1).toString()
-            )
+            saveImage(planImageUriList, repository.getNextPlanId() ?: 0L)
             planId = repository.savePlanData(newPlan, lastParticipants)
             reminderMaker.makePlanReminders(
                 SimplePlanData(planId, title, planDate, participantIds)
@@ -166,6 +175,15 @@ class AddEditPlanViewModel @Inject constructor(
             )
             finish()
         }
+    }
+
+    private fun saveImage(planImageUriList: List<Bitmap>, lastPlanId: Long) {
+        val currentPlanId = if (planId == -1L) { // 기존 사진 수정 시
+            (lastPlanId + 1).toString()
+        } else {
+            planId.toString()
+        }
+        ImageManager.savePlanBitmap(planImageUriList, currentPlanId)
     }
 
     private fun makeSnackbar(strId: Int) {
@@ -187,7 +205,6 @@ class AddEditPlanViewModel @Inject constructor(
         if (position == -1) return
         val modifiedPhotoUriList = _bitmapUriList.value?.map { it }?.toMutableList()
         modifiedPhotoUriList?.removeAt(position)
-        _imageCount.postValue(modifiedPhotoUriList?.size)
         _bitmapUriList.postValue(modifiedPhotoUriList ?: emptyList())
     }
 

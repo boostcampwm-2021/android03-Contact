@@ -50,11 +50,7 @@ class AddEditPlanFragment :
             activityViewModel.unlock()
             if (activityResult.resultCode == Activity.RESULT_OK && activityResult.data != null) {
                 if (activityResult.data?.clipData != null) { // 사용자가 이미지 여러 개 선택했을 때
-                    val currentImageCountText = binding.tvPhotoCount.text
-                    val originImageCount = currentImageCountText.substring(
-                        currentImageCountText.indexOf("(") + 1,
-                        currentImageCountText.indexOf("/")
-                    ).toInt() // 실제 값이 들어가는 부분이 1
+                    val originImageCount = viewModel.bitmapUriList.value?.size ?: 0
                     val selectedImageCount = activityResult.data?.clipData?.itemCount ?: 0
                     val imageUriList = mutableListOf<Uri>()
                     for (idx in 1..selectedImageCount) {
@@ -67,11 +63,6 @@ class AddEditPlanFragment :
                         )
                     }
                     viewModel.setPlanImageUri(imageUriList)
-                    binding.tvPhotoCount.text = String.format(
-                        requireContext().getString(R.string.add_edit_plan_fragment_image_count),
-                        selectedImageCount,
-                        MAX_PHOTO_COUNT
-                    )
                 } else { // 사용자가 이미지 하나 선택했을 때
                     val imageUri = activityResult.data?.data
                     viewModel.setPlanImageUri(listOf(imageUri ?: return@registerForActivityResult))
@@ -155,6 +146,11 @@ class AddEditPlanFragment :
                     showDatePickerDialog(it)
                 }
             }
+            ivEditPlanTimeIcon.setOnClickListener {
+                this@AddEditPlanFragment.viewModel.planTime.value?.let {
+                    showDatePickerDialog(it)
+                }
+            }
             tvBtnLoadGroup.setOnClickListener {
                 SelectGroupFragment().show(
                     childFragmentManager,
@@ -199,9 +195,7 @@ class AddEditPlanFragment :
 
     private fun checkFrom() {
         if (args.planId != -1L) viewModel.getLastPlan(args.planId)
-        if (args.friendId != -1L) {
-            viewModel.addFriend(args.friendId)
-        }
+        if (args.friendId != -1L) viewModel.addFriend(args.friendId)
     }
 
     private fun getGroupSelectFragmentResult() {

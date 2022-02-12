@@ -24,9 +24,9 @@
     <string name="item_friend_profile_profile_image">Profile Image</string>
     <string name="format_simple_date">yyyy/MM/dd HH:mm</string>
     <string name="format_hour_minute">HH:mm</string>
-    <string name="plan_what">Plan content</string>
-    <string name="plan_where">Where</string>
-    <string name="plan_who">With</string>
+    <string name="plan_content">Plan content</string>
+    <string name="plan_place">Where</string>
+    <string name="plan_participants">With</string>
     <string name="friend_detail_name">Name</string>
     <string name="friend_detail_group">Group</string>
     <string name="friend_detail_phone_number">Phone number</string>
@@ -160,4 +160,5 @@
     <string name="format_password_try_after">Please try again after %d minutes</string>
     <string name="fragment_add_edit_plan_photo" translatable="false">Add photo</string>
     <string name="open_source_license">Open Source License</string>
+    <string name="image_license">Image License</string>
 </resources>

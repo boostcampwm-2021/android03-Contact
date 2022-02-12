@@ -3,6 +3,7 @@ package com.ivyclub.contact.util
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.signature.ObjectKey
 import com.ivyclub.contact.R
 import java.io.File
@@ -32,9 +33,10 @@ fun bindPlanImage(
     imageView: ImageView,
     imageString: String
 ) {
-    println(imageString)
     Glide.with(imageView)
         .load(imageString)
+        .diskCacheStrategy(DiskCacheStrategy.NONE) // 디스크 캐시 저장 끄기
+        .skipMemoryCache(true) // 메모리 캐시 저장 끄기
         .into(imageView)
     imageView.clipToOutline = true
 }

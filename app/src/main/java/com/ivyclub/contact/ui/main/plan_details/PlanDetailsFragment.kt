@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -12,7 +11,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentPlanDetailsBinding
-import com.ivyclub.contact.ui.main.plan.PlanFragmentDirections
 import com.ivyclub.contact.ui.main.plan_details.ParticipantInfoBottomSheetFragment.Companion.KEY_PARTICIPANT_ID
 import com.ivyclub.contact.ui.main.plan_details.ParticipantInfoBottomSheetFragment.Companion.REQUEST
 import com.ivyclub.contact.ui.main.plan_details.PlanDetailsViewModel.Companion.KEY_PHONE_NUMBERS
@@ -23,6 +21,7 @@ import com.ivyclub.contact.ui.main.plan_details.PlanDetailsViewModel.Companion.K
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.setFriendChips
 import com.ivyclub.contact.util.showAlertDialog
+import com.ivyclub.data.image.ImageType
 import dagger.hilt.android.AndroidEntryPoint
 import java.sql.Date
 import java.text.SimpleDateFormat
@@ -39,7 +38,8 @@ class PlanDetailsFragment :
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewModel = viewModel
-        binding.dateFormat = SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault())
+        binding.dateFormat =
+            SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault())
 
         fetchPlanDetails()
         setObservers()
@@ -101,24 +101,33 @@ class PlanDetailsFragment :
             }
 
             folderExists.observe(viewLifecycleOwner) {
-                with(binding) {
-                    vpPhoto.isVisible = it
-                    sdicIndicator.isVisible = it
-                }
-                if(it) {
-                   viewModel.getPhotos(args.planId)
+                if (it) {
+                    viewModel.getPhotos(args.planId)
                 }
             }
 
             photoIds.observe(viewLifecycleOwner) {
                 with(binding) {
-                    println(it)
-                    vpPhoto.adapter = PhotoAdapter(it, args.planId)
+                    vpPhoto.adapter = PhotoAdapter(
+                        it,
+                        args.planId,
+                        this@PlanDetailsFragment::moveToImageDetailFragment
+                    )
                     vpPhoto.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                    if (it.isNotEmpty()) vpPhoto.currentItem = 0
                     sdicIndicator.setViewPager2(vpPhoto)
                 }
             }
         }
+    }
+
+    private fun moveToImageDetailFragment(imageId: Int) {
+        val bundle = Bundle().apply {
+            putLong("id", args.planId)
+            putInt("imageType", ImageType.PLAN_IMAGE.ordinal)
+            putInt("imageId", imageId)
+        }
+        findNavController().navigate(R.id.action_planDetailsFragment_to_imageDetailFragment, bundle)
     }
 
     private fun showParticipantInfoDialog(participantId: Long) {
@@ -157,7 +166,9 @@ class PlanDetailsFragment :
         val planTime = bundle.getLong(KEY_PLAN_TIME, -1L)
         if (planTime == -1L) return
         val strPlanTime =
-            SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault()).format(Date(planTime))
+            SimpleDateFormat(getString(R.string.format_simple_date), Locale.getDefault()).format(
+                Date(planTime)
+            )
         val msgPlanTime = String.format(getString(R.string.format_share_plan_time), strPlanTime)
 
         val planPlace = bundle.getString(KEY_PLAN_PLACE)

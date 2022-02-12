@@ -5,9 +5,9 @@ plugins {
     id("kotlin-android")
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
-    id("com.google.firebase.crashlytics")
     id("com.google.gms.google-services")
     id("com.google.android.gms.oss-licenses-plugin")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -19,7 +19,8 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -83,4 +84,6 @@ dependencies {
     androidTestImplementation(Dep.Test.ext)
     androidTestImplementation(Dep.Test.espresso)
     androidTestImplementation(Dep.Test.hilt)
+    androidTestImplementation(Dep.Test.core)
+    androidTestImplementation(Dep.Test.contrib)
 }

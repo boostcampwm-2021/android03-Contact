@@ -23,6 +23,9 @@ import com.ivyclub.contact.ui.password.PasswordActivity
 import com.ivyclub.contact.util.BaseActivity
 import com.ivyclub.contact.util.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
+import android.app.ActivityManager
+import android.content.Context
+import android.os.Build
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
@@ -54,7 +57,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
     override fun onStop() {
         super.onStop()
-        viewModel.lock()
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val curComponentInfoInString = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activityManager.appTasks[0].taskInfo.topActivity.toString()
+        } else {
+            activityManager.getRunningTasks(1)[0].topActivity.toString()
+        }
+
+        if ("OssLicensesMenuActivity" !in curComponentInfoInString) {
+            viewModel.lock()
+        }
     }
 
     private fun checkFromNotification() {

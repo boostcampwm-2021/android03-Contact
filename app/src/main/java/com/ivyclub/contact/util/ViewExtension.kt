@@ -2,6 +2,7 @@ package com.ivyclub.contact.util
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.res.Resources
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -178,6 +179,14 @@ fun Context.showAlertDialog(
 
 fun Context.dpToPx(dp: Int) =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), resources.displayMetrics)
+        .roundToInt()
+
+fun Int.toDp() =
+    TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        this.toFloat(),
+        Resources.getSystem().displayMetrics
+    )
         .roundToInt()
 
 @ExperimentalCoroutinesApi

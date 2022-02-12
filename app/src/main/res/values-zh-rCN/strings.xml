@@ -25,9 +25,9 @@
     <string name="item_friend_profile_profile_image">Profile Image</string>
     <string name="format_simple_date">yyyy年 MM月 dd日 HH时 mm分</string>
     <string name="format_hour_minute">HH时 mm分</string>
-    <string name="plan_what">约定内容</string>
-    <string name="plan_where">场所</string>
-    <string name="plan_who">参加人员</string>
+    <string name="plan_content">约定内容</string>
+    <string name="plan_place">场所</string>
+    <string name="plan_participants">参加人员</string>
     <string name="friend_detail_name">名字</string>
     <string name="friend_detail_group">群</string>
     <string name="friend_detail_phone_number">电话号码</string>
@@ -159,4 +159,6 @@
     <string name="add_edit_plan_fragment_over_five_pics">最多可添加 5 张照片</string>
     <string name="password_wrong_ten_times">您输入了错误的密码 10 次</string>
     <string name="format_password_try_after">请在 %d 分钟后重试</string>
+    <string name="fragment_select_group_dialog_title">请选择组</string>
+    <string name="image_license">图像许可</string>
 </resources>

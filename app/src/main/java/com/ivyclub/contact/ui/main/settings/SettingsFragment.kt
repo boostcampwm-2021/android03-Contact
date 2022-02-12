@@ -48,7 +48,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
             findNavController().navigate(R.id.action_settingsFragment_to_manageGroupFragment)
         }
         binding.tvOssLicense.setOnClickListener {
-            startActivity(Intent(requireActivity(), OssLicensesMenuActivity::class.java))
+            findNavController().navigate(R.id.action_settingsFragment_to_licenseFragment)
         }
     }
 }

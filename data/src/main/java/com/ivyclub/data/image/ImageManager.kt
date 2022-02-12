@@ -20,11 +20,13 @@ object ImageManager {
         }
     }
 
+    // 기존 파일 삭제하고 새로운 bitmap list로 다시 파일들 생성
     fun savePlanBitmap(bitmapList: List<Bitmap>, planId: String) {
         runCatching {
             val folderPath = "${ImageType.PLAN_IMAGE.filePath}${planId}/"
             val file = File(folderPath)
-            if (!file.exists()) file.mkdirs()
+            if (file.exists()) file.deleteRecursively()
+            file.mkdirs()
             bitmapList.forEachIndexed { index, bitmap ->
                 val tempFile = File(folderPath, "${index}.jpg").apply {
                     createNewFile()
@@ -60,6 +62,17 @@ object ImageManager {
             loadedImage
         }.onFailure { exception ->
             Log.e("LoadProfileImageFailure", ": $exception")
+        }.getOrDefault(null)
+    }
+
+    fun loadPlanBitmap(planId: Long, imageId: Int): Bitmap? {
+        Log.e("this", ".${"${ImageType.PLAN_IMAGE.filePath}$planId/$imageId.jpg"}")
+        return runCatching {
+            BitmapFactory.decodeFile("${ImageType.PLAN_IMAGE.filePath}$planId/$imageId.jpg")
+        }.mapCatching { loadedImage ->
+            loadedImage
+        }.onFailure { exception ->
+            Log.e("LoadPlanBitmapFailure", ": $exception")
         }.getOrDefault(null)
     }
 

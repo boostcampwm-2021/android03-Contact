@@ -42,8 +42,9 @@ Contact is friend management application based on modern Android technology stac
 - [Github Actions](https://github.com/boostcampwm-2021/android03-Contact/tree/develop/.github/workflows) for CI
 - Support English, Chinese, Korean
 
-## Release
-Meet **Contact this winter** on the Google Play Store.
+## Download
+<a href='https://play.google.com/store/apps/details?id=com.ivyclub.contact&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width='450'/></a>
+<img src="https://user-images.githubusercontent.com/57510192/152077246-4b0129bb-d604-45f0-aa72-a65b8bc55729.png" width="300"/>
 
 ## MAD Scorecard
 <img src="https://user-images.githubusercontent.com/57510192/143381010-667f6493-b547-46f1-9e24-0d967c4cfd0b.png">  
