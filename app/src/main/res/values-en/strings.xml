@@ -161,4 +161,5 @@
     <string name="fragment_add_edit_plan_photo" translatable="false">Add photo</string>
     <string name="open_source_license">Open Source License</string>
     <string name="image_license">Image License</string>
+    <string name="no_participants_numbers">none of participants has their own phone numbers!</string>
 </resources>

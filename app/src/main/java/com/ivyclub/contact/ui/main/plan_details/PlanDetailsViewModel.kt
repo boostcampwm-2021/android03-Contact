@@ -115,6 +115,11 @@ class PlanDetailsViewModel @Inject constructor(
                 .filter { it.phoneNumber.isNotEmpty() }
                 .map { it.phoneNumber }
 
+        if (phoneNumbers.isEmpty()) {
+            _snackbarMessage.value = R.string.no_participants_numbers
+            return
+        }
+
         val strReceivers = "smsto:" + phoneNumbers.reduce { acc, s -> "$acc;$s" }
 
         bundle.putString(KEY_PHONE_NUMBERS, strReceivers)
