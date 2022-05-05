@@ -132,7 +132,7 @@ class AddEditPlanFragment :
     }
 
     private fun initBackPressedCallback() {
-        activity?.onBackPressedDispatcher?.addCallback(this, onBackPressedCallback)
+        activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, onBackPressedCallback)
     }
 
     private fun setButtonClickListeners() {
