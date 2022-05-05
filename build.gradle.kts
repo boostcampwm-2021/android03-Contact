@@ -2,6 +2,9 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven {
+            setUrl("https://www.jitpack.io")
+        }
     }
     dependencies {
         classpath(Dep.androidGradlePlugin)
@@ -16,6 +19,14 @@ buildscript {
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
+}
+
+allprojects {
+    repositories {
+        maven {
+            setUrl("https://www.jitpack.io")
+        }
+    }
 }
 
 subprojects {
