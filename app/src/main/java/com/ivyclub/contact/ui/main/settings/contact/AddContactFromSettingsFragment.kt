@@ -21,6 +21,7 @@ import com.ivyclub.contact.ui.onboard.contact.ContactAdapter
 import com.ivyclub.contact.ui.onboard.contact.dialog.DialogGetContactsLoadingFragment
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.ContactSavingUiState
+import com.ivyclub.contact.util.collectDataWhenStarted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -97,29 +98,27 @@ class AddContactFromSettingsFragment :
     }
 
     private fun observeLoadingUiState() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.loadingUIState.collect { newState ->
-                    when (newState) {
-                        ContactSavingUiState.Loading -> {
-                            binding.pbLoading.visibility = View.VISIBLE
-                            binding.tvWait.visibility = View.VISIBLE
-                        }
-                        ContactSavingUiState.LoadingDone -> {
-                            binding.pbLoading.visibility = View.GONE
-                            binding.tvWait.visibility = View.GONE
-                            contactAdapter.submitList(viewModel.contactList)
-                        }
-                        ContactSavingUiState.Dialog -> {
-                            loadingDialog.show(
-                                childFragmentManager,
-                                DialogGetContactsLoadingFragment.TAG
-                            )
-                        }
-                        ContactSavingUiState.DialogDone -> {
-                            if (loadingDialog.isVisible) loadingDialog.dismiss()
-                            findNavController().popBackStack()
-                        }
+        collectDataWhenStarted(viewLifecycleOwner) {
+            viewModel.loadingUIState.collect { newState ->
+                when (newState) {
+                    ContactSavingUiState.Loading -> {
+                        binding.pbLoading.visibility = View.VISIBLE
+                        binding.tvWait.visibility = View.VISIBLE
+                    }
+                    ContactSavingUiState.LoadingDone -> {
+                        binding.pbLoading.visibility = View.GONE
+                        binding.tvWait.visibility = View.GONE
+                        contactAdapter.submitList(viewModel.contactList)
+                    }
+                    ContactSavingUiState.Dialog -> {
+                        loadingDialog.show(
+                            childFragmentManager,
+                            DialogGetContactsLoadingFragment.TAG
+                        )
+                    }
+                    ContactSavingUiState.DialogDone -> {
+                        if (loadingDialog.isVisible) loadingDialog.dismiss()
+                        findNavController().popBackStack()
                     }
                 }
             }

@@ -15,10 +15,7 @@ import com.ivyclub.contact.R
 import com.ivyclub.contact.databinding.FragmentFriendBinding
 import com.ivyclub.contact.ui.main.friend.dialog.GroupDialogFragment
 import com.ivyclub.contact.ui.main.friend.dialog.SelectGroupFragment
-import com.ivyclub.contact.util.BaseFragment
-import com.ivyclub.contact.util.changeVisibilityWithDirection
-import com.ivyclub.contact.util.hideKeyboard
-import com.ivyclub.contact.util.showKeyboard
+import com.ivyclub.contact.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -132,28 +129,26 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun observeSearchViewVisibility() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isSearchViewVisible.collect { newVisibilityState ->
-                    with(binding) {
-                        if (newVisibilityState) { // 안보이던 상황에서 -> 보이던 상황으로 될 때
-                            showKeyboard()
-                            etSearch.changeVisibilityWithDirection(
-                                Gravity.TOP,
-                                View.VISIBLE,
-                                ANIMATION_TIME,
-                                this@FriendFragment::requestFocus
-                            )
-                        } else { // 보이던 상황에서 -> 안보이던 상황으로 될 때
-                            hideKeyboard()
-                            etSearch.changeVisibilityWithDirection(
-                                Gravity.TOP,
-                                View.GONE,
-                                ANIMATION_TIME
-                            )
-                            etSearch.text.clear()
-                            ivRemoveEt.visibility = View.GONE
-                        }
+        collectDataWhenStarted(viewLifecycleOwner) {
+            viewModel.isSearchViewVisible.collect { newVisibilityState ->
+                with(binding) {
+                    if (newVisibilityState) { // 안보이던 상황에서 -> 보이던 상황으로 될 때
+                        showKeyboard()
+                        etSearch.changeVisibilityWithDirection(
+                            Gravity.TOP,
+                            View.VISIBLE,
+                            ANIMATION_TIME,
+                            this@FriendFragment::requestFocus
+                        )
+                    } else { // 보이던 상황에서 -> 안보이던 상황으로 될 때
+                        hideKeyboard()
+                        etSearch.changeVisibilityWithDirection(
+                            Gravity.TOP,
+                            View.GONE,
+                            ANIMATION_TIME
+                        )
+                        etSearch.text.clear()
+                        ivRemoveEt.visibility = View.GONE
                     }
                 }
             }
@@ -165,13 +160,11 @@ class FriendFragment : BaseFragment<FragmentFriendBinding>(R.layout.fragment_fri
     }
 
     private fun observeFriendList() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.friendList.collect { newFriendList ->
-                    // 새로운 리스트로 리사이클러뷰 갱신
-                    friendListAdapter.submitList(newFriendList) {
-                        binding.rvFriendList.scrollToPosition(0)
-                    }
+        collectDataWhenStarted(viewLifecycleOwner) {
+            viewModel.friendList.collect { newFriendList ->
+                // 새로운 리스트로 리사이클러뷰 갱신
+                friendListAdapter.submitList(newFriendList) {
+                    binding.rvFriendList.scrollToPosition(0)
                 }
             }
         }
