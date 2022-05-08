@@ -2,6 +2,7 @@ package com.ivyclub.contact.ui.main.friend_detail
 
 import android.os.Bundle
 import android.transition.ChangeBounds
+import android.util.Log
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -43,23 +44,24 @@ class ImageDetailFragment :
     }
 
     private fun loadPlanImage(planId: Long, imageId: Int) {
+        Log.e("@@@plan,image", ".$planId, $imageId")
         ImageManager.loadPlanBitmap(planId, imageId)?.let { imageBitmap ->
-            Glide.with(binding.ivTargetImage)
+            Glide.with(binding.ivProfileImage)
                 .load(imageBitmap)
-                .into(binding.ivTargetImage)
-        } ?: Glide.with(binding.ivTargetImage)
+                .into(binding.ivProfileImage)
+        } ?: Glide.with(binding.ivProfileImage)
             .load(R.drawable.photo)
-            .into(binding.ivTargetImage)
+            .into(binding.ivProfileImage)
     }
 
     private fun loadProfileImage(id: Long) {
         ImageManager.loadProfileImage(id)?.let {
-            Glide.with(binding.ivTargetImage)
+            Glide.with(binding.ivProfileImage)
                 .load(it)
-                .into(binding.ivTargetImage)
-        } ?: Glide.with(binding.ivTargetImage)
+                .into(binding.ivProfileImage)
+        } ?: Glide.with(binding.ivProfileImage)
             .load(R.drawable.photo)
-            .into(binding.ivTargetImage)
+            .into(binding.ivProfileImage)
     }
 
     private fun initCloseButton() {

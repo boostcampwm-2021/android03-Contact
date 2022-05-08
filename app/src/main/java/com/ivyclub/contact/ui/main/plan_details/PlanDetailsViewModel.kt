@@ -96,7 +96,7 @@ class PlanDetailsViewModel @Inject constructor(
         file.walk().forEach {
             if (it.name.endsWith("jpg")) photos.add(it.name)
         }
-        _photoIds.value = photos
+        _photoIds.value = photos.sorted()
     }
 
     fun goParticipantsDetails(index: Int) {
