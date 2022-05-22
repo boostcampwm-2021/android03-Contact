@@ -26,6 +26,7 @@ import com.ivyclub.contact.ui.onboard.contact.dialog.DialogGetContactsLoadingFra
 import com.ivyclub.contact.util.BaseFragment
 import com.ivyclub.contact.util.ContactSavingUiState
 import com.ivyclub.contact.util.SkipDialog
+import com.ivyclub.contact.util.collectDataWhenStarted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -134,28 +135,25 @@ class AddContactFragment : BaseFragment<FragmentAddContactBinding>(R.layout.frag
     }
 
     private fun observeSavingDone() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.isSavingDone.collect { newState ->
-                    when (newState) {
-                        ContactSavingUiState.Loading -> {
-                            loadingDialog.show(
-                                childFragmentManager,
-                                DialogGetContactsLoadingFragment.TAG
-                            )
-                        }
-                        ContactSavingUiState.LoadingDone -> {
-                            if (loadingDialog.isVisible) loadingDialog.dismiss()
-                            val intent = Intent(context, MainActivity::class.java)
-                            activity?.setResult(RESULT_OK, intent)
-                            activity?.finish()
-                        }
-                        ContactSavingUiState.Empty -> {
-                        }
+        collectDataWhenStarted(viewLifecycleOwner) {
+            viewModel.isSavingDone.collect { newState ->
+                when (newState) {
+                    ContactSavingUiState.Loading -> {
+                        loadingDialog.show(
+                            childFragmentManager,
+                            DialogGetContactsLoadingFragment.TAG
+                        )
+                    }
+                    ContactSavingUiState.LoadingDone -> {
+                        if (loadingDialog.isVisible) loadingDialog.dismiss()
+                        val intent = Intent(context, MainActivity::class.java)
+                        activity?.setResult(RESULT_OK, intent)
+                        activity?.finish()
+                    }
+                    ContactSavingUiState.Empty -> {
                     }
                 }
             }
         }
     }
-
 }
